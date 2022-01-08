@@ -1,0 +1,632 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><style>* {  font-family: "Helvetica", Arial, sans-serif;  font-size: 14pt;}a {  color: inherit;}img {  display: block;  width: 80%;  padding: 20px;  margin: auto;}article {  width: 80%;  margin: auto;  margin-top: 200px;  border-top: 4px solid black;  text-align: justify;}.heading h1 {  margin-bottom: 0;}.heading p {  margin-top: 0;  line-height: 1em;  color: #ccc;}h1 {  font-size: 24pt;  text-transform: uppercase;}h2 {  font-size: 20pt;}p {  line-height: 1.4em;  border-radius: 5px;}p:hover {  background-color: aliceblue;}p::selection {  background-color: lightskyblue;}code {  font-family: monospace;}p > code {  font-weight: bold;  color: coral;  display: inline-block;}p > em {  color: darkcyan;}pre {  background-color: #eee;  padding: 1em;  border-radius: 5px;  font-family: monospace;  font-size: 12pt;  color: darkgreen;  overflow-x: scroll;}.footing {  margin-top: 3em;  padding-bottom: 300px;  padding-top: 2em;}.social-links {  display: flex;  justify-content: space-around;}.taglist {  display: flex;  justify-content: left;}.tag {  font-size: 10pt;  font-weight: bold;  margin-left: 1em;  color: white;  background-color: #555555;  border-radius: 4px;  padding: 4px;}a.tag-link {  text-decoration: none;}.tag-name {  padding-right: 5px;}.tag-count {  padding-left: 5px;  border-left: 1px solid #ccc;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Solving the Christmas puzzle</h1><p>On <span>Sat, 01 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 6946 words.</p><div class="taglist"><div class="tag"><a href="/topics/minizinc.html" class="tag-link"><span class="tag-name">minizinc</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/constraint-programming.html" class="tag-link"><span class="tag-name">constraint programming</span><span class="tag-count">2</span></a></div><div class="tag"><a href="/topics/formal-methods.html" class="tag-link"><span class="tag-name">formal methods</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>In 2021, Santa brought me this puzzle: <img src="images/snake-cube-unfolded.jpeg" alt="an unfolded Snake-Cube" />, which is sometimes named the “Snake-Cube”. The goal of this game is to fold it into a cube like this <img src="images/snake-cube-folded.jpeg" alt="a folded snake cube" />. The device is built with cubes that are drilled across some faces so that a strap runs trough cubes. Cubes thus have some degree of freedom to rotate around the strap. Thus, two cubes are terminal and the other ones then either are straight or corners.</p>
+<p>After solving the Snake-Cube by hand, the puzzle started pinching my interest.
+I could imagine a procedure to invent “new” Snake-Cube puzzles (by drawing a
+path that fills the cube in 3D, a common graph-theory problem) but I wanted to
+convince myself: is there only one solution? Can I make a program to solve the
+Snake-Cube automatically and somewhat efficiently? I decided to give it a try
+with <a href="https://www.minizinc.org/">MiniZinc</a>, a <em>constraint programming</em> toolbox.
+This article is an introduction to MiniZinc and illustrates how one can solve
+real-world problem with MiniZinc. We explain basic formal modeling techniques
+and touch on some advanced topics as well. No prior knowledge of MiniZinc is
+required although we will not run you through the menus of the IDE before
+showing screenshots.</p>
+<h1>A MiniZinc model</h1>
+<p>MiniZinc is a language for finite-search discrete programming. These
+complicated words mean that you get to declaratively specify, in a restricted
+formal language, what the characteristics of your problem are. A key
+restriction is that all variables are known and have a finite number of
+possible states. This restriction is not really a limitation in our case.  A
+computer program then ingests the formal specification and automatically find
+solutions to the problem, or proves there are none.</p>
+<h2>Basic formalism for the Snake-Cube</h2>
+<p>To solve the Snake-Cube we need to capture interesting properties of the
+puzzle with <em>variables</em>. Introducing variables is like <strong>having words to discuss
+concepts</strong>. Variables must have a name and a <em>domain</em> (i.e., a range of allowed
+values).</p>
+<p>For instance, the snake is made of small <em>cubes</em>. There are 27 (3x3x3) cubes in
+total. Thus we can give a name to each individual cube in the snake. Since
+solvers work with numbers, the easiest way is to use numerical names (i.e.,
+indexing of values).</p>
+<pre><code>set of int: CUBE = 1..27;
+</code></pre>
+<p>This MiniZinc statement says that we number each individual cube starting from
+<code>1 up to 27</code>. We could have used <code>0..26</code> or another <em>indexing scheme</em>. The
+choice is a matter of preference but sometimes in MiniZinc it is convenient to
+leave <code>0</code> as a special index to represent ‘absence of cube’.</p>
+<p>Another way to imagine the Snake-Cube, rather than focusing on the snake
+<span class="emoji" data-emoji="snake">🐍</span>, let’s focus on the cube <span class="emoji" data-emoji="package">📦</span> . Let’s introduce the concept of
+<em>folded-cube</em>, which represents the cube as a collection of 27 slots or
+<em>positions</em>. This concept of position allows-us to explain the rules of
+Snake-Cube. Thus, let’s give a numerical index to each final position.</p>
+<pre><code>set of int: POS = 1..27;
+</code></pre>
+<p>Astute readers may wonder why both <code>CUBE</code> and <code>POS</code> are numbered <code>1..27</code>. The
+enumeration of values 1 to 27 is merely the representation of integers backing
+the individual and separate concepts.  Another way to put it, is to say that
+<code>POS</code> and <code>CUBE</code> represent two different sets, and hence have different types.
+Which means that whenever we use a <code>CUBE</code> in a function or as an array index,
+we get a MiniZinc compiler warning.</p>
+<p>At this point, we have not achieved much yet, but we set up the basics of the
+problem. We can start recognizing and formulating the puzzle in a more formal
+way.  Goal of the Snake-Cube: we need to <strong>attribute exactly one of the 27
+positions to each one of the 27 cubes</strong>. The new concept here is the
+<em>assignment</em>, and we will need to introduce new variables in MiniZinc to be
+able to speak about the assignment.  Further, the <code>POS</code> and <code>CUBE</code> concepts
+are immanent in our problem, there is not much work for MiniZinc, whereas this
+new concept of assignment is like a guess or a blank that MiniZinc will have
+to fill-in. We refer to these variables as <em>decision variables</em> which are
+annotated with the <code>var</code> keyword. Since we need to guess one position for each
+cube, we need as many decision variables as there are cubes. Rather than
+writing 27 times <code>var POS</code> , we can bundle these variables in a <em>dimensional
+arrays</em>. Like variables, dimension variables must have some initial domain. For
+instance machine integers, 1..100, or some set introduced beforehand.  In our
+case, for each <code>CUBE</code> we want a <code>var POS</code>. So let’s introduce one array,
+indexed by <code>CUBE</code> and containing <code>var POS</code>:</p>
+<pre><code>array[CUBE] of var POS: positions;
+</code></pre>
+<p>Repeating for clarity: this statement says that <code>positions</code> is an array, which
+is indexed by <code>CUBE</code> (i.e., it has one item for each of the 27 cubes) and of
+which items are positions to be decided.</p>
+<p>If we run the solver like this, MiniZinc will happily find a solution (that is,
+it will be able to determine a concrete <code>POS</code> for each <code>var POS</code> in the
+<code>positions</code> array
+<img src="images/snake-cube-mzn-001.png" alt="solution showing all-ones" /></p>
+<p>This screenshot shows an output of MiniZinc in the bottom pane (with our
+trivial problem model in the top pane). The message roughly said that MiniZinc
+found a correct assignment so far: every cube is put in the same position.
+This solution is unsatisfactory for the puzzle, but the reason is obvious: we
+have not given any “rules” of the Snake-Cube yet.</p>
+<h2>Modeling the rules of Snake-Cube</h2>
+<p>I claim there are two broad set of rules in the Snake-Cube.</p>
+<p>On the first hand, some rules <strong>are enforced by physics</strong>. For instance, cubes
+cannot overlap in space, corners force a change of direction, the rubber band
+filing through the cube forces a sort of continuity.
+On the other hand, other rules are  <strong>enforced by our curiosity</strong>, in the
+Snake-Cube the fact that the final shape actually is a cube, rather than, say,
+a L-shape is quite important. Otherwise, Snake-Cube would not be a puzzle but a
+mere toy to hammer things and make noise.</p>
+<p>Encoding such rules into a model requires some process to <strong>express a vague
+intention</strong> of a high-level statement – like the rules I stated above –
+<strong>into some given formalism</strong>. Such a translation takes some practice, but you
+do not have to be intimidated. I would say that the formulating a
+constraint-programming problem has some similarities with formulating
+complicated SQL queries given an imprecise business requirement: you need to
+take care of NULLs, whether a RIGHT or LEFT join and all these sorts of
+things that can ruin the validity or the performance of the query.</p>
+<p>The MiniZinc formalism, is built around a set of <em>constraints</em> statements with
+a small set of basic logic introduction rules rules (equality, negation,
+inequalities, connectives: roughly what you get in <a href="https://en.wikipedia.org/wiki/First-order_logic">predicate
+logic</a>).  Constraints add some
+coupling between variables, and allow the solver to perform reasoning’s to
+shrink the domain of decision variables via a series of deductions. For
+instance, if you must guess a number between 1 to 10 but you learn that
+doubling this number is at least 16, then you can reduce the choice to 8, 9, or
+10. In a proper business setup 16 could represent a target number of sales and
+the guess could represent the amount to spend on advertisement. In this example
+you would try to find the least amount to spend that still hit the target. In
+more involved examples, the target 16 could instead also be a decision variable
+in relationship with other commitments (i.e., there are more indirect coupling
+between two sets of decisions but the solver can still reason about these).
+Summarizing, a model requires to formalize how variables are linked to each
+other with a web constraints. These constraints have limited expressively so
+that a solver can propagate information between variables and along the
+connections that constraints impose.</p>
+<p>Coming back to the Snake-Cube, let’s take for instance a physical rule that
+cubes cannot overlap. Let’s iteratively reformulate this statement in the
+MiniZinc language.  Without doing to much maths ceremony, we could say that
+<strong>cubes cannot overlap</strong> means that <strong>there can be at most one CUBE per POS</strong>.
+Alas <code>at most one</code> is a pretty complicated term, we so far only have <code>CUBE</code>,
+<code>POS</code>, and <code>positions</code> as objects to manipulate.  Thus, if we want to count how
+many <code>CUBE</code> exists in each <code>POS</code> we would have to introduce variables for counting
+occurrences of POS. All theses variables seem like a lot of extra work and we
+can try to find simpler expressions of the same rule. If we try to rephrase
+further, we could find a “simpler” way to encode our rule. We don’t need to count
+every occurrence but rather we should prevent co-occurrences. That is, to say,
+in a formal tone <strong>no two distinct CUBEs can be attributed to the same POS in
+the position array</strong>.  Even if this formulation hurts the ears, this
+formulation is good because we already have everything at our disposal. In
+MiniZinc, this statement would be written like this</p>
+<pre><code>constraint forall(c1, c2 in CUBE c1 != c2)
+  (position[c1] != position[c2])`;
+</code></pre>
+<p>The <code>constraint</code> keyword introduces a new constraint.  The <code>forall</code> keyword has
+two sets of braces: an iteration binds variable names, in that case over all
+pairs of distinct <code>CUBE</code>. The second set of braces contains another constraint,
+which in this case is merely looking up the positions of <code>CUBEs</code> and requesting
+that their <code>POS</code> are different, since <code>position</code> is an array indexed by <code>CUBE</code>
+we just need to perform a lookup. This indexing illustrates how natural it
+becomes to have arrays indexes by variables defined. You do not have to
+translate back to numerical indices starting at zero (or one depending on your
+typical programming language), MiniZinc translates indices for you.</p>
+<p>Such a constraint of uniqueness of decision variables often arises while
+formalizing problems. Even if terse, it would be cumbersome to rewrite such a
+constraint every single time.  Fortunately MiniZinc has a number of features to
+help with repetitive work: <em>functions</em> and <em>predicates</em> functions are like your
+typical programming function with arguments and an output. However they behave
+morally more like macros (i.e., MiniZinc will expand their content). Whereas
+predicates are functions that return constraints. As a modeler you would use
+predicates and functions to create increasingly-high level constraints from
+atomic constraints. You will find a library predicate in MiniZinc named
+<code>all_different</code>. Thus we can rewrite our statement above with</p>
+<pre><code>include &quot;all_different.mzn&quot;;
+constraint all_different(positions);
+</code></pre>
+<p>This formulation is better than the <code>forall</code> because it is more declarative:
+you cannot really mix it up.  This formulation also has an incredible
+advantage: solvers can recognize these predicates and implement special
+routines to solve them faster.  In constraint programming, such predicates are
+named <em>globals</em> because <strong>globals can efficiently propagate information to all
+variables at once</strong>, rather than the more point-to-point propagation which
+occurs with the “pedestrian” implementation. If a specific solver doesn’t know
+how global, MiniZinc defaults to a semantically-equivalent implementation (in
+short: the compatibility matrix is built-in). If we run MiniZinc we now get
+something better.</p>
+<p><img src="images/snake-cube-mzn-002.png" alt="solution showing all-differents but not a real folded-cube" /></p>
+<p>The assignment we get now looks <em>more correct</em> (whatever that means).  In a
+sense we can convince ourselves that we already have forced every <code>CUBE</code> to fit
+in a box, and that no two cubes will ever be in the same position.  Remember
+that we have 27 <code>CUBEs</code>.  All stars align, <strong>we have enforced the folded-cube
+rule without thinking too much</strong> about it! Did we? actually it is not <em>that</em>
+simple.  Constraint programming is a bit like an evil genie: it will answer
+your wishes but did you clearly state your wish? Let’s recap what we have done.</p>
+<p>So far we have discussed MiniZinc and brushed some vague explanation about how
+a constraint-solver works. We have seen the basics of what formalizing a game
+with variables and constraints. We managed to define variables to name every
+<code>CUBE</code> in the snake and every <code>POS</code> in the folded-cube. We recognized that we need
+to find one <code>POS</code> for every <code>CUBE</code> and thus built an array to store a decision <code>POS</code>
+for every <code>CUBE</code>. We also used the global predicate <code>all_different</code> to force
+every <code>CUBE</code> to be in a different POS, hence encoding some rules. All of this
+setup was mostly introductory.</p>
+<p>Now what’s left: well, the folding problem is left! At this point, there are no
+connections between individual cubes. It’s like if we torn apart the Snake and
+stacked all the cubes and re-ordered them. We have not spoken about geometry at
+all. We don’t even know if the <code>POS</code> numbering represents a 3x3x3 object
+because we have not inserted that into our model at all. To go further we’ll
+need to introduce some notion of coordinates.</p>
+<h2>A coordinates system</h2>
+<p>Coordinates will be useful for two things: first, ensure that our <code>POS</code> numbering
+represents a 3x3x3 cube (remind that if you somehow forget this, the evil genie
+will mis-interpret your wish). And the coordinates will also be able to enforce
+the rules of what are valid folds that do not tear the snake apart.</p>
+<h3>3d-coordinates of positions</h3>
+<p>Let’s take a direct approach and define one type per dimension. Each <code>POS</code> will
+have one coordinate value in every dimension. We can model this characteristics
+with three array indexed by <code>POS</code> and that contains one dimensional value.</p>
+<p>In object-oriented programming you would model that with a list of Position
+object, each containing three coordinates named x, y, and z. In MiniZinc you
+have three lists in parallel, each one encoding a single coordinate. Such a
+modeling with “one column per field” is typical in ‘columnar databases’ or in
+‘ECS frameworks’, or even good old ‘CSV files’.</p>
+<p>In MiniZinc you write:</p>
+<pre><code>set  of int: X = 0..2;
+set  of int: Y = 0..2;
+set  of int: Z = 0..2;
+array[POS] of X: xs = [   (p - 1)        mod 3 | p in POS ];
+array[POS] of Y: ys = [  ((p - 1) div 3) mod 3 | p in POS ];
+array[POS] of Z: zs = [  ((p - 1) div 9) mod 3 | p in POS ];
+</code></pre>
+<p>An important note here is that we restrict upfront the interesting coordinates
+to be 0, 1, or, 2. Indeed, the folded-cube is only 3x3x3 and hence we do not
+really need to discuss what happens outside the folded-cube. On the opposite,
+if we limit ourself to a narrow world with 3 values per dimension, we can make
+sure our folded-cube does not “leak” because each <code>CUBE</code> has a <code>POS</code> via the
+<code>position</code> array, and hence each <code>CUBE</code> transitively has a X, a Y, and a Z in
+the 0..2 range, which means that every <code>CUBE</code> is born to live ‘constrained’ in
+our 3x3x3 world,  without explicitly adding constraints like <code>constraint forall(c in CUBE)( position[CUBE] &lt;= 2 ) </code>.</p>
+<p>The <code>div</code> and <code>mod</code> merely is arithmetic to give 3d coordinates for a ‘natural’
+numbering of cube as shown in the following poor diagram I made</p>
+<p><img src="images/snake-cube-coords.png" alt="diagram of 3d 3x3x3 cube" /></p>
+<p>On this picture, the numbers correspond to <code>POS</code> objects; not shown the values along X, Y, and Z start at <code>0</code> at the ‘origin’ (and thus, <code>POS-1</code> is at coordinates <code>{0,0,0}</code>).</p>
+<p>Also, since this computation is entirely determined from the input data,
+nothing is variable (i.e., MiniZinc runs the arithmetic before asking the
+solver to run guesses).</p>
+<h3>Segmenting the Snake</h3>
+<p>Now that it’s clear that the folded-cube is 3x3x3, let’s talk about the snake.
+I decided to model the snake as a series of <code>SEGMENTs</code> which are characterized by
+a starting and an ending <code>CUBE</code>.</p>
+<p>For instance the following snake as initial segments <code>[1,3] [3,5] [5,7] [7,9]...</code>.</p>
+<pre><code>   1 2 3   9
+   o-o-o   o-....
+       |   |
+     4 o   o 8
+       |   |
+       o-o-o
+       5 6 7
+</code></pre>
+<p>This is the part of the puzzle where I had to verify five times I did the right
+counting because I’m not very good at counting above ten.</p>
+<pre><code>set of int: SEGMENT = 1..17;
+array[SEGMENT,1..2] of CUBE: segments = [|1,3|3,5|5,7|7,9|9,10|10,11|11,12|12,14|14,16|16,17|17,18|18,20|20,21|21,23|23,24|24,25|25,27|];
+</code></pre>
+<p>This compact syntax allows to declare a <em>two-dimensional array</em> and its
+content. The array is declared as having two indexing keys and contains
+<code>CUBEs</code>.  The index <code>1..2</code> represents the start or the end of the segment.
+Thus <code>segments[5,1] = 9</code> is the <code>CUBE</code> that starts the fifth <code>SEGMENT</code> of the
+snake, whereas <code>segments[5,2] = 10</code> is the <code>CUBE</code> that ends the fifth <code>SEGMENT</code>
+of the snake. Alternatively we could have two separate arrays for starting end
+ending <code>CUBEs</code> of <code>SEGMENTS</code>.</p>
+<p>Now what’s interesting in the physical version of the puzzle is that handling
+this snake is a bit overwhelming. Each segment is stiff, however between two
+segments the snake can rotate (or pivot around). That is, <em>along</em> a segment, the
+<code>CUBEs</code> of a <code>SEGMENT</code> cannot move. However at <code>junctions between two segments</code>,
+segments are free to rotate.</p>
+<h3>Enforcing the physics of the game</h3>
+<p>We just need to encode these two rules (which will refer to as <em>pivot</em> or
+<em>straight</em>) and we will be done.  There are no major difficulty for this but it
+is not entirely straightforward given how many indirections exist in our model.
+To recap, our main input is a list of <code>SEGMENTs</code>, which inform us about how
+<code>CUBEs</code> can be laid out relative to each other. Each <code>CUBE</code> must be given a
+<code>POS</code> and each <code>POS</code> has three coordinates.  We now need to link every <code>CUBE</code>
+in a <code>SEGMENT</code> with some <code>straight</code> rule to force coordinates to form a line.
+And we need to link the coordinates of the <code>POS</code> of connecting <code>CUBEs</code> in
+consecutive <code>SEGMENTs</code> to form a <code>corner</code> . Yes it’s a lot of words but when
+you handle the puzzle it becomes very intuitive.</p>
+<p><img src="images/snake-cube-l-shape.png" alt="diagram of L-shape cubes illustrating straight and corner rules" /></p>
+<p>The above picture summarizes the two rules with two <code>SEGMENT</code> forming an
+L-shape. Along the arrow, <code>CUBEs:{1,2,3}</code> must follow each other and form a
+<code>straight</code>, whereas at <code>CUBE:3</code> a junction forces <code>CUBES:{2,3,4}</code> to form a
+<code>corner</code>.</p>
+<p>I said two rules? sorry I was too fast. Actually the rule <code>straight</code> is sufficient <span class="emoji" data-emoji="thinking">🤔</span>
+Why? the argument needs to connect three clues together:</p>
+<ul>
+<li>each <code>SEGMENT</code> of the Snake will have at least two <code>CUBEs</code>
+</li>
+<li>with the ‘straight’ rule, each <code>SEGMENT</code> will span at least 2 in any dimension
+</li>
+<li>we forced coordinates to be in the 0..2 range, and at the time I stressed how useful that was
+Thus you cannot align two <code>SEGMENT</code> without leaking outside the <code>CUBE</code> <span class="emoji" data-emoji="exploding_head">🤯</span> .
+</li>
+</ul>
+<p>In typed-programming languages like Haskell and OCaml, we speak about making
+impossible states representables, this reasoning is roughly similar.  Such
+shortcuts, however, in constraint-programming are a point of attention. You
+need to be careful when iterating on your models. The model does not represent
+the reality, where I can unfold the Snake along one dimension, but I only care
+about arrangements where the Snake is folded. That is, my model explicitly
+departs from the physics of the game. Such a shortcut is convenient because
+there is likely less typing, the solver will likely be faster because it will
+not be spending time evaluating solutions doomed to fail.  However I cannot
+just extend my model to the 4x4x4 case without some extra work first because
+our elaborate argument for the lazy modeler would fall apart.</p>
+<h3>MiniZinc formalization of the physics</h3>
+<p>Let’s now formulate the <code>straight</code> rule. Remember that MiniZinc speaks of
+constraints, and a way to build re-usable constraints is a <code>predicate</code>.  I’m
+deliberately developing and elaborating bits by bits what <code>straight</code> formally
+means in <strong>top-to-bottom fashion</strong> so that the motivation for introducing a
+“sub-predicate” is to break-down the higher-level predicate we wrote before. A
+number of new syntaxes (like <em>let-bindings</em>) will not be explained so you may
+have to read code-examples slowly before and after reading the explanation.</p>
+<p>We would like to do something like saying <strong>all SEGMENT must form straight
+lines</strong>.  Which is a straightforward.</p>
+<pre><code>constraint forall(s in SEGMENT)(straight(s));
+</code></pre>
+<p>MiniZinc will complain that <code>straight</code> is not defined yet, but at least the
+only new “top-level constraint” is written down and we are left with
+elaborating our predicate. We need to break-down what it means to form a
+straight line because we can place segments along any of the three dimensions.
+This predicate thus needs another set other predicates (<code>alongX, alongY, and alongZ</code>) in a <em>boolean OR disjunction</em>. Note that in formal methods <code>x = a \/ b</code> has information flowing in both directions, so if you can determine that <code>x</code>
+is true then it tells you that at least <code>a</code> or <code>b</code> is true, which seems logical
+when stated but can look unusual to programmers used to handling ORs with
+information flowing in a single direction. Let’s write down our disjunction
+along all three axes:</p>
+<pre><code>predicate straight(SEGMENT: s) =
+  let {CUBE: c0 = segments[s,1]; CUBE: c1 = segments[s,2]}
+  in alongX(c0..c1) \/ alongY(c0..c1) \/ alongZ(c0..c1);
+</code></pre>
+<p>At this point I am saying that a straight segment can be straight <code>along X OR along Y OR along Z</code>. Since we have not really specified what these individual
+predicates mean our <code>SEGENT</code> could be placed along two dimensions at a same
+time: in some puzzles being placed along multiple dimensions might mean a form
+of diagonal, but we’ll not allow it here.  With <code>c0..c1</code> I expand the <em>start</em>
+and <em>end</em> <code>CUBE</code> of the segment and turn that into an array of <code>CUBEs</code> to the
+individual predicates because we want to start discussing about coordinates of
+positions of cubes.</p>
+<p>In plain English, being ‘along X’ means that the <code>X</code> coordinates of the
+positioned cubes vary whereas the <code>Y</code> and <code>Z</code> coordinates are fixed (if you go
+back to my pictures, the three cubes in the L-shape are “along X”, hence <code>Y</code>
+and <code>Z</code> are fixed and <code>X</code> vary). We can thus encode such a predicate with a
+<em>boolean AND conjunction</em> of three clauses:</p>
+<pre><code>predicate alongX(array[int] of CUBE: cubes) = along(cubes, xs)   /\ samePos(cubes, ys) /\ samePos(cubes, zs);
+predicate alongY(array[int] of CUBE: cubes) = samePos(cubes, xs) /\ along(cubes, ys)   /\ samePos(cubes, zs);
+predicate alongZ(array[int] of CUBE: cubes) = samePos(cubes, xs) /\ samePos(cubes, ys) /\ along(cubes, zs);
+</code></pre>
+<p>That’s a bit of boilerplate as we repeat ourselves for each <code>DIM</code>. To avoid
+repeating ourselves while elaborating further, we will pass the useful
+information “in which dimension we are” as arguments to the lower-level
+predicates: <code>along</code> and <code>samePos</code> . Both predicates take a series of cubes and
+a the coordinates in the dimension of interest as arguments. Let’s formulate <code>along</code>.</p>
+<pre><code>predicate along(array[int] of CUBE: cubes, array[POS] of int: proj) =
+  let { CUBE: c0 = cubes[1]} in
+  forall(c1 in cubes where c1 &gt; c0)(abs(proj[positions[c0]] - proj[positions[c1]]) = c1 - c0);
+</code></pre>
+<p>Some discussion around the design of the parameters:</p>
+<ul>
+<li>taking an array of <code>CUBEs</code> rather than a single <code>SEGMENT</code> because I didn’t want to repeat <code>segments[s,1]</code> many times, and also because I started with another (more complex) model that had no <code>SEGMENT</code> yet and was lazy to change it for cosmetics
+</li>
+<li>taking an <code>array[POS] of int</code> named ‘proj’ for “projection along an axis”: the proper definition of the rule is a bit picky but is exactly the same in all the three dimensions, so let’s write it only once and avoid typos
+</li>
+</ul>
+<p>What is important is that the first CUBE is taken as a reference, then I force
+the distance of the positioned cubes (i.e., via the indirection
+<code>proj[positions[  ]]</code> and with <code>abs</code> the absolute value function) of the positions to
+match the distance on the unfolded Snake <code>c1 - c0</code>.  For instance, for the
+segment of <code>CUBEs-{5,6,7}</code> along X. We enforce that, once positioned in
+folded-cube, the distance between CUBE-5<code>and</code>CUBE-6<code>is exactly 1 and the distance between</code>CUBE-5<code>and</code>CUBE-7` is exactly 2. The absolute value encodes the
+fact that the segment could be in either direction (left to right or right to
+left) while along the same axis.</p>
+<p>Now we are left specifying the <code>samePos</code> predicate. This predicate takes the
+same arguments as <code>along</code> to avoid typing it for each dimension. However
+<code>samePos</code> is simple to write: while <code>along</code> enforced some distance along an
+axis, <code>samePos</code> enforce no changes along an axis. Thus, we do not need
+complicated arithmetics with absolute values, a simple <em>equality</em> will do.</p>
+<pre><code>predicate samePos(array[int] of CUBE: cubes, array[POS] of int: proj) =
+   forall(c0, c1 in cubes where c0 &lt; c1)(proj[positions[c0]] = proj[positions[c1]]);
+</code></pre>
+<p>And we are done! Overall, forcing successive coordinates along X and same
+coordinates along Y and Z ensure our segment is stiff. Elaborating from a
+top-level constraint we have written a number of helper-predicates. It may feel
+superfluous but writing all the constraints by hand would have been especially
+boring and hard to get right without copy-paste-edit typos. If you fiddle with
+intermediary MiniZinc files you’ll realize that the extra constraint adds 488
+atomic constraints. As a point of comparison the lonely global “all_different”
+from previous section generate a single atomic constraint.</p>
+<h3>Running MiniZinc at last</h3>
+<p>When we now run MiniZinc, we are greeted with a solution after roughly one
+second.</p>
+<p><img src="images/snake-cube-mzn-003.png" alt="proper solution but oddly-formatted" /></p>
+<p>I was pretty excited when I got my first solution. I verified it by
+twisting my fingers. Something pretty interesting happened: <strong>I could not fold
+the Snake-Cube</strong> <span class="emoji" data-emoji="dizzy_face">😵</span> . What on Earth has gone wrong?</p>
+<h1>The mystery and the symmetries</h1>
+<p>Alright, me failing to fold a Snake, even with a solution given by MiniZinc has only a few possible explanations:</p>
+<ul>
+<li>Hypothesis-A: I made a mistake in the model (likely <span class="emoji" data-emoji="frowning">😦</span>)
+</li>
+<li>Hypothesis-B: I failed at following the output (very likely <span class="emoji" data-emoji="nerd_face">🤓</span>)
+</li>
+<li>Hypothesis-C: Even if we have a valid positioning, it is not feasible to operate the sequence of moves (the cube is only 3x3x3 so I estimate it unlikely, I might need to start folding from the middle, however <span class="emoji" data-emoji="exploding_head">🤯</span>)
+</li>
+</ul>
+<p>I audited my model, added some traces and redundant constraints to quickly
+verify/check some more invariants: nothing seemed off. Then, rather than
+following the output again I took a rather barbaric approach: rather than
+starting folding from <code>CUBE-0</code> in my solution I started from <code>CUBE-27</code> and it
+miraculously worked <span class="emoji" data-emoji="relieved">😌</span>. <strong>Maybe the solver gave me a different solution
+the second time</strong> and Hypothesis-C is correct. After-all I was not doing
+exhaustive checks and I made the rookie mistake of <em>not</em> storing my first
+output.</p>
+<p>With a sucessfully folded-cube (as shown in the early pictures), I had strong
+clue that my MiniZinc model was right because <strong>at least one solution it gave
+was empirically correct</strong> . There still is the room for a combination of
+errors: what if the output was incorrect and at a same time I failed at
+following the output and also ended up following a valid folding by “luck” -
+extremely unlikely and against <a href="https://en.wikipedia.org/wiki/Occam%27s_razor">Occam’s principle <span class="emoji" data-emoji="razor">🪒</span></a> at this level of debugging.</p>
+<p>Hypothesis-C was still piking my interest. I spent some time on YouTube and
+people recommend to fold the snake starting at the middle. Something I had not
+really foreseen and could be really frustrating: it would be incredibly hard to
+model the exact folding sequence as a hobby project. Such a folding requires to
+introduce a notion of time and verify that along time all rotations are
+allowed: it’s a much more ambitious model than our the small introduction I
+hope to give in this blog post.</p>
+<p>I preferred to take another approach to rule-out Hypothesis-C: <strong>trying to find
+all possible folding and if I find only one then there is only one solution</strong>.
+In MiniZinc it’s really easy, in the configuration you just ask “print all
+solutions”.  Actually, I did that and not only the program found many solutions
+(six in ten seconds), it also kept running and searching and searching and
+searching. Switching the solver to <strong>Chuffed found 48 solutions in two seconds
+and proved that no-other solutions exist</strong>.  That is still a lot for me to try
+given how bad I am at solving, we need an idea. The idea was to manipulate the
+folded-cube <span class="emoji" data-emoji="bulb">💡</span> : if I turn the folded-cube around then I have reorganized
+the coordinates of each <code>POS</code> (say POS:1 is no longer in <code>{1,1,1}</code> but in
+<code>{3,1,1}</code> by rotating the cube along the <code>Y</code> vertical axis: it’s a new
+solution, but not an especially interesting one compared to my first solution.
+In constraint-programming and in general in physics, the phenomenon we want to
+control is named <em>symmetry</em>.</p>
+<h2>Symmetries</h2>
+<p>Say you give me a valid <code>positions</code> array. I can also build another valid
+<code>position</code> array by changing the numbering (so that X and Y coordinates are
+‘swapped’ – the physical equivalent is to rotate around Z). I could tell you
+“here, a new solution” but you would be really right to feel cheated.</p>
+<p>Besides running Chuffed, I have not taken the time to enumerate symmetries in a
+formal way but I guess there exist at least three things to break (two
+<em>rotations</em> along Y and Z times plus <em>flipping</em> positive directions into
+negative directions). In constraint-programming (and in general in search
+problems) you <em>break symmetries</em> by adding extra constraints that do not come
+from the initial rules of the problem. These extra constraints will force the
+search algorithm to look for interestingly-different solutions. This technique
+also has the benefit to accelerate the resolution as more “branches” are pruned
+“sooner”. Sometimes, breaking symmetries is mandatory to find any solution when
+the problem is actually hard.</p>
+<p>In the Snake-Cube game, the way I ended up breaking symmetries was to the
+follow this line of reasoning:</p>
+<ol>
+<li>the first segment defines the <code>X</code> axis (and <code>CUBE</code> indices increments along X)
+</li>
+<li>the second segment defines the <code>Y</code> axis (and <code>CUBE</code> indices increment along Y)
+</li>
+<li>then the first segment that is not along X nor Y will must be along Z (so you don’t win much) but will define the positive Z values
+</li>
+</ol>
+<p>What is important to keep in mind is that what defines the <code>Z</code> axis is not
+always “the third segment” because nothing tells you that the third segment
+will not be along X in the decreasing direction (i.e., the three first segments
+could form a U-shaped). We really would like to say, “the first segment along
+<code>Z</code> defines <code>Z</code>”, but that would be a circular definition without spending
+extra work formalizing what it means to define an axis.</p>
+<p>A problem with symmetry-breaking constraints is to convince yourself the rules
+are valid and do not mistakenly prune-out desireable solutions.  I found it
+easier to think in terms of directions in the coordinate system than thinking
+about what it means for all the “next segments” to take a turn-right at the
+beginning. Another way to convince ourselves is to count how many coordinate
+systems we can generate around a fixed folded-snake. Defining the first <code>DIR</code>
+has 3 possible choices (any of three-dimensions), we have 2. Then at each definition we
+can pick positive or negative indices, so we have <code>2*2*2</code> symmetries here. In
+total we get <code>3*2*2*2*2 = 48</code> possible coordinate systems for our Snake. Which is
+consistent with what Chuffed as found, mystery solved <span class="emoji" data-emoji="muscle">💪</span>. We could stop
+here, but at this point we have done the hard thinking coupled with the
+brute-force approach, we want to see if from our own eyes. Let’s turn this into
+hard thinking with an elegant encoding of symmetry-breaking constraints.</p>
+<p>The difficulty to formalize these rules in MiniZinc is twofold:</p>
+<ul>
+<li>introducing a notion of ‘direction of segments’
+</li>
+<li>using this new notion to add constraints to break symmetries
+</li>
+</ul>
+<p>So far in our model the <code>SEGMENT</code> merely were a collection of consecutive CUBEs.
+We managed to give a <code>POS</code> to each <code>CUBE</code>. We however have yet to turn these <code>POS</code>
+into a notion of direction. In Snake-Cube, we care about three dimensions, and
+for each dimension we care about the particular direction (left-to-right or
+right-to-left). In total it means six directions. We could use <code>set of int: DIR = 1..6</code> but I instead use a pretty similar construct when you want to give
+individual names to directions: enums.
+We somehow now that every <code>SEGMENT</code> will have a <code>DIR</code>, so let’s declare that at the same time.</p>
+<pre><code>enum DIR = {XP, XN, YP, YN, ZP, ZN};
+array[SEGMENT] of var DIR: directions;
+</code></pre>
+<p>For instance, <code>directions[3] = XP</code> stands for ‘segment number 3 has cubes laid out
+along the X-axis with increasing values’.</p>
+<p>The remaining work is to connect <code>DIRs</code> of <code>SEGMENTs</code> with the coordinates of
+positioned <code>CUBEs</code>.  I did that by augmenting the predicate <code>straight</code> to impose
+extra conditions with <code>alongX</code> (and the same for Z and Y).</p>
+<pre><code>predicate straight(SEGMENT: s) =
+  let {CUBE: c0 = segments[s,1]; CUBE: c1 = segments[s,2]}
+  in (alongX(c0..c1) /\ direction(s, xs, XP, XN))
+  \/ (alongY(c0..c1) /\ direction(s, ys, YP, YN))
+  \/ (alongZ(c0..c1) /\ direction(s, zs, ZP, ZN));
+</code></pre>
+<p>Other designs would have been equally valid. For instance, we could also have
+modified <code>alongX</code> directly to pass the <code>SEGMENT</code> rather than its <code>CUBEs</code> expansion.
+What is important is that we now force yet another predicate relating the
+<code>SEGMENT</code> and the <code>DIR</code> together. The <code>direction</code> predicate is defined as follows:</p>
+<pre><code>predicate direction(SEGMENT: s, array[POS] of int: proj, DIR: dp, DIR: dn) =
+     (proj[positions[segments[s,1]]] &lt; proj[positions[segments[s,2]]] /\ directions[s] = dp)
+  \/ (proj[positions[segments[s,1]]] &gt; proj[positions[segments[s,2]]] /\ directions[s] = dn);
+</code></pre>
+<p>This predicate allows to say that along a given axis, either the segment is
+positioned ‘left to right’ and the position of the first <code>CUBE</code> is before the
+second <code>CUBE</code>, or the opposite is true.</p>
+<p>At this point, we merely have setup extra variables that really do not change
+the solutions to the solver.  However this extra wiring allows us to formulate
+symmetry-breaking constraints.</p>
+<p>One way to say that the first segment defines the X axis, and the first bent
+segment defines Y is to add.</p>
+<pre><code>constraint directions[1] = XP;
+constraint directions[2] = YP;
+</code></pre>
+<p>However, such a scheme would be insufficient for breaking all symmetries.
+Indeed, it is unclear whether the third <code>SEGMENT</code> will be positioned along X
+again or along Z. Further, it could be positioned along XP or XN if the two
+first <code>SEGMENT</code> have length 2.
+In short, it is important to note that we cannot force <code>XN</code> to be before or
+after <code>ZP</code> because that would enforce a constraint stronger than just breaking
+symmetries (this is merely repeating the lengthy argument when we enumerated
+the types of symmetries we want to break, but with variable names). Thus, when
+adding symmetry-breaking symmetries we need to be diligent because there is a
+risk to mistakenly remove some solutions we would have preferred to keep
+around. In our snake-folding game, what we can say, however, is that the first
+time we move in the third dimension, the <code>SEGMENT</code> has to be aligned with ZP.</p>
+<p>Building this <strong>notion of the first time we move in the third dimension</strong> is
+doable but is cumbersome and error prone: we need to give a name at the first
+occurrence of each <code>DIR</code> in the <code>directions</code> array and relate the index of these
+first occurrences with each other. Fortunately for us, MiniZinc has a number
+of functions listed under the name “symmetry-breaking constraints” to encode
+that ‘the first occurrence of XP is before the first occurrence of XN and so on
+and so forth’. I’ve decided to pick <code>value_precede_chain</code> and <code>value_precede</code>
+to encode the fact that <code>XP</code> is before <code>YP</code> which in turns is before <code>ZP</code> and
+that <code>positive</code> is before <code>negative</code>.</p>
+<pre><code>include &quot;globals.mzn&quot;;
+constraint value_precede(XP,XN, directions);
+constraint value_precede(YP,YN, directions);
+constraint value_precede(ZP,ZN, directions);
+constraint value_precede_chain([XP,YP,ZP], directions);
+</code></pre>
+<p>These constraints fully-characterize our precedence rules.  Running in
+MiniZinc, we still get a solution, and now even Gecode can prove exhaustiveness
+(the line with <code>====</code> of a single under four seconds).</p>
+<pre><code>positions = array1d(1..27, [1, 2, 3, 6, 9, 8, 7, 16, 25, 26, 17, 18, 15, 12, 11, 10, 19, 22, 13, 4, 5, 14, 23, 20, 21, 24, 27]);
+directions = array1d(1..17, [XP, YP, XN, ZP, XP, ZN, XP, YN, XN, ZP, YP, ZN, XP, ZP, YN, XP, YP]);
+----------
+==========
+</code></pre>
+<p>One reason why I may have failed at following my first solution is that the
+output is a bit austere. The output of <code>directions</code> actually is more
+exploitable as it reads as folding instructions, we immediately see that the
+first three <code>SEGMENT</code> form a U-shape.  Elided for brevity: it is actually
+possible to ask MiniZinc customize the output via a rendering function. Also,
+with some extra fiddling I managed to have Gecode prove exhaustiveness in under
+100ms (this is yet another advanced technique I may cover in a separate blog
+post).</p>
+<p>Somehow, finding a single solution, and proving that I am not able to follow
+instructions, is a nice conclusion to conclude this story <span class="emoji" data-emoji="book">📖</span>.</p>
+<h1>Summary and Discussion</h1>
+<p>We have formalized the problem of the Snake-Cube, solved it, and proved the
+solution unique. Proving the solution unique means that we pretty much have a
+complete characterization of the Snake-Cube puzzle. And to recap, our model
+formalizes the Snake-Cube puzzle as follows:</p>
+<ul>
+<li><code>CUBE</code>, <code>SEGMENT</code>, <code>POS</code>, <code>DIR</code> are key entities that need well-defined names
+</li>
+<li>the snake consists of a series of <code>CUBE</code>, each consecutive line of <code>CUBE</code> defines a <code>SEGMENT</code>
+</li>
+<li><code>POS</code> provide coordinates to all final positions of <code>CUBE</code> in each of the x, y, and z  <code>DIM</code> of the 3x3x3 folded-cube
+</li>
+<li>the problem is an <em>attribution problem</em>, in which each <code>CUBE</code> is given a <code>POS</code>, thus we can use the <code>all_different</code> <em>global</em> constraint to efficiently capture this property
+</li>
+<li>physical constraints of <code>straight</code>-lines and <code>corners</code> impose a relationship between the coordinates of the positioned <code>CUBE</code> of a same <code>SEGMENT</code>
+</li>
+<li>we used <em>predicates</em> to re-use a good chunk of the domain logic when encoding <code>straight</code>
+</li>
+<li>we took some shortcuts eliding the <code>corners</code> rule because we recognized that the minimal length for a <code>SEGMENT</code> is <code>2</code> and the maximum extent for the folded-cube is <code>3</code>, thus we do not really need to force consecutive <code>SEGMENTs</code> to turn around
+</li>
+<li>we broke rotational and mirroring <em>symmetries</em> with the <code>value_precede</code> global constraints, allowing to convince oneself only one solution to this Snake-Cube puzzle exists
+</li>
+<li>I am not especially good at following mechanical output instructions
+</li>
+</ul>
+<p>The article is already a bit long and we could discuss a number of other
+techniques such as <em>channeling</em>, observing how different <em>families of solvers</em>
+fare in this problem, or modifying the <em>search strategy</em>. We could also decide
+to complexify the model for the puzzle on purpose (e.g., support a <code>4x4x4</code> cube
+as well). Rather, we’ll cut it short and may leave these advanced topics for
+another blog post. That said, before concluding I cannot resist to ask you a
+question for thought: Is <code>POS</code> really required? it is an interesting question
+because <code>POS</code> is merely and indirection that adds more typing work to get from
+a <code>CUBE</code> to a set of coordinates.</p>
+<h2>Conclusion</h2>
+<p>We can solve real-world and business-critical problems in MiniZinc. Although
+the Snake-Case, is not as complicated as a real-world models where
+constraint-programming can really shine, this puzzle is a good illustration of
+how to solve problems using constraint-programming: it is not immediately
+obvious how to formalize and to formulate the puzzle into a computer program.</p>
+<p>Constraint-programming is declarative: we state a problem and let the solver
+grind through solutions for us. You can thus answer questions more succinctly,
+sometimes constraint programming allow you to reach further and find solutions
+to problem that would be unattainable or impractical in your typical
+programming style. Since the Snake-Cube has a single solution we cannot really
+add interesting rules to spice the game, but real-world is full of examples
+where an off-the-shelf algorithm does not work because of some extra constraint
+(e.g., a shortest-path with road-closures time tables). In short, I believe
+MiniZinc and Constraint-Programming are extremely-valuable tools. Although it
+requires a high personal investment to learn MiniZinc, the application of the
+skill has high value-for-the-cost.</p>
+<p>We could have stopped at the first iteration of the solver, before discussing
+symmetries (and in many contexts stopping at this solution could have been
+sufficient). However I think it is important to show that we can, and sometimes
+are forced, to go further deep in the understanding of the problem.</p>
+<p>I typically build models iteratively as shown in this blog-post. However, from
+experience, there is little continuity between having no solutions, a useless
+solution, being swamped with solutions, and finding the one and only correct
+solution. There also are vastly more interesting modeling perspectives than you
+have time for. Thus it is key to know when to stop and you must know how to
+convince yourself that your overall model and solving strategy are good enough.</p>
+<p>I believe these characteristics are shared among all declarative systems (e.g.,
+SQLs, Prologs, and DataLogs, but also devop tools like Terraform) <em>because</em> we
+explicitly forfeit control to a black-box in exchange for extra reach. I like to
+say that these tools are evil genies, they will answer you wishes but you
+must be careful when articulating your wish.  To overcome this downside of
+declarative style, you need knowledge and practice. In particular, you need a
+good capacity at abstracting away so that you can recognize familiar problems
+in some ad-hoc problem that life has thrown at us. And then you need to be able
+to activate the many knobs in a rich toolbox like MiniZinc.</p>
+<p>If you are interested or want to apply these techniques and feel overwhelmed or
+lost, please reach-out.</p>
+</section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div></body></html>

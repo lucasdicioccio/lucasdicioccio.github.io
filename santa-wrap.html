@@ -1,0 +1,704 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><style>* {  font-family: "Helvetica", Arial, sans-serif;  font-size: 14pt;}a {  color: inherit;}img {  display: block;  width: 80%;  padding: 20px;  margin: auto;}article {  width: 80%;  margin: auto;  margin-top: 200px;  border-top: 4px solid black;  text-align: justify;}.heading h1 {  margin-bottom: 0;}.heading p {  margin-top: 0;  line-height: 1em;  color: #ccc;}h1 {  font-size: 24pt;  text-transform: uppercase;}h2 {  font-size: 20pt;}p {  line-height: 1.4em;  border-radius: 5px;}p:hover {  background-color: aliceblue;}p::selection {  background-color: lightskyblue;}code {  font-family: monospace;}p > code {  font-weight: bold;  color: coral;  display: inline-block;}p > em {  color: darkcyan;}pre {  background-color: #eee;  padding: 1em;  border-radius: 5px;  font-family: monospace;  font-size: 12pt;  color: darkgreen;  overflow-x: scroll;}.footing {  margin-top: 3em;  padding-bottom: 300px;  padding-top: 2em;}.social-links {  display: flex;  justify-content: space-around;}.taglist {  display: flex;  justify-content: left;}.tag {  font-size: 10pt;  font-weight: bold;  margin-left: 1em;  color: white;  background-color: #555555;  border-radius: 4px;  padding: 4px;}a.tag-link {  text-decoration: none;}.tag-name {  padding-right: 5px;}.tag-count {  padding-left: 5px;  border-left: 1px solid #ccc;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Advent of Haskell 2020: Santa Wrap</h1><p>On <span>Thu, 24 Dec 2020</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 6326 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">2</span></a></div><div class="tag"><a href="/topics/minizinc.html" class="tag-link"><span class="tag-name">minizinc</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/constraint-programming.html" class="tag-link"><span class="tag-name">constraint programming</span><span class="tag-count">2</span></a></div></div></header><div class="main-article"><section class="main-section"><p>This article is part of <a href="https://adventofhaskell.com/">Advent of Haskell</a> 2020.
+Make sure to check the other articles too! You will find the code for this blog-post at <a href="https://github.com/lucasdicioccio/santa-wrap/">the original GitHub publication</a>.</p>
+<h2>Our Christmas project</h2>
+<p>Year 2020 is terrible. Santa’s Workshop had to take stay-at-home restrictions.
+However, Elves want to do the utmost to keep Christmas’ spirit alive. This
+year, Elves will work from home rather than work in the streamlined workshop.
+They will get back to a more traditional way of preparing presents, like
+Elderly Elves who live more than 500 years, remember.  In short, every Elf
+works in their own garage. They receive the Christmas wishlists of neighboring
+families: crafting toys, sewing clothes, or cooking delicious cookies.</p>
+<p>One particularly annoying task for work-from-home Elves, however, is to wrap
+presents. They had avoided this task in the recent years thanks to automation.
+Elves all have different pieces of wrapping-paper at home, in particular
+wrapping-paper rolls vary in ratio and vary in size from one Elf to another
+one. Elves want some software to help them cut wrapping-paper for the
+presents they prepare. Some Elves have tools to cut paper (think of a
+cookie-cutter, but for large sheets of paper), whereas others only have
+cissors. Wrapping may become scarce if used inefficiently, and anyway ordering
+takes time. Thus, they would like to have a rough idea of how to efficiently
+cut the paper rolls given their own specific constraints. It does not have to
+be perfect, but it cannot be completely naive either. Thus, Elves need some
+creative idea to save Christmas’ spirit. For the better or for the worst
+Elves resorted to use software.</p>
+<p>Fortunately, an Elf has learnt Haskell, a language especially good for building
+small command line tools and with libraries to generate images. He also
+has learnt MiniZinc, a language especially good for solving this family of
+problems. Put together, these languages can help building a small tool that
+Elves can run at home with their own input. This computer-savvy Elf suggests
+the following tradeoff:</p>
+<ul>
+<li>Elves will input the quantity and shape of the wrapping for the presents (or
+the shape of their cookie-cutter tools that fit for the present)
+</li>
+<li>the shape of the wrapping is blocky, that is, made of various rectangle
+blocks, rather than arbitrarily shaped (it simplifies cutting and folding
+paper with rulers and guides anyway)
+</li>
+<li>Elves will also input the size of their own paper sheets
+</li>
+<li>the output is a footprint image of how to cut the paper to fit all present
+(when possible)
+Some Elves expected more specialized tools, some cared especially about saving
+wrapping paper. However, time is running out, our software Elf-ineer only has a
+day to build this software or it will be too late to save Christmas.
+</li>
+</ul>
+<p>I am not sure I should reveal this, but, I work in Santa Incorporated oh oh oh.
+Do not tell your kids! in exchange I’ll explain you how I built <code>santa-wrap</code> in
+a rush to help the Elf. Thus, the main goal for this article is to relate how
+to iterate quickly on a practical one short day project. Secondary goals are to
+pike your interest about MiniZinc and introduce you a library named
+<code>minizinc-process</code>.</p>
+<h2>Approach</h2>
+<p>The type of problem for cutting wrapping paper is known as a Packing problem.
+These problems are generally difficult to solve efficiently. However, for small
+sizes or particular form of constraints, some solutions could be efficiently
+found (or the litterature may have some heuristics that work well empirically).
+Generally, the difficulty comes from integrality of constraints, that is you
+either can wrap a present or not wrap the present, you cannot wrap a fraction
+of a present. Such problems come up a lot in industrial settings where some
+resource is scarce. In this particular case, we cheated a bit as we came with
+an idea to write a blog post. However, with a bit of practice you will
+recognize packing problems everywhere.</p>
+<p>We want to show off how to combine MiniZinc (a mathematical optimization
+language and toolchain) with Haskell (which readers of this Advent of Haskell
+submission are familiar with). We will show the progression of a tool, with
+building a value-adding prototype in a day or two of work for some Elf familiar
+with Haskell and Minizinc.</p>
+<h2>Motivating our Iterations</h2>
+<p>The author built this tool in four broad iterations: implement a demo solver
+in MiniZinc, generate simple pictures for each wrapping, introduce the concept
+of layout, and, bridge the solver. We motivate each iteration before jumping
+into lengthier explanations.</p>
+<p><em>Implemeting a solver in MiniZinc</em>: I wanted to leverage powerful global
+constraints with their own heuristics/optimized solutions that exist in
+MiniZinc. Such a model helps us formalize the problem in better terms and
+understand what are inputs and what are outputs. In a business settings, such
+prototypes allow to raise the important questions. In that case, the whole
+problem is solved with a single <a href="https://www.minizinc.org/doc-2.3.0/en/lib-globals.html#packing-constraints">global contraint</a> named <code>geost_bb</code>. Knowing
+which constraints help modeling a problem is a type of expertise that takes
+time to acquire but that can change drastically the viability of such a tool.</p>
+<p><em>Generate simple pictures</em>: our tool needs to generate pictures of the
+wrapping, and I find a blog-post with picture more appealing than without.
+Visualizations illustrate the problem. I am not familiar with low-level
+graphics libraries. I typically use high-level tools for my charts like <a href="https://ggplot2.tidyverse.org/">ggplot
+in R</a> – they typically get in the way if what
+you want is pixel-perfect position of image width/height. For this exercise,
+I found <a href="https://hackage.haskell.org/package/JuicyPixels">JuicyPixels</a> and I
+need to validate quickly that JuicyPixels will fit the needs.  This library is
+appealing because I could generate PNGs with little dependencies. I had some
+experience with <a href="https://hackage.haskell.org/package/gloss">Gloss</a>. However, I
+discarded this choice for I only need static images and not animations (and
+Gloss has way more dependencies than JuicyPixels).</p>
+<p><em>Introduce the concept of layout</em>: pictures become more interesting when we
+start to have multiple boxes. Once I know how to print a layout I am done with
+the graphical aspects of the problem. Minor improvements can still come later
+but it is mind-relaxing to call something done. Further, at this point it is
+easy to show some naive layouts.</p>
+<p><em>Bridge the solver</em>: this is the boiler-plate part of the work.
+<code>minizinc-process</code> actually have a TemplateHaskell helper to generate an input
+and output representations but this approach is limited: it cannot work with
+sets in its current version and does not preclude writing boilerplate to
+transform between “business-domain” representations and solver input/output
+representations. Plus, the goal of the article is to illustrate the pro/cons.
+This part of boiler-plate is the one requiring the most care, hence my usage of
+newtypes to differentiate indices.</p>
+<p>Graphically, the following dependency graph shows the various steps I had in
+mind.  <img src="images/deps.png" alt="img" /> In red are the two chunks of work which I
+assessed has being the most uncertain (i.e., requiring the most discovery) or
+most meticulous (i.e., spending time building accurate types to reduce the risk
+of bugs).</p>
+<p>Let’s discuss how this four iterations looked like.</p>
+<h2>The four iterations</h2>
+<p>We now dive in more details into each iteration. Recall that I time-boxed this
+project to the equivalent of a short-day-of-work. Readers should be able to
+read these independently.</p>
+<h3>A solver in MiniZinc</h3>
+<p>We basically call the <em>global contstraint</em> <code>geost_bb</code>. Let’s unpack how it
+works, starting from a small MiniZinc overview and a mini tutorial on
+<code>geost_bb</code>.</p>
+<p>In <a href="https://www.minizinc.org/">MiniZinc</a> you separate the structure of a
+problem (which we call a model) and its particular instance (determined by
+input parameters). Thus a model can run for various input parameters. Further,
+the model separate two families of variables: the <em>par</em> variables (parameters
+that are given or can be deterministically computed from other parameters) and
+<em>var</em> variables (decisions that the solver will make). Constraints are
+statement that link variables together. The solver, then works out solutions
+(that is assignments of variables) that are consistent with all constraints. It
+is typically easy to verify that a given assignment matches all constraints.
+For instance, in our Santa-Wrap tool can visually inspect whether or not
+cutting guides for different present intersect. Whereas, it is typically hard
+to find a given assignment for all possible <em>par</em> inputs (or an optimal one
+when a criteria of goodness exists).</p>
+<p>In Haskell parlance: <code>solver :: Model -&gt; Parameters -&gt; Maybe Decisions</code>, which,
+partially-applied for some <code>Model</code> would give <code>solveProblem :: Parameters -&gt; Maybe Decisions</code>. To encode this faithfully in Haskell we would need to ensure
+that the <code>Parameters</code> and <code>Decisions</code> types actually depends on the <code>Model</code>;
+somehow, discussing these type-level programming techniques is out of scope for
+this article.</p>
+<p>Typically, writing MiniZinc is a bit like SQL queries: you describe what you
+want and let the engine fetch it for you. The ability to summon a magic tool to
+solve our wishes comes with some limitations: expressivity is limited, and you
+need to be careful what you wish for. For instance, when writing MiniZinc you
+need to discuss about finite inputs/outputs (e.g, no unbounded recursion).
+Further, small changes on the structure of the problem can drastically change
+performance (like switching from a index scan to a table scan in SQL query
+plan).</p>
+<p>The comparison with SQL does not stops at the declarative aspect. Typical
+domain models in Haskell have collections such as
+<a href="https://hackage.haskell.org/package/base-4.14.1.0/docs/Data-List.html">Lists</a>
+or
+<a href="https://hackage.haskell.org/package/containers-0.6.4.1/docs/Data-Map.html">Maps</a>
+or custom <a href="http://www.cse.chalmers.se/edu/year/2018/course/TDA452/lectures/RecursiveDataTypes.html">recursively-shaped objects</a> etc. Once mapped into tabular form in SQL, special
+conversion care is required.  For instance, in Haskell, a type <code>User { age :: Int , height :: Int }</code> would map to a set of integers (one user-id per user)
+and two arrays indexed by user-id. So that Haskell domain objects like these.</p>
+<pre><code class="language-haskell">users :: [ User ]
+users = [ User 23 172, User 45 180, User 36 165 ]
+</code></pre>
+<p>Would translate to the following MiniZinc.</p>
+<pre><code class="language-mzn">set of int: USER = 1..3;
+array[USER] of int: age = [ 23, 45, 36 ];
+array[USER] of int: height = [ 172, 180, 165 ];
+</code></pre>
+<p>Readers familiar with Relational Algebra, DataParallel Haskell, Columnar
+Storage, or Entity Component System will find comonalities. We will work this
+out for our problem in more detail in the last iteration. So now let’s look at
+<code>geost_bb</code>.</p>
+<p>Here is a snapshot of <code>geost_bb</code>
+<a href="https://www.minizinc.org/doc-2.5.0/en/lib-globals.html">documentation</a>
+<img src="images/geost-doc.png" alt="img" />. Which sorts of packs blocky-structure on a
+multi-dimensional space. This constraint does not try to shrink gaps between
+objects, it “merely” (I don’t want to downplay how great this is) force
+assignments of variables such that no overlap exists between the packed
+objects.</p>
+<p>We annotate the parameters below to explain why using this function make sense
+in Santa-Wrap.  Besides the opaque name, it does exactly what we want to help
+the Elves and even a bit more.</p>
+<ul>
+<li><em>k</em>: here we live in two dimensions, that an easy parameter, we’ll hardcode it
+</li>
+<li><em>rect_size</em>: size of each rectangles along each dimension
+</li>
+<li><em>rect_offset</em>: offset of rectangles long each dimension
+</li>
+<li><em>shape</em>: wrapping shapes are built from a set of a rectangles, for instance presents
+we can wrap in a simple rectangle would have a single rectangle. More
+elaborated wrapping shapes may require two or more adjacent rectangles.
+For instance the sword here is built with two overlapping rectangles:
+<img src="images/sword.png" alt="img" /> a rectangle is horizontal (largest <em>rect_size</em> is the 1st dimension) and another rectangle is vertical (largest <em>rect_size</em> is the 2nd dimension) and both rectangles are translated along an axis (i.e., one non-zero <em>rect_offset</em>). Multiple shapes could re-use the same rectangles if
+they happen to match (hence, saving a bit on the complexity – but we won’t go into this   level of sophistication).
+</li>
+<li><em>l</em> and <em>u</em>: upper and lower bounds for each wrapping, in our case all
+objects can equally be positioned on the wrapping, hence the lower bound is 0
+and the upper bound the size of the roll (minus one if you care about
+millimeters and took no margins of error at all in your measurements)
+</li>
+</ul>
+<p>Then <code>geost_bb</code> then contributes constraints to tell the solver to make a
+number of decisions:</p>
+<ul>
+<li><code>x</code>: the coordinates of the <em>wrapping shapes</em> (which are themselves built of
+rectangular blocks). For our sword example, we need to add the <code>rect_offset</code>
+to the <code>x</code> coordinate of the shape to position a rectangle.
+</li>
+<li><code>kind</code>: the shape used by each object. This mechanism allows <code>geost_bb</code>
+to chose any shape for the different objects. External constraints actually prevent
+<code>geost_bb</code> does not know how many times it must be using the wrapping-shape
+for a sword, and unconstrained the solver would rather prefer the simpler
+wrapping-shape for a book. This mechanism actually is a feature: the freedom
+to pick among shapes allows to model rotation of shapes, we will not use this
+for now.
+</li>
+</ul>
+<p>In our case, for a first version of the tool we do not need to make that many
+decisions: only <code>x</code> above is required. Declaring all inputs to give to
+<code>geost_bb</code> is required, however. We still need to actually declare our <code>par</code>
+and <code>var</code> variables.</p>
+<p>We will have to discuss about a number of entities:</p>
+<ul>
+<li>two dimensions: <code>int: nDims = 2; set of int: DIM = 1..nDims</code>
+</li>
+<li>wrapping shapes:  <code>int: nShapes; set of int: SHAPE = 1..nShapes</code>
+</li>
+<li>rectangular blocks: <code>int: nBlocks; set of int: BLOCK = 1..nBlocks</code>
+</li>
+<li>each object we need to wrap: <code>int: nObjs; set of int: OBJ = 1..nObjs</code>
+</li>
+<li>the roll: it is implicit that we cut one roll, so we do not need to declare anything
+</li>
+</ul>
+<p>Then, some characteristics of entities:</p>
+<ul>
+<li>the size of the roll: <code>int: x_max; int: y_max</code>
+</li>
+<li>the size of individual rectangular blocks and their offsets in each dimension: <code>array[BLOCK,DIM] of int: rect_sizes; array[BLOCK,DIM] of int: rect_offs</code>
+</li>
+<li>the coordinates of where to position cuts for our solution: <code>array[OBJ,DIM] of var int: coordinates</code>
+</li>
+</ul>
+<p>Finally there is relational information linking various entities.</p>
+<ul>
+<li>to each object we associate a given shape (present1 is a Guitar, present2 is a book etc.): <code>array[OBJ] of SHAPE: object_shapes;</code>
+</li>
+<li>each shape is the collage of a set of rectangle, we could use various
+external representation to model the set of rectangles (e.g., an
+<code>array[SHAPE,RECTANGLE] of bool</code> is isomorphic to an <code>array[SHAPE] of set of RECTANGLE</code>) but we will stick to the <code>set</code> representation that <code>geost_bb</code>
+requires (using  another input would require extra constraints to link input
+and <code>geost_bb</code> representations)
+</li>
+</ul>
+<p>All in all, the model is in <code>models/santa-wrap.mzn</code> and an example input for it is <code>models/santa-wrap001.dzn</code>. You can run it with <code>minizinc models/santa-wrap.mzn models/santa-wrap001.dzn</code>. And the output I got was:</p>
+<pre><code>coordinates = array2d(1..10, 1..2, [8, 0, 0, 6, 7, 0, 0, 5, 6, 0, 0, 4, 4, 0, 0, 2, 2, 0, 0, 0]);
+</code></pre>
+<p>Which you can read as “first object” is a (8,0), the “second object” is at
+(0,6) etc. Elves could work with such an output, however a visual display is
+better. Plus they want to prepare their cutting boards, build guides, or simply
+pass an eye-check that things are in the right place.</p>
+<h3>Generate simple pictures</h3>
+<p>I have had little interest in graphics in the past. Thus I vaguely know some
+Haskell libraries exist like
+<a href="https://hackage.haskell.org/package/diagrams">diagrams</a>, <code>gloss</code>,
+<code>JuicyPixels</code>, or <a href="https://hackage.haskell.org/package/reanimate">reanimate</a>.
+For this project, I had to dive a bit more and actually pick some library. My
+choice settled on <code>JuicyPixel</code> for two main reasons: on the first hand, this
+library has only a small amount of dependencies (especially system dependencies
+– <code>gloss</code> requires some OpenGL). On the other hand, the documentation was
+welcoming: I looked for <code>IO ()</code> because I looked for some “main” or “print”
+equivalent. The first hit on the top module is <code>generateImage</code>.  No kidding, here
+is the screenshot to prove it: first hit <img src="images/haddock-jp.png" alt="img" />.</p>
+<p>The type information tells me the library actually scans every pixel one by
+one. It is very likely super inefficient. That said, the cost of optimizing the
+packing is the major bottleneck in this problem. Elves can wait a minute to
+save hours. A warming case that does not corroborate the claim that Haskell
+libraries are poorly documente. My first action was to verify that the example
+actually works.</p>
+<pre><code class="language-shell">cabal repl
+&gt; import Code.Picture
+&gt; let path = &quot;images/toto.png&quot;
+&gt; let pixelRenderer x y = PixelRGB8 (fromIntegral x) (fromIntegral y)
+&gt; writePng path $ generateImage pixelRenderer 250 300
+</code></pre>
+<p>And voila! <img src="images/toto.png" alt="img" /> thank you so much <code>JuicyPixels</code>. It’s not
+“too good to be true”: the example works.</p>
+<p>Having secured that I can generate PNG, what is left? we need to define some
+Haskell data types to map loosely with what I’ve learnt is required in the
+MiniZinc optimization. However we’ll be using Haskell records rather than
+columnar values. The idea here is to use these data types as main Haskell types
+for parsing a format that Elves are likely to know such as JSON. Further we
+want to allow Elves to pass extra information like quantities of each present
+they will wrap, colors and names for pictures before crafting the guides etc.</p>
+<p>Some excerpt:</p>
+<pre><code class="language-haskell">data Wrapping = Wrapping {
+    name       :: Name
+  , colorNum   :: Int
+  , quantity   :: Quantity
+  , rectangles :: [ Rectangle ]
+  } deriving (Show, Generic)
+instance FromJSON Wrapping
+
+data Rectangle = Rectangle {
+    rectX :: Length
+  , rectY :: Length
+  , offX  :: X
+  , offY  :: Y
+  } deriving (Show, Generic)
+instance FromJSON Rectangle
+</code></pre>
+<p>Wrappings are built of Rectangles. Each Rectangle as length/width (lengths in
+both dimensions <code>rectX</code>, <code>rectY</code>) as well as some offset in both dimension. In
+addition, each Wrapping has a name, a quantity and some color to visualize more
+easily a layout. But before speaking about Layouts, what we can do is to
+generate pictures for each Wrapping. This way, Elves can calibrate the units
+and verify individual length.</p>
+<p>I need to adapt the <code>JuicyPixels</code> example I copy pasted to build a function
+<code>printWrapping :: Wrapping -&gt; IO()</code>. In short, it has a <code>Wrapping</code> and its
+associated <code>Rectangles</code> in scope and we need to implement <code>pixelRenderer</code>.</p>
+<p>So I’ll build utility functions <code>findRectangle x y</code> which finds a rectangle
+with the right sizes and offset to contain the pixel <code>(x,y)</code>.</p>
+<p>A single pixel and rectangle test is</p>
+<pre><code>rectangleContainsPixel x y rect =
+  let x0 = scale $ offX rect
+      x1 = scale $ offX rect + rectX rect
+      y0 = scale $ offY rect
+      y1 = scale $ offY rect + rectY rect
+  in  x0 &lt;= x &amp;&amp; x &lt; x1 &amp;&amp; y0 &lt;= y &amp;&amp; y &lt; y1
+</code></pre>
+<p>Which checks for intervals in both X and Y. The <code>scale</code> function just
+multiplies tenfold every magnitude (i.e., a dimension of 1 Length is shown with
+10 pixel). With that utility function we can now test every rectangles: if some
+is found, we color the Pixel with some value, otherwise we use default
+background value.</p>
+<pre><code class="language-haskell">pixelRenderer x y =
+  case findRectangle x y of
+    Nothing -&gt; PixelRGB8 (fromIntegral x `mod` 32) (fromIntegral y `mod` 32) 128
+    Just idx -&gt; pixelColor idx
+
+findRectangle x y = List.findIndex (rectangleContainsPixel x y) (rectangles wrapping)
+</code></pre>
+<p>I use <code>List.findIndex</code> so that on a hit i can also attribute some color (see
+<code>pixelColor :: Int -&gt; PixelRGB8</code> which defines a palette) and paint the
+rectangle in a different color.</p>
+<p>Another utility function is needed to give <code>JuicyPixel</code> the size of the picture
+to create.  This size corresponds to the farthest point in the set of off-set
+rectangles <code>maxX = maximum (0 : [ rectX r + offX r | r &lt;- rectangles wrapping ])</code>, I named this value the <code>extentX</code> of a <code>Wrapping</code> in later commits.  I use
+comprehension list notation. I add a 0 so that <code>maximum</code> does not crash on an
+empty list.</p>
+<p>Our <code>main</code> function basically parses <code>stdin</code> into some <code>[Wrapping]</code> and
+<code>traverse</code> this list with our PNG generator.</p>
+<pre><code class="language-haskell">mainParts = do
+  wrappings &lt;- eitherDecode' @[Wrapping] &lt;$&gt; ByteString.getContents
+  case wrappings of
+    Left err -&gt; print err
+    Right xs -&gt; traverse_ printWrapping xs
+  putStrLn &quot;done!&quot;
+</code></pre>
+<p>The parsing leverages the automatically-generated <code>instance FromJSON</code> from
+<code>aeson</code> (extension <code>DeriveGeneric</code>).  Note that we use <code>TypeApplications</code> for
+the syntax <code>@[Wrapping]</code> which explicitates what we are decoding from the
+content in <code>stdin</code>, which also helps GHC provide less general error message
+when I change and break things.</p>
+<p>This way, our main binary can generate individual images.</p>
+<pre><code class="language-console">$ santa-wrap parts &lt; input/wrapping001.json 
+$ done!
+</code></pre>
+<p>The parts are individual <code>.png</code> files as this listing shows:
+<img src="images/parts.png" alt="img" />.  Elves can use these parts to prepare some guides to
+later cut wrapping paper rapidly.</p>
+<p>Now let’s finally introduce the concept of layout.</p>
+<h3>Introduce the notion of layout</h3>
+<p>The layout is a collection of positioned wrappings. There’s an obvious Functor
+instance for Positioned. I could refactor Rectangle into a Positioned Rect.
+This way, a Layout is a <code>[ Positioned [ Positioned Rect ] ]</code> and it is probably
+collapsable into a single list by translating the inner Positioned objects.
+Something like <code>flatten :: [ Positioned [ Positioned a ] ] -&gt; [ Positioned a ]</code>
+I feel tempted to actually dig in this direction. However, I’m far from done
+and the clock ticks. In short, I will save this for later and perform a good
+amount of copy-pasting.</p>
+<p>The Haskell code is simply:</p>
+<pre><code class="language-haskell">data Positioned a = Positioned {
+    posX :: X 
+  , posY :: Y 
+  , item :: a 
+  } deriving (Show, Functor)
+    
+data Layout = Layout {
+    positionedWrappings :: [ Positioned Wrapping ]
+  } deriving (Show) 
+</code></pre>
+<p>And now my <code>printLayout</code> function has a very similar <code>pixelRenderer</code>.
+Two distinctions though:</p>
+<ul>
+<li>to color a pixel you need to determines if a <code>Wrapping</code> has a <code>Rectangle</code>
+and the <code>Rectangles</code> are translated by <code>posX</code> and <code>posY</code>.
+</li>
+<li>we want to add a few pixels of <code>margin</code> so that a series of adjacent squares
+do not appear like a long rectangle, this small margin will ease verifying
+layouts at a glance.
+</li>
+</ul>
+<p>Hence, our <code>rectangleContainsPixel</code> test takes all these things into account:</p>
+<pre><code class="language-haskell">rectangleContainsPixel :: X -&gt; Y -&gt; Int -&gt; Int -&gt; Rectangle -&gt; Bool
+rectangleContainsPixel posx posy x y rect =
+        let x0 = scale $ posx + offX rect
+            x1 = scale $ posx + offX rect + rectX rect
+            y0 = scale $ posy + offY rect
+            y1 = scale $ posy + offY rect + rectY rect
+        in  (x0 + margin) &lt;= x &amp;&amp; x &lt; (x1 - margin) &amp;&amp; (y0 + margin) &lt;= y &amp;&amp; y &lt; (y1 - margin)
+</code></pre>
+<p>How do you verify that the margin is pretty enough? Simply generate a naive
+Layout function. We just lay out shapes left-to-right.</p>
+<pre><code class="language-haskell">linearLayout :: [ Wrapping ] -&gt; Layout
+linearLayout wrappings = Layout $ List.zipWith (\w (x,y) -&gt; Positioned x y w) wrappings xys
+  where
+    xys :: [(X,Y)]
+    xys = List.scanl placeToTheLeft (0,0) wrappings 
+
+    placeToTheLeft :: (X, Y) -&gt; Wrapping -&gt; (X, Y)
+    placeToTheLeft (x,y) w = (x + extentX w, 0)
+</code></pre>
+<p>The interesting aspect is the use of <code>List.scanl</code> to perform a fold an
+accumulate intermediary values.  The accumulator is the position for the next
+<code>Wrapping</code> (hence, we start at <code>(0,0)</code> and then we move right by an amount
+large enough to ensure there will be no overlap: what we named the <em>extent</em> of
+the wrapping shape.</p>
+<p>This function does not even take care of the bounds of the roll.  This function
+is merely useful to have some comparison point and to exercise the
+<code>printLayout</code> function.</p>
+<p>Running the following command will give the image below.</p>
+<pre><code class="language-console">$ santa-wrap linear-layout ./layout.png &lt; input/wrapping003.json 
+done!
+</code></pre>
+<p><img src="images/linear-layout.png" alt="img" /></p>
+<p>Now we see the margins, the coloring. We also have a MiniZinc model for
+non-naive layouts. Let’s bring the two things together.</p>
+<h3>Actually bridge the Haskell and MiniZinc code</h3>
+<p>Showcasing my <code>minizinc-process</code> library is, a main motivator (second to saving
+Christmas’ spirit, though).</p>
+<p>Remember that, we want to approach ergonomics for the solver so that in
+Haskell-land it feels like we have a function <code>solver :: Model -&gt; Parameters -&gt; Maybe Decisions</code>.  Here enters <code>minizinc-process</code>, an helper library that
+actually uses MiniZinc support for JSON input/outputs.  This is feasible with
+<code>runLastMinizincJSON</code>, which has type:</p>
+<pre><code class="language-haskell">runLastMinizincJSON ::
+  (ToJSON input, FromJSON answer) =&gt;
+  MiniZinc input answer -&gt;
+  input -&gt;
+  IO (Maybe answer)
+runLastMinizincJSON = ...
+</code></pre>
+<p>The typeclass constraints on <code>input</code> and <code>output</code> allow to serialize back and
+forth using JSON.  The <code>Minizinc input answer</code> actually contains the model
+(e.g., a filepath to the <code>models/santa-wrap.mzn</code> file) and parameters for
+driving MiniZinc (i.e., which solver to use, whether there is a timeout or to
+search forever, but also, how to create intermediary <code>.json</code> input files that
+play the role of the <code>models/santa-wrap001.dzn</code> for each different possible
+input).  For this project, we use the <code>simpleMiniZinc</code> constructor to get a
+<code>Minizinc</code>that also adds some <code>Hashable</code> constraint on the input type so that
+we can generate filenames.  Fortunately, <code>Hashable</code> is generically-derivable as
+well so little boilerplate is incured.</p>
+<p>The <code>runLastMinizincJSON</code> functions runs for up to the timeout provided in the
+MiniZinc option and return the latest decisions (if there is any).  A more
+general function <code>runMinizincJSON</code> exists. This function takes a state-machine
+named <code>ResultHandler</code> to handle individual results. Indeed, we can ask MiniZinc
+to return multiple solutions, prove that there are no more solutions, and
+handling this variety of cases asks for more complicated types.</p>
+<p>The underlying type are:</p>
+<pre><code>data SearchState a
+  = Exhausted a
+  | Incomplete a
+  | Unsatisfiable
+  | InternalError String
+
+data ResultHandler obj b
+  = ResultHandler
+  { handleNext :: b -&gt; SearchState obj -&gt; IO (b, Maybe (ResultHandler obj b))
+  }
+</code></pre>
+<p>The result handler is parametrized by <code>obj</code> which are the decisions that the
+solver makes, and the handler is also parametrized by <code>b</code> – an accumulator
+state like in a fold. A handler is called each time the search changes
+SearchState. The handler is free to do what it wants but must return an updated
+state and an updated handler (or an absence of handler to tell the library that
+we can stop the search).  Later versions of the library will likely generalize
+IO in the handler to some parametric class.</p>
+<p>There is not much more to <code>minizinc-process</code>. Let’s use it in practice.</p>
+<p>We need to translate two worldviews for the same information, back and forth.
+MiniZinc expects data in array shapes and other parameters giving the length of
+these arrays whereas our Haskell data is meant to help interactions with users.
+Hence, the Haskell datatypes closely follow Elf-semantics. Typically,
+translation code between two worldviews benefits from careful newtypes to
+distinguish array indices. Indeed, every entity becomes identified by an index
+and it is all too common to make an error.  Multi-dimensional arrays have some
+support for types in MiniZinc but the data serialized in JSON do not.</p>
+<p>The risk we want to reduce is to mix-up array indices and mix-up the
+terminology. This is where newtypes shine in Haskell. Two extensions,
+<code>DerivingStrategies</code> and <code>GeneralizedNewtypeDeriving</code> come handy to
+save on boilerplate.</p>
+<pre><code class="language-haskell">newtype ShapeIdx = ShapeIdx Int
+  deriving stock Show
+  deriving stock Eq
+  deriving newtype Hashable
+  deriving newtype ToJSON
+newtype BlockIdx = BlockIdx Int
+  deriving stock Show
+  deriving newtype Hashable
+  deriving newtype ToJSON
+</code></pre>
+<p>We can now write an Haskell data type for the input. This data type has fields
+mapping closely the names of <code>par</code> variables in MiniZinc (which you find
+declared in the <code>./models/santa-wrap001.dzn</code>). Arrays map to lists, two
+dimensional arrays become nested lists. Sets required me to define an
+indirection named <code>MinizincSet</code> (will be merged upstream) to match MiniZinc
+expectations for its JSON inputs. Thus, my Input and Output types become.</p>
+<pre><code class="language-haskell">data Input = Input {
+    nBlocks :: Int
+  , rect_sizes :: [[Int]]
+  , rect_offs :: [[Int]]
+  , nShapes :: Int
+  , shapes :: [ MinizincSet BlockIdx ]
+  , nObjs :: Int
+  , object_shapes :: [ ShapeIdx ]
+  , x_max :: Int
+  , y_max :: Int
+  } deriving (Show, Generic)
+instance Hashable Input
+instance ToJSON Input
+
+data Output = Output {
+    coordinates :: [ (X, Y) ]
+  }
+  deriving (Show, Generic)
+instance FromJSON Output
+</code></pre>
+<p>The rest of the work now requires to build a <code>convertInput</code> function that takes
+Haskell domain values, map that into an Input. This mapping will require to
+give integral IDs to entities. For instance, each individual <code>Wrapping</code> in the
+input requires as many <code>OBJECT</code> as the <code>quantity</code> requires.
+I typically use list-comprehensions and zipping with <code>[1..]</code> to achieve this indexing.</p>
+<p>For instance, each <code>Wrapping</code> has one <code>SHAPE</code> in our problem.
+Thus, we provide an indexed list of shapes and its “originating” <code>Wrapping</code> as follows.</p>
+<pre><code class="language-haskell">indexedWrappings :: [(ShapeIdx, Wrapping)]
+indexedWrappings = zip (fmap ShapeIdx [1..]) wrappings
+</code></pre>
+<p>The <code>BLOCK</code> and their <code>rect_sizes, rect_offs</code> are a bit more complicated.  To
+build everything we want, we need a “table” with, for each SHAPE, what BLOCK it
+is made of, and the “originating” <code>Rectangle</code> to get carry the sizes and
+offsets.</p>
+<pre><code class="language-haskell">indexedRects :: [(ShapeIdx, BlockIdx, Rectangle)]
+indexedRects = zipWith (\blockIdx (shapeIdx, r) -&gt;  (shapeIdx, blockIdx, r))
+  (fmap BlockIdx [ 1.. ])
+  [ (shapeIdx, r) | (shapeIdx,w) &lt;- indexedWrappings, r &lt;- rectangles w ]
+</code></pre>
+<p>We can then compute the number of <code>BLOCK</code>, which is <code>nBlocks = length indexedRects</code>.  An optimization could have been to share equal blocks when
+shared across <code>SHAPEs</code> (i.e., when a same <code>Rectangle</code> appears in two
+<code>Wrappings</code>). Let’s not suffer from early optimization.</p>
+<p>We can now build the <code>rect_sizes</code> and <code>rect_offs</code> of each <code>BLOCK</code> by directly
+looking at the values associated in the “originating” <code>Rectangle</code>.</p>
+<pre><code class="language-haskell">rect_sizes = [ [rectX r, rectY r]  | (_,_,r) &lt;- indexedRects ]
+rect_offs = [ [offX r, offY r] | (_,_,r) &lt;- indexedRects ]
+</code></pre>
+<p>and the relational information “which SHAPE contains which BLOCK” is a reading
+of the ‘join’ of the <code>indexedRects</code> and the <code>indexedWrappings</code> tables. Again,
+we use comprehension-lists to the cardinal product of the two tables (and
+collecting that in <code>MinzincSet</code>).</p>
+<pre><code class="language-haskell">shapes = [ MinizincSet
+           [ blockIdx | (shapeIdx2,blockIdx,_) &lt;- indexedRects
+                      , shapeIdx1 == shapeIdx2
+           ]
+         | (shapeIdx1,_) &lt;- indexedWrappings
+         ]
+</code></pre>
+<p>Performance could become a concern for large amount of <code>Wrapping</code> and large
+amount of <code>Rectangle</code>. However, again, we are not chasing seconds in
+serialization/translation code as we are ready to spend minutes of solver-time
+to saves hours to our Elves. If data proves this piece of code is the
+bottleneck in practice, we can then try to optimize further this type of code.
+Since the code is pure, it is really amenable to property testing under
+QuickCheck or HedgeHog: for any data, both the (slow)-reference and
+(putatively-optimized)-candidate functions are returning equal outputs.</p>
+<p>Finally, our MiniZinc model wants <code>OBJECT</code>, one per present rather than one per
+Wrapping objects (the Haskell data model holds a quantity). I mistakenly did
+two things at a time: expanding quantities  and associating a Shape to each
+Wrapping.  <code>flattenedWrappings</code> in the heat to release something early for our
+Elves.</p>
+<pre><code class="language-haskell">flattenedWrappings :: [(ShapeIdx, Wrapping)]
+flattenedWrappings = mconcat [ replicate (quantity w) (shapeIdx, w) | (shapeIdx, w) &lt;- indexedWrappings ]
+</code></pre>
+<p>This code means that if we have <code>Wrapping { name = abc , quantity = 2 }</code> and <code>Wrapping {name = def, quantity = 5}</code> then we have to lay out seven <code>OBJECT</code>, two of <code>SHAPE</code> associated to <code>abc</code> and five of <code>SHAPE</code> associated to <code>def</code>. The corresponding boilerplate is:</p>
+<pre><code class="language-haskell">nObjs = length flattenedWrappings
+object_shapes = fmap fst flattenedWrappings
+</code></pre>
+<p>I think this covers most of the boiler-plate. Extra function arguments are the size of the roll</p>
+<pre><code class="language-haskell">x_max = sizeX
+y_max = sizeY
+</code></pre>
+<p>It is tempting to just write the “forward translation code” and call it a day.
+In reality, if you were a consumer of such a library, you would like to
+minimize this horrendous boiler plate, and you still need some “reverse
+translation code”.  Be kind to your users. You have done a lot of work to
+create “indexed” arrays once, you’d rather not duplicate this code. Even if you
+do not duplicate the code, having colocated everything within the constraints
+of a pure function will guarantee you that no non-determinism creeps in.
+Hence, you should make a “reverse translation function” at the same time as you
+translate forward. Bonus: you can guarantee that calls of unsafe functions
+(like array indexing) actually are safe because you are writing the providing
+and consuming dynamically-shaped data at the same place.</p>
+<p>Indeed, because we have access to <code>flattenedWrappings</code> our “reverse translation
+code” is a single line.</p>
+<pre><code class="language-haskell">layoutOutput :: Output -&gt; Layout
+layoutOutput (Output coords) = Layout
+    $ zipWith (\w (x,y) -&gt; Positioned x y w) [w | (_,w) &lt;- flattenedWrappings] coords
+</code></pre>
+<p>Writing all this boilerplate takes time (hence why I circled it red at the
+beginning in my dependency graph for the tasks in this project). Such
+translation code would be hard to generate in the general case. Hence I do not
+have very good solutions but to be careful and use <code>newtype</code> for each index.
+The good news, however, is that it is pretty easy to debug: generate simple
+cases with one then two <code>Wrapping</code>, observe the generated <code>.json</code> file.</p>
+<p>At last we can be gratified. A simple <code>main</code> that ressembles the one for
+<code>linearLayout</code> allows us to generate layouts for given roll sizes.</p>
+<pre><code class="language-console">$ santa-wrap minizinc-layout ./layout-190x150.png 190 150 &lt; input/wrapping003.json
+done!
+$ santa-wrap minizinc-layout ./layout-170x160.png 170 160 &lt; input/wrapping003.json
+done!
+$ santa-wrap minizinc-layout ./layout-170x159.png 170 159 &lt; input/wrapping003.json
+no layout found!
+</code></pre>
+<p>The first command greets us with the following picture
+<img src="./images/layout-190x150.png" alt="img" />.  We can try shrinking the Y-coordinates,
+160 is still good, but 159 is too hard (note: it is actually infeasible but the
+<code>runLastMinizincJSON</code> function makes no distinctions between timeout and
+unfeasible).  Visual inspection of the Y=160 case seems to show
+that the two cross-shaped and the big rectangle are the main reasons to limit
+the roll size <img src="./images/layout-190x150.png" alt="img" />.</p>
+<p>Convince yourself with this picture (done by modifying the input JSON to delete everything but the <em>shoes</em> and the <em>sword</em> entries:
+<img src="./images/layout-restricted.png" alt="img" />.</p>
+<p>OK, with this <code>santa-wrap</code> tool, Elves are in good shape to save Christmas’
+spirit. Thank you MiniZinc and Haskell!</p>
+<p>For the fun try packing that yourselves (input is <code>input/wrapping005.json</code>)
+<img src="images/layout-robot-200x240.png" alt="img" /></p>
+<h2>Discussion</h2>
+<p>Given more times, a number of possible improvements could happen. For a work
+project more discussions with the Elves would help adding more constraints to
+the Model. We next discuss some possible “improvements”.</p>
+<h3>Possible improvements</h3>
+<p>Elves have deadlines too, although they would love to keep improving their
+tools, they have other important (albeit slightly more mundane) tasks at their
+day jobs. Besides the discussion about Positioned being an interesting
+abstraction, I want to discuss improvements to the solver/problem itself and
+illustrate how business ideas are generated/pruned with such discussions.</p>
+<p>A user may suggest improvements to the tool, but not all improvements are
+equally easy to introduce. Here are a few options:</p>
+<ul>
+<li>easy: reduce some cost (material spent) ; you would need to change the
+satisfyability into some optimiziation trying to minimize the area bounded by
+maximum X-Y coordinates
+</li>
+<li>medium: pick an orientation (left-right vs. up-down) ; you would need to
+change Input, Output, and the model to tell which shapes an object can take,
+but <code>geost</code> already takes care of that
+</li>
+<li>hard: attribute multiple rolls at once ; you would need to change Input,
+Output, and the model to pass a number rolls (maybe to each one their size)
+and modify the MiniZinc model to decide a roll for each object; you’d generate
+two pictures per problem
+</li>
+<li>crazy-hard: time taken to cut with cissors ; you would need to significantly
+alter the model to express the notion of “gaps” or “external”.
+</li>
+</ul>
+<p>In a typical setup I would propose to deliver the easy and medium improvements
+before calling the tool done. I would suggest to propose the hard improvement
+as more data is generated to understand if Elves actually would benefit from
+such changes. I would root against the crazy hard, and even propose to equip
+Elves with cutting-tools and drop cissors would probably use total surface as a
+good enough proxy, simulators can help assess how bad.</p>
+<p>Elves would love to hear about your improvement suggestions or merge requests!
+Feel free to contact me or to open some Issues to discuss them together.</p>
+<h3>Epilogue</h3>
+<p>Alright, this blog post was longer than I expected. I wanted to show how
+Haskell can be used to solve a very practical problem and also put onto words
+some “tactical thinking” to avoid losing time on the less-important aspects
+(the one I have not circled red in my dependency diagram). My main challenge
+was to time-box my work to one day of code: on top of my Elvish missions I have
+a day job and all-in-all this is a good constraint to simulate a real-world
+situation. The information I had before starting: I knew <code>JuicyPixels</code> existed
+but had never used it before, I sort of framed the Santa-Wrap problem to
+illustrate a non-trivial MiniZinc global (<code>geost_bb</code> arguably is pretty
+advanced). I built the <code>minizinc-process</code> library and wanted a pretext to
+show-case it. I could have taken a shortcut as <code>minizinc-process</code> offers some
+TemplateHaskell to generate <code>Input</code> and <code>Output</code> datatypes (with no newtypes
+and no support for sets, the pedagogy would have suffered).</p>
+<p>An advantage of the Haskell + MiniZinc combination is to be able to use each
+tool for what they are best at. Haskell allows me to write solid backend
+services and command line tools whereas MiniZinc allows me to model using
+MiniZinc IDE (e.g., with a nice syntax for multi-dimensional arrays). In this
+setup the key difficulty is the boilerplate code required to translate inputs
+and outputs.</p>
+<p>I hope this article piqued your interest. Feel free to contact me if you are
+curious whether these types of techniques are a good fit for you.  I gave a
+presentation of MiniZinc at an online event this year, and you will find much
+more on the website and on the Coursera lessons (time consuming).</p>
+<p>Thanks to Advent of Haskell organizers and all the other articles authors.</p>
+<p>I wish you all the best for the end of 2020 and cheers to a better 2021!</p>
+<p>Oh oh oh!</p>
+</section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div></body></html>

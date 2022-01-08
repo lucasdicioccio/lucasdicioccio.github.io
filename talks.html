@@ -1,0 +1,197 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><style>* {  font-family: "Helvetica", Arial, sans-serif;  font-size: 14pt;}a {  color: inherit;}img {  display: block;  width: 80%;  padding: 20px;  margin: auto;}article {  width: 80%;  margin: auto;  margin-top: 200px;  border-top: 4px solid black;  text-align: justify;}.heading h1 {  margin-bottom: 0;}.heading p {  margin-top: 0;  line-height: 1em;  color: #ccc;}h1 {  font-size: 24pt;  text-transform: uppercase;}h2 {  font-size: 20pt;}p {  line-height: 1.4em;  border-radius: 5px;}code {  font-family: monospace;}p > code {  font-weight: bold;  color: coral;  display: inline-block;}p > em {  color: darkcyan;}pre {  background-color: #eee;  padding: 1em;  border-radius: 5px;  font-family: monospace;  font-size: 12pt;  color: darkgreen;  overflow-x: scroll;}.footing {  margin-top: 3em;  padding-bottom: 300px;  padding-top: 2em;}.social-links {  display: flex;  justify-content: space-around;}.taglist {  display: flex;  justify-content: left;}.tag {  font-size: 10pt;  font-weight: bold;  margin-left: 1em;  color: white;  background-color: #555555;  border-radius: 4px;  padding: 4px;}a.tag-link {  text-decoration: none;}.tag-name {  padding-right: 5px;}.tag-count {  padding-left: 5px;  border-left: 1px solid #ccc;}section:nth-child(2) p {  padding-left: 1em;  margin-top: 0;  margin-bottom: 0;}ul {  margin-top: 0;  list-style: none;}h2 {  text-align: center;  margin-top: 3em;  position: sticky;  top: 0;  background-color: white;}h3 {  margin-top: 2em;}div.talk p:last-of-type em::before { content: "=> ";}section{  counter-reset: t2;}h2 {  counter-increment: t2;  counter-reset: t3;}h3::before {  counter-increment: t3;  content: counter(t2) "." counter(t3) " ";}a.enquire-link, a.enquire-link:visited {  text-decoration: none;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Talks and Docs</h1><p>By <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 860 words.</p><div class="taglist"><div class="tag"><a href="/topics/about-me.html" class="tag-link"><span class="tag-name">about-me</span><span class="tag-count">2</span></a></div><div class="tag"><a href="/topics/sre.html" class="tag-link"><span class="tag-name">sre</span><span class="tag-count">1</span></a></div><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">2</span></a></div><div class="tag"><a href="/topics/minizinc.html" class="tag-link"><span class="tag-name">minizinc</span><span class="tag-count">3</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I am a bit more quiet now that I have a daughter and now that the pandemic
+started devastating the world but I’ve done quite a few presentations in the
+past. I will probably blog more in the future. In addition I’ve added a link of
+document templates that you may find useful.</p>
+<p>If you feel interested in a talk becoming an article (or, on the opposite and
+article becoming a talk), please enquire.</p>
+</section><section class="main-section"><h2>Haskell and Functional Programming</h2>
+<p>Most of my talks spree was while actively learning and applying Haskell to
+real-world problems (in a sense I still do but not in a professional context).</p>
+<h3>The Haskell Pyramid</h3>
+<div class="talk">
+<p><em>summary</em>
+A recurring talk I gave (and other people did as well) to explain why Haskell
+seems so mystic to bystanders.</p>
+<p><em>gist</em>
+You can be productive in Haskell with ‘simple haskell’, but no-one is
+discussing ‘simple haskell’ on the social networks.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1bSANLVcGnfVIFjicj81Uo_MYQhsF0FZi_EF-NEKFecE/edit?usp=sharing">google slides</a>
+</li>
+</ul>
+</div>
+<h3>Functional is a direction</h3>
+<div class="talk">
+<p><em>gist:</em>
+If you plot the programming languages on an X/Y graph with <code>X</code> as the quality
+of the local reasoning and <code>Y</code> the level of formalism you use. You’ll notice
+that languages tend to appear and move to the upper-right direction <span class="emoji" data-emoji="arrow_upper_right">↗️</span>.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1VkRkSgI6PTRli8j8SR0cASJEOLz8zUhMaV3Z9ItsMYE/edit?usp=sharing">google slides</a>
+</li>
+</ul>
+</div>
+<h3>Haskell teachings applied to architecture</h3>
+<div class="talk">
+<p><em>summary</em>
+I am a software architect and I’ve designed pretty big systems. Haskell’s
+closeness to mathematical abstractions are useful to think. For instance, the
+duality between <code>sum-types</code> and <code>product-types</code> is a <strong>duality</strong> you will find
+between <code>producers</code> and <code>consumers</code> services in large companies.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1HinBAMjkL5qNSRku8XntAhkniRbelLHQcwLyUyPr2X8/edit?usp=sharing">google slides</a>
+</li>
+</ul>
+</div>
+<h3>ProdAPI</h3>
+<div class="talk">
+<p><em>summary</em>
+Slides showing how ProdAPI modularizes a service application like in web-service architectures.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1xpvw8bFWhA4mw4JJVc6ywYimU7O50oQ-exApyHyzmrw/edit?usp=sharing">google slides</a>
+</li>
+<li><a href="https://github.com/lucasdicioccio/prodapi">github</a>
+</li>
+</ul>
+</div>
+<h3>gRPC native</h3>
+<div class="talk">
+<p><em>summary</em>
+A talk I gave to introduce my gRPC library during Zurihac2020.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1MS7TxkpnSsorzbgg25boSZzOZr9iwPpXVh2Bcygb5JU/edit?usp=sharing">google slides</a>
+</li>
+<li><a href="https://github.com/haskell-grpc-native">github</a>
+</li>
+</ul>
+</div>
+<h3>http2-client</h3>
+<div class="talk">
+<p><em>summary</em>
+A talk I gave to introduce my http2-client library at a Haskell-Paris Meetup.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1qD9Q2zrSMf0MsP4siWlbr7n7V78vZUggmZMtdv7Qu1U/edit?usp=sharing">google slides</a>
+</li>
+<li><a href="https://github.com/lucasdicioccio/http2-client">github</a>
+</li>
+</ul>
+</div>
+<h3>Composing Web APIs with Servant</h3>
+<div class="talk">
+<p><em>summary</em>
+A talk I gave to introduce the amazing Servant library to write web-API and
+clients at a While42-London.  It’s a bit lengthy as it tries to share my
+concept of ‘composition’. That said, the visualizations/animations of how to
+match ‘types together’ in a Servant API can be helpful. I guess most of the
+content is still up to date (early 2022) because the Servant concept are rock solid.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/110Xl7ZVKWEipc6jRbkIFye2Htp1VEJ-DAjRFK_s6Frg/edit?usp=sharing">google slides</a>
+</li>
+</ul>
+</div>
+<h3>An introduction to functional programming</h3>
+<div class="talk">
+<p><em>summary</em>
+A talk I gave at Veepee to explain FP basics. I got plenty of appraisal from
+colleagues at the time, so I guess it is a decently-good starting material to
+get a feeling of things like <strong>immutability</strong> , <strong>map</strong> and <strong>fold</strong>.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1R5ODUBOtCxIbLBD_0xUG3prHQ6-OLyAEMwWVCIp5YxE/edit?usp=sharing">google slides</a>
+</li>
+</ul>
+</div>
+<h3>Les monades en comptant sur ses doigts</h3>
+<div class="talk">
+<p><em>summary</em>
+A monad-tutorial I gave at at Haskell-Paris meetup. Only the title of this talk is in French.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1qAcG-zfxQKH0EmYzl5MVj0Z_BAWbuRrbMsQI6L67jPc/edit?usp=sharing">google slides</a>
+</li>
+</ul>
+</div>
+<h2>MiniZinc and Constraint-Programming</h2>
+<p>I have fallen in love with modeling and optimizing engineering (but not only)
+problems. You will likely see Alloy-content pop up at some point as well.</p>
+<h3>Constraint-Programming with MiniZinc</h3>
+<div class="talk">
+<p><em>summary</em>
+A constraint-programming introduction I gave for VPTech.
+We also solve the cabbage-goat-wolf problem in MiniZinc.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1Ze7jR6VbFNxLcvVYz9xmDfWKfXbgjUXpsH98doDB0lE/edit?usp=sharing">google slides</a>
+</li>
+<li><a href="https://www.youtube.com/watch?v=kiX1FOw1GUU">youtube recording</a>
+</li>
+</ul>
+</div>
+<h2>Architecture and Site-Reliability Engineering</h2>
+<p>I was an SRE in one of the most hectic team at Google. Add this my
+especially-bad luck and one could say I’ve handled quite a lot of incidents.
+Then I’ve been an Architect in a pretty large company with a lot of complex
+business processes, a good amount of old and poorly-understood code where
+challenges abund.</p>
+<h3>Aborder la production comme un SRE <span class="emoji" data-emoji="fr">🇫🇷</span></h3>
+<div class="talk">
+<p><em>summary</em>
+Trying to convey what the SRE approach is. When I gave this talk, few people
+were interested in the term SRE. In France we alas mostly renamed Devops but
+here in this <strong>recording in French</strong> I explain what the SRE approach and
+mindset is in the place I’ve experienced it.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1sG5635YGkczUxwqNm1d7CsOPIzBaMQdjgpuVlS6kMG0/edit#slide=id.g1e386fa4fb_0_0">google slides</a>
+</li>
+<li><a href="https://www.youtube.com/watch?v=lSqyeckTLl8">youtube recording</a>
+</li>
+</ul>
+</div>
+<h3>Post-Mortem Template</h3>
+<div class="talk">
+<p>A good post-mortem takes time to write but it’s a goldmine of information.
+I’ve written this template after a request from a friend who had trouble going
+past the ‘incident report’ that was only scratching the surface.  So I wrote a
+template of Post-Mortem with some text of a pseudo story of things that went
+wrong.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/document/d/1c48bRufHkWmSTUZv6RJuDQJOFXLRuV_TRZTX28XLCh4/edit?usp=sharing">google doc</a>
+</li>
+</ul>
+</div>
+<h3>Design-Doc Template</h3>
+<div class="talk">
+<p>A template of Design-Doc. A number of sections may be superfluous depending on
+how fast. But what is key (besides motivating the problem you are trying to
+solve) is to properly define the axes of analysis from the proper
+solution-analysis.</p>
+<p><em>links</em></p>
+<ul>
+<li><a href="https://docs.google.com/document/d/1roAP7yafVq_ZwO7F66Q5T_gS_ZElWf3aYBPHooJkmU0/edit#">google doc</a>
+</li>
+</ul>
+</div>
+</section><section class="main-section"><script type="text/javascript">
+(function(){
+  const xs = [... document.getElementsByTagName("h3")];
+  xs.forEach((x) => {
+    const title = x.innerHTML ?? 'about your blog';
+    const subject = `About your blog: ${title}`;
+    const elt = document.createElement("a");
+    elt.innerHTML = " 📧";
+    elt.setAttribute("class", "enquire-link")
+    elt.setAttribute("href", `mailto:lucas@dicioccio?subject=${subject}`);
+    x.appendChild(elt);
+  });
+})()
+</script>
+</section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div></body></html>
