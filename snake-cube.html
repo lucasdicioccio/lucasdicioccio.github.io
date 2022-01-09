@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><style>* {  font-family: "Helvetica", Arial, sans-serif;  font-size: 14pt;}a {  color: inherit;}img {  display: block;  width: 80%;  padding: 20px;  margin: auto;}article {  width: 80%;  margin: auto;  margin-top: 200px;  border-top: 4px solid black;  text-align: justify;}.heading h1 {  margin-bottom: 0;}.heading p {  margin-top: 0;  line-height: 1em;  color: #ccc;}h1 {  font-size: 24pt;  text-transform: uppercase;}h2 {  font-size: 20pt;}p {  line-height: 1.4em;  border-radius: 5px;}p:hover {  background-color: aliceblue;}p::selection {  background-color: lightskyblue;}code {  font-family: monospace;}p > code {  font-weight: bold;  color: coral;  display: inline-block;}p > em {  color: darkcyan;}pre {  background-color: #eee;  padding: 1em;  border-radius: 5px;  font-family: monospace;  font-size: 12pt;  color: darkgreen;  overflow-x: scroll;}.footing {  margin-top: 3em;  padding-bottom: 300px;  padding-top: 2em;}.social-links {  display: flex;  justify-content: space-around;}.taglist {  display: flex;  justify-content: left;}.tag {  font-size: 10pt;  font-weight: bold;  margin-left: 1em;  color: white;  background-color: #555555;  border-radius: 4px;  padding: 4px;}a.tag-link {  text-decoration: none;}.tag-name {  padding-right: 5px;}.tag-count {  padding-left: 5px;  border-left: 1px solid #ccc;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Solving the Christmas puzzle</h1><p>On <span>Sat, 01 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 6946 words.</p><div class="taglist"><div class="tag"><a href="/topics/minizinc.html" class="tag-link"><span class="tag-name">minizinc</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/constraint-programming.html" class="tag-link"><span class="tag-name">constraint programming</span><span class="tag-count">2</span></a></div><div class="tag"><a href="/topics/formal-methods.html" class="tag-link"><span class="tag-name">formal methods</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>In 2021, Santa brought me this puzzle: <img src="images/snake-cube-unfolded.jpeg" alt="an unfolded Snake-Cube" />, which is sometimes named the “Snake-Cube”. The goal of this game is to fold it into a cube like this <img src="images/snake-cube-folded.jpeg" alt="a folded snake cube" />. The device is built with cubes that are drilled across some faces so that a strap runs trough cubes. Cubes thus have some degree of freedom to rotate around the strap. Thus, two cubes are terminal and the other ones then either are straight or corners.</p>
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><style>* {  font-family: "Helvetica", Arial, sans-serif;  font-size: 14pt;}a {  color: inherit;}img {  display: block;  width: 80%;  padding: 20px;  margin: auto;}article {  width: 80%;  margin: auto;  margin-top: 200px;  border-top: 4px solid black;  text-align: justify;}.heading h1 {  margin-bottom: 0;}.heading p {  margin-top: 0;  line-height: 1em;  color: #ccc;}h1 {  font-size: 24pt;  text-transform: uppercase;}h2 {  font-size: 20pt;}p {  line-height: 1.4em;  border-radius: 5px;}p:hover {  background-color: aliceblue;}p::selection {  background-color: lightskyblue;}code {  font-family: monospace;}p > code {  font-weight: bold;  color: coral;  display: inline-block;}p > em {  color: darkcyan;}pre {  background-color: #eee;  padding: 1em;  border-radius: 5px;  font-family: monospace;  font-size: 12pt;  color: darkgreen;  overflow-x: scroll;}.footing {  margin-top: 3em;  padding-bottom: 300px;  padding-top: 2em;}.social-links {  display: flex;  justify-content: space-around;}.taglist {  display: flex;  justify-content: left;}.tag {  font-size: 10pt;  font-weight: bold;  margin-left: 1em;  color: white;  background-color: #555555;  border-radius: 4px;  padding: 4px;}a.tag-link {  text-decoration: none;}.tag-name {  padding-right: 5px;}.tag-count {  padding-left: 5px;  border-left: 1px solid #ccc;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Solving the Christmas puzzle</h1><p>On <span>Sat, 01 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 6955 words.</p><div class="taglist"><div class="tag"><a href="/topics/minizinc.html" class="tag-link"><span class="tag-name">minizinc</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/constraint-programming.html" class="tag-link"><span class="tag-name">constraint programming</span><span class="tag-count">2</span></a></div><div class="tag"><a href="/topics/formal-methods.html" class="tag-link"><span class="tag-name">formal methods</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>In 2021, Santa brought me this puzzle: <img src="images/snake-cube-unfolded.jpeg" alt="an unfolded Snake-Cube" />, which is sometimes named the “Snake-Cube”. The goal of this game is to fold it into a cube like this <img src="images/snake-cube-folded.jpeg" alt="a folded snake cube" />. The device is built with cubes that are drilled across some faces so that a strap runs trough cubes. Cubes thus have some degree of freedom to rotate around the strap. Thus, two cubes are terminal and the other ones then either are straight or corners.</p>
 <p>After solving the Snake-Cube by hand, the puzzle started pinching my interest.
 I could imagine a procedure to invent “new” Snake-Cube puzzles (by drawing a
 path that fills the cube in 3D, a common graph-theory problem) but I wanted to
@@ -97,7 +97,7 @@ things that can ruin the validity or the performance of the query.</p>
 a small set of basic logic introduction rules rules (equality, negation,
 inequalities, connectives: roughly what you get in <a href="https://en.wikipedia.org/wiki/First-order_logic">predicate
 logic</a>).  Constraints add some
-coupling between variables, and allow the solver to perform reasoning’s to
+coupling between variables, and allow the solver to perform some reasoning to
 shrink the domain of decision variables via a series of deductions. For
 instance, if you must guess a number between 1 to 10 but you learn that
 doubling this number is at least 16, then you can reduce the choice to 8, 9, or
@@ -329,7 +329,7 @@ and <code>Z</code> are fixed and <code>X</code> vary). We can thus encode such a
 predicate alongY(array[int] of CUBE: cubes) = samePos(cubes, xs) /\ along(cubes, ys)   /\ samePos(cubes, zs);
 predicate alongZ(array[int] of CUBE: cubes) = samePos(cubes, xs) /\ samePos(cubes, ys) /\ along(cubes, zs);
 </code></pre>
-<p>That’s a bit of boilerplate as we repeat ourselves for each <code>DIM</code>. To avoid
+<p>That’s a bit of boilerplate as we repeat ourselves for each dimension. To avoid
 repeating ourselves while elaborating further, we will pass the useful
 information “in which dimension we are” as arguments to the lower-level
 predicates: <code>along</code> and <code>samePos</code> . Both predicates take a series of cubes and
@@ -414,16 +414,16 @@ solutions”.  Actually, I did that and not only the program found many solution
 (six in ten seconds), it also kept running and searching and searching and
 searching. Switching the solver to <strong>Chuffed found 48 solutions in two seconds
 and proved that no-other solutions exist</strong>.  That is still a lot for me to try
-given how bad I am at solving, we need an idea. The idea was to manipulate the
-folded-cube <span class="emoji" data-emoji="bulb">💡</span> : if I turn the folded-cube around then I have reorganized
-the coordinates of each <code>POS</code> (say POS:1 is no longer in <code>{1,1,1}</code> but in
-<code>{3,1,1}</code> by rotating the cube along the <code>Y</code> vertical axis: it’s a new
-solution, but not an especially interesting one compared to my first solution.
-In constraint-programming and in general in physics, the phenomenon we want to
-control is named <em>symmetry</em>.</p>
+given how bad I am at following one solution by hand, we need an idea to
+compare two solutions. The idea was to manipulate the folded-cube <span class="emoji" data-emoji="bulb">💡</span> : if I
+turn the folded-cube around then I have reorganized the coordinates of each
+<code>POS</code> (say POS:1 is no longer in <code>{1,1,1}</code> but in <code>{3,1,1}</code> by rotating the
+cube along the <code>Y</code> vertical axis: it’s a new solution, but not an especially
+interesting one compared to my first solution.  In constraint-programming and
+in general in physics, the phenomenon we want to control is named <em>symmetry</em>.</p>
 <h2>Symmetries</h2>
 <p>Say you give me a valid <code>positions</code> array. I can also build another valid
-<code>position</code> array by changing the numbering (so that X and Y coordinates are
+<code>positions</code> array by changing the numbering (so that X and Y coordinates are
 ‘swapped’ – the physical equivalent is to rotate around Z). I could tell you
 “here, a new solution” but you would be really right to feel cheated.</p>
 <p>Besides running Chuffed, I have not taken the time to enumerate symmetries in a
@@ -567,7 +567,7 @@ formalizes the Snake-Cube puzzle as follows:</p>
 </li>
 <li>the snake consists of a series of <code>CUBE</code>, each consecutive line of <code>CUBE</code> defines a <code>SEGMENT</code>
 </li>
-<li><code>POS</code> provide coordinates to all final positions of <code>CUBE</code> in each of the x, y, and z  <code>DIM</code> of the 3x3x3 folded-cube
+<li><code>POS</code> provide coordinates to all final positions of <code>CUBE</code> in each of the x, y, and z  dimensions of the 3x3x3 folded-cube
 </li>
 <li>the problem is an <em>attribution problem</em>, in which each <code>CUBE</code> is given a <code>POS</code>, thus we can use the <code>all_different</code> <em>global</em> constraint to efficiently capture this property
 </li>
