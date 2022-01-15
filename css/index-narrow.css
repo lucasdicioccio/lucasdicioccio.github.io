@@ -1,0 +1,83 @@
+* {
+  font-family: "Helvetica", Arial, sans-serif;
+  font-size: 14pt;
+}
+a {
+  color: inherit;
+}
+article {
+  width: 95%;
+  margin: auto;
+  text-align: left;
+}
+.main-section {
+  margin: 0.5em;
+}
+.listing-callout {
+  color: #aaa;
+  text-transform: lowercase;
+}
+.articles-listing, .topics-listing {
+  padding: 0.2em;
+}
+.articles-listing-item {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.articles-listing-item span.article-date {
+  display: none;
+}
+.articles-listing-item a {
+  font-size: 12pt;
+  text-transform: capitalize;
+}
+.article-stats {
+  display:none;
+}
+.article-summary {
+ padding-left: 1em;
+}
+.article-summary * {
+  font-style:   italic;
+  font-size: 12pt !important;
+  line-height: 1.2em;
+  color: #555;
+}
+.topics-listing-list {
+  padding-left: 1em;
+}
+.topics-listing-list a {
+  text-decoration-style: dotted;
+  text-transform: lowercase;
+  font-size: 12pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.heading h1 {
+  margin-bottom: 0;
+}
+.heading p {
+  margin-top: 0;
+  line-height: 1em;
+  color: #ccc;
+}
+h1 {
+  font-size: 24pt;
+  text-transform: uppercase;
+}
+h2 {
+  font-size: 20pt;
+}
+p {
+  line-height: 1.4em;
+  border-radius: 5px;
+}
+ul {
+  list-style: none;
+}
+.footing {
+  margin-top: 3em;
+  padding-bottom: 300px;
+  padding-top: 2em;
+}
