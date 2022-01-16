@@ -19,14 +19,6 @@ article {
   text-align: justify;
 }
 
-@media (max-width:800px) {
-  article {
-    width: 100%;
-    margin-top: 10px;
-    text-align: left;
-  }
-}
-
 .heading h1 {
   margin-bottom: 0;
 }
@@ -100,4 +92,34 @@ a.tag-link {
 .tag-count {
   padding-left: 5px;
   border-left: 1px solid #ccc;
+}
+
+@media (max-width:800px) {
+  article {
+    width: 100%;
+    margin-top: 10px;
+    text-align: left;
+  }
+  code {
+    font-size: 12pt;
+  }
+  pre {
+    padding: 0.2em;
+    color: darkslategray;
+  }
+  pre > code {
+    font-size: 10pt;
+  }
+  .taglist {
+    display: block;
+  }
+  .tag {
+    border-radius: 0;
+    margin-top: 4px;
+    background-color: #999999;
+    text-align: right;
+  }
+  .tag:hover {
+    background-color: #777777;
+  }
 }
