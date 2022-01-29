@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2451 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/web.html" class="tag-link"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}#sample-output {  height: 250px;  overflow: scroll;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2593 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/web.html" class="tag-link"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
 then the pandemic came and I wanted to start blogging a bit. I wrote nothing,
 mostly due to the lack of blogging platform I liked.  This year, one resolution
 I took is to remediate this situation and start writing some technical content.
@@ -181,6 +181,68 @@ pages and their templates. This mix is means there sometimes is two ways to do
 a thing (e.g., should I add some default CSS file in the layout or via includes
 in the CSS-section of individual articles so that I can override it entirely?)
 with no clear immediate tradeoff.</p>
+<h3>sample output</h3>
+<p>When the binary executes you get an uninteresting log of what occurs.
+This log can help understand what happens.</p>
+<div id="sample-output">
+<pre><code>found site-src/talks.md
+found site-src/how-this-blog-works.md
+found site-src/snake-cube.md
+found site-src/alphabets.md
+found site-src/tags.md
+found site-src/santa-wrap.md
+found site-src/about-me.md
+found site-src/index.md
+generating out/gen/out/index.md__gen-date.txt
+executing `date` with args []
+generating out/gen/out/index.md__gen-git-head-sha.txt
+executing `git` with args [&quot;rev-parse&quot;,&quot;HEAD&quot;]
+assembling out/talks.html
+assembling out/how-this-blog-works.html
+assembling out/snake-cube.html
+assembling out/alphabets.html
+assembling out/santa-wrap.html
+assembling out/about-me.html
+assembling out/index.html
+copying out/images/snake-cube-folded.jpeg
+copying out/images/snake-cube-l-shape.png
+copying out/images/snake-cube-mzn-003.png
+copying out/images/snake-cube-coords.png
+copying out/images/snake-cube-mzn-001.png
+copying out/images/sword.png
+copying out/images/layout-restricted.png
+copying out/images/geost-doc.png
+copying out/images/parts.png
+copying out/images/background.png
+copying out/images/snake-cube-mzn-002.png
+copying out/images/layout-robot-200x240.png
+copying out/images/deps.png
+copying out/images/layout-190x150.png
+copying out/images/layout-190x160.png
+copying out/images/haddock-jp.png
+copying out/images/snake-cube-unfolded.jpeg
+copying out/images/linear-layout.png
+generating out/gen/images/blog-phases.dot.png
+executing `dot` with args [&quot;-Tpng&quot;,&quot;-o&quot;,&quot;/dev/stdout&quot;,&quot;site-src/blog-phases.dot&quot;]
+generating out/gen/images/blog-engine.dot.png
+executing `dot` with args [&quot;-Tpng&quot;,&quot;-o&quot;,&quot;/dev/stdout&quot;,&quot;site-src/blog-engine.dot&quot;]
+copying out/css/index-wide.css
+copying out/css/index-narrow.css
+copying out/css/main.css
+copying out/js/autoreload.js
+assembling out/topics/about-me.html
+assembling out/topics/constraint-programming.html
+assembling out/topics/formal-methods.html
+assembling out/topics/fun.html
+assembling out/topics/haskell.html
+assembling out/topics/minizinc.html
+assembling out/topics/optimization.html
+assembling out/topics/sre.html
+assembling out/topics/web.html
+generating out/json/paths.json
+generating out/json/filecounts.json
+</code></pre>
+</div>
 <h2>Section-based file format</h2>
 <p>An input file for an Article is suffixed <code>.md</code> even if it’s not strictly some markdown (this way syntax highlighting works).</p>
 <p>The content of a single file with multiple sections is a file like the following example:</p>
@@ -304,7 +366,7 @@ generator section could also create a similar target.</p>
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     description: 'A simple bar chart with embedded data.',
     data: {
-      url: "http://localhost:7654/json/filecounts.json"
+      url: "/json/filecounts.json"
     },
     mark: 'bar',
     encoding: {
