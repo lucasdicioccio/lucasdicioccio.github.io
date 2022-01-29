@@ -1,16 +1,18 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2298 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/web.html" class="tag-link"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2451 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/web.html" class="tag-link"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
 then the pandemic came and I wanted to start blogging a bit. I wrote nothing,
 mostly due to the lack of blogging platform I liked.  This year, one resolution
 I took is to remediate this situation and start writing some technical content.
 After past and more recent attempts at using a SAAS blogging platform, hosting
-a Wordpress, or generating a Jekyll site, I always got frustrated. Thus I
-decided once that my website would be hand-written HTML files. I always felt
-some friction: writing content requires some uninterrupted stream of thought,
-whereas formatting HTML require focus and gets in the way. Writing the text in
-one document and then formatting the HTML is not good because any change
-requires modifications in multiple places.</p>
+a Wordpress, or generating a Jekyll site, or hand-written HTML files; I always
+got frustrated.</p>
+<p>I always felt some friction between writing content and laying-out content.
+Writing requires some uninterrupted stream of thought, whereas formatting HTML
+require focus and repeated trial-and-errors cycles. Writing the text in one
+document and then formatting the HTML aside in another tool typically is not
+sufficient because any change requires modifications in multiple places.</p>
 <p>Without much surprise, I ended up writing my own engine. This article explains
-what I really want of a blog-engine and how I’ve implemented it.</p>
+what I really want of a blog-engine and how I’ve implemented it. Little code is
+shown and ideas are applicable whatever tech-stack you pick.</p>
 <h1>Requirements</h1>
 <p>Let’s make a checklist</p>
 <ul>
@@ -33,7 +35,8 @@ beefier with a web server for instance, and without having to port all the
 meaty content. That is, if I occasionally need an API call, I can still
 imagine having a static-site first, with only a meager amount of web-serving.</p>
 <p>A nice side-effect is that <code>git</code> is a natural database of content, and
-git-based flows could serve in multi-authors situations.</p>
+git-based flows could serve in multi-authors situations (or for instance to let
+people use GitHub to add invited-content/comments on the blog).</p>
 <h3>developer mode with live-preview</h3>
 <p>I like quick feedback loops. The fastest feedback loop likely is a WYSIWYG
 editor, however my experience with WYSIWYG is not great. To make WYSIWYG works,
@@ -117,7 +120,7 @@ accommodate some of my quirks. The closest tool I found likely is
 library. It supports some form of metadata per-article for customizing the
 article (e.g., picking a certain layout) but I really want to insert multiple
 sections.</p>
-<p>Thus, overall, I got a pretext to <strong>invent my own</strong> .</p>
+<p>Thus, overall, I got a pretext to <strong>invent my own</strong> <span class="emoji" data-emoji="nerd_face">🤓</span> .</p>
 <h1>Implementation</h1>
 <p>Let’s first say that the implementation I present here does not represent the
 whole iterations.  I first started with a simple file-to-file generator taking
@@ -179,7 +182,8 @@ a thing (e.g., should I add some default CSS file in the layout or via includes
 in the CSS-section of individual articles so that I can override it entirely?)
 with no clear immediate tradeoff.</p>
 <h2>Section-based file format</h2>
-<p>Basically an input file is suffixed something</p>
+<p>An input file for an Article is suffixed <code>.md</code> even if it’s not strictly some markdown (this way syntax highlighting works).</p>
+<p>The content of a single file with multiple sections is a file like the following example:</p>
 <pre><code>=base:build-info.json
 {&quot;layout&quot;:&quot;article&quot;
 }
@@ -216,6 +220,14 @@ lorem ipsum ...
 =base:main-css.css
 @import &quot;/css/main.css&quot;
 </code></pre>
+<p>Each section is a textual block starting with a special delimiter like
+<code>=base:build-info.json</code>.  The layout code actually interprets these sections
+and look for various information. For instance, the <code>=base:topic.json</code> contains
+information to add some topic-index and <code>meta</code> tags.  The <code>=base:main-css.css</code>
+section allows to write some CSS that will be inlined in the HTML (conversely,
+<code>.css</code> files found in the source directory will be copied around).</p>
+<p>These sections could all be collapsed in a single section however I find it
+convenient to have one small datatype per logical ‘metadata’ piece.</p>
 <h2>Dev-mode and auto-reload</h2>
 <p>The dev-server API itself is written with my
 <a href="https://github.com/lucasdicioccio/prodapi">prodapi</a> API library, which curates
@@ -236,18 +248,20 @@ generate for this URL path). This API route serves as rendez-vous mechanism:</p>
 sufficient for a single user. The full-page reload is acceptable as most of the
 articles I will ever write will mostly be stateless.</p>
 <h1>Experience report</h1>
-<p>It has been fun to write some get-shit-done Haskell code. I sincerely believe
+<p>It has been fun to write some get-stuff-done Haskell. I sincerely believe
 this blog engine does not have to shy away in face of other tools. I will
-surely try to extract the library code as a standalone engine at some point.</p>
+surely try to extract the library code as a standalone engine at some point,
+but for now my repository mixes library, specific layout and rules for my own
+blog, and content.</p>
 <p>Let me explain a few things that I find rather pleasant.</p>
 <h2>Sections and file generators</h2>
-<p>I quickly built enough to generate HTML, copy images around. More interesting are the following generators.</p>
+<p>Some interesting Sections and ProductionRules:</p>
 <ul>
-<li>generator dotfile:  turn a .dot file into a .png with <a href="https://graphviz.org/">GraphViz</a>
+<li>dotfile conversion:  turn a <code>.dot</code> file into a <code>.png</code> with <a href="https://graphviz.org/">GraphViz</a>; the live-reload in the output web-page without leaving <code>vim</code> makes it a breeze
 </li>
 <li>section command-gen: generates a file from a UNIX command (e.g., to get a special file with the git-sha or build timestamp)
 </li>
-<li>section summary: short Commonmark content that appear in article listings (it also gets stripped to text to add a meta tag)
+<li>section summary: short Commonmark content that appear in article listings (it also gets stripped down to text to add a meta tag)
 </li>
 <li>section taken-off: stuff that is in the source but will be ignored, useful for draft sections
 </li>
@@ -273,7 +287,13 @@ small-scripting capabilities.</p>
 <p><strong>press to get an alert</strong>
 <button class="example-button" onClick="alert('hi from commonmark')">press me</button></p>
 </div>
-<p>A more-complicated insertion below shows you can embed JavaScript for visualizations (example with <a href="https://vega.github.io/vega-lite/usage/embed.html">Vega-Lite</a>). Which loads a special file <a href="/json/filecounts.json">json-file-counts</a> that has been generated as a special Target part of the layout. However, a generator section could also create a similar target.</p>
+<h2>You can get creative</h2>
+<p>A more-complicated JavaScript usage below shows you can embed JavaScript for
+visualizations (example with
+<a href="https://vega.github.io/vega-lite/usage/embed.html">Vega-Lite</a>). Further, the
+visualization loads a special file <a href="/json/filecounts.json">json-file-counts</a>
+that has been generated as a special Target part of the layout. However, a
+generator section could also create a similar target.</p>
 <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.2"></script>
