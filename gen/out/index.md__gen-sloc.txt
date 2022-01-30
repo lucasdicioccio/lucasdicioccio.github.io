@@ -1,7 +1,7 @@
   207 ./app/Main.hs
    29 ./src/Blog/Assembler.hs
-   83 ./src/Blog/Site.hs
-  390 ./src/Blog/Layout.hs
+   93 ./src/Blog/Site.hs
+  396 ./src/Blog/Layout.hs
    50 ./src/Blog/Prelude.hs
    67 ./src/Blog/Basics.hs
    95 ./src/Blog/Target.hs
@@ -9,5 +9,5 @@
    27 ./src/Blog/Wordcount.hs
    21 ./src/Blog/Generator.hs
    80 ./src/Blog/AssembleSections.hs
-  207 ./src/Blog.hs
- 1337 total
+  213 ./src/Blog.hs
+ 1359 total
