@@ -1,4 +1,4 @@
-  215 ./app/Main.hs
+  239 ./app/Main.hs
    29 ./src/Blog/Assembler.hs
    42 ./src/Blog/Site.hs
   402 ./src/Blog/Layout.hs
@@ -11,4 +11,4 @@
    83 ./src/Blog/SiteLoader.hs
    80 ./src/Blog/AssembleSections.hs
   219 ./src/Blog.hs
- 1411 total
+ 1435 total

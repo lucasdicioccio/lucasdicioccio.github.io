@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}#sample-output {  height: 250px;  overflow: scroll;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2663 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">3</span></a></div><div class="tag"><a href="/topics/web.html" class="tag-link"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}#sample-output {  height: 250px;  overflow: scroll;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2791 words.</p><div class="taglist"><div class="tag"><a href="/topics/haskell.html" class="tag-link"><span class="tag-name">haskell</span><span class="tag-count">4</span></a></div><div class="tag"><a href="/topics/web.html" class="tag-link"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
 then the pandemic came and I wanted to start blogging a bit. I wrote nothing,
 mostly due to the lack of blogging platform I liked.  This year, one resolution
 I took is to remediate this situation and start writing some technical content.
@@ -297,26 +297,44 @@ some good Haskell libraries for building APIs. There is enough to help running
 background tasks in the process (e.g., to watch for file-changes), and also to
 expose other endpoints (e.g., a listing of all targets or metrics).</p>
 <p>I have a poor-man’s <code>autoreload.js</code> script (source here <a href="/js/autoreload.js">source of auto-reload
-script</a>). That perform long-polling to a API route <code>/dev/watch</code>
-that only the dev-webserver knows about (i.e., there won’t be a Target to
-generate for this URL path). This API route serves as rendez-vous mechanism:</p>
-<ul>
-<li>the client waits for an answer to the API call
-</li>
-<li>the dev-server watches for changes in the source directory with <code>inotify</code> callbacks
-</li>
-</ul>
+script</a>). That perform long-polling to a API route
+<code>/dev/watch</code> that only the dev-webserver knows about (i.e., there won’t be a
+Target to generate for this URL path).  The <code>autoreload.js</code> script performs a
+full-page reload, which is acceptable as most of the articles I will ever write
+will mostly be stateless texts but.</p>
 <p>The current implementation works using the amazing Software Transactional
 Memory (STM) support in Haskell and supports live-reloading mutliple pages
 simultaneously from different clients connected to a same server (not like I
-really use this feature but it’s really simple). A full-page reload is
-acceptable as most of the articles I will ever write will mostly be stateless
-texts.</p>
-<p>Implementation of the live-reload is illustrated as follows:</p>
+really use this feature but it does not incur much more work).
+Implementation of the live-reload is illustrated as follows:</p>
 <p><img src="/gen/images/autoreload-watches.dot.png" alt="autoreload" /></p>
-<p>A long-polling <code>http-req</code> registers in a TVar of pending <code>watches</code> and a TMVar
-which acts as a flush notification sent by an inotify callback. A <code>background</code>
-loop fans out by unlocking pending http-requests and clearing the watches.</p>
+<p>The server API route mediates a rendez-vous between:</p>
+<ul>
+<li>The <code>Web Browser</code> who waits for an answer to the API call
+</li>
+<li><code>Filesystem</code> changes that are propagated via inotify
+</li>
+</ul>
+<p>Overall, from a high-level perspective the live-reload follows these four simple steps:</p>
+<ul>
+<li>Step-0. after loading the <code>.js</code> a browser starts a watch over the HTTP request API handler
+</li>
+<li>Step-1. inotify notifies the file-system change
+</li>
+<li>Step-2. the watch terminates
+</li>
+<li>Step-3. the HTTP request finishes, the browser reloads (which will return to Step-0)
+</li>
+</ul>
+<p>Three threads co-exist in the server:</p>
+<ul>
+<li>the <code>inotify</code> callbacks loads targets then propagates them in a <em>Site</em> (using a <code>TMVar Site</code>), this thread is like if an event-stream of updated Sites was available but we only hold-on to the latest value
+</li>
+<li>the <code>api</code> registers a <em>Watch</em> (using one <code>TMVar ()</code> per HTTP-request) and inserts it in a list of pending watchers <em>[Watch]</em> , then waits for the Watch to end
+</li>
+<li>the server <code>background</code> waits for the filesystem flag changes, clears the flag, then fans-out the signal to waiting HTTP-clients, all of this is atomic outside the STM area (all the changeds are annotated <code>flush</code> in orange on the picture)
+</li>
+</ul>
 <h1>Experience report</h1>
 <p>It has been fun to write some get-stuff-done Haskell. I sincerely believe
 this blog engine does not have to shy away in face of other tools. I will
@@ -346,10 +364,9 @@ blog, and content.</p>
 For instance, I have enabled the emoji syntaxt that turns <code>:smiley:</code> into
 <span class="emoji" data-emoji="smiley">😃</span>. I also enabled support for directly adding HTML tags (including JS)
 or annotating sections of code with HTML attributes if the rendering is not
-sufficient.</p>
-<p>Another use case is when you want to drop down to HTML or if you need
-small-scripting capabilities.</p>
-<p>Inlining the following code …</p>
+sufficient. Another use case is when you want to drop down to HTML or if you
+need small-scripting capabilities.</p>
+<p>With HTML-tagging and JS inclusion, the following code:</p>
 <pre><code>::: {.example}
 
   press to get an alert

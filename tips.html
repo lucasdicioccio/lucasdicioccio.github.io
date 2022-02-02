@@ -1,0 +1,88 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Some tips</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content><meta name="description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Some tips"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A collection of tips that also serves as a personal cheat-sheet."><meta property="og:type" name="type" content="article"><meta property="og:title" name="title" content="Lucas DiCioccio&#39;s blog - Some tips"><meta property="og:url" name="url" content="https://lucasdicioccio.github.io/tips.html"><meta property="og:description" content="A collection of tips that also serves as a personal cheat-sheet."><style>@import "/css/main.css";</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Some tips</h1><p>By <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 331 words.</p><div class="taglist"></div></header><div class="main-article"><section class="main-section"><h2>linux</h2>
+<h3>screencast to mp4 in Ubuntu</h3>
+<p>If you record your screen with <code>(ctrl+shift+alt+R)</code> in Ubuntu, you’ll get a <strong>webm</strong> file, GitHub, iPhones all want <strong>mp4</strong>. So you need to convert from webm to mp4.</p>
+<p>The <code>ffmpeg</code> command allows such a conversion. As a bonus, Ubuntu’s file
+navigator allows to have some right-click scripts shortcuts.</p>
+<pre><code class="language-bash">#!/bin/bash
+
+path=$1
+ffmpeg -y -i &quot;${path}&quot; &quot;${path}.mp4&quot;
+notify-send &quot;converted ${path}&quot;
+</code></pre>
+<p>You can benefit from contextual menu in Ubuntu’s file navigator. If you drop
+the script at a special path like
+<code>~/.local/share/nautilus/scripts/ffmpeg-convert-to-mp4</code> and do not forget to
+make it executable with <code>chmod</code>.</p>
+<p>As an illustration, you can see a demo screencast showing a conversion to mp4
+of the demo screencast.</p>
+<video width="640" height="480" controls>
+  <source src="/videos/convert-screencast.mp4" type="video/mp4">
+</video>
+<h3>debian qemu serial</h3>
+<p>Say you have an <code>.iso</code> and would like to to nasty things with it, like enable serial console for <code>qemu</code>. I needed that a while back and found it so hard to collect the right information that I’ve taken notes I swear I never want to lose.</p>
+<ol start="0">
+<li>mount the existing .iso in loop mode on a local dir
+</li>
+</ol>
+<pre><code>mkdir original
+mount -o loop $ISO original/
+</code></pre>
+<ol>
+<li>copy files from local dir to new dir with
+</li>
+</ol>
+<pre><code>mkdir new-iso
+rsync -a -H --exclude=TRANS.TBL original new-iso
+umount original
+</code></pre>
+<ol start="2">
+<li>add a serial to <code>isolinux.cfg</code>
+precisely: at the beginning of <code>isolinux/isolinux.cfg</code> (1st line after comment)
+</li>
+</ol>
+<pre><code>  console serial 0 9600 0
+</code></pre>
+<ol start="3">
+<li>add a console to <code>txt.cfg</code> on the kernel parameter append line
+</li>
+</ol>
+<pre><code>  console=ttyS0,9600n8
+</code></pre>
+<ol start="4">
+<li>regenerate md5 files inside ./new-iso
+</li>
+</ol>
+<pre><code>cd ./new-iso
+md5sum `find -follow -type f` &gt; md5sum.txt
+</code></pre>
+<ol start="5">
+<li>build a bootable .iso from all this
+</li>
+</ol>
+<pre><code>genisoimage -o $NEWISO -r -J -no-emul-boot -boot-load-size 4  -boot-info-table -b isolinux/isolinux.bin -c isolinux/boot.cat ./new-iso
+</code></pre>
+<ol start="7">
+<li>start a qemu, pay attention to the <code>-serial</code> argument
+</li>
+</ol>
+<pre><code>qemu-img create -f qcow2 $IMG 5G
+qemu-system-x86_64 -nographic \
+  -m 512 \
+  -boot d \
+  -cdrom $NEWISO \
+  -hda $IMG \
+  -serial chardev:serial0 \
+  -chardev socket,id=serial0,path=$UNIXSOCKET,server,nowait \
+  -net nic,macaddr=52:54:11:22:33:01 \
+  -net tap,ifname=tap0,script=no,downscript=no
+minicom -D unix\#$UNIXSOCKET
+</code></pre>
+<h2>postgrest-table</h2>
+<p>Even if I built Postgrest-Table (an UI for PostgREST) I sometimes need to
+re-learn how to do stuff.</p>
+<h3>bookmarklet link</h3>
+<p>The bookmarklet to save is:</p>
+<pre><code>javascript:location.href='https://postgrest-table.netlify.app?postgrest='+document.location.href;
+</code></pre>
+<p>Then, from a <code>/</code> endpoint of your PostgREST service, the bookmarklet will auto-fill the form for you.</p>
+</section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div></body></html>
