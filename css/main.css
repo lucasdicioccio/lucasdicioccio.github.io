@@ -123,3 +123,24 @@ a.tag-link {
     background-color: #777777;
   }
 }
+.upcoming-notice {
+  margin: 1em;
+  padding: 1em;
+  color: white;
+  text-shadow:
+     3px 5px 0 #c00,
+     -5px 3px 0 #c00,
+     7px -5px 0 #c00,
+     -15px -17px 0 #c00,
+     13px -15px 0 #c00,
+     11px 13px 0 #c00,
+     -15px 15px 0 #c00;
+  background-color: #7c0000;
+  background-image: linear-gradient(75deg, #7c0000 20%, #3c303c 30%, #3c303c 35%, #7c0000 50%, #7c0000 65%, #3c303c 75%, #3c303c 100%);
+  border-radius: 24px;
+}
+.upcoming-notice p {
+  font-weight: bold;
+  font-size: 25pt !important;
+  background-color: transparent;
+}
