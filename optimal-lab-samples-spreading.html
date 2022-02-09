@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="minizinc, optimization"><meta name="description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html"><meta property="og:description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="article:published_time" content="2022-02-20"><meta name="article:tag" content="minizinc"><meta name="article:tag" content="optimization"><style>@import "/css/main.css";</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Optimal Lab Samples Spreading</h1><p>On <span>Sun, 20 Feb 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2623 words.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/minizinc.html"><span class="tag-name">minizinc</span><span class="tag-count">4</span></a></div><div class="tag"><a class="tag-link" href="/topics/optimization.html"><span class="tag-name">optimization</span><span class="tag-count">3</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div class="main-article"><section class="main-section"><p>This article illustrates what the work of modeling a problem for constraint
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="minizinc, optimization"><meta name="description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html"><meta property="og:description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="article:published_time" content="2022-02-09"><meta name="article:tag" content="minizinc"><meta name="article:tag" content="optimization"><style>@import "/css/main.css";</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Optimal Lab Samples Spreading</h1><p>On <span>Wed, 09 Feb 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3167 words.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/minizinc.html"><span class="tag-name">minizinc</span><span class="tag-count">4</span></a></div><div class="tag"><a class="tag-link" href="/topics/optimization.html"><span class="tag-name">optimization</span><span class="tag-count">3</span></a></div></div></header><div class="main-article"><section class="main-section"><p>This article illustrates what the work of modeling a problem for constraint
 optimization entails.</p>
 <h1>A problem with a vague description</h1>
 <p>Unless you’ve been living under a rock, you are aware that the COVID19 pandemic
@@ -37,15 +37,15 @@ a best assignment.</p>
 constraints. The iterated aspects may be annoying to model but somewhat
 manageable. For instance, we could add staged sources and sinks where some
 capacity connects a laboratory at two time intervals (this way <em>leftovers</em> can
-be post-poned as additional inputs).  In the following picutre, we add a suffix
+be post-poned as additional inputs).  In the following picture, we add a suffix
 <code>_0</code> and <code>_1</code> to represent the different stages. Thus an arrow <code>lab1_0 -&gt; lab1_1</code> represents leftovers at <code>lab1</code> from the first staged processed in the
-second stage. We could view these arrows accross stages as a degenerate form of
+second stage. We could view these arrows across stages as a degenerate form of
 sending samples between two different places in the time dimension.</p>
 <p><img src="/gen/images/labspread-maxflow-iterated.dot.png" alt="max-flow illustration" /></p>
 <p>Such a model starts to be slightly more cumbersome than the previous one, and
 also is <em>wrong</em> because we do not properly model the deadline component.  For
 instance, with many stages we could have a long chain of leftover samples until
-all samples are processed, irrespectively from how old the samples are.
+all samples are processed, irrespective from how old the samples are.
 Instead of having <code>leftovers</code> from labs to labs at future time-steps, we rather
 need the <code>leftover</code> arrows to go from sampling location to lab at future
 time-steps. Correcting for this fact we get the following schema:</p>
@@ -54,7 +54,7 @@ time-steps. Correcting for this fact we get the following schema:</p>
 refine models as new constraints are discovered or as new decisions are
 required.  For instance, one behavior that would significantly alter the model
 would be to limit sampling sites to send samples to at most two labs.  We may
-have to scrap our solution becaose the max-flow algorithm is not “cut” to make
+have to scrap our solution because the max-flow algorithm is not “cut” to make
 choices between alternatives (what we need is a form of knapsack at each
 sample-collection location). Such situations are common, and they correspond to
 situations where constraint-programming modeling shines.
@@ -68,7 +68,7 @@ constraint-programming language (using <a href="https://minizinc.org/">MiniZinc<
 usual on this blog).</p>
 <h1>A constraint-programming model</h1>
 <p>Remember that to model a constraint-programming problem we need to formulate
-whate are <em>inputs</em>, <em>decisions</em>, and <em>constraints</em>. We also need some form of
+what are <em>inputs</em>, <em>decisions</em>, and <em>constraints</em>. We also need some form of
 <em>objective</em>.</p>
 <h2>high-level model</h2>
 <p>We will assume that we have some time-based model of the demand in number of
@@ -105,7 +105,7 @@ from our introductory model).</p>
 <li>minimize the number of samples thrown away otherwise you can always assign zero from any testing-site to any lab
 </li>
 </ul>
-<h2>formalised in MiniZinc</h2>
+<h2>formalized in MiniZinc</h2>
 <p>The core of the model would be something as follows:</p>
 <pre><code>int: nLab;
 int: nZone;
@@ -141,7 +141,7 @@ before. This extra breakdown is not especially surprising because we need to
 model the same “allowed physical behavior” whatever modeling technique we use.
 That said, in this model we went a bit further and we have broken down the
 total delay into two components: transit times (which are imposed by the
-<code>transit</code> matrix) and queueing time (i.e., if a lab is busy one day but as
+<code>transit</code> matrix) and queuing time (i.e., if a lab is busy one day but as
 spare capacity the next day we can backlog). The framing is very similar but
 are being a bit more explicit which chunk of the delay is forced upon us versus
 what chunk of the delay is a proper decision: this break down is important if
@@ -163,13 +163,13 @@ constraint forall(z in ZONE, t in TIME)
   (demand[z,t] - dropped[z,t] = sum(l in LAB, d in DELAY)( dispatch[z,l,t,d] ));
 </code></pre>
 <p>Such conservation laws are often “hidden” behind inequalities. In this case I
-initially had a inequality saying that the dispatched amound had to be below
+initially had a inequality saying that the dispatched amount had to be below
 the demand, it took me some time to realize that what is leftover deserves a
 concept in its own. Then, the conservation law appeared and it became easier to
 reason and debug with this extra ‘dropped’ variable.</p>
 <h3>samples must reach a lab and be processed within their lifetime</h3>
 <p>Here we are using some <em>implication</em> connective that says that if the transit
-time and the considered queueing delay exceeds the sample lifetime, then the
+time and the considered queuing delay exceeds the sample lifetime, then the
 dispatched amount for this zone, lab, and delay has to be zero.</p>
 <pre><code>% cannot delay (including transit time) past sample_lifetime
 constraint forall(z in ZONE, l in LAB, t in TIME, d in DELAY)
@@ -208,7 +208,7 @@ constraint forall(l in LAB, t in TIME)
 solve minimize total_drop;
 </code></pre>
 <p>Overall, this objective combined with the conservation law gives some intuition
-about what a performant heuristic could look like: starting by dispatching zero
+about what a performing heuristic could look like: starting by dispatching zero
 we try to attribute fill labs with from closest zones in total delay.
 Fortunately, we do not need to write a heuristic and can just run our MiniZinc
 model.</p>
@@ -217,6 +217,133 @@ model.</p>
 <p>The final model has one modification (see below) but also a slightly different
 output format than you get by default with MiniZinc (hopefully it’s more
 readable).</p>
+<p>An example simple input that allows to understand what happens is a data file like the following:</p>
+<pre><code>nLab = 3;
+nZone = 2;
+nTime = 5;
+sample_lifetime = 0;
+
+capacity =
+  [|1,1,1,1,1
+   |1,1,1,1,1
+   |1,1,1,1,1
+   |];
+  
+transit =
+  [|0,0,0
+   |0,0,0
+   |];
+   
+demand =
+  [|1,1,2,0,10
+   |1,0,0,2,0
+   |];
+</code></pre>
+<p>In this data input, we see that there is uniform capacity of <code>1</code> for tree labs.
+There is no transit delay, however the lifetime of samples is zero (i.e., we
+cannot backlog samples). The demand fluctuates at two sample-collection zones
+and overloads the total capacity at the end (we reach <code>10</code>, otherwise we only
+use <code>2</code>).  Here it’s pretty clear that we expect to be able to serve the demand
+except for <code>7</code> samples at the last time slot.</p>
+<p>If we run the model from GitHub we get some textual output:</p>
+<pre><code>(...truncated by me...)
+t=4
+  demand=2
+  capacity=3
+  drop=0
+  sent=(1-&gt;1,0) (1-&gt;2,0) (1-&gt;3,0) (2-&gt;1,1) (2-&gt;2,1) (2-&gt;3,0) 
+  load=(1,1)(2,1)(3,0)
+
+t=5
+  demand=10
+  capacity=3
+  drop=7
+  sent=(1-&gt;1,1) (1-&gt;2,1) (1-&gt;3,1) (2-&gt;1,0) (2-&gt;2,0) (2-&gt;3,0) 
+  load=(1,1)(2,1)(3,1)
+
+total_drop = 7
+</code></pre>
+<p>We see that the we indeed drop <code>7</code> in the last time slot but we never lost
+samples before. All is good. One can then play around starting from the data
+file and have fun changing parameters. For instance, allowing some extra
+lifetime, adding transit, and increasing the total demand. We can arrive at
+situations where backlogging is required.</p>
+<p>With this input for instance,</p>
+<pre><code>nLab = 3;
+nZone = 2;
+nTime = 5;
+sample_lifetime = 2;
+
+capacity =
+  [|1,1,1,1,1
+   |1,1,1,1,1
+   |1,1,1,1,1
+   |];
+  
+transit =
+  [|0,1,2
+   |2,1,0
+   |];
+   
+demand =
+  [|4,3,2,0,10
+   |3,0,10,2,0
+   |];
+  
+</code></pre>
+<p>The capacity is still <code>3</code> per day but the demand regularly overshoots (but not
+always). The full “best” solution for this problem becomes:</p>
+<pre><code>t=1
+  demand=7
+  capacity=3
+  drop=1
+  sent=(1-&gt;1,2) (1-&gt;2,1) (1-&gt;3,0) (2-&gt;1,0) (2-&gt;2,1) (2-&gt;3,2) 
+  load=(1,1)(2,1)(3,1)
+
+t=2
+  demand=3
+  capacity=3
+  drop=1
+  sent=(1-&gt;1,1) (1-&gt;2,0) (1-&gt;3,1) (2-&gt;1,0) (2-&gt;2,0) (2-&gt;3,0) 
+  load=(1,1)(2,1)(3,1)
+
+t=3
+  demand=12
+  capacity=3
+  drop=6
+  sent=(1-&gt;1,2) (1-&gt;2,0) (1-&gt;3,0) (2-&gt;1,0) (2-&gt;2,2) (2-&gt;3,2) 
+  load=(1,1)(2,1)(3,1)
+
+t=4
+  demand=2
+  capacity=3
+  drop=0
+  sent=(1-&gt;1,0) (1-&gt;2,0) (1-&gt;3,0) (2-&gt;1,0) (2-&gt;2,1) (2-&gt;3,1) 
+  load=(1,1)(2,1)(3,1)
+
+t=5
+  demand=10
+  capacity=3
+  drop=0
+  sent=(1-&gt;1,10) (1-&gt;2,0) (1-&gt;3,0) (2-&gt;1,0) (2-&gt;2,0) (2-&gt;3,0) 
+  load=(1,1)(2,1)(3,1)
+
+total_drop = 8
+</code></pre>
+<p>The <code>sent</code> lines correspond to the <code>dispatch</code> matrix, with the following syntax
+<code>($zone-&gt;$lab, $quantity)</code>. We notice some underwhelming fact: when the demand
+overloads the capacity, labs are working at full-capacity. This realization is
+pretty important because in general there is not a large amount of wiggle-room
+to fix a capacity issue with scheduling <strong>to fix the capacity issue, increase
+capacity or drop the demand</strong>; this rule of thumb is even more true when
+lifetimes are short compared to how fast you can increase capacities. This
+model allows to play with parameters and “see” how this teaching is true. For
+the story: I wanted to convey this information to the person working for the
+NHS who asked me about what we could do to help face the crisis; you are facing
+an fast-growing phenomenon and soon your capacity will be maxed-out. Thus,
+there will be no gain in being smart, better provide tools to get good
+visibility and efficient handling, which can play a role in increasing
+capacity.</p>
 <h2>Avenues for modifications</h2>
 <p>It’s always important to step back and see how we could change the model. I do
 not want to use the word <em>improve</em> the model because we actually build
@@ -258,7 +385,7 @@ different costs. The cost function could take into account a different price
 depending on the LAB. The cost function could even be non-linear with some
 base-rate and an overshoot cost (it’s a way to relax moderately the capacity
 constraint). Such extra cost-modeling would lead the optimization to fill in
-cheapest LABs first in a “waterfilling” approach (starting from the cheapest
+cheapest LABs first in a “water-filling” approach (starting from the cheapest
 LAB reachable from a given ZONE until the LAB is no longer the cheapest
 alternative etc.).</p>
 <p>We could do something like this:</p>
@@ -291,16 +418,29 @@ rather than on a humble blog post).</p>
 using an off-the-shelf algorithm can be a simple business-rule such as “a
 testing site can ship at most twice per day”, which would mean our optimization
 no-longer looks like a well-studied <em>max-flow</em> problem. Rather, this real-world
-problem becomes flavored with a bit of binpacking because we cannot pick all
+problem becomes flavored with a bit of bin-packing because we cannot pick all
 the variables of the output attribution matrix independently from each other.</p>
 <p>Building such a constraint is non-trivial because you need an array of
-auxilliary variables telling how many LABs a ZONE serves at a given TIME
+auxiliary variables telling how many LABs a ZONE serves at a given TIME
 (irrespective of the DELAY). Say you get a <code>sent</code> array. Then force the
-cardinality of zeros with a <a href="https://www.minizinc.org/doc-2.5.5/en/lib-globals.html#counting-constraints">global counting
-constraint</a>.</p>
+cardinality of zeros with a <a href="https://www.minizinc.org/doc-2.5.5/en/lib-globals.html#counting-constraints">global counting constraint</a>.</p>
+<p>That said, the overall constraint is not that complicated to write.</p>
+<pre><code>% helper: work sent from zone to a lab at a given time (whichever delay is dispatched)
+array[ZONE,LAB,TIME] of var 0..maxAttr: sent;
+constraint forall(l in LAB, z in ZONE, t in TIME)
+  (sent[z,l,t] = sum(d in DELAY)(dispatch[z,l,t,d]));
+
+% max two sent
+int: maxShipment = 2;
+include &quot;globals.mzn&quot;;
+constraint forall(t in TIME, z in ZONE)(
+  count([sent[z,l,t]|l in LAB],0) &gt;= nLab-maxShipment
+);
+</code></pre>
 <p>In that case, switching the solver type may significantly alter performance. It
 would be useful to force ourselves to model this problem as a
-mixed-integer-linear-programming problem, but that would become rather complicated if you combine these alterations to the initial problem.</p>
+mixed-integer-linear-programming problem, but that would become rather
+complicated if you combine these alterations to the initial problem.</p>
 </section><section class="main-section"><h1>Closing remarks</h1>
 <p>Before starting modeling the problem with a constraint-programming language,
 let’s keep in mind that we should always do the work of trying to apply an
