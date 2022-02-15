@@ -43,6 +43,12 @@ article {
   line-height: 1.2em;
   color: #555;
 }
+.article-status-upcoming, .article-status-upcoming > div > .article-summary * {
+  color: #ccc;
+}
+.notice-upcoming {
+  margin-right: 1em;
+}
 .topics-listing-list {
   padding-left: 1em;
 }

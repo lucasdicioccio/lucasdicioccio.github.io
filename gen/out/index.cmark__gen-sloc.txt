@@ -1,7 +1,7 @@
   239 ./app/Main.hs
    29 ./src/Blog/Assembler.hs
    42 ./src/Blog/Site.hs
-  438 ./src/Blog/Layout.hs
+  465 ./src/Blog/Layout.hs
    50 ./src/Blog/Prelude.hs
    75 ./src/Blog/Basics.hs
    95 ./src/Blog/Target.hs
@@ -11,4 +11,4 @@
    83 ./src/Blog/SiteLoader.hs
    80 ./src/Blog/AssembleSections.hs
   239 ./src/Blog.hs
- 1499 total
+ 1526 total
