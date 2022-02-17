@@ -19,7 +19,7 @@ real-world problem with MiniZinc. We explain basic formal modeling techniques
 and touch on some advanced topics as well. No prior knowledge of MiniZinc is
 required although we will not run you through the menus of the IDE before
 showing screenshots.</p>
-<h1>A MiniZinc model</h1>
+<h1 id="a-minizinc-model">A MiniZinc model</h1>
 <p>MiniZinc is a language for finite-search discrete programming. These
 complicated words mean that you get to declaratively specify, in a restricted
 formal language, what the characteristics of your problem are. A key
@@ -27,7 +27,7 @@ restriction is that all variables are known and have a finite number of
 possible states. This restriction is not really a limitation in our case.  A
 computer program then ingests the formal specification and automatically find
 solutions to the problem, or proves there are none.</p>
-<h2>Basic formalism for the Snake-Cube</h2>
+<h2 id="basic-formalism-for-the-snake-cube">Basic formalism for the Snake-Cube</h2>
 <p>To solve the Snake-Cube we need to capture interesting properties of the
 puzzle with <em>variables</em>. Introducing variables is like <strong>having words to discuss
 concepts</strong>. Variables must have a name and a <em>domain</em> (i.e., a range of allowed
@@ -85,7 +85,7 @@ trivial problem model in the top pane). The message roughly said that MiniZinc
 found a correct assignment so far: every cube is put in the same position.
 This solution is unsatisfactory for the puzzle, but the reason is obvious: we
 have not given any “rules” of the Snake-Cube yet.</p>
-<h2>Modeling the rules of Snake-Cube</h2>
+<h2 id="modeling-the-rules-of-snake-cube">Modeling the rules of Snake-Cube</h2>
 <p>I claim there are two broad set of rules in the Snake-Cube.</p>
 <p>On the first hand, some rules <strong>are enforced by physics</strong>. For instance, cubes
 cannot overlap in space, corners force a change of direction, the rubber band
@@ -192,12 +192,12 @@ stacked all the cubes and re-ordered them. We have not spoken about geometry at
 all. We don’t even know if the <code>POS</code> numbering represents a 3x3x3 object
 because we have not inserted that into our model at all. To go further we’ll
 need to introduce some notion of coordinates.</p>
-<h2>A coordinates system</h2>
+<h2 id="a-coordinates-system">A coordinates system</h2>
 <p>Coordinates will be useful for two things: first, ensure that our <code>POS</code> numbering
 represents a 3x3x3 cube (remind that if you somehow forget this, the evil genie
 will mis-interpret your wish). And the coordinates will also be able to enforce
 the rules of what are valid folds that do not tear the snake apart.</p>
-<h3>3d-coordinates of positions</h3>
+<h3 id="3d-coordinates-of-positions">3d-coordinates of positions</h3>
 <p>Let’s take a direct approach and define one type per dimension. Each <code>POS</code> will
 have one coordinate value in every dimension. We can model this characteristics
 with three array indexed by <code>POS</code> and that contains one dimensional value.</p>
@@ -229,7 +229,7 @@ numbering of cube as shown in the following poor diagram I made</p>
 <p>Also, since this computation is entirely determined from the input data,
 nothing is variable (i.e., MiniZinc runs the arithmetic before asking the
 solver to run guesses).</p>
-<h3>Segmenting the Snake</h3>
+<h3 id="segmenting-the-snake">Segmenting the Snake</h3>
 <p>Now that it’s clear that the folded-cube is 3x3x3, let’s talk about the snake.
 I decided to model the snake as a series of <code>SEGMENTs</code> which are characterized by
 a starting and an ending <code>CUBE</code>.</p>
@@ -259,7 +259,7 @@ this snake is a bit overwhelming. Each segment is stiff, however between two
 segments the snake can rotate (or pivot around). That is, <em>along</em> a segment, the
 <code>CUBEs</code> of a <code>SEGMENT</code> cannot move. However at <code>junctions between two segments</code>,
 segments are free to rotate.</p>
-<h3>Enforcing the physics of the game</h3>
+<h3 id="enforcing-the-physics-of-the-game">Enforcing the physics of the game</h3>
 <p>We just need to encode these two rules (which will refer to as <em>pivot</em> or
 <em>straight</em>) and we will be done.  There are no major difficulty for this but it
 is not entirely straightforward given how many indirections exist in our model.
@@ -297,7 +297,7 @@ there is likely less typing, the solver will likely be faster because it will
 not be spending time evaluating solutions doomed to fail.  However I cannot
 just extend my model to the 4x4x4 case without some extra work first because
 our elaborate argument for the lazy modeler would fall apart.</p>
-<h3>MiniZinc formalization of the physics</h3>
+<h3 id="minizinc-formalization-of-the-physics">MiniZinc formalization of the physics</h3>
 <p>Let’s now formulate the <code>straight</code> rule. Remember that MiniZinc speaks of
 constraints, and a way to build re-usable constraints is a <code>predicate</code>.  I’m
 deliberately developing and elaborating bits by bits what <code>straight</code> formally
@@ -378,14 +378,14 @@ boring and hard to get right without copy-paste-edit typos. If you fiddle with
 intermediary MiniZinc files you’ll realize that the extra constraint adds 488
 atomic constraints. As a point of comparison the lonely global “all_different”
 from previous section generate a single atomic constraint.</p>
-<h3>Running MiniZinc at last</h3>
+<h3 id="running-minizinc-at-last">Running MiniZinc at last</h3>
 <p>When we now run MiniZinc, we are greeted with a solution after roughly one
 second.</p>
 <p><img src="images/snake-cube-mzn-003.png" alt="proper solution but oddly-formatted" /></p>
 <p>I was pretty excited when I got my first solution. I verified it by
 twisting my fingers. Something pretty interesting happened: <strong>I could not fold
 the Snake-Cube</strong> <span class="emoji" data-emoji="dizzy_face">😵</span> . What on Earth has gone wrong?</p>
-<h1>The mystery and the symmetries</h1>
+<h1 id="the-mystery-and-the-symmetries">The mystery and the symmetries</h1>
 <p>Alright, me failing to fold a Snake, even with a solution given by MiniZinc has only a few possible explanations:</p>
 <ul>
 <li>Hypothesis-A: I made a mistake in the model (likely <span class="emoji" data-emoji="frowning">😦</span>)
@@ -430,7 +430,7 @@ turn the folded-cube around then I have reorganized the coordinates of each
 cube along the <code>Y</code> vertical axis: it’s a new solution, but not an especially
 interesting one compared to my first solution.  In constraint-programming and
 in general in physics, the phenomenon we want to control is named <em>symmetry</em>.</p>
-<h2>Symmetries</h2>
+<h2 id="symmetries">Symmetries</h2>
 <p>Say you give me a valid <code>positions</code> array. I can also build another valid
 <code>positions</code> array by changing the numbering (so that X and Y coordinates are
 ‘swapped’ – the physical equivalent is to rotate around Z). I could tell you
@@ -566,7 +566,7 @@ with some extra fiddling I managed to have Gecode prove exhaustiveness in under
 post).</p>
 <p>Somehow, finding a single solution, and proving that I am not able to follow
 instructions, is a nice conclusion to conclude this story <span class="emoji" data-emoji="book">📖</span>.</p>
-<h1>Summary and Discussion</h1>
+<h1 id="summary-and-discussion">Summary and Discussion</h1>
 <p>We have formalized the problem of the Snake-Cube, solved it, and proved the
 solution unique. Proving the solution unique means that we pretty much have a
 complete characterization of the Snake-Cube puzzle. And to recap, our model
@@ -600,7 +600,7 @@ another blog post. That said, before concluding I cannot resist to ask you a
 question for thought: Is <code>POS</code> really required? it is an interesting question
 because <code>POS</code> is merely and indirection that adds more typing work to get from
 a <code>CUBE</code> to a set of coordinates.</p>
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>We can solve real-world and business-critical problems in MiniZinc. Although
 the Snake-Case, is not as complicated as a real-world models where
 constraint-programming can really shine, this puzzle is a good illustration of
@@ -638,7 +638,7 @@ in some ad-hoc problem that life has thrown at us. And then you need to be able
 to activate the many knobs in a rich toolbox like MiniZinc.</p>
 <p>If you are interested or want to apply these techniques and feel overwhelmed or
 lost, please reach-out.</p>
-<h2>Links</h2>
+<h2 id="links">Links</h2>
 <ul>
 <li><a href="https://www.minizinc.org">MiniZinc</a>
 </li>

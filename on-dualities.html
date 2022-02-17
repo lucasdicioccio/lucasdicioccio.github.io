@@ -11,7 +11,7 @@ have a panel of use-cases that makes them interesting in their own.</p>
 <p>Our job is to balance out complexity. Decision paralisis can be real.  Learning
 to recognize dual concepts is important to make the right tradeoffs, and hence
 the right technical choices.</p>
-<h1>Motivation</h1>
+<h1 id="motivation">Motivation</h1>
 <p>A situation of duality is when two concepts cohabit well while in opposition,
 they connect and perform some symmetrical dance. Like the Yin and Yang: the
 existence of the Yin justifies and coincides with the existence of the Yang.</p>
@@ -30,11 +30,11 @@ like humans did for millenia before Heinsenberg. Circumstances may lead you
 to this zone, and finding the Yin and the Yang is illuminating.</p>
 <p>More important, you may not need to recognize that two concepts exist in a
 duality for the duality to exist. You may completely miss.</p>
-<h1>The producer-consumer duality</h1>
+<h1 id="the-producer-consumer-duality">The producer-consumer duality</h1>
 <p>New behaviours typically are backward compatible.
 New behaviours typically are backward incompatible.</p>
 <p>Writing a library is being a producer of code, writing an application is being a consumer of code.</p>
-<h2>Sum types and Product types</h2>
+<h2 id="sum-types-and-product-types">Sum types and Product types</h2>
 <pre><code>data Bool = False | True
 data Bool ~= False + True
 </code></pre>
@@ -57,10 +57,10 @@ happens when <code>A</code> is a sum type <code>A = (alternative_1 | alternative
                \                       |   |
                 ---&gt; alternative_2 --- [   ]
 </code></pre>
-<h2>Importance</h2>
+<h2 id="importance">Importance</h2>
 <p>This duality is important in modeling and technical aspects of the code.
 In short: you can trade some control-flow complexity into some data complexity.</p>
-<h3>code with bunch of nested ifs</h3>
+<h3 id="code-with-bunch-of-nested-ifs">code with bunch of nested ifs</h3>
 <p>A series of conditions:</p>
 <ul>
 <li>recognize the number of branches you have in total
@@ -72,11 +72,11 @@ In short: you can trade some control-flow complexity into some data complexity.<
 <li>flatten the conditions
 </li>
 </ul>
-<h3>data pipelines</h3>
+<h3 id="data-pipelines">data pipelines</h3>
 <p>We often need to integrate diverse data sources and give them a similar shape
 (e.g., survey from past year and this year, with slightly different fields).</p>
 <p>You can recognize two data sources as being a product (e.g., when you have alternative choices for a user identifier, you want a subset of total information) or a sum type (e.g., you need the union of the dataset).</p>
-<h3>recognizing when to use or work-around so-called abstract code</h3>
+<h3 id="recognizing-when-to-use-or-work-around-so-called-abstract-code">recognizing when to use or work-around so-called abstract code</h3>
 <ul>
 <li>sometimes you have interfaces code to “normalize” access
 </li>
@@ -87,26 +87,26 @@ In short: you can trade some control-flow complexity into some data complexity.<
 <li>however the use of such interface-specific intermediary lead to braided-code, the original output is insufficient, so you still need carry the original objects, you end up adding code to undo features
 </li>
 </ul>
-<h3>refactoring technique: switching representations</h3>
+<h3 id="refactoring-technique-switching-representations">refactoring technique: switching representations</h3>
 <p>Rather than providing a sum type as output, you can encode the possible branches as handlers.</p>
 <p>Same thing, when you have code that requires callbacks, you could modify it to produce an intermediary structure.</p>
 <p>Tradeoffs are opposite: extra structures typically require more RAM but you can inspect and print them. Whereas function calls requier less RAM but cannot provide as much debug information.</p>
-<h3>auditing the importance of introducing new edge cases</h3>
+<h3 id="auditing-the-importance-of-introducing-new-edge-cases">auditing the importance of introducing new edge cases</h3>
 <p>We could consider what happens when <code>A = B</code> is relaxed into <code>A &lt;= B</code> or <code>A &gt;= B</code>, that
 would bring us to Liskov substitution principle, variance and covariance. You
 can treat the <code>A &gt;= B</code> case by saying that extra-alternatives need extra branches.</p>
-<h3>monoliths, microservices, and IT-system architectures</h3>
+<h3 id="monoliths-microservices-and-it-system-architectures">monoliths, microservices, and IT-system architectures</h3>
 <p>We assumed so far that <code>A -&gt; B</code> was a function like a Python or Java function.
 We can actually think of <code>-&gt;</code> as a many data-transfer mechanisms: remote procedure calls, HTTP queries, task message, SQL queries.</p>
 <p>So now if you have a service that produces objects with two possible shapes <code>A or B</code>, you know the consumers will require pairs of branches.</p>
 <p>Similarly, you could have a pair of services (e.g., archived-orders and fresh-orders), possibly with different data-format. Your website will thus either need to uniformize.</p>
 <p>In short, the sum-product dualities will severely leak into the data-access patterns of your services.</p>
-<h1>Other dualities</h1>
-<h2>null vs. default</h2>
+<h1 id="other-dualities">Other dualities</h1>
+<h2 id="null-vs-default">null vs. default</h2>
 <p>Much has been written about <code>null</code> being the billion-dollar error.
 Well, my belief if we should regard <code>defaults</code> with the same horror, because
 default values are the dual of null values.</p>
-<h2>push vs. pull</h2>
+<h2 id="push-vs-pull">push vs. pull</h2>
 <p>With evented architectures being trendy, people tend to oversell the power of
 push-based architectures over pull-based. However there is a dual tension
 between the two.</p>

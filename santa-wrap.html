@@ -1,6 +1,6 @@
 <!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Advent of Haskell 2020: Santa Wrap</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, minizinc, constraint programming, optimization, santa"><meta name="description" content="We help Santa Elves optimize cutting wrapping paper to accomodate various shapes.  The difficult optimization requires a dedicated solver in MiniZinc. Haskell allows to integrate with MiniZinc, reads JSON and outputs a PNG image with the footprint of the positionned shapes to cut. This article shows that a one-day-of-work project can reach pretty far."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Advent of Haskell 2020: Santa Wrap"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="We help Santa Elves optimize cutting wrapping paper to accomodate various shapes.  The difficult optimization requires a dedicated solver in MiniZinc. Haskell allows to integrate with MiniZinc, reads JSON and outputs a PNG image with the footprint of the positionned shapes to cut. This article shows that a one-day-of-work project can reach pretty far."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Advent of Haskell 2020: Santa Wrap"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/santa-wrap.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/layout-robot-200x240.png"><meta property="og:description" content="We help Santa Elves optimize cutting wrapping paper to accomodate various shapes.  The difficult optimization requires a dedicated solver in MiniZinc. Haskell allows to integrate with MiniZinc, reads JSON and outputs a PNG image with the footprint of the positionned shapes to cut. This article shows that a one-day-of-work project can reach pretty far."><meta name="article:published_time" content="2020-12-24"><meta name="article:tag" content="haskell"><meta name="article:tag" content="minizinc"><meta name="article:tag" content="constraint programming"><meta name="article:tag" content="optimization"><meta name="article:tag" content="santa"><style>@import "/css/main.css"</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Advent of Haskell 2020: Santa Wrap</h1><p>On <span>Thu, 24 Dec 2020</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 5758 words.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div><div class="tag"><a class="tag-link" href="/topics/minizinc.html"><span class="tag-name">minizinc</span><span class="tag-count">4</span></a></div><div class="tag"><a class="tag-link" href="/topics/constraint-programming.html"><span class="tag-name">constraint programming</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/optimization.html"><span class="tag-name">optimization</span><span class="tag-count">3</span></a></div></div></header><div class="main-article"><section class="main-section"><p>This article is part of <a href="https://adventofhaskell.com/">Advent of Haskell</a> 2020 <span class="emoji" data-emoji="christmas_tree">🎄</span>.
 Make sure to check the other articles too! You will find the code for this blog-post at <a href="https://github.com/lucasdicioccio/santa-wrap/">the original GitHub publication</a>.</p>
-<h2>Our Christmas project</h2>
+<h2 id="our-christmas-project">Our Christmas project</h2>
 <p>Year 2020 is terrible. Santa’s Workshop had to take stay-at-home restrictions.
 However, Elves want to do the utmost to keep Christmas’ spirit alive. This
 year, Elves will work from home rather than work in the streamlined workshop <span class="emoji" data-emoji="factory">🏭</span> .
@@ -50,7 +50,7 @@ a rush to help the Elf. Thus, the main goal for this article is to relate how
 to iterate quickly on a practical one short day project. Secondary goals are to
 pike your interest about MiniZinc and introduce you a library named
 <code>minizinc-process</code>.</p>
-<h2>Approach</h2>
+<h2 id="approach">Approach</h2>
 <p>The type of problem for cutting wrapping paper is known as a Packing problem.
 These problems are generally difficult to solve efficiently. However, for small
 sizes or particular form of constraints, some solutions could be efficiently
@@ -66,7 +66,7 @@ language and toolchain) with Haskell (which readers of this Advent of Haskell
 submission are familiar with). We will show the progression of a tool, with
 building a value-adding prototype in a day or two of work for some Elf familiar
 with Haskell and Minizinc.</p>
-<h2>Motivating our Iterations</h2>
+<h2 id="motivating-our-iterations">Motivating our Iterations</h2>
 <p>The author built this tool in four broad iterations: implement a demo solver
 in MiniZinc, generate simple pictures for each wrapping, introduce the concept
 of layout, and, bridge the solver. We motivate each iteration before jumping
@@ -110,11 +110,11 @@ assessed has being the most uncertain (i.e., requiring the most discovery) or
 most meticulous (i.e., spending time building accurate types to reduce the risk
 of bugs).</p>
 <p>Let’s discuss how this four iterations looked like.</p>
-<h2>The four iterations</h2>
+<h2 id="the-four-iterations">The four iterations</h2>
 <p>We now dive in more details into each iteration. Recall that I time-boxed this
 project to the equivalent of a short-day-of-work. Readers should be able to
 read these independently.</p>
-<h3>A solver in MiniZinc</h3>
+<h3 id="a-solver-in-minizinc">A solver in MiniZinc</h3>
 <p>We basically call the <em>global contstraint</em> <code>geost_bb</code>. Let’s unpack how it
 works, starting from a small MiniZinc overview and a mini tutorial on
 <code>geost_bb</code>.</p>
@@ -254,7 +254,7 @@ and <code>geost_bb</code> representations)
 (0,6) etc. Elves could work with such an output, however a visual display is
 better. Plus they want to prepare their cutting boards, build guides, or simply
 pass an eye-check that things are in the right place.</p>
-<h3>Generate simple pictures</h3>
+<h3 id="generate-simple-pictures">Generate simple pictures</h3>
 <p>I have had little interest in graphics in the past. Thus I vaguely know some
 Haskell libraries exist like
 <a href="https://hackage.haskell.org/package/diagrams">diagrams</a>, <code>gloss</code>,
@@ -365,7 +365,7 @@ $ done!
 <img src="images/parts.png" alt="img" />.  Elves can use these parts to prepare some guides to
 later cut wrapping paper rapidly.</p>
 <p>Now let’s finally introduce the concept of layout.</p>
-<h3>Introduce the notion of layout</h3>
+<h3 id="introduce-the-notion-of-layout">Introduce the notion of layout</h3>
 <p>The layout is a collection of positioned wrappings. There’s an obvious Functor
 instance for Positioned. I could refactor Rectangle into a Positioned Rect.
 This way, a Layout is a <code>[ Positioned [ Positioned Rect ] ]</code> and it is probably
@@ -431,7 +431,7 @@ done!
 <p><img src="images/linear-layout.png" alt="img" /></p>
 <p>Now we see the margins, the coloring. We also have a MiniZinc model for
 non-naive layouts. Let’s bring the two things together.</p>
-<h3>Actually bridge the Haskell and MiniZinc code</h3>
+<h3 id="actually-bridge-the-haskell-and-minizinc-code">Actually bridge the Haskell and MiniZinc code</h3>
 <p>Showcasing my <code>minizinc-process</code> library is, a main motivator (second to saving
 Christmas’ spirit, though).</p>
 <p>Remember that, we want to approach ergonomics for the solver so that in
@@ -636,11 +636,11 @@ the roll size <img src="./images/layout-190x150.png" alt="img" />.</p>
 spirit. Thank you MiniZinc and Haskell!</p>
 <p>For the fun try packing that yourselves (input is <code>input/wrapping005.json</code>)
 <img src="images/layout-robot-200x240.png" alt="img" /></p>
-<h2>Discussion</h2>
+<h2 id="discussion">Discussion</h2>
 <p>Given more times, a number of possible improvements could happen. For a work
 project more discussions with the Elves would help adding more constraints to
 the Model. We next discuss some possible “improvements”.</p>
-<h3>Possible improvements</h3>
+<h3 id="possible-improvements">Possible improvements</h3>
 <p>Elves have deadlines too, although they would love to keep improving their
 tools, they have other important (albeit slightly more mundane) tasks at their
 day jobs. Besides the discussion about Positioned being an interesting
@@ -674,7 +674,7 @@ Elves with cutting-tools and drop cissors would probably use total surface as a
 good enough proxy, simulators can help assess how bad.</p>
 <p>Elves would love to hear about your improvement suggestions or merge requests!
 Feel free to contact me or to open some Issues to discuss them together.</p>
-<h3>Epilogue</h3>
+<h3 id="epilogue">Epilogue</h3>
 <p>Alright, this blog post was longer than I expected. I wanted to show how
 Haskell can be used to solve a very practical problem and also put onto words
 some “tactical thinking” to avoid losing time on the less-important aspects

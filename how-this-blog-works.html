@@ -13,7 +13,7 @@ sufficient because any change requires modifications in multiple places.</p>
 <p>Without much surprise, I ended up writing my own engine. This article explains
 what I really want of a blog-engine and how I’ve implemented it. Little code is
 shown and ideas are applicable whatever tech-stack you pick.</p>
-<h1>Requirements</h1>
+<h1 id="requirements">Requirements</h1>
 <p>Let’s make a checklist</p>
 <ul>
 <li><input type="checkbox" disabled> static-site first, APIs second
@@ -27,7 +27,7 @@ shown and ideas are applicable whatever tech-stack you pick.</p>
 <li><input type="checkbox" disabled> metadata for layout and stats
 </li>
 </ul>
-<h3>static-site first, serving second</h3>
+<h3 id="static-site-first-serving-second">static-site first, serving second</h3>
 <p>Hosting a static site is much simpler. GitHub does it for free.  At this point
 I cannot justify maintaining API endpoints for posting comments, nor a database
 to store them. I still would like to be able to fluidly move to something
@@ -37,7 +37,7 @@ imagine having a static-site first, with only a meager amount of web-serving.</p
 <p>A nice side-effect is that <code>git</code> is a natural database of content, and
 git-based flows could serve in multi-authors situations (or for instance to let
 people use GitHub to add invited-content/comments on the blog).</p>
-<h3>developer mode with live-preview</h3>
+<h3 id="developer-mode-with-live-preview">developer mode with live-preview</h3>
 <p>I like quick feedback loops. The fastest feedback loop likely is a WYSIWYG
 editor, however my experience with WYSIWYG is not great. To make WYSIWYG works,
 these tools must have their own limitations, for instance it is hard to be
@@ -49,7 +49,7 @@ fast-preview is good enough. A Live-preview like in HTML-IDE is almost as good
 as the immediacy of WYSIWYG. Given that I am writing HTML content, I could use
 a JS script to automatically reload after changes like some JS applications
 frameworks (e.g., NextJS) offer.</p>
-<h3>markdown for the <em>meaty</em> content, functional layouts</h3>
+<h3 id="markdown-for-the-meaty-content-functional-layouts">markdown for the <em>meaty</em> content, functional layouts</h3>
 <p>To make a blog page you need two broad set of HTML information, the meaty
 content and the layout parts. The meaty content is the large amount of words
 and paragraphs and images that make the core of the site. This is what readers
@@ -92,7 +92,7 @@ functional programming is the right tool for the job. I happen to know Haskell
 well, the author of Commonmark wrote a couple of libraries in Haskell
 <span class="emoji" data-emoji="arrow_right">➡️</span> overall I have no reasons to shy away and pick something
 different.</p>
-<h3>customizable metadata, CSS, JS per article</h3>
+<h3 id="customizable-metadata-css-js-per-article">customizable metadata, CSS, JS per article</h3>
 <p>I have ideas for some articles that would benefit from having special CSS or
 special JS scripts (e.g., to add some interactivity). Ideally, I want the
 ability to insert assets on a per-page basis. Since there are different reasons
@@ -106,7 +106,7 @@ enough pain to do so). An example of files with sections are
 <a href="https://en.wikipedia.org/wiki/MIME#Multipart_messages">multipart-emails</a>.  And
 your email client can totally make sense of images, HTML parts, text parts from
 a condensed text file.  Let’s take inspiration on this.</p>
-<h2>Synthesis of requirements</h2>
+<h2 id="synthesis-of-requirements">Synthesis of requirements</h2>
 <p>The thing I want is some Haskell-variant that (a) interprets markdown-like
 files for the <em>meaty content</em> then passes that into (b) some rendering
 function. These files could (c) be augmented with extra data and extra CSS/JS.
@@ -121,7 +121,7 @@ library. It supports some form of metadata per-article for customizing the
 article (e.g., picking a certain layout) but I really want to insert multiple
 sections.</p>
 <p>Thus, overall, I got a pretext to <strong>invent my own</strong> <span class="emoji" data-emoji="nerd_face">🤓</span> .</p>
-<h1>Implementation</h1>
+<h1 id="implementation">Implementation</h1>
 <p>Let’s first say that the implementation I present here does not represent the
 whole iterations.  I first started with a simple file-to-file generator taking
 exactly one <code>.md</code> file with multiple sections and  turning that into <code>.html + .css</code> . Proper layouts and live-reloads came later, the whole blog has been a
@@ -131,7 +131,7 @@ while changing only the layout).</p>
 architecture.  Thus when I say “a function” you can imagine it’s “a monad” if
 you feel compelled to entertain an annoying cliché about Haskellers detached from
 reality.</p>
-<h2>Main Architectural Blocks</h2>
+<h2 id="main-architectural-blocks">Main Architectural Blocks</h2>
 <p>The following picture sketches roughly the blog engine pipeline.</p>
 <p><img src="/gen/images/blog-phases.dot.png" alt="pipeline" /></p>
 <ol>
@@ -152,7 +152,7 @@ article</em> is done by adding a new <code>.md</code> file but <strong>requires 
 code-change and a recompilation</strong>.</p>
 <p>To motivate the next sections it is worth detailing the assembly-part of the
 blog engine. Let’s focus on <code>read -&gt; assemble -&gt; produce</code> steps.</p>
-<h3>detailed assembly pipeline</h3>
+<h3 id="detailed-assembly-pipeline">detailed assembly pipeline</h3>
 <p>A more detailed conceptual pipeline of the three last steps is as follows.  In
 the following graph arrows represent the data flow (i.e., starting from inputs
 data representations progress towards the output files).</p>
@@ -181,7 +181,7 @@ pages and their templates. This mix is means there sometimes is two ways to do
 a thing (e.g., should I add some default CSS file in the layout or via includes
 in the CSS-section of individual articles so that I can override it entirely?)
 with no clear immediate tradeoff.</p>
-<h3>sample output</h3>
+<h3 id="sample-output">sample output</h3>
 <p>When the binary executes you get an uninteresting log of what occurs.
 This log can help understand what happens.</p>
 <div id="sample-output">
@@ -243,7 +243,7 @@ generating out/json/paths.json
 generating out/json/filecounts.json
 </code></pre>
 </div>
-<h2>Section-based file format</h2>
+<h2 id="section-based-file-format">Section-based file format</h2>
 <p>An input file for an Article is suffixed <code>.md</code> even if it’s not strictly some markdown (this way syntax highlighting works).</p>
 <p>The content of a single file with multiple sections is a file like the following example:</p>
 <pre><code>=base:build-info.json
@@ -290,7 +290,7 @@ section allows to write some CSS that will be inlined in the HTML (conversely,
 <code>.css</code> files found in the source directory will be copied around).</p>
 <p>These sections could all be collapsed in a single section however I find it
 convenient to have one small datatype per logical ‘metadata’ piece.</p>
-<h2>Dev-mode and auto-reload</h2>
+<h2 id="dev-mode-and-auto-reload">Dev-mode and auto-reload</h2>
 <p>The dev-server API itself is written with my
 <a href="https://github.com/lucasdicioccio/prodapi">prodapi</a> API library, which curates
 some good Haskell libraries for building APIs. There is enough to help running
@@ -335,14 +335,14 @@ Implementation of the live-reload is illustrated as follows:</p>
 <li>the server <code>background</code> waits for the filesystem flag changes, clears the flag, then fans-out the signal to waiting HTTP-clients, all of this is atomic outside the STM area (all the changeds are annotated <code>flush</code> in orange on the picture)
 </li>
 </ul>
-<h1>Experience report</h1>
+<h1 id="experience-report">Experience report</h1>
 <p>It has been fun to write some get-stuff-done Haskell. I sincerely believe
 this blog engine does not have to shy away in face of other tools. I will
 surely try to extract the library code as a standalone engine at some point,
 but for now my repository mixes library, specific layout and rules for my own
 blog, and content.</p>
 <p>Let me explain a few things that I find rather pleasant.</p>
-<h2>Sections and file generators</h2>
+<h2 id="sections-and-file-generators">Sections and file generators</h2>
 <p>Some interesting Sections and ProductionRules:</p>
 <ul>
 <li>dotfile conversion:  turn a <code>.dot</code> file into a <code>.png</code> with <a href="https://graphviz.org/">GraphViz</a>; the live-reload in the output web-page without leaving <code>vim</code> makes it a breeze (see video below)
@@ -359,7 +359,7 @@ blog, and content.</p>
   <source src="/videos/demo-blog.webm.mp4" type="video/mp4">
   <source src="/videos/demo-blog.webm" type="video/webm">
 </video>
-<h2>Commonmark is great</h2>
+<h2 id="commonmark-is-great">Commonmark is great</h2>
 <p>The Commonmark package <a href="https://github.com/jgm/commonmark-hs/tree/master/commonmark-extensions">supports extensions</a>.
 For instance, I have enabled the emoji syntaxt that turns <code>:smiley:</code> into
 <span class="emoji" data-emoji="smiley">😃</span>. I also enabled support for directly adding HTML tags (including JS)
@@ -379,7 +379,7 @@ need small-scripting capabilities.</p>
 <p><strong>press to get an alert</strong>
 <button class="example-button" onClick="alert('hi from commonmark')">press me</button></p>
 </div>
-<h2>You can get creative</h2>
+<h2 id="you-can-get-creative">You can get creative</h2>
 <p>A more-complicated JavaScript usage below shows you can embed JavaScript for
 visualizations (example with
 <a href="https://vega.github.io/vega-lite/usage/embed.html">Vega-Lite</a>). Further, the
@@ -406,7 +406,7 @@ generator section could also create a similar target.</p>
   };
   vegaEmbed('#vis', yourVlSpec);
 </script>
-<h2>Future ideas</h2>
+<h2 id="future-ideas">Future ideas</h2>
 <p>Regarding <em>templating</em>. I still would like some interpreted templating (e.g.,
 Mustache) for some very specific cases such as data tables, with data generated
 from another section.  The reason is that to add a new article I should write

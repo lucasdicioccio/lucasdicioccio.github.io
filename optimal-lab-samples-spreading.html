@@ -1,6 +1,6 @@
 <!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="minizinc, optimization"><meta name="description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Optimal Lab Samples Spreading"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/labspread-study.png"><meta property="og:description" content="An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories."><meta name="article:published_time" content="2022-02-09"><meta name="article:tag" content="minizinc"><meta name="article:tag" content="optimization"><style>@import "/css/main.css";</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>Optimal Lab Samples Spreading</h1><p>On <span>Wed, 09 Feb 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3197 words.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/minizinc.html"><span class="tag-name">minizinc</span><span class="tag-count">4</span></a></div><div class="tag"><a class="tag-link" href="/topics/optimization.html"><span class="tag-name">optimization</span><span class="tag-count">3</span></a></div></div></header><div class="main-article"><section class="main-section"><p>This article illustrates what the work of modeling a problem for constraint
 optimization entails.</p>
-<h1>A problem with a vague description</h1>
+<h1 id="a-problem-with-a-vague-description">A problem with a vague description</h1>
 <p>Unless you’ve been living under a rock, you are aware that the COVID19 pandemic
 happened and is still ongoing. One thing that has become common at least in
 rich countries is the frequent tests we need to perform to validate whether a
@@ -14,7 +14,7 @@ various sampling <em>locations</em> (e.g., pharmacies) to laboratories? There is
 delay in sending tests to laboratories, and also there is a maximum delay to
 wait for a sample (otherwise the sample deteriorates and can no longer provide
 good material for the test). What do we do for a day, over a week?</p>
-<h1>An off-the-shelf model</h1>
+<h1 id="an-off-the-shelf-model">An off-the-shelf model</h1>
 <p>Before using a modeling approach solver, it’s always good to verify whether the
 problem has an easy-to-recognize shape. This instance looks like an <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem">max-flow
 problem</a> where testing
@@ -66,11 +66,11 @@ hard constraint into a soft-constraint and pretend we are geniuses).</p>
 <p>Enough introduction, let’s see how we could formulate the problem in a
 constraint-programming language (using <a href="https://minizinc.org/">MiniZinc</a> as
 usual on this blog).</p>
-<h1>A constraint-programming model</h1>
+<h1 id="a-constraint-programming-model">A constraint-programming model</h1>
 <p>Remember that to model a constraint-programming problem we need to formulate
 what are <em>inputs</em>, <em>decisions</em>, and <em>constraints</em>. We also need some form of
 <em>objective</em>.</p>
-<h2>high-level model</h2>
+<h2 id="high-level-model">high-level model</h2>
 <p>We will assume that we have some time-based model of the demand in number of
 tests. We also assume that we know the labs capacities (this is no different
 from our introductory model).</p>
@@ -105,7 +105,7 @@ from our introductory model).</p>
 <li>minimize the number of samples thrown away otherwise you can always assign zero from any testing-site to any lab
 </li>
 </ul>
-<h2>formalized in MiniZinc</h2>
+<h2 id="formalized-in-minizinc">formalized in MiniZinc</h2>
 <p>The core of the model would be something as follows:</p>
 <pre><code>int: nLab;
 int: nZone;
@@ -159,7 +159,7 @@ different times for a given zone are on the left, load for a given lab is the
 right).
 <img src="/images/labspread-study.png" alt="sketch of model" /></p>
 <p>We still need to link everything with constraints and write the objective function.</p>
-<h3>conservation law</h3>
+<h3 id="conservation-law">conservation law</h3>
 <p>The conservation-law is not too complicated: at any given TIME, the demand is
 partitioned in two sets: dropped quantities and dispatched quantities.</p>
 <pre><code>% must dispatch all demand
@@ -171,7 +171,7 @@ initially had a inequality saying that the dispatched amount had to be below
 the demand, it took me some time to realize that what is leftover deserves a
 concept in its own. Then, the conservation law appeared and it became easier to
 reason and debug with this extra ‘dropped’ variable.</p>
-<h3>samples must reach a lab and be processed within their lifetime</h3>
+<h3 id="samples-must-reach-a-lab-and-be-processed-within-their-lifetime">samples must reach a lab and be processed within their lifetime</h3>
 <p>Here we are using some <em>implication</em> connective that says that if the transit
 time and the considered queuing delay exceeds the sample lifetime, then the
 dispatched amount for this zone, lab, and delay has to be zero.</p>
@@ -188,7 +188,7 @@ desired outcome). I do not claim that it is impossible to reverse the logic,
 but I found no trivial ways to do so without introducing new variables.</p>
 <p>Combined with the conservation law, this constraint will force undispatcheable
 quantities to move to the dropped quantity.</p>
-<h3>load versus capacity at LAB</h3>
+<h3 id="load-versus-capacity-at-lab">load versus capacity at LAB</h3>
 <p>We need some way to prevent LABs overload. For this we need a definition of
 load of a LAB at a given time. This load consists of the dispatched amounts
 (including transit costs and backlog-delays).</p>
@@ -205,7 +205,7 @@ given time, the constraint becomes trivial.</p>
 constraint forall(l in LAB, t in TIME)
   (capacity[l] &gt;= load[l,t]);
 </code></pre>
-<h3>objective: no waste</h3>
+<h3 id="objective-no-waste">objective: no waste</h3>
 <p>This probably is the easiest part of the work. We sum the total dropped amounts and minimize this.</p>
 <pre><code>var int: total_drop = sum(array1d(dropped));
 
@@ -216,7 +216,7 @@ about what a performing heuristic could look like: starting by dispatching zero
 we try to attribute fill labs with from closest zones in total delay.
 Fortunately, we do not need to write a heuristic and can just run our MiniZinc
 model.</p>
-<h2>Running the model</h2>
+<h2 id="running-the-model">Running the model</h2>
 <p>You will find my model, some example data and even some synthetic-data generator written with a simple Ruby script at <a href="https://github.com/lucasdicioccio/labspread">one of my GitHub repos</a> .</p>
 <p>The final model has one modification (see below) but also a slightly different
 output format than you get by default with MiniZinc (hopefully it’s more
@@ -348,7 +348,7 @@ an fast-growing phenomenon and soon your capacity will be maxed-out. Thus,
 there will be no gain in being smart, better provide tools to get good
 visibility and efficient handling, which can play a role in increasing
 capacity.</p>
-<h2>Avenues for modifications</h2>
+<h2 id="avenues-for-modifications">Avenues for modifications</h2>
 <p>It’s always important to step back and see how we could change the model. I do
 not want to use the word <em>improve</em> the model because we actually build
 different models. Indeed: a simple model also requires less input data (which
@@ -356,7 +356,7 @@ may not be easy to collect), and less testing/debugging work.</p>
 <p>We provide a series of modifications that one may want to apply and discuss how
 we could adapt (or not) the model. The easy-changes have snippets of code to
 see how the constraint-programming approach is beneficial.</p>
-<h3>More time-varying variables</h3>
+<h3 id="more-time-varying-variables">More time-varying variables</h3>
 <p>Lab capacities are given as a fixed value. However we could easily modify the
 lab capacities to be known time-varying values. Such a change could allow to
 model the effect of opening/closing some labs for WE breaks. The change here is pretty limited, we would introduce a <code>TIME</code> component to the capacity and use it in the adequate constraint:</p>
@@ -370,7 +370,7 @@ constraint forall(l in LAB, t in TIME)
 of the capacity is not key in the structure of the problem (i.e., we do not
 change the number nor the shape of constraints, we merely change the bounds the
 load can take). Hence, it did not cost me much more to add.</p>
-<h3>More physically-correct model of test-performance</h3>
+<h3 id="more-physically-correct-model-of-test-performance">More physically-correct model of test-performance</h3>
 <p>The quality of tests may deteriorate with the delay: in current model the
 ‘value’ of a test is implicitly binary: we get either 1 valid sample before the
 deadline or 0 past the deadline. We could imagine a different function with a
@@ -383,7 +383,7 @@ DELAY, we could use such an objective (turned into a maximization here).</p>
 <pre><code>var int: w = sum(z in ZONE, l in LAB, t in TIME, d in DELAY)(dispatch[z,l,t,d] * (sample_lifetime-d));
 solve maximize w;
 </code></pre>
-<h3>Varying processing costs at laboratories</h3>
+<h3 id="varying-processing-costs-at-laboratories">Varying processing costs at laboratories</h3>
 <p>We can imagine that the network of laboratories may process various samples at
 different costs. The cost function could take into account a different price
 depending on the LAB. The cost function could even be non-linear with some
@@ -401,7 +401,7 @@ we can incorporate the processing cost into the objective. Care as to be taken
 to still take into account the <code>total_drop</code> amount and weight it accordingly to
 the processing_cost (otherwise the solver will cynically figure out that
 dropping every samples incurs no cost).</p>
-<h3>More faithful representation of probabilities</h3>
+<h3 id="more-faithful-representation-of-probabilities">More faithful representation of probabilities</h3>
 <p>Actual demand in test is pretty unknown: using stochastic programming could
 help having more acceptable results (a typical implementation is to discretize
 the probability distribution, another one is to produce a large amount of
@@ -417,7 +417,7 @@ as the time passes. Here you may want to reach for bigger guns like
 <a href="https://www.mit.edu/~dimitrib/Dynamic_Prog_Videos.html">optimal-control and reinforcement learning</a> theory (here, a single-stage CP
 could be a rollout-heuristic – but we are eyeing on state-of-the-art topics
 rather than on a humble blog post).</p>
-<h3>More business constraints</h3>
+<h3 id="more-business-constraints">More business constraints</h3>
 <p>As provided in the introduction. A reason to avoid spending too much time in
 using an off-the-shelf algorithm can be a simple business-rule such as “a
 testing site can ship at most twice per day”, which would mean our optimization
@@ -445,7 +445,7 @@ constraint forall(t in TIME, z in ZONE)(
 would be useful to force ourselves to model this problem as a
 mixed-integer-linear-programming problem, but that would become rather
 complicated if you combine these alterations to the initial problem.</p>
-</section><section class="main-section"><h1>Closing remarks</h1>
+</section><section class="main-section"><h1 id="closing-remarks">Closing remarks</h1>
 <p>Before starting modeling the problem with a constraint-programming language,
 let’s keep in mind that we should always do the work of trying to apply an
 off-the-shelf but under-constrained algorithm: sometimes it works (i.e., you
