@@ -1,9 +1,9 @@
   245 ./app/Main.hs
-  164 ./src/Commonmark/Free.hs
+  199 ./src/Commonmark/Free.hs
    29 ./src/Blog/Assembler.hs
    42 ./src/Blog/Site.hs
   474 ./src/Blog/Layout.hs
-  158 ./src/Blog/Advanced.hs
+  167 ./src/Blog/Advanced.hs
    50 ./src/Blog/Prelude.hs
    62 ./src/Blog/Basics.hs
    95 ./src/Blog/Target.hs
@@ -12,5 +12,5 @@
    21 ./src/Blog/Generator.hs
    83 ./src/Blog/SiteLoader.hs
    92 ./src/Blog/AssembleSections.hs
-  212 ./src/Blog.hs
- 1835 total
+  213 ./src/Blog.hs
+ 1880 total
