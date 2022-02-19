@@ -7,20 +7,28 @@ var option;
 
 myChart.showLoading();
 $.get(ROOT_PATH + '/json/topicsgraph.json', function (topicsgraph) {
-  const categoryIndices = ["TargetNode", "TopicNode"];
+  const categoryIndices = ["ArticleNode", "TopicNode", "ImageNode"];
+  const sizeFor = (node) => {
+    switch (node[1]?.tag) {
+      case "ArticleNode":
+        return 10 + Math.log(node[1].contents[1]) / Math.log(2);
+      case "TopicNode":
+        return 10;
+      default:
+        return 5;
+    }
+  };
   const graph = {
-    categories: [{"name":"articles"},{"name":"topics"}],
+    categories: [{"name":"articles"},{"name":"topics"},{"name":"images"}],
     links: topicsgraph.edges.map((e) => { return {source:e[0], target:e[1]} }),
     nodes: topicsgraph.nodes.map((n) => { return {
         id:n[0]
       , name:n[0]
-      , symbolSize: 15
+      , symbolSize: sizeFor(n)
       , category: categoryIndices.findIndex((t) => t == n[1].tag)
       } 
     }),
   }
-
-  console.log(graph);
 
   myChart.hideLoading();
   option = {
