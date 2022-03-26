@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - On Dualities</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="architecture, haskell, functional programming, programming, software architecture"><meta name="description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/on-dualities.html"><meta property="og:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="article:published_time" content="2022-03-01"><meta name="article:tag" content="architecture"><meta name="article:tag" content="haskell"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="programming"><meta name="article:tag" content="software architecture"><style>@import "/css/main.css";.cols {  display: flex;  flex-flow: row;  justify-content: space-around;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>On Dualities</h1><p>On <span>Tue, 01 Mar 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3266 words, 2 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div class="main-article"><section class="main-section"><p>Functional programming has taught me to <em>simplify</em> superfluous concepts:
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - On Dualities</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="architecture, haskell, functional programming, programming, software architecture"><meta name="description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/on-dualities.html"><meta property="og:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="article:published_time" content="2022-03-27"><meta name="article:tag" content="architecture"><meta name="article:tag" content="haskell"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="programming"><meta name="article:tag" content="software architecture"><style>@import "/css/main.css";.cols {  display: flex;  flex-flow: row;  justify-content: space-around;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>On Dualities</h1><p>On <span>Sun, 27 Mar 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3675 words, 4 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>Functional programming has taught me to <em>simplify</em> superfluous concepts:
 identify what are primitive concepts and what are constructions on top these
 primitives. The constructions themselves need not be multiplied out of
 proportion: it is better to stick to few ways of combining entities and
@@ -230,7 +230,7 @@ consumer/producer is that you do not need to be a compiler to foresee whether
 two pieces of software “connect” well or not. You can foresee errors, planify
 refactorings, and prepare architecture documents for splitting a monolith into
 services (or when agglomerating too-thin services into larger ones).</p>
-<p><strong>flattening an http response</strong></p>
+<h3 id="flattening-an-http-response">flattening an http response</h3>
 <p>Say that you are calling a library function that returns an <code>a * (b+c)</code>, for
 instance, an HTTP response could be represented as <code>headers ~= a</code> and <code>body ~= b if the response is valid, c if it's an error message</code>. Since <code>a * (b + c)</code> is
 equivalent to <code>(a * b) + (a * c)</code>. You can decide to write a handler for “HTTP
@@ -253,7 +253,7 @@ we could safely assume that decoding commutes as one would expect decoding to
 be deterministic and require no exogenous side-effects.</p>
 <p>That’s a lot
 of information about the code when only looking at a type-description!</p>
-<p><strong>refactoring API services with multiple endpoints</strong></p>
+<h3 id="refactoring-api-services-with-multiple-endpoints">refactoring API services with multiple endpoints</h3>
 <p>We’ve said earlier than a web-API is a product of handlers.  Thus, to say that
 an API implements <code>a * (b + c)</code> at a conceptual level means the web-API has two
 routes (the <code>*</code> at the first layer) and the payload of the second type is known
@@ -274,11 +274,12 @@ to call <code>route-combined</code>.</p>
 <p>Note that when we say the representations are equivalent, we mean that either
 <code>a * (b+c)</code> or <code>(a*b) + (a*c)</code> are entirely produced and consumed.
 Commutativity is important in the first case.</p>
-<p>A counter example, where you would believe that you can introduce the same
-transformation is as follows.  Say you have to pick between using one endpoint
-or a series of endpoints.
-In both case you will need to encode some branching logic: in the URL path or
-in the payload.</p>
+<h4 id="some-api-refactoring-where-this-rule-fail">some API refactoring where this rule fail</h4>
+<p>Let’s see an a negative example where you would believe that you can introduce
+the same transformation.  Say you have to pick between using one endpoint or a
+series of endpoints.
+Such a situation arises when <strong>in both case you need to encode some branching
+logic</strong>: in the URL path or in the payload.</p>
 <pre><code>POST /foo/bar               POST /foo 
    {&quot;hello&quot;: &quot;world&quot;}          {&quot;hello&quot;: &quot;world&quot;, &quot;branch&quot;: &quot;bar&quot;} 
                         &lt;=&gt;
@@ -292,33 +293,79 @@ our only way to factorize this is to use what is known as … you guess it, an e
 handlers, you can factorize that into one handler having an extra argument
 taking five possible values. There is no duality involved here, but it is
 interesting to note that the product/sum extends to more arithmetics.</p>
-<p>Exponentials <code>a ^ k</code> varies from products <code>a x k</code> because if we keep this sense
-of fully-consuming either inputs, you would need to consume multiple a versus
-consuming a single a. Indeed, a client that has the alternative to pick many
+<p>Exponentials <code>a ^ k</code> varies from products <code>a * k</code> because if we keep this sense
+of fully-consuming either inputs, you would need to consume multiple <code>a</code> versus
+consuming a single <code>a</code>. Indeed, a client that has the alternative to pick many
 different A with various handlers, to get the same behaviour we still need the
-possibility to handle <code>a</code> differently based on the <code>branch</code> value.</p>
-<h3 id="auditing-the-importance-of-introducing-new-edge-cases">auditing the importance of introducing new edge cases</h3>
-<p>We could consider what happens when <code>A = B</code> is relaxed into <code>A &lt;= B</code> or <code>A &gt;= B</code>, that
-would bring us to Liskov substitution principle, variance and covariance. You
-can treat the <code>A &gt;= B</code> case by saying that extra-alternatives need extra branches.</p>
-<h3 id="monoliths-microservices-and-it-system-architectures">monoliths, microservices, and IT-system architectures</h3>
-<p>We assumed so far that <code>A -&gt; B</code> was a function like a Python or Java function.
-We can actually think of <code>-&gt;</code> as a many data-transfer mechanisms: remote procedure calls, HTTP queries, task message, SQL queries.</p>
-<p>So now if you have a service that produces objects with two possible shapes <code>A or B</code>, you know the consumers will require pairs of branches.</p>
-<p>Similarly, you could have a pair of services (e.g., archived-orders and fresh-orders), possibly with different data-format. Your website will thus either need to uniformize.</p>
-<p>In short, the sum-product dualities will severely leak into the data-access patterns of your services.</p>
-<h1 id="other-dualities">Other dualities</h1>
-<h2 id="null-vs-default">null vs. default</h2>
-<p>Much has been written about <code>null</code> being the billion-dollar error.
-Well, my belief if we should regard <code>defaults</code> with the same horror, because
-default values are the dual of null values.</p>
-<h2 id="push-vs-pull">push vs. pull</h2>
-<p>With evented architectures being trendy, people tend to oversell the power of
-push-based architectures over pull-based. However there is a dual tension
-between the two.</p>
-<p>Push is write and Pull is read.</p>
-<p>Some work are inherently push-based: everything that has a sum as input (e.g., two operations that may occur).</p>
-<p>Some work are inherently pull-based: everything that requires a product as input (e.g., consensus to know the true value, when debugging you need a product of dataset to recreate a full context).</p>
-<p>Thus, no big surprise, push-based architecture actually are full of pull-based
-mechanisms.</p>
+possibility to handle <code>a</code> differently based on the <code>branch</code> taken.</p>
+<h3 id="monoliths-microservices-and-it-system-architectures-rollouts">monoliths, microservices, and IT-system architectures rollouts</h3>
+<p>Most companies with a large amount of software need to evolve their codebase.
+Thus, I recommend to recognize three key aspects:</p>
+<ul>
+<li>what is constant about the system?
+</li>
+<li>what is the product/sum nature of the changed system?
+</li>
+<li>are you flattening/nesting the changed system?
+</li>
+</ul>
+<p>Having these information at hand is like accumulating equations to solve an
+system of equations until the system is well defined.</p>
+<p>For instance, the exercise of splitting a monolith is like going from a large
+product into some more nested products <code>a * b * c * d</code> to something more nested
+<code>(a * b) * (c) * (d)</code>. The overal number of services is constant and we still
+have a gigantic product type of endpoints. The latter seems more complicated,
+so why do we dread monoliths? Well, imagine that now you want to support a new
+key customer with a new business use-case <code>c = c1 + c2</code>. Then we can see what
+happens to monoliths if we want to isolate customers for a reason or another
+(i.e., if we expose an alternative of sets of simple endpoints rather than
+exposing a single set of more-complicated endpoints). We distribute the <code>+</code> and
+get the following: <code>a * b * (c1 + c2) * d = (a * b * c1 * d) + (a * b * c2 * d)</code> you need to fork the whole <code>a * b * _ * d</code> part of the monolith to please
+the new business.
+Whereas in the already-factored out situation, we get <code>(a*b) * (c1) * (d) + (a*b) * (c2) * (d)</code>, that is some set of endpoints are stable and can be
+re-used more directly.</p>
+<h1 id="another-duality">Another duality</h1>
+<p>Before concluding, I would like to pinpoint some related duality that also
+stems from the producer/consumer viewpoint.</p>
+<h2 id="null-and-default-values-are-duals">null and default-values are duals</h2>
+<p>Much has been written about <em>null</em> being Tony Hoare’s <a href="https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/">billion-dollar mistake</a>.
+Well, my sincere belief if we should regard implicit <em>defaults</em> (default values) with the same scrutiny.
+In many languages, <em>null</em> actually is “THE default value”, but I want to stress that <em>defaults</em> in itself is a problem.</p>
+<p>Why do I believe that <em>null</em> and <em>defaults</em> are dual? Well, let’s look at some usages:</p>
+<ul>
+<li><em>null</em> is here to <em>provide</em> no-values to some consumer that will <em>consume</em> one
+</li>
+<li><code>default</code> is here to <em>consume</em> no-value from some producer that should have <em>produced</em> one
+</li>
+</ul>
+<p>If we connect to my viewpoint that programs and environment are in a dual
+dance, we can see that <em>null</em> affects the program whereas <em>defaults</em> affect the
+environment. Indeed, <strong>null shortcuts the program downstream</strong>, whereas
+<strong>defaults shortcut the environment upstream</strong>.  Taking the alternate viewpoint
+of side-effects and pre-conditions, we could say that <strong>null prevents
+side-effects</strong> by crashing the system, whereas <strong>defaults prevents wanted
+pre-conditions</strong> by not operating on the environment.</p>
+<p>An example that makes such a distinction clear is a situation where a networked
+client needs to perform an authentication challenge.  If the authentication
+challenge occurs and produces a null token, the client will crash. If no
+authentication-challenge occurs and a default token-value is produced, the
+client will continue and may leak data or have a failure at a much-later
+“distance” from where the bug actually is rooted.</p>
+<p>I don’t know what is the dual of a billion-dollar mistake, but I hope you will
+join me in saying that default-values defeat a large number of automated
+analyses one could hope to make about the correctness of a program.</p>
+<h1 id="closing-remarks">Closing remarks</h1>
+<p>This article took me a while to write because the topic I scratched is much
+deeper than I anticipated. I think that most of the discussion could be
+re-written entirely as a more formal exercise in mapping the discussions about
+product/sum-types and API endpoints using <a href="https://en.wikipedia.org/wiki/Linear_logic">linear
+logic</a> rather than my sketchy
+arithmetics.  I definitely care enough about this topic to ask readers to point
+me works they find (a) introductory enough and (b) related to this discussion.</p>
+<p>I reserve myself the right to write about this topic a few more times even if
+such new articles would have a lot of redundant information. Indeed, I took off
+bits about negative types, bits about category-theory, and bits about
+covariance/contra-variance. Overall, there is much to say and we probably
+longer illustrative examples as well. It feels like there is much, but at a
+same time these concepts are only just a few.</p>
 </section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div></body></html>
