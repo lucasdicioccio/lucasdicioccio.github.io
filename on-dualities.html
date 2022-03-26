@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - On Dualities</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="architecture, haskell, functional programming, programming, software architecture"><meta name="description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/on-dualities.html"><meta property="og:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="article:published_time" content="2022-03-01"><meta name="article:tag" content="architecture"><meta name="article:tag" content="haskell"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="programming"><meta name="article:tag" content="software architecture"><style>@import "/css/main.css";.cols {  display: flex;  flex-flow: row;  justify-content: space-around;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>On Dualities</h1><p>On <span>Tue, 01 Mar 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2986 words, 2 links, 2images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div class="main-article"><section class="main-section"><p>Functional programming has taught me to <em>simplify</em> superfluous concepts:
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - On Dualities</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="architecture, haskell, functional programming, programming, software architecture"><meta name="description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/on-dualities.html"><meta property="og:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types."><meta name="article:published_time" content="2022-03-01"><meta name="article:tag" content="architecture"><meta name="article:tag" content="haskell"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="programming"><meta name="article:tag" content="software architecture"><style>@import "/css/main.css";.cols {  display: flex;  flex-flow: row;  justify-content: space-around;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>On Dualities</h1><p>On <span>Tue, 01 Mar 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3266 words, 2 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div class="main-article"><section class="main-section"><p>Functional programming has taught me to <em>simplify</em> superfluous concepts:
 identify what are primitive concepts and what are constructions on top these
 primitives. The constructions themselves need not be multiplied out of
 proportion: it is better to stick to few ways of combining entities and
@@ -66,7 +66,9 @@ in a tennis-game if you prefer sport over artistic metaphors).  This viewpoint
 brings the question: what is the dual to a side-effect? It is something that an
 executing environment provides and that a program consumes (and hence it may
 destroy it), and I claim that would be pre-conditions.  Summarizing, in this
-viewpoint <strong>a program consumes pre-conditions and produces side-effects</strong>.</p>
+viewpoint <strong>a program consumes pre-conditions and produces side-effects</strong> and
+could be illustrated as follows:</p>
+<p><img src="gen/images/producer-consumer.dot.png" alt="producer-consumer duality" /></p>
 <p>I spoke about “programs” without precisely describing the kind of program I
 wanted to describe. Indeed, I believe that such a duality exists at different
 scales of programming. When zooming in at the individual module, object, or
@@ -144,57 +146,90 @@ Producer provides a sum-type.</p>
 <p>Given that the Producer provides an alternative (again, it may be that there is
 code for only one possible case), if the Consumer is decoupled from the
 Producer, then the Consumer must be ready to handle every case.</p>
-<p>Much like previous section, we have been pretty vague regarding the family of
-producer and consumers we are speaking about in this section. Indeed, <strong>this
-duality stands for all scales as long as a consumer and producer establish
-some communication</strong>..  The producer could be a library function you call and
-your code would be the consumer of this object. When the library function
-returns a sum-type (for instance, either an error or a successful result) you
-should forcefully verify that you have a piece of code to handle either
-branches. At a service-level, a web-API with multiple routes or a gRPC service
-with multiple methods can be seen as a collection of endpoints (i.e., a
+<p>Much like when we first introduced the producer/consumer duality, we have been
+pretty indiscriminate about the exact family of producer and consumers.</p>
+<p>Indeed, <strong>the alternative/co-occurence duality stands for all scales</strong>.  The
+only requirement for the duality to exhibit consequences is that a consumer and
+producer establish some communication (i.e., when we match a consumer with a
+producer).
+For instance at the library-scale, the producer could be a library function you
+call. Your own code would be the consumer of this function. When the library
+function returns a sum-type (for instance, either an error or a successful
+result) you should forcefully verify that you have a piece of code to handle
+either branches.
+At a service-scale, a web-API with multiple routes or a gRPC service with
+multiple methods can be framed as a collection of endpoints (i.e., a
 co-occurrence of handlers) whereas the client-side has the choice to pick any
-endpoint (i.e., and alternative of endpoints). It does not matter whether the
-client of the API is seen as a consumer (e.g., fetching data) or a producer
-(e.g., pushing data), what is key is that at the interface, the client holds
-the choice of picking any endpoint. Then, at a lower layer, once the client and
-server communicate, the client could send messages that are alternative choices
-(e.g., sum-types structures) but the client could equally send messages that
-are co-occurrences of informations (e.g., product-types structures). This
-realization is important because it is possible to <em>mechanically flatten</em> two
-nested layers of alternatives/co-occurrences. Such a flattening is useful both
-as a concept but also as a refactoring tool. We will expand on this key
-property in the next section, but let’s first summarize what we’ve seen.</p>
+endpoint (i.e., and alternative of endpoints). In summary, the party that can
+force the dual party to behave in a certain way is the party deciding on the
+alternative picked in the sum-type side of the producer/consumer interface.</p>
+<p>It is worth stressing that the alternative/co-occurrence duality shows up
+irrespective of the particular role (consumer or producer) of the API-client
+versus the web-API. Indeed, whether the client of the API is seen as a consumer
+(e.g., fetching data) or a producer (e.g., pushing data) does not change the
+fact that at the interface level, the client holds the choice of picking the
+endpoint. This distinction is important to recognize the proper interface
+between a producer and a consumer. In real-world situations, software
+components take both roles in alternation: a web-API may be seen as a producer
+of endpoints, but to implement an handler for such endpoint, the web-API is a
+consumer of other services or a consumer of libraries, and so-on and so-forth.
+Therefore, recognizing the particular interface may be difficult.  Indeed, when
+we say a web-API client is a consumer, the <em>payload</em> that the web-API produces
+could either be a product-type (i.e., the servers returns a co-occurrence of
+data and the client is then free to act starting from this data), but the
+result could also be a sum-type (i.e., the server returns a particular
+alternative to force a behaviour on the client – for instance an unauthorized
+response would force a client to initialize an authentication challenge). When
+analyzing real-world systems, we realize that communications between systems is
+a fractal of consumers and producers matched with each others and communicating
+of product-types and sum-types. Thus, when conceptualizing a system, we need to
+find the right levels where systems interface with each others and we must
+study a few nested layers of messages they interact with.</p>
+<p>A key reason for studying more than a single level of interface is that it is
+possible to mechanically flatten nested layers of alternatives/co-occurrences.
+Such a flattening is useful both as a concept but also as a refactoring tool.
+The flattening law comes straight out of arithmetics, and is “just” the
+distribituvity property of products over sums.</p>
+<p>Formally the distributivity is written as <code>a * (b + c) = (a * b) + (a * c) </code>
+In plain English, the two following statements
+are equivalent:</p>
+<ul>
+<li>you certainly get an <code>a</code> and alternatively get a <code>b</code> and a <code>c</code>
+</li>
+<li>you alternatively get an <code>a</code> paired with a <code>b</code> with certainty or <code>a</code> paired with a <code>c</code> with certainty
+</li>
+</ul>
+<p>Much like arithmetics formula we can theorize systems at various scales with
+similar formulas, and then factorize or develop these formulas. We will expand
+on this key property in the next section, but let’s first summarize what we’ve
+seen.</p>
 <h3 id="summary">Summary</h3>
 <ul>
 <li>in a general sense, consumers and producers are in a duality relationship
 </li>
 <li>alternatives (sum-types) and co-occurrences (product-types) also are dual of each other
 </li>
-<li>both dualities interact following some De Morgan law
+<li>both dualities interact following some interaction law
 <ul>
-<li>producers of sum types match product-types consumers
+<li>producers of sum-types match product-types consumers
 </li>
-<li>producers of product types match sum-types consumers
-</li>
-</ul>
-</li>
-<li>this law is invariant of the scale (i.e., it holds at the function, library, service level)
+<li>producers of product-types match sum-types consumers
 </li>
 </ul>
-<p>We’ve already glanced at the possibility to flatten nested occurrences of
-alternatives/co-occurrneces. Thus, let’s keep this idea in mind and let’s
-elaborate what could be the consequences of our De Morgan’s law.</p>
+</li>
+<li>these properties are invariant of the scale (i.e., it holds at the function, library, service level)
+</li>
+<li>communicating systems involve layered consumer/producers, producers/consumers may alternate from one layer to another
+</li>
+<li>there is a distributivity law to factorize or develop layers of {sum,products}-of-{sum,products}.
+</li>
+</ul>
 <h2 id="consequences">Consequences</h2>
 <p>The important consequence of the interactions of product/sum with
 consumer/producer is that you do not need to be a compiler to foresee whether
 two pieces of software “connect” well or not. You can foresee errors, planify
 refactorings, and prepare architecture documents for splitting a monolith into
 services (or when agglomerating too-thin services into larger ones).</p>
-<h3 id="the-flattening-property">the flattening property</h3>
-<p>Remember your arithmetics <code>a * (b + c) = (a * b) + (a * c)</code>, this law is called the
-distributivity property of product over sum. Well, it turns out it works as
-well for product-types and sum-types.</p>
 <p><strong>flattening an http response</strong></p>
 <p>Say that you are calling a library function that returns an <code>a * (b+c)</code>, for
 instance, an HTTP response could be represented as <code>headers ~= a</code> and <code>body ~= b if the response is valid, c if it's an error message</code>. Since <code>a * (b + c)</code> is
@@ -205,68 +240,63 @@ with either a body or an error”.</p>
 <p>If we go further and it happens that <code>b = c + d</code> (e.g., <code>d</code> is a decoded JSON
 object and <code>c</code> is an error message), we can write down the consequences:</p>
 <pre><code>   a * (b + c)
-= (a * b) + (a * c)
-= (a * (c + d)) + (a * c)
-= (a * c) + (a * d) + (a * c)
-= (a * c) + (a * c) + (a * d)
+= (a * b) + (a * c)                        [distributivity]
+= (a * (c + d)) + (a * c)                  [b=c+d]
+= (a * c) + (a * d) + (a * c)              [distributivity]
+= (a * c) + (a * c) + (a * d)              [commutativity*]
 </code></pre>
 <p>This series of equation means that the HTTP-response handler in our example
-actually is made of two posibly-independent error-handler pieces of code <code>(a * c)</code> and a success-handler taking a decoded JSON value <code>(a * d)</code>. That’s a lot
+actually is made of two posibly-independent error-handler pieces of code <code>(a * c)</code> and a success-handler taking a decoded JSON value <code>(a * d)</code>. We have not
+discussed about commutativity here but in general depending on what your
+operations entails, they may not commute, for the case of decoding JSON values
+we could safely assume that decoding commutes as one would expect decoding to
+be deterministic and require no exogenous side-effects.</p>
+<p>That’s a lot
 of information about the code when only looking at a type-description!</p>
-<p><strong>flattening an API service</strong></p>
+<p><strong>refactoring API services with multiple endpoints</strong></p>
 <p>We’ve said earlier than a web-API is a product of handlers.  Thus, to say that
-an API implements <code>a * (b + c)</code> means the web-API has two routes, one capable
-of handling an <code>a</code> and another one implementing either a handler of <code>b</code> or <code>c</code>
-but we do not now which one.</p>
-<p>The client consumer thus is implemented as the dual <code>a + (b * c)</code> and can chose
-to interact with the API in two ways: either it sends an <code>a</code> over the first
-route, or it sends both <code>b and along with c</code> over the second route but we don’t
-know which of <code>b or c</code> is useful.</p>
-<p>The same interactions can be built with <code>a * b + a * c</code>. That is, the client an
-chose to send <code>a with b</code> or <code>a with c</code>. In both cases, the <code>a</code> will be used,
-but in one of the two cases the extra data will be discarded.</p>
-<p>Such a flattening seems unnatural, because as software architect we prefer to
-lean on the other direction when writing such client/server refactorisations:
-we will more often encounter cases where we factorize web APIs shaped like <code>a * b + a * c</code> into web APIs shaped like <code>a * (b + c)</code></p>
-<h3 id="code-with-bunch-of-nested-ifs">code with bunch of nested ifs</h3>
-<pre><code>if x then                 if x and y then
-   if y then                 f
-     f                    if x then
-   else           &lt;=&gt;        g
-     g                    else
-   end                       h
-else                      end
+an API implements <code>a * (b + c)</code> at a conceptual level means the web-API has two
+routes (the <code>*</code> at the first layer) and the payload of the second type is known
+to be a sum-type (<code>b+c</code>). If we apply distributivity we get <code>(a * b) + (a* c)</code> , that is a single endpoint (no <code>*</code> operand at the first layer) with a payload that is a sum of products.</p>
+<p>We can illustrate this operation with the following pseudo-API description of two web-APIs.</p>
+<pre><code>POST /route-one
+   {&quot;payload-a&quot;:&quot;a&quot;}
+                                    &lt;=&gt;   POST /route-combined?branch=case-b
+                                             {&quot;payload-a&quot;: &quot;a&quot;, &quot;payload-b&quot;: &quot;b&quot;}
+POST /route-two?branch=case-b
+   {&quot;payload-b&quot;: &quot;b&quot;}
 </code></pre>
-<p>A series of conditions:</p>
-<ul>
-<li>recognize the number of branches you have in total
-</li>
-<li>write a type with these many branches
-</li>
-<li>map your context (set of variables) onto this type
-</li>
-<li>flatten the conditions
-</li>
-</ul>
-<h3 id="data-pipelines">data pipelines</h3>
-<p>We often need to integrate diverse data sources and give them a similar shape
-(e.g., survey from past year and this year, with slightly different fields).</p>
-<p>You can recognize two data sources as being a product (e.g., when you have alternative choices for a user identifier, you want a subset of total information) or a sum type (e.g., you need the union of the dataset).</p>
-<h3 id="recognizing-when-to-use-or-work-around-so-called-abstract-code">recognizing when to use or work-around so-called abstract code</h3>
-<ul>
-<li>sometimes you have interfaces code to “normalize” access
-</li>
-<li>the idea is to write an abstract piece of logic and let adapters provide implementations
-</li>
-<li>other pieces of interface code may use these as input too
-</li>
-<li>however the use of such interface-specific intermediary lead to braided-code, the original output is insufficient, so you still need carry the original objects, you end up adding code to undo features
-</li>
-</ul>
-<h3 id="refactoring-technique-switching-representations">refactoring technique: switching representations</h3>
-<p>Rather than providing a sum type as output, you can encode the possible branches as handlers.</p>
-<p>Same thing, when you have code that requires callbacks, you could modify it to produce an intermediary structure.</p>
-<p>Tradeoffs are opposite: extra structures typically require more RAM but you can inspect and print them. Whereas function calls requier less RAM but cannot provide as much debug information.</p>
+<p>Both situations allow to match similar clients and servers exchanging similar
+information.  However we can see that on the left-side, the client of the API
+is free to call <code>route-two</code> even if it does not have a <code>payload-a</code>  to offer,
+whereas in the right situation, the client of the API must have a <code>payload-a</code>
+to call <code>route-combined</code>.</p>
+<p>Note that when we say the representations are equivalent, we mean that either
+<code>a * (b+c)</code> or <code>(a*b) + (a*c)</code> are entirely produced and consumed.
+Commutativity is important in the first case.</p>
+<p>A counter example, where you would believe that you can introduce the same
+transformation is as follows.  Say you have to pick between using one endpoint
+or a series of endpoints.
+In both case you will need to encode some branching logic: in the URL path or
+in the payload.</p>
+<pre><code>POST /foo/bar               POST /foo 
+   {&quot;hello&quot;: &quot;world&quot;}          {&quot;hello&quot;: &quot;world&quot;, &quot;branch&quot;: &quot;bar&quot;} 
+                        &lt;=&gt;
+POST /foo/baz               POST /foo
+   {&quot;hello&quot;: &quot;world&quot;}          {&quot;hello&quot;: &quot;world&quot;, &quot;branch&quot;: &quot;baz&quot;}
+</code></pre>
+<p>The key issue here is that we have product types at the API layer, i.e.,
+our only way to factorize this is to use what is known as … you guess it, an exponential type.</p>
+<p><code>a x a x .... [k times] = a ^ k</code></p>
+<p>And they correspond to functions with an argument. In short, if you had five
+handlers, you can factorize that into one handler having an extra argument
+taking five possible values. There is no duality involved here, but it is
+interesting to note that the product/sum extends to more arithmetics.</p>
+<p>Exponentials <code>a ^ k</code> varies from products <code>a x k</code> because if we keep this sense
+of fully-consuming either inputs, you would need to consume multiple a versus
+consuming a single a. Indeed, a client that has the alternative to pick many
+different A with various handlers, to get the same behaviour we still need the
+possibility to handle <code>a</code> differently based on the <code>branch</code> value.</p>
 <h3 id="auditing-the-importance-of-introducing-new-edge-cases">auditing the importance of introducing new edge cases</h3>
 <p>We could consider what happens when <code>A = B</code> is relaxed into <code>A &lt;= B</code> or <code>A &gt;= B</code>, that
 would bring us to Liskov substitution principle, variance and covariance. You
