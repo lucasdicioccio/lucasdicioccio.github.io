@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - On Dualities</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="architecture, formal methods, functional programming, haskell, programming, software architecture, linear logic"><meta name="description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/on-dualities.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/product-consumer.png"><meta property="og:description" content="Dualitiy is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="article:published_time" content="2022-03-27"><meta name="article:tag" content="architecture"><meta name="article:tag" content="formal methods"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="haskell"><meta name="article:tag" content="programming"><meta name="article:tag" content="software architecture"><meta name="article:tag" content="linear logic"><style>@import "/css/main.css";.cols {  display: flex;  flex-flow: row;  justify-content: space-around;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>On Dualities</h1><p>On <span>Sun, 27 Mar 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3675 words, 4 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/formal-methods.html"><span class="tag-name">formal methods</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>Functional programming has taught me to <em>simplify</em> superfluous concepts:
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - On Dualities</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="architecture, formal methods, functional programming, haskell, programming, software architecture, linear logic"><meta name="description" content="Duality is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Duality is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - On Dualities"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/on-dualities.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/product-consumer.png"><meta property="og:description" content="Duality is technical jargon for &quot;complementary&quot;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values."><meta name="article:published_time" content="2022-03-27"><meta name="article:tag" content="architecture"><meta name="article:tag" content="formal methods"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="haskell"><meta name="article:tag" content="programming"><meta name="article:tag" content="software architecture"><meta name="article:tag" content="linear logic"><style>@import "/css/main.css";.cols {  display: flex;  flex-flow: row;  justify-content: space-around;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>On Dualities</h1><p>On <span>Sun, 27 Mar 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3676 words, 4 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/formal-methods.html"><span class="tag-name">formal methods</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>Functional programming has taught me to <em>simplify</em> superfluous concepts:
 identify what are primitive concepts and what are constructions on top these
 primitives. The constructions themselves need not be multiplied out of
 proportion: it is better to stick to few ways of combining entities and
@@ -11,7 +11,7 @@ things are in a <em>duality</em>.</p>
 opposition.  In a sense, two dual concepts connect and perform some
 symmetrical dance. I would say that finding that two things are dual is like
 realizing that it’s not the Earth that rotates around the Moon, nor the Moon
-rotates around Earth, but in facth both celestial bodies dance and rotate
+rotates around Earth, but in fact both celestial bodies dance and rotate
 around a same point <a href="https://en.wikipedia.org/wiki/Barycenter#/media/File:Orbit3.gif">(the barycenter)</a>.
 Discovering such rules brings clarity and simplicity to our understanding of a
 problem. Since a key part of our job in software engineering is to tame
@@ -27,16 +27,16 @@ rarely encounter some simple rule saying <code>a = b</code>, more often terms li
 involving <code>c</code> and <code>d</code> and other values. Whatever the particular instance you
 find, what happens to <code>a</code> likely has implications on these <code>c</code> and <code>d</code> and
 other values. As systems grow in complexity, such equalities may blossom
-unsuspectedly, and if the formula for the equality is too obscured to be
+unexpectedly, and if the formula for the equality is too obscured to be
 spelled-out, unfathomable dynamics will happen.</p>
 <p>Although software is not cosmology, and even if no Great Watchmaker seems
 needed to enforce laws of equalities (we trust CPU founders to do so),
 dualities exist in software. Software can be modeled with mathematical concepts
 from <em>discrete logic</em> rather than calculus and differential equations. If I had
 to choose, I would say that the root of all dualities in software are <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan’s laws</a> (in particular, see the section about extensions to predicate and modal logic).
-Let’s say that a “negated” value is a <em>consumer</em> whereas a “positive” value is a <em>producer</em>. Also, let’s say that a <code>OR</code> encodes alternatives whereas a <code>AND</code> encodes co-occurrences. Applying De Morgan’s law <code>NOT (x OR y) = (NOT x) AND (NOT y)</code> could be read as <strong>to consume either X or Y we need the co-occurence of a consumer of X and a consumer of Y</strong>.
+Let’s say that a “negated” value is a <em>consumer</em> whereas a “positive” value is a <em>producer</em>. Also, let’s say that a <code>OR</code> encodes alternatives whereas a <code>AND</code> encodes co-occurrences. Applying De Morgan’s law <code>NOT (x OR y) = (NOT x) AND (NOT y)</code> could be read as <strong>to consume either X or Y we need the co-occurrence of a consumer of X and a consumer of Y</strong>.
 We will leave such a bureaucratic formalism out of this article but there is
-not much more to it: a simple logical rule. Instead, I’ll spend time elaborating at a higher-level. In particular I would like to stress how important the producer/consumer duality is in software and how this duality is interlocked with yet another important duality: the alternative/co-ocurrence duality.</p>
+not much more to it: a simple logical rule. Instead, I’ll spend time elaborating at a higher-level. In particular I would like to stress how important the producer/consumer duality is in software and how this duality is interlocked with yet another important duality: the alternative/co-occurrence duality.</p>
 <h2 id="the-producerconsumer-duality">The producer/consumer duality</h2>
 <p>We do not write code in a vacuum. Even if we write code for no purpose, the
 programming language has logical rules, running a program happens on a physical
@@ -87,7 +87,7 @@ adapt in a dual way. It’s common to speak about API <em>contracts</em> to prov
 way to match consumers with producers. However I find that speaking at length
 about the value of contracts falls short. Contracts are shallow, they merely
 are the tips of the consumers and producers code. We actually can derive much
-more information than “ok the consumers and producers must agree on a
+more information than “OK the consumers and producers must agree on a
 contract”. In particular, we need to be precise about the consequences of
 changing a producer linked to a consumer.  To answer such questions, we need to
 take a close look at how the producers/consumers duality interacts with the
@@ -188,8 +188,8 @@ study a few nested layers of messages they interact with.</p>
 <p>A key reason for studying more than a single level of interface is that it is
 possible to mechanically flatten nested layers of alternatives/co-occurrences.
 Such a flattening is useful both as a concept but also as a refactoring tool.
-The flattening law comes straight out of arithmetics, and is “just” the
-distribituvity property of products over sums.</p>
+The flattening law comes straight out of arithmetic, and is “just” the
+distributivity property of products over sums.</p>
 <p>Formally the distributivity is written as <code>a * (b + c) = (a * b) + (a * c) </code>
 In plain English, the two following statements
 are equivalent:</p>
@@ -199,7 +199,7 @@ are equivalent:</p>
 <li>you alternatively get an <code>a</code> paired with a <code>b</code> with certainty or <code>a</code> paired with a <code>c</code> with certainty
 </li>
 </ul>
-<p>Much like arithmetics formula we can theorize systems at various scales with
+<p>Much like arithmetic formula we can theorize systems at various scales with
 similar formulas, and then factorize or develop these formulas. We will expand
 on this key property in the next section, but let’s first summarize what we’ve
 seen.</p>
@@ -227,10 +227,10 @@ seen.</p>
 <h2 id="consequences">Consequences</h2>
 <p>The important consequence of the interactions of product/sum with
 consumer/producer is that you do not need to be a compiler to foresee whether
-two pieces of software “connect” well or not. You can foresee errors, planify
-refactorings, and prepare architecture documents for splitting a monolith into
+two pieces of software “connect” well or not. You can foresee errors, plan
+refactoring, and prepare architecture documents for splitting a monolith into
 services (or when agglomerating too-thin services into larger ones).</p>
-<h3 id="flattening-an-http-response">flattening an http response</h3>
+<h3 id="flattening-an-http-response">flattening an HTTP response</h3>
 <p>Say that you are calling a library function that returns an <code>a * (b+c)</code>, for
 instance, an HTTP response could be represented as <code>headers ~= a</code> and <code>body ~= b if the response is valid, c if it's an error message</code>. Since <code>a * (b + c)</code> is
 equivalent to <code>(a * b) + (a * c)</code>. You can decide to write a handler for “HTTP
@@ -246,7 +246,7 @@ object and <code>c</code> is an error message), we can write down the consequenc
 = (a * c) + (a * c) + (a * d)              [commutativity*]
 </code></pre>
 <p>This series of equation means that the HTTP-response handler in our example
-actually is made of two posibly-independent error-handler pieces of code <code>(a * c)</code> and a success-handler taking a decoded JSON value <code>(a * d)</code>. We have not
+actually is made of two possibly-independent error-handler pieces of code <code>(a * c)</code> and a success-handler taking a decoded JSON value <code>(a * d)</code>. We have not
 discussed about commutativity here but in general depending on what your
 operations entails, they may not commute, for the case of decoding JSON values
 we could safely assume that decoding commutes as one would expect decoding to
@@ -292,14 +292,14 @@ our only way to factorize this is to use what is known as … you guess it, an e
 <p>And they correspond to functions with an argument. In short, if you had five
 handlers, you can factorize that into one handler having an extra argument
 taking five possible values. There is no duality involved here, but it is
-interesting to note that the product/sum extends to more arithmetics.</p>
+interesting to note that the product/sum extends to more arithmetic.</p>
 <p>Exponentials <code>a ^ k</code> varies from products <code>a * k</code> because if we keep this sense
 of fully-consuming either inputs, you would need to consume multiple <code>a</code> versus
 consuming a single <code>a</code>. Indeed, a client that has the alternative to pick many
 different A with various handlers, to get the same behaviour we still need the
 possibility to handle <code>a</code> differently based on the <code>branch</code> taken.</p>
-<h3 id="monoliths-microservices-and-it-system-architectures-rollouts">monoliths, microservices, and IT-system architectures rollouts</h3>
-<p>Most companies with a large amount of software need to evolve their codebase.
+<h3 id="monoliths-micro-services-and-it-system-architectures-roll-outs">monoliths, micro-services, and IT-system architectures roll-outs</h3>
+<p>Most companies with a large amount of software need to evolve their code base.
 Thus, I recommend to recognize three key aspects:</p>
 <ul>
 <li>what is constant about the system?
@@ -313,7 +313,7 @@ Thus, I recommend to recognize three key aspects:</p>
 system of equations until the system is well defined.</p>
 <p>For instance, the exercise of splitting a monolith is like going from a large
 product into some more nested products <code>a * b * c * d</code> to something more nested
-<code>(a * b) * (c) * (d)</code>. The overal number of services is constant and we still
+<code>(a * b) * (c) * (d)</code>. The overall number of services is constant and we still
 have a gigantic product type of endpoints. The latter seems more complicated,
 so why do we dread monoliths? Well, imagine that now you want to support a new
 key customer with a new business use-case <code>c = c1 + c2</code>. Then we can see what
@@ -360,7 +360,7 @@ deeper than I anticipated. I think that most of the discussion could be
 re-written entirely as a more formal exercise in mapping the discussions about
 product/sum-types and API endpoints using <a href="https://en.wikipedia.org/wiki/Linear_logic">linear
 logic</a> rather than my sketchy
-arithmetics.  I definitely care enough about this topic to ask readers to point
+arithmetic.  I definitely care enough about this topic to ask readers to point
 me works they find (a) introductory enough and (b) related to this discussion.</p>
 <p>I reserve myself the right to write about this topic a few more times even if
 such new articles would have a lot of redundant information. Indeed, I took off
