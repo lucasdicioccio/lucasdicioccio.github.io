@@ -1,4 +1,4 @@
-  347 ./app/Main.hs
+  377 ./app/Main.hs
   199 ./src/Commonmark/Free.hs
    29 ./src/Blog/Assembler.hs
    42 ./src/Blog/Site.hs
@@ -13,4 +13,4 @@
    83 ./src/Blog/SiteLoader.hs
    92 ./src/Blog/AssembleSections.hs
   213 ./src/Blog.hs
- 2009 total
+ 2039 total
