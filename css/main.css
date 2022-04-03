@@ -144,3 +144,6 @@ a.tag-link {
   font-size: 25pt !important;
   background-color: transparent;
 }
+#histogram {
+  height: 300px;
+}
