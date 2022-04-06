@@ -7,33 +7,49 @@ var option;
 
 const jsonSrc = document.getElementsByName('ks:article_json')[0].content;
 
+const zeroes = (n) => {
+  const ary = new Array(n);
+  for (idx=0; idx<n; idx++) {
+    ary[idx] = 0;
+  }
+  return ary;
+}
+
 myChart.showLoading();
 $.get(jsonSrc, function (articlejson) {
   myChart.hideLoading();
   const slitems = articlejson.skyline.skylineItems;
-  const newSeries = (name) => { return { name: name, type: 'bar', stack: 'one', data: new Array(slitems.length) } };
-  let series = [newSeries('total'), newSeries('incipit')];
+
+  const nSeries = slitems.filter((item) => item.tag == 'HeaderMark').length + 1;
+  const newSeries = (name) => { return { name: name, type: 'bar', stack: 'one', data: zeroes(nSeries) } };
+  let series = [newSeries('previous'), newSeries('incipit')];
   const offsetSeries = series[0];
-  let currentSeries = series[1];
+
   let cumulativeSum = 0;
-  slitems.forEach((item,idx) => {
-    offsetSeries.data[idx] = cumulativeSum;
+  let seriesIdx = 1;
+  let currentSeries = series[1];
+  slitems.forEach((item) => {
     if (item.tag == 'HeaderMark') {
       const title = item.contents[0];
       const heading = item.contents[1].reduce((c,x) => `${x}.${c}`, '');
       const s = newSeries(`${heading} ${title}`);
       series.push(s);
+      seriesIdx += 1;
       currentSeries = s;
+      offsetSeries.data[seriesIdx] = cumulativeSum;
     }
     if (item.tag == 'TextualMark') {
       const val = item.contents[0];
       cumulativeSum += val;
-      currentSeries.data[idx] = val;
+      currentSeries.data[seriesIdx] += val;
     }
   });
 
+
   offsetSeries.itemStyle = {'borderColor': 'transparent', color: 'transparent'};
   offsetSeries.emphasis = {'itemStyle':  {'borderColor': 'transparent', color: 'transparent'}};
+
+  console.log(series);
 
   option = {
     title: {
@@ -47,8 +63,8 @@ $.get(jsonSrc, function (articlejson) {
       axisPointer: {type: 'shadow'},
     },
     xAxis: {
-        name: 'cmark chunk',
-        data: slitems.map((_,i) => i),
+        name: 'cmark heading',
+        data: series.map((_,i) => i),
         silent: true,
     },
     yAxis: {
