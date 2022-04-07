@@ -18,10 +18,15 @@ $.get(ROOT_PATH + '/json/topicsgraph.json', function (topicsgraph) {
         return 5;
     }
   };
+  const indexArticleRef = "article:/index.html";
   const graph = {
     categories: [{"name":"articles"},{"name":"topics"},{"name":"images"}],
-    links: topicsgraph.edges.map((e) => { return {source:e[0], target:e[1]} }),
-    nodes: topicsgraph.nodes.map((n) => { return {
+    links: topicsgraph.edges
+      .filter((e) => { return e[0] !== indexArticleRef && e[1] !== indexArticleRef })
+      .map((e) => { return {source:e[0], target:e[1]} }),
+    nodes: topicsgraph.nodes
+      .filter((n) => { return n[0] !== indexArticleRef })
+      .map((n) => { return {
         id:n[0]
       , name:n[0]
       , symbolSize: sizeFor(n)

@@ -49,8 +49,6 @@ $.get(jsonSrc, function (articlejson) {
   offsetSeries.itemStyle = {'borderColor': 'transparent', color: 'transparent'};
   offsetSeries.emphasis = {'itemStyle':  {'borderColor': 'transparent', color: 'transparent'}};
 
-  console.log(series);
-
   option = {
     title: {
       text: 'article histogram',

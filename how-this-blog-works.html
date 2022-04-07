@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, blogging, static-site-generators"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:image" content="https://lucasdicioccio.github.io/gen/images/blog-phases.dot.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/gen/images/blog-phases.dot.png"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="ks:article_json" content="/json/how-this-blog-works.cmark.json"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><style>@import "/css/main.css";code {  font-size: 8pt;}#sample-output-txt {  height: 250px;  overflow: scroll;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2898 words, 14 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">4</span></a></div><div class="tag"><a class="tag-link" href="/topics/web.html"><span class="tag-name">web</span><span class="tag-count">1</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - The technology behind this blog</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="haskell, web, architecture, blogging, static-site-generators, software architecture"><meta name="description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - The technology behind this blog"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/how-this-blog-works.html"><meta property="og:image" content="https://lucasdicioccio.github.io/gen/images/blog-phases.dot.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/gen/images/blog-phases.dot.png"><meta property="og:description" content="The overengineering behind this blog. Or is it not over-engineered?"><meta name="article:published_time" content="2022-01-30"><meta name="ks:article_json" content="/json/how-this-blog-works.cmark.json"><meta name="article:tag" content="haskell"><meta name="article:tag" content="web"><meta name="article:tag" content="architecture"><meta name="article:tag" content="blogging"><meta name="article:tag" content="static-site-generators"><meta name="article:tag" content="software architecture"><style>@import "/css/main.css";code {  font-size: 8pt;}#sample-output-txt {  height: 250px;  overflow: scroll;}.example {  width: 70%;  padding: 10px;  border: 1px solid grey;  border-left: 5px solid grey;  margin-left: 2em;  text-align: left;}.example-button {  font-family: monospace;  padding: 0.3em;  margin-left: 1em;}</style></head><body><aside class="nav"><a href="/">home</a></aside><div class="main"><article><header class="heading"><h1>The technology behind this blog</h1><p>On <span>Sun, 30 Jan 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 3338 words, 21 links, 3images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">4</span></a></div><div class="tag"><a class="tag-link" href="/topics/web.html"><span class="tag-name">web</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/architecture.html"><span class="tag-name">architecture</span><span class="tag-count">2</span></a></div></div></header><div class="main-article"><section class="main-section"><p>I wasn’t blogging much. I used to prefer giving meetup <a href="/talks.html">talks</a>,
 then the pandemic came and I wanted to start blogging a bit. I wrote nothing,
 mostly due to the lack of blogging platform I liked.  This year, one resolution
 I took is to remediate this situation and start writing some technical content.
@@ -31,19 +31,20 @@ shown and ideas are applicable whatever tech-stack you pick.</p>
 <p>Hosting a static site is much simpler. GitHub does it for free.  At this point
 I cannot justify maintaining API endpoints for posting comments, nor a database
 to store them. I still would like to be able to fluidly move to something
-beefier with a web server for instance, and without having to port all the
-meaty content. That is, if I occasionally need an API call, I can still
-imagine having a static-site first, with only a meager amount of web-serving.</p>
+beefier with a web server. When such a move arises, I would not want to have to
+port all the meaty content. That is, if I occasionally need an API call, I can
+still imagine having a static-site first, with only a meager amount of
+web-serving.</p>
 <p>A nice side-effect is that <code>git</code> is a natural database of content, and
 git-based flows could serve in multi-authors situations (or for instance to let
 people use GitHub to add invited-content/comments on the blog).</p>
 <h3 id="developer-mode-with-live-preview">developer mode with live-preview</h3>
-<p>I like quick feedback loops. The fastest feedback loop likely is a WYSIWYG
-editor, however my experience with WYSIWYG is not great. To make WYSIWYG works,
-these tools must have their own limitations, for instance it is hard to be
-consistent across pages due to the free-hand nature of the tool. WYSIWYG tools
-work with their internal and opaque data structures, which hinder composition
-with other tools.</p>
+<p>I like quick feedback loops. The fastest feedback loop I can think of is a
+WYSIWYG editor. However my experience with WYSIWYG is not great. To make
+WYSIWYG works, tools require pretty stringent feature constraints. For instance
+it is hard to be consistent across pages due to the free-hand nature of WYSIWYG
+tools. WYSIWYG tools work with their internal and opaque data structures, which
+then hinder composition with other software and may have challenging upgrade paths.</p>
 <p>From experience with LaTeX and markdown in GitHub/GitLab documents, I think a
 fast-preview is good enough. A Live-preview like in HTML-IDE is almost as good
 as the immediacy of WYSIWYG. Given that I am writing HTML content, I could use
@@ -124,7 +125,7 @@ sections.</p>
 <h1 id="implementation">Implementation</h1>
 <p>Let’s first say that the implementation I present here does not represent the
 whole iterations.  I first started with a simple file-to-file generator taking
-exactly one <code>.md</code> file with multiple sections and  turning that into <code>.html + .css</code> . Proper layouts and live-reloads came later, the whole blog has been a
+exactly one <code>.cmark</code> file with multiple sections and  turning that into <code>.html + .css</code> . Proper layouts and live-reloads came later, the whole blog has been a
 single Haskell file until long (i.e., when compilation time where too long
 while changing only the layout).</p>
 <p>This section does not speak about Haskell but rather focuses on the general
@@ -147,7 +148,7 @@ reality.</p>
 <p>So overall it is pretty simple and nothing is ground-breaking.  Assuming the
 compile step is already done you have a binary. The binary will have a fixed
 layout that can generate a blog for new content. To illustrate, adding a <em>new
-article</em> is done by adding a new <code>.md</code> file but <strong>requires no recompilation</strong>. But
+article</em> is done by adding a new <code>.cmark</code> file but <strong>requires no recompilation</strong>. But
 <em>changing the HTML</em> structure to display the social links <strong>requires a
 code-change and a recompilation</strong>.</p>
 <p>To motivate the next sections it is worth detailing the assembly-part of the
@@ -171,7 +172,7 @@ web-API libraries in Haskell which allows to compose such an hybrid system –
 this hybrid system is handy for the developer-mode.</p>
 <p>A key aspect of the pipeline (highlighted in the picture) is that the <code>assemble</code> function actually is a bit more complicated than a mere mapping from JS, Markdown etc. There are two complications:</p>
 <ul>
-<li>Extra-Targets can be computed from main targets, for instance each topic gets a listing page. These rules mainly are written in Haskell: the <code>index.md</code> also needs the list of all <code>Article</code> targets to generate extra content on top of some text written in Commonmark; for each <code>tag</code> we create an index Target page and they all use the same <code>tags.md</code> instructions
+<li>Extra-Targets can be computed from main targets, for instance each topic gets a listing page. These rules mainly are written in Haskell: the <code>index.cmark</code> also needs the list of all <code>Article</code> targets to generate extra content on top of some text written in Commonmark; for each <code>tag</code> we create an index Target page and they all use the same <code>tags.cmark</code> instructions
 </li>
 <li><code>Articles</code> are written in Commonmark however the blog engine expects a special format that contains <code>Sections</code>, these Sections contain the meaty content but also metadata information in JSON and commands that could lead to generating more files
 </li>
@@ -242,9 +243,10 @@ assembling out/topics/web.html
 generating out/json/paths.json
 generating out/json/filecounts.json
 </code></pre>
+<p>(this excerpt is out of date but not you get the boring feeling)</p>
 </div>
 <h2 id="section-based-file-format">Section-based file format</h2>
-<p>An input file for an Article is suffixed <code>.md</code> even if it’s not strictly some markdown (this way syntax highlighting works).</p>
+<p>An input file for an Article is suffixed <code>.cmark</code>.</p>
 <p>The content of a single file with multiple sections is a file like the following example:</p>
 <pre><code>=base:build-info.json
 {&quot;layout&quot;:&quot;article&quot;
@@ -295,7 +297,19 @@ convenient to have one small datatype per logical ‘metadata’ piece.</p>
 <a href="https://github.com/lucasdicioccio/prodapi">prodapi</a> API library, which curates
 some good Haskell libraries for building APIs. There is enough to help running
 background tasks in the process (e.g., to watch for file-changes), and also to
-expose other endpoints (e.g., a listing of all targets or metrics).</p>
+expose other dev-mode-only endpoints.</p>
+<p>Examples of dev-mode-only endpoints are:</p>
+<ul>
+<li>a listing of all targets (which is useful when I lose track of what targets exist)
+</li>
+<li>an endpoint I can call to rebuild the static-file outputs from the dev-server directly (rather than running the binary with different parameters)
+</li>
+<li>build-time statistics
+</li>
+<li>autoreload-helpers (see the dedicated section below)
+</li>
+</ul>
+<h3 id="autoreload">autoreload</h3>
 <p>I have a poor-man’s <code>autoreload.js</code> script (source here <a href="/js/autoreload.js">source of auto-reload
 script</a>). That perform long-polling to a API route
 <code>/dev/watch</code> that only the dev-webserver knows about (i.e., there won’t be a
@@ -354,11 +368,13 @@ blog, and content.</p>
 <li>section taken-off: stuff that is in the source but will be ignored, useful for draft sections
 </li>
 </ul>
-<p>The following video gives an idea of how the live-reload with GraphViz edition:</p>
+<p>The following video gives an idea of how the live-reload of GraphViz-generated images work:</p>
 <video width="640" height="480" controls>
   <source src="/videos/demo-blog.webm.mp4" type="video/mp4">
   <source src="/videos/demo-blog.webm" type="video/webm">
 </video>
+<p>I find this live-reload good enough to now run my blog-engine when I need to
+quickly edit such a graph for work.</p>
 <h2 id="commonmark-is-great">Commonmark is great</h2>
 <p>The Commonmark package <a href="https://github.com/jgm/commonmark-hs/tree/master/commonmark-extensions">supports extensions</a>.
 For instance, I have enabled the emoji syntaxt that turns <code>:smiley:</code> into
@@ -380,7 +396,18 @@ need small-scripting capabilities.</p>
 <button class="example-button" onClick="alert('hi from commonmark')">press me</button></p>
 </div>
 <h2 id="you-can-get-creative">You can get creative</h2>
-<p>A more-complicated JavaScript usage below shows you can embed JavaScript for
+<p>Direct-embedding of JavaScript allows me to write JavaScript as
+page-enhancement snippets (e.g., adding a ‘mail-to’ tag for each talk in the
+<a href="/talks.html">Talks</a> page). What excites me the most is that I can also build
+some full-blown visualizations (e.g., the graph-view on the <a href="/index.html">home
+page</a>).  The Haskell-side of the blog-engine allows me to
+implement pretty much arbitrary logic to prepare some JSONs objects as special
+targets. Such objects typically are article-specific or site-wide summaries. I
+can then treat these targets as API endpoints that have fixed content once the
+site is entirely-produced but where the data is dynamically-recomputed while in
+developer mode.</p>
+<h3 id="site-wide-statistics">site-wide statistics</h3>
+<p>An example of this JavaScript usage below shows you can embed JavaScript for
 visualizations (example with
 <a href="https://vega.github.io/vega-lite/usage/embed.html">Vega-Lite</a>). Further, the
 visualization loads a special file <a href="/json/filecounts.json">json-file-counts</a>
@@ -406,22 +433,37 @@ generator section could also create a similar target.</p>
   };
   vegaEmbed('#vis', yourVlSpec);
 </script>
-<p>Another example is a chart histogram that I produce and display in
-developer-mode to get a visual glimpse of how the article is shaped:</p>
+<h3 id="article-shape-statistics">article-shape statistics</h3>
+<p>I typically try to balance-out my articles. While writing LaTex, it’s easy to
+see the page/column count per page. In HTML we do not really have an immediate
+equivalent.</p>
+<p>A good example of per-article statistics is a histogram made with <a href="https://echarts.apache.org">Apache
+ECharts</a> that I produce and display while in
+developer-mode to get a visual glimpse of how the article is shaped.</p>
 <script src="js/echarts.min.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/echart-histogram.js"></script>
 <div id="histogram">
 </div>
-<p>On the X-axis you get an index of text blocks in the common-mark AST.  Whereas
+<p>On the X-axis you get an index of text blocks in the Commonmark file.  Whereas
 the Y-axis is the cumulative number of words so far.  This way I can visualize
 what is the shape of the article and detect highly-imbalanced paragraphs. This
-histogram is much “work in progress” and I tend to adapt it when I feel like it
-(these days I want to mark images with a special marker). This visualization
-is automatically-inserted in “developer mode” and fetches data that is
-consistent with the blog-generation on a special-target available for each
-article.</p>
+histogram is “work in progress” and I tend to adapt it when I feel like it
+(I would like to also have markers for images/links). This visualization is
+automatically-inserted in the “developer mode” layout.  However, given that the
+JSON object target with the article stats is <a href="/json/how-this-blog-works.cmark.json">a generated
+target</a>, I can show you in this article
+by manually inserting the <a href="/js/echart-histogram.js">JavaScript</a>. The JavaScript
+code knows the URL to the special target for the current article with
+statistics by looking up a custom <code>&lt;meta&gt;</code> tag, so that the JavaScript include
+does not require tweaking or per-page configuration. Longer term, I may
+decorate every article with such a navigation help.</p>
 <h2 id="future-ideas">Future ideas</h2>
+<p>Besides open-sourcing the engine (which means tracking hardcoded things or
+personal-layouts, plus maintaining an external project). There is much I would
+like to implement. Unfortunately, these ideas have an activation function a bit
+higher than I have energy these days. More bluntly, I’d rather focus on writing
+more content rather than working on the blog engine itself.</p>
 <p>Regarding <em>templating</em>. I still would like some interpreted templating (e.g.,
 Mustache) for some very specific cases such as data tables, with data generated
 from another section.  The reason is that to add a new article I should write
@@ -430,10 +472,24 @@ code only for the article rather than splitting haskell and Commonmark around
 <p>This will require some extra wiring in the Target-assembly part and some
 difficult decision as to what is really-static and what is in-fact dynamic.  My
 main inspiration are <a href="https://jupyter.org/">Jupyter</a> notebooks.</p>
-<p>Regarding new <em>sections</em> or <em>targets</em>. I would like to allow to have
+<p>Regarding new <em>sections</em>, <em>targets</em>, or <em>layouts</em>. I would like to allow to have
 scripting-language sections (for now I only have direct shell commands). For
 instance to generate a picture using <code>R</code> or <code>Python</code>. It would be nice as well
-to inline the dot-source of GraphViz pictures directly in the <code>.md</code> file.</p>
+to inline the dot-source of GraphViz pictures directly in the <code>.cmark</code> file.
+RSS targets also are on my wishlist, however I do not use a lot of RSS myself.
+I also would like to have some article-type layouts for photo albums and
+snippet-like entries (e.g. to improve on the <a href="/tips.html">Tips page</a>).</p>
 <p>Regarding <em>dependency-graphs</em>. I would like to have a section where required
 URLs can be declared. Doing so will enable more interesting build sequences.</p>
+<p>As a <em>fluid static to web-app engine</em>, I think this blog-engine is a good
+starting-point for mixed website where some pages or endpoint are dynamic API
+calls. I already have a “serve mode” for the day where I feel compelled to move
+out of GitHub pages. The “serve-mode” for now is just the “dev mode” but
+without the special-routes and special-layouts but it would need some extra
+configurations and simple caching strategies to reduce security-risk vectors
+(e.g., to prevent arbitrary-commands generators and costly targets to be run on
+demand).</p>
+<p>Some inspiration for future work can also be found in the
+<a href="/readings.html#static-and-personal-site-technology">Readings</a> page (section
+“Static and personal site technology).</p>
 </section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div></body></html>
