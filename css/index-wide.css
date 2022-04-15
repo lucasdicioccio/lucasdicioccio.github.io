@@ -2,6 +2,10 @@
   font-family: "Helvetica", Arial, sans-serif;
   font-size: 14pt;
 }
+body {
+  max-width: calc(min(80%,1200px));
+  margin: auto;
+}
 
 a {
   color: inherit;
@@ -89,4 +93,9 @@ ul {
   margin-top: 3em;
   padding-bottom: 300px;
   padding-top: 2em;
+}
+.article-image img {
+  margin-left: 10%;
+  max-width: calc(min(80%, 500px)) !important;
+  max-height: 200px !important;
 }
