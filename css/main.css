@@ -25,8 +25,7 @@ img {
   margin: auto;
 }
 article {
-  width: 60%;
-  max-width: 800px;
+  width: calc(min(90%, max(640px, 60%)));
   margin: auto;
   margin-top: 200px;
   border-top: 4px solid black;
