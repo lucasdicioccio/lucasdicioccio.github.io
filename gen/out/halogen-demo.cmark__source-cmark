@@ -49,7 +49,7 @@ steps are required to generate my blog: a compilation of the Haskell code with
 `ghc` into a `binary` that can then compiles CommonMark via a series of
 read/assemble/production steps.
 
-Pictorially, the following pipeline shows these two binaries process.
+Pictorially, the following pipeline shows this two-binary process.
 
 ![blog phases](/gen/images/blog-phases.dot.png)
 
@@ -62,8 +62,8 @@ articles, topics, and images are linked with each other.
 For reasons, I want to consume and use of these extra-files __on the blog files
 you are reading__ (e.g., on the [home](/) I want to display a graphical view of
 how articles relate). To achieve these interactions, I need to use some
-JavaScript to run in browsers.  Alas, JavaScript is not my cup of tea, I
-prefer. For simple interactions such as performing a
+JavaScript to run in browsers.  Alas, JavaScript is not my cup of tea. For
+simple interactions such as performing a
 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and add an
 [ECharts](https://echarts.apache.org/) graph I find JavaScript tolerable.
 However, as I generate more-and-more complex objects on the Haskell-side, I
@@ -99,7 +99,7 @@ benefit, would be that a closer-embedding would result in faster reload times.
 However, this alternative option would give me less-direct access to
 compilation error messages.
 
-Later I'll probably support both mode. The implmentation I've settled on
+Later I'll probably support both modes. The implmentation I've settled on
 required no changes to the blog-engine and is likely to work as long as the
 auto-reload works (i.e., forever as auto-reload was one key reason for writing
 my own blog-engine).
@@ -114,8 +114,8 @@ data from the blog engine. There is nothing especially surprising or hard in
 this demo, so the demonstration is more useful as an assessment of whether the
 friction is low-enough to my taste or not.
 
-For this I need to write some Halogen code in PureScript, and some Commonmark
-file for the blog with enough to insert the JavaScript.
+For this assessment, I need to write some Halogen code in PureScript, and some
+Commonmark file for the blog with enough to insert the JavaScript.
 
 ### Halogen code
 
@@ -123,16 +123,24 @@ You can look directly at the [Halogen source code](gen/out/halogen-demo.cmark__M
 In this source code you'll find some incantation to attach the `QuerySelector "#halogen-routes"`.
 
 The code itself is pretty standard Halogen code that uses some libraries for
-fetching data using an Ajax request and then renders the data to HTML. I've put
-everything in a single file for the purpose of the demo.
+fetching data using an Ajax request and then renders the data to HTML.  The
+filtered-list is not really a component because there is not `Output` nor
+`Query` to extract information out of the component. However, the filtered-list
+has a `State` that contains a modifyiable `filter` string, the whole set of
+routes is passed as `Input` and stored in the state but never modifier. The
+`rendering function` applies the filtering logic (i.e., the trimmed list is
+transient).  The rendering function is typed by the `Action` that bound
+DOM-handlers can generate, which is limited to updating the filter.
+
+I've put everything in a single file for the purpose of the demo (see below: I
+use some trick for you to see the source of the PureScript file).
 
 ### Blog-source in Commonmark
 
 You can also look at the [CommonMark file with sections source
 code](gen/out/halogen-demo.cmark__source-cmark).
 
-The actual CommonMark content to prepare an HTML component for receiving the
-Halogen application is as follows.
+The actual CommonMark content has two purposes. On one hand, the file contains the meaty-content, that is, the text you are reading right now. On the other hand we need to prepare the HTML content to have some DOM Node ready to accept the Halogen application. The latter is feasible as follows in CommonMark:
 
 ```
 ::: {#halogen-routes}
@@ -142,8 +150,9 @@ Halogen application is as follows.
 ```
 
 The above CommonMark will generate some `div` with the `id` tag that the
-Halogen expects to find. Whereas the `script` tag is a normal HTML tag that
-gets integrated as raw HTML. 
+Halogen expects to find (the `#halogen-routes` from the `QuerySelector` in
+previous sectoin). Whereas the `script` tag is a normal HTML tag that gets
+integrated as raw HTML. 
 
 The CSS is then specialized to the page as a content-section of the `.cmark`
 source file, as follows.
@@ -183,6 +192,9 @@ simple decorations to moderately-large web applications with it.  I think this
 combination achieves pretty well my desire of having a "fluid" experience
 between a static-site and a single-page-app.
 
+The code I wrote for the demo could serve in dev-mode, and could also be the
+basis for some menu-navigation.
+
 =base:main-css.css
 @import "/css/main.css";
 
@@ -197,6 +209,13 @@ between a static-site and a single-page-app.
   padding: 0.3em;
   font-size: 22px;
   background-color: lightblue;
+  margin-bottom: 8px;
+}
+
+input::placeholder {
+  color: black;
+  font-style: italic;
+  opacity: 1;
 }
 
 #halogen-routes ul {
@@ -205,6 +224,7 @@ between a static-site and a single-page-app.
   padding: 0.2em;
   max-height: 40vh;
   overflow: scroll;
+  border-top: 1px solid #cccccc;
 }
 
 #halogen-routes ul li {
