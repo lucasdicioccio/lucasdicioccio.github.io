@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Static site + Halogen demo</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="purescript, web, functional programming, spa, javascript"><meta name="description" content="Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Static site + Halogen demo"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Static site + Halogen demo"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/halogen-demo.html"><meta property="og:image" content="https://lucasdicioccio.github.io/gen/images/blog-phases-purescript-pushed.dot.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/gen/images/blog-phases-purescript-pushed.dot.png"><meta property="og:description" content="Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen."><meta name="article:published_time" content="2022-04-25"><meta name="ks:article_json" content="/json/halogen-demo.cmark.json"><meta name="article:tag" content="purescript"><meta name="article:tag" content="web"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="spa"><meta name="article:tag" content="javascript"><style>@import "/css/main.css";#halogen-routes ul {  list-style: none;}#halogen-routes ul li {  margin: 14px;}#halogen-routes ul li a {  font-family: system-ui;}.button {  margin: 5px 15px 5px 15px;}</style></head><body><div class="main"><article><header class="heading"><h1>Static site + Halogen demo</h1><p>On <span>Mon, 25 Apr 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 399 words, 8 links, 2images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/purescript.html"><span class="tag-name">purescript</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/web.html"><span class="tag-name">web</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">2</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>If you’ve followed closely my blog, you know that I’ve recently written my own
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Static site + Halogen demo</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="purescript, web, functional programming, spa, javascript"><meta name="description" content="Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Static site + Halogen demo"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Static site + Halogen demo"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/halogen-demo.html"><meta property="og:image" content="https://lucasdicioccio.github.io/gen/images/blog-phases-purescript-pushed.dot.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/gen/images/blog-phases-purescript-pushed.dot.png"><meta property="og:description" content="Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen."><meta name="article:published_time" content="2022-04-25"><meta name="ks:article_json" content="/json/halogen-demo.cmark.json"><meta name="article:tag" content="purescript"><meta name="article:tag" content="web"><meta name="article:tag" content="functional programming"><meta name="article:tag" content="spa"><meta name="article:tag" content="javascript"><style>@import "/css/main.css";#halogen-routes {  border: 1px solid #eeeeee;  border-radius: 5px;  padding: 1em;}#halogen-routes input {  border: 1px solid lightblue;  padding: 0.3em;  font-size: 22px;  background-color: lightblue;}#halogen-routes ul {  list-style: none;  margin: 0;  padding: 0.2em;  max-height: 40vh;  overflow: scroll;}#halogen-routes ul li {  margin-top: 14px;  padding: 0.5em;}#halogen-routes ul li a {  font-family: system-ui;}#halogen-routes ul li:nth-child(odd)  {  background: #eeeeee;}</style></head><body><div class="main"><article><header class="heading"><h1>Static site + Halogen demo</h1><p>On <span>Mon, 25 Apr 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 896 words, 10 links, 2images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/purescript.html"><span class="tag-name">purescript</span><span class="tag-count">1</span></a></div><div class="tag"><a class="tag-link" href="/topics/web.html"><span class="tag-name">web</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/functional-programming.html"><span class="tag-name">functional programming</span><span class="tag-count">2</span></a></div></div></header><div class="main-article"><section class="main-section"><p>If you’ve followed closely my blog, you know that I’ve recently written my own
 blogging engine. This article demonstrates how I plan to use some
 <a href="https://www.purescript.org">PureScript</a> (and, in particular,
 <a href="https://github.com/purescript-halogen/purescript-halogen">Halogen</a>) when I
@@ -39,22 +39,80 @@ I’ve used and enjoyed both, however I find Elm more focused on full-page
 application. Whereas I find that for this blog where each post will have
 different scripts maps more-naturally to the PureScript approach.</p>
 <h2 id="next-step-purescript">next step: PureScript</h2>
-<p>What I’m trying to achieve is the following addition:</p>
+<p>I settled on generating some <code>.js</code> input file from <code>spago</code> (the build tool I
+prefer to run the PureScript compiler).</p>
 <p><img src="/gen/images/blog-phases-purescript-pushed.dot.png" alt="blog phases" /></p>
+<p>Given that <code>spago</code> has a “watch-mode”, I can still benefit from live-reloading
+the rendered page, even after changing some PureScript source code. Indeed,
+<code>spago</code> watches the source PureScript, then bundles a <code>.js</code> file in the
+blog-source files, which re-loads my browser. Overall, even if this file-watch
+sequences feels like a brittle <a href="https://en.wikipedia.org/wiki/Rube_Goldberg_machine">Rube-Goldberg machine</a>, it works well enough for my needs.</p>
+<p>An <em>alternative option</em> would have been to drive <code>spago</code> or the PureScript
+compiler as a <em>production rule</em> in my blog-engine. This approach would be a bit
+cleaner and be more direct than the implementation I’ve picked so far. A key
+benefit, would be that a closer-embedding would result in faster reload times.
+However, this alternative option would give me less-direct access to
+compilation error messages.</p>
+<p>Later I’ll probably support both mode. The implmentation I’ve settled on
+required no changes to the blog-engine and is likely to work as long as the
+auto-reload works (i.e., forever as auto-reload was one key reason for writing
+my own blog-engine).</p>
 <h1 id="the-demo">the demo</h1>
-<p>The following should show a <em>dynamically-fetched</em> list of targets.
-You can look directly at the <a href="gen/out/halogen-demo.cmark__Main.purs">Halogen source code</a> .
-CSS is then specialized to the page in the cmark source file.</p>
-<p>The actual <code>.cmark</code> content to prepare an HTML component for receiving the
+<p>The goal of the demo is to somewhat <em>dynamically</em> fetch the list of targets in
+the blog and render this list in some form of filterable list.  Such a demo
+would prove that I can write some PureScript that is inserted as a small
+JavaScript in the page, and which interacts with a structure inspecting the
+data from the blog engine. There is nothing especially surprising or hard in
+this demo, so the demonstration is more useful as an assessment of whether the
+friction is low-enough to my taste or not.</p>
+<p>For this I need to write some Halogen code in PureScript, and some Commonmark
+file for the blog with enough to insert the JavaScript.</p>
+<h3 id="halogen-code">Halogen code</h3>
+<p>You can look directly at the <a href="gen/out/halogen-demo.cmark__Main.purs">Halogen source code</a>.
+In this source code you’ll find some incantation to attach the <code>QuerySelector &quot;#halogen-routes&quot;</code>.</p>
+<p>The code itself is pretty standard Halogen code that uses some libraries for
+fetching data using an Ajax request and then renders the data to HTML. I’ve put
+everything in a single file for the purpose of the demo.</p>
+<h3 id="blog-source-in-commonmark">Blog-source in Commonmark</h3>
+<p>You can also look at the <a href="gen/out/halogen-demo.cmark__source-cmark">CommonMark file with sections source
+code</a>.</p>
+<p>The actual CommonMark content to prepare an HTML component for receiving the
 Halogen application is as follows.</p>
 <pre><code>::: {#halogen-routes}
-
 :::
 
 &lt;script type=&quot;text/javascript&quot; src=&quot;/js/halogen-demo.js&quot; async&gt;&lt;/script&gt;
 </code></pre>
-<h2 id="running-halogen-code">running Halogen code</h2>
+<p>The above CommonMark will generate some <code>div</code> with the <code>id</code> tag that the
+Halogen expects to find. Whereas the <code>script</code> tag is a normal HTML tag that
+gets integrated as raw HTML.</p>
+<p>The CSS is then specialized to the page as a content-section of the <code>.cmark</code>
+source file, as follows.</p>
+<pre><code>=base:main-css.css
+@import &quot;/css/main.css&quot;;
+
+#halogen-routes ul {
+  list-style: none;
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  padding: 0.2em;
+  max-height: 50vh;
+  overflow: scroll;
+}
+
+// ... more stuff
+</code></pre>
+<p>And that’s about it. You’ll also notice some <code>=generator:cmd.json</code> sections at the bottom of the file, which contain commands to <code>cat</code> the source code (and hence this is how I make available the sources for the blog-article and for the Halogen script).</p>
+<h2 id="live-running-halogen-code">live-running Halogen code</h2>
 <div id="halogen-routes">
 </div>
 <script type="text/javascript" src="/js/halogen-demo.js" async></script>
+<h1 id="conclusion">Conclusion</h1>
+<p>I appreciate the feeling I got when editing this demo article.</p>
+<p>The combination of strong types that do not get in the way on the blog-engine
+as well as on the PureScript sides is pleasing and pragmatic. I only need to
+edit a few files and I can easily adapt the “size” of the PureScript logic from
+simple decorations to moderately-large web applications with it.  I think this
+combination achieves pretty well my desire of having a “fluid” experience
+between a static-site and a single-page-app.</p>
 </section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div><nav id="navigation" class="nav"><a href="/">home</a></nav></body></html>
