@@ -1,0 +1,74 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - What I would love to see in programming.</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="software, programming"><meta name="description" content="Modern programming languages have made progress encoding higher level concepts in a programmable form."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - What I would love to see in programming."><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Modern programming languages have made progress encoding higher level concepts in a programmable form."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - What I would love to see in programming."><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/what-i-would-like-to-see-in-programming.html"><meta property="og:description" content="Modern programming languages have made progress encoding higher level concepts in a programmable form."><meta name="article:published_time" content="2084-04-04"><meta name="ks:article_json" content="/json/what-i-would-like-to-see-in-programming.cmark.json"><meta name="article:tag" content="software"><meta name="article:tag" content="programming"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>What I would love to see in programming.</h1><p>On <span>Tue, 04 Apr 2084</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 132 words, 3 links, 0images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/software.html"><span class="tag-name">software</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><h2 id="type-computations">type computations</h2>
+<ul>
+<li>quantifiers
+</li>
+<li>sum and product types
+</li>
+<li>poking holes (refactoring)
+<ul>
+<li>if a block of code has a missing value, add it to the type
+</li>
+</ul>
+</li>
+<li>poking holes (fixpoint)
+- alter a recursive binding to make it functorial
+</li>
+<li>understanding of evolution of code
+<ul>
+<li>define a new struct as an evolution
+</li>
+</ul>
+</li>
+<li>distinction between
+<ul>
+<li>mainly data records (no default allowed)
+</li>
+<li>mainly control-flow records (no default pattern allowed)
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>record = open &quot;record&quot;
+primitives = open &quot;primitives&quot;
+base = open &quot;basics&quot;
+
+user = record/product (
+    record/sum (
+       A
+       B
+       C
+    ) as &quot;user rank&quot;
+    primitives/int as &quot;age&quot;
+    base/maybe user as &quot;parent&quot;
+  )
+
+advanced = open &quot;advance&quot;
+
+rec-user = advanced/poke-fix-rec
+
+</code></pre>
+<h2 id="automated-reasoning">automated reasoning</h2>
+<ul>
+<li>resource linearity
+</li>
+<li>IO (side-effects) and Co-IO (pre-conditions)
+</li>
+</ul>
+<h2 id="syntactic">syntactic</h2>
+<p>mostly define, syntaxes have semantics implications of course, here i classify things that make the language look good</p>
+<ul>
+<li>parametric modules (e.g., foo = import “foo.pkg” [ params ])
+</li>
+<li>patterns and co-patterns (i.e., matching both sides)
+</li>
+</ul>
+<h1 id="links">links</h1>
+<ul>
+<li><a href="https://alloytools.org">alloy</a>
+</li>
+<li><a href="https://docs.ruby-lang.org/en/2.4.0/syntax/refinements_rdoc.html">ruby refinements</a>
+</li>
+<li><a href="/on-dualities.html">on dualities</a>
+</li>
+</ul>
+</section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div><nav id="navigation" class="nav"><a href="/">home</a></nav></body></html>
