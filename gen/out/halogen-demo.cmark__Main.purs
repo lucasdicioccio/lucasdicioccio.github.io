@@ -117,6 +117,7 @@ component =
       ]
       [ HH.a
         [ HP.href r
+        , HP.target "_blank"
         , HP.class_ (HH.ClassName "link")
         ]
         [ HH.text r

@@ -8786,7 +8786,8 @@ var PS = {};
   var Halogen_HTML_Core = $PS["Halogen.HTML.Core"];
   var prop = function (dictIsProp) {
       return Halogen_HTML_Core.prop(dictIsProp);
-  };
+  };                                                           
+  var target = prop(Halogen_HTML_Core.isPropString)("target");
   var value = prop(Halogen_HTML_Core.isPropString)("value");  
   var placeholder = prop(Halogen_HTML_Core.isPropString)("placeholder");
   var href = prop(Halogen_HTML_Core.isPropString)("href");
@@ -8799,6 +8800,7 @@ var PS = {};
   })();
   exports["class_"] = class_;
   exports["href"] = href;
+  exports["target"] = target;
   exports["value"] = value;
   exports["placeholder"] = placeholder;
 })(PS);
@@ -9451,7 +9453,7 @@ var PS = {};
   });
   var component = function (dictMonadAff) {
       var renderRoute = function (r) {
-          return Halogen_HTML_Elements.li([ Halogen_HTML_Properties.class_("routes-list-item") ])([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href(r), Halogen_HTML_Properties.class_("link") ])([ Halogen_HTML_Core.text(r) ]) ]);
+          return Halogen_HTML_Elements.li([ Halogen_HTML_Properties.class_("routes-list-item") ])([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href(r), Halogen_HTML_Properties.target("_blank"), Halogen_HTML_Properties.class_("link") ])([ Halogen_HTML_Core.text(r) ]) ]);
       };
       var renderRoutes = function (rts) {
           return Halogen_HTML_Elements.ul([ Halogen_HTML_Properties.class_("routes-list") ])(Data_Functor.map(Data_Functor.functorArray)(renderRoute)(rts));
