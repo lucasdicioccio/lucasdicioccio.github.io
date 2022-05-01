@@ -13,4 +13,5 @@
    83 ./src/Blog/SiteLoader.hs
    92 ./src/Blog/AssembleSections.hs
   216 ./src/Blog.hs
- 2132 total
+  128 ./purescript/halogen-demo/src/Main.purs
+ 2260 total
