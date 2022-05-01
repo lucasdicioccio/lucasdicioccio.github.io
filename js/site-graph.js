@@ -38,8 +38,6 @@ $.get(ROOT_PATH + '/json/topicsgraph.json', function (topicsgraph) {
   myChart.hideLoading();
   option = {
     title: {
-      text: 'blog map',
-      subtext: 'Default layout',
       top: 'bottom',
       left: 'right'
     },

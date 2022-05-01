@@ -23,7 +23,7 @@ article {
   color: #aaa;
   text-transform: lowercase;
 }
-.articles-listing, .topics-listing {
+.articles-listing, .articles-graph, .topics-listing {
   margin: 2em;
   padding: 1em;
 }
