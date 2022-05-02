@@ -1,0 +1,158 @@
+commit 5ee60fd527d55ef47e2e708e25b8746d9f3176ab
+Author: Lucas DiCioccio <lucas@dicioccio.fr>
+Date:   Tue May 3 00:20:50 2022 +0200
+
+    implement dhall section-loader
+
+diff --git a/blog.cabal b/blog.cabal
+index bce6429..d7d9ed3 100644
+--- a/blog.cabal
++++ b/blog.cabal
+@@ -50,6 +50,7 @@ executable blog
+                     , bytestring
+                     , containers
+                     , directory
++                    , dhall
+                     , filepath
+                     , process-extras
+                     , text
+diff --git a/src/Blog/Prelude.hs b/src/Blog/Prelude.hs
+index 8b660c7..f0cee00 100644
+--- a/src/Blog/Prelude.hs
++++ b/src/Blog/Prelude.hs
+@@ -29,7 +29,7 @@ import Data.Bool (Bool(..), not)
+ import Data.Coerce (Coercible, coerce)
+ import Data.Eq (Eq, (==), (/=))
+ import Data.Either (Either(..), either)
+-import Data.Foldable (traverse_)
++import Data.Foldable (Foldable(..), traverse_)
+ import Data.Function (($), (.), const, flip)
+ import Data.Functor ((<$>))
+ import Data.Int (Int)
+@@ -38,7 +38,7 @@ import Data.Maybe (Maybe(..), maybe)
+ import Data.Monoid (Monoid, mappend, mempty, mconcat)
+ import Data.Ord (Ord, compare)
+ import Data.Semigroup (Semigroup(..), (<>))
+-import Data.Traversable (traverse)
++import Data.Traversable (Traversable(..), traverse)
+ import Data.Tuple (uncurry, fst, snd)
+ import Control.Monad (Monad, Functor, void, fmap, (>>), (>>=), (=<<))
+ import Control.Applicative (Applicative, pure, (<*>), (*>), (<*), (<|>))
+diff --git a/src/Blog/Section.hs b/src/Blog/Section.hs
+index 3a02c2a..bad6855 100644
+--- a/src/Blog/Section.hs
++++ b/src/Blog/Section.hs
+@@ -1,4 +1,5 @@
+ {-# LANGUAGE DeriveFunctor #-}
++{-# LANGUAGE DeriveTraversable #-}
+ 
+ module Blog.Section (SectionType(..), Format(..), Section(..), extract, extract', section, sectionType, Parser)
+ where
+@@ -24,6 +25,7 @@ data SectionType
+ 
+ data Format
+   = Cmark
++  | Dhall
+   | Json
+   | TextHtml
+   | Css
+@@ -32,7 +34,7 @@ data Format
+ 
+ data Section a
+   =  Section SectionType Format a
+-  deriving (Show, Eq, Ord, Functor)
++  deriving (Show, Eq, Ord, Functor, Foldable, Traversable)
+ 
+ extract' :: Coercible a b => Section a -> b
+ extract' (Section _ _ a) = coerce a
+@@ -57,11 +59,12 @@ sectionType =
+     generator = string "generator:cmd" *> pure GeneratorInstructions
+ 
+ format :: Parser Format
+-format = cmark <|> json <|> css
++format = cmark <|> json <|> css <|> dhall
+   where
+     cmark = string "cmark" *> pure Cmark
+     json = string "json" *> pure Json
+     css = string "css" *> pure Css
++    dhall = string "dhall" *> pure Dhall
+ 
+ section :: Parser (Section [Text])
+ section = f <$> (headers <?> "section-headers") <*> body
+diff --git a/src/Blog/Site.hs b/src/Blog/Site.hs
+index eac82b3..3a3d082 100644
+--- a/src/Blog/Site.hs
++++ b/src/Blog/Site.hs
+@@ -11,6 +11,11 @@ data Article a
+   = Article FilePath [Section a]
+   deriving (Show, Eq, Ord, Functor)
+ 
++-- A lens-like over-function that effectfully alters sections of an article.
++overSections :: (Applicative t) => (Section a -> t (Section b)) -> Article a -> t (Article b)
++overSections f (Article p xs) =
++  Article p <$> traverse f xs
++
+ data VideoFile = VideoFile
+   deriving (Show, Eq, Ord)
+ 
+diff --git a/src/Blog/SiteLoader.hs b/src/Blog/SiteLoader.hs
+index 7864da9..6c4587c 100644
+--- a/src/Blog/SiteLoader.hs
++++ b/src/Blog/SiteLoader.hs
+@@ -3,12 +3,15 @@ module Blog.SiteLoader (module Blog.Site, loadSite, LogMsg(..))where
+ 
+ import Control.Exception (throwIO)
+ import Data.Text (Text)
++import qualified Data.Text as Text
+ import qualified Data.Text.IO as Text
+ import qualified Data.List as List
+ import Text.Megaparsec
+ import Text.Megaparsec.Char (newline)
+ import System.Directory (listDirectory)
+ import System.FilePath.Posix ((</>), takeExtension)
++import Dhall (input)
++import Dhall.Marshal.Decode (list, strictText)
+ 
+ import Blog.Prelude
+ import Blog.Target
+@@ -23,6 +26,7 @@ data LogMsg
+   | LoadCss FilePath
+   | LoadJs FilePath
+   | LoadDotSource FilePath
++  | EvalSection FilePath SectionType Format
+   deriving Show
+ 
+ article :: FilePath -> Parser (Article [Text])
+@@ -34,8 +38,18 @@ loadArticle :: Loader (Article [Text])
+ loadArticle trace path = do
+   trace $ LoadArticle path
+   eart <- runParser (article path) path <$> Text.readFile path
+-  let src a = Sourced (FileSource path) a
+-  either throwIO (pure . src) eart
++  case eart of
++    Left err -> throwIO err
++    Right art -> Sourced (FileSource path) <$> overSections (evalSection path trace) art
++
++
++evalSection :: FilePath -> (LogMsg -> IO ()) -> Section [Text] -> IO (Section [Text])
++evalSection path trace x@(Section t fmt body) = do
++  trace $ EvalSection path t fmt
++  case fmt of
++    Dhall -> do
++      Section t Cmark <$> input (list strictText) (Text.unlines body)
++    _ -> pure x
+ 
+ loadImage :: Loader Image
+ loadImage trace path = do
+diff --git a/src/Blog/Wordcount.hs b/src/Blog/Wordcount.hs
+index 321067b..96e8033 100644
+--- a/src/Blog/Wordcount.hs
++++ b/src/Blog/Wordcount.hs
+@@ -6,7 +6,6 @@ module Blog.Wordcount where
+ import qualified Commonmark
+ import Data.Text (Text)
+ import qualified Data.Text as Text
+-import Data.List (sum)
+ 
+ import Blog.Target
+ import Blog.Section

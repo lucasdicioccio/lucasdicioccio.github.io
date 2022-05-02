@@ -1,0 +1,95 @@
+=base:build-info.json
+{"layout":"article"
+,"publicationStatus":"Upcoming"
+}
+
+=base:preamble.json
+{"author": "Lucas DiCioccio"
+,"date": "2084-04-04T01:00:00Z"
+,"title": "Scripting subset of page contents in Dhall."
+}
+
+=base:topic.json
+{"tags":["web"]
+,"keywords":["dhall", "configuration languages", "programming"]
+}
+
+=base:social.json
+{"twitter": "lucasdicioccio"
+,"linkedin": "lucasdicioccio"
+,"github": "lucasdicioccio"
+}
+
+=base:summary.cmark
+A demo of using Dhall as an intermediary step for my blog-engine sections.
+
+=base:main-content.cmark
+
+Since I've started this blogging engine I wanted, for some limited use cases,
+some scripting engine. That is, running some computation.
+
+Using [Dhall](https://dhall-lang.org/) is a pretty good one-late-evening MVP.
+
+Advantages:
+- demonstrates how simple evaluations could run to replace sections entirely
+- first stone in some more advanced form of templating
+- interoperability is a bliss in Haskell
+- fun
+
+Limitation:
+- so far, no extra/magical environment is passed
+- no dependency between sections are planned (need to do detection cycles or find other approaches :arrow_right: for later)
+
+Drawbacks:
+- evaluation cost
+- opacity of intermediary results
+- risk of adding non-deterministic content generation (e.g., breaking because I've no network, some hackers inserting duck picks or spam because the evaluator fetches from the Internet) -- heavily mitigated by Dhall, but would not be if I extended the pattern
+
+Implementation so far is limited but took me a much less than two hours
+including babbling-around time.
+
+I had to do the following changes:
+- add a new format (defining a new pattern, and parser pattern)
+- import dhall runtime
+- insert some case-switch on the section format in the code that loads an Article
+
+You can see for yoursefl in [the commit diff](http://localhost:7654/gen/out/dhall-section-demo.cmark__full-diff) .
+
+And you can see this [whole article source](http://localhost:7654/gen/out/dhall-section-demo.cmark__source-cmark) including the `dhall` section.
+
+In the future, the Dhall object to return will be a beefier record rather than just a blob `List Text`.
+
+=base:main-content.dhall
+
+let generate = https://prelude.dhall-lang.org/List/generate
+
+let concat = https://prelude.dhall-lang.org/List/concat
+ 
+let mkRow = \(i : Text) -> "* ${i}"
+
+let buildUser = \(i : Natural) ->
+  mkRow "row-${Natural/show i}"
+
+let bragging =
+  [ "# demo"
+  , ""
+  , "this whole `<section>` is interpreted from Dhall to Cmark to HTML then"
+  ]
+
+in
+   concat Text [ bragging, generate 10 Text buildUser]
+
+=base:main-css.css
+@import "/css/main.css";
+
+=generator:cmd.json
+{"cmd":"git"
+,"args":["show", "5ee60fd527d55ef47e2e708e25b8746d9f3176ab"]
+,"target":"full-diff"
+}
+
+=generator:cmd.json
+{"cmd":"bash"
+,"args":["-c", "cat ./site-src/dhall-section-demo.cmark"]
+,"target":"source-cmark"
+}
