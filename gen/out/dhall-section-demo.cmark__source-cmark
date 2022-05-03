@@ -10,7 +10,7 @@
 }
 
 =base:topic.json
-{"tags":["web"]
+{"tags":["web", "haskell"]
 ,"keywords":["dhall", "configuration languages", "programming"]
 }
 
@@ -25,8 +25,29 @@ A demo of using Dhall as an intermediary step for my blog-engine sections.
 
 =base:main-content.cmark
 
-Since I've started this blogging engine I wanted, for some limited use cases,
-some scripting engine. That is, running some computation.
+Since I've started building my own blog engine, I wanted some limited scripting
+capabilities in the text-processing engine. A specific case I had in mind was
+to generate some tables or listing for what you currently find on the
+[/readings.html](/readings.html) or on the [/tips.html](/tips.html) page.
+
+What is common in these pages is the need for:
+- some common structure (e.g., title, urls, language)
+- a relatively large amount of items
+- some mechanical template application for each item
+
+How these pages are written today is not separating the structure, the content,
+and the template.
+
+What I want to avoid is:
+- needing a separate database, even sqlite would be too much overhead to populate
+- writing a specific Haskell-side template just for each type of listing
+
+Thus I was eyeing on some way to embed logic that would return some HTML provided some
+separation of the three concerns.
+
+```
+"dhall" -> "cmark" -> "html"
+```
 
 Using [Dhall](https://dhall-lang.org/) is a pretty good one-late-evening MVP.
 
@@ -41,9 +62,15 @@ Limitation:
 - no dependency between sections are planned (need to do detection cycles or find other approaches :arrow_right: for later)
 
 Drawbacks:
-- evaluation cost
+- evaluation costs time, CPU, file-descriptors
 - opacity of intermediary results
-- risk of adding non-deterministic content generation (e.g., breaking because I've no network, some hackers inserting duck picks or spam because the evaluator fetches from the Internet) -- heavily mitigated by Dhall, but would not be if I extended the pattern
+- risk of adding non-deterministic content generation (e.g., breaking because I've no network, some hackers inserting duck picks or spam because the evaluator fetches from the Internet)
+
+
+None of these drawbacks are fatal flaws and can be mitigated
+- evaluation costs can be mitigated using some cacheing
+- opacity of intermediary results would require exposing the internal 'Article' and 'Section' objects
+- non-determinism is heavily mitigated if we stick to Dhall
 
 Implementation so far is limited but took me a much less than two hours
 including babbling-around time.
@@ -58,6 +85,7 @@ You can see for yoursefl in [the commit diff](http://localhost:7654/gen/out/dhal
 And you can see this [whole article source](http://localhost:7654/gen/out/dhall-section-demo.cmark__source-cmark) including the `dhall` section.
 
 In the future, the Dhall object to return will be a beefier record rather than just a blob `List Text`.
+For instance, we could return extra information as metadata or as extra instructions that do not find their way in the HTML.
 
 =base:main-content.dhall
 
