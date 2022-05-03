@@ -30,7 +30,13 @@ capabilities in the text-processing engine. A specific case I had in mind was
 to generate some tables or listings for what you currently find on the
 [/readings.html](/readings.html) or on the [/tips.html](/tips.html) page.  I
 would like something like [Microformats](http://microformats.org/), but
-tactically applied to individual articles and hence with less ceremony.
+tactically applied to individual articles, with little ceremony.
+
+A more telling example could be a photo-gallery where we list a dozen of
+images. For each image you'd want a title, an URL, a preferred background color
+for the frame, maybe a caption etc. Hand-editing such galleries is a lot of
+work, and the extra ceremony to store less than 100 records in a DB is not
+worth it. There's a gap to fill
 
 This article demonstrates and discusses a PoC using the Dhall programming
 language as a specific step.
@@ -76,7 +82,7 @@ to do things like comments, but let me push it further. At this point, even
 SQLite would be too much overhead to add schemas, populate data etc.
 
 Writing Haskell-code (b.) and would be fine regarding the structure definition,
-however I do not like to "split" and article between supports. A reason why I
+however I do not like to "split" an article between multiple sources. A reason why I
 wrote a blog-engine was to avoid distractions while focusing on writing an
 article.
 
