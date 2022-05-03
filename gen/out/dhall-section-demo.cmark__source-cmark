@@ -1,12 +1,12 @@
 =base:build-info.json
 {"layout":"article"
-,"publicationStatus":"Upcoming"
+,"publicationStatus":"Published"
 }
 
 =base:preamble.json
 {"author": "Lucas DiCioccio"
-,"date": "2084-04-04T01:00:00Z"
-,"title": "Scripting subset of page contents in Dhall."
+,"date": "2022-05-03T01:00:00Z"
+,"title": "Scripting subsets of page contents in Dhall."
 }
 
 =base:topic.json
@@ -27,88 +27,336 @@ A demo of using Dhall as an intermediary step for my blog-engine sections.
 
 Since I've started building my own blog engine, I wanted some limited scripting
 capabilities in the text-processing engine. A specific case I had in mind was
-to generate some tables or listing for what you currently find on the
-[/readings.html](/readings.html) or on the [/tips.html](/tips.html) page.
+to generate some tables or listings for what you currently find on the
+[/readings.html](/readings.html) or on the [/tips.html](/tips.html) page.  I
+would like something like [Microformats](http://microformats.org/), but
+tactically applied to individual articles and hence with less ceremony.
 
-What is common in these pages is the need for:
-- some common structure (e.g., title, urls, language)
-- a relatively large amount of items
-- some mechanical template application for each item
+This article demonstrates and discusses a PoC using the Dhall programming
+language as a specific step.
 
-How these pages are written today is not separating the structure, the content,
-and the template.
+## high-level need
 
-What I want to avoid is:
-- needing a separate database, even sqlite would be too much overhead to populate
-- writing a specific Haskell-side template just for each type of listing
+What is common in the type of pages where I would like some minimal templating is:
+- I want to reference and organize a moderately large amount of items.
+- items within a collection have a common structure (e.g., a link to a page would have a title, an URL, some language, and some description from myself).
+- I want to present, ideally with some mechanical template to keep the styling/HTML-structure consistent.
 
-Thus I was eyeing on some way to embed logic that would return some HTML provided some
-separation of the three concerns.
+Thus I have __three distinct characteristics to carve out__:
 
-```
-"dhall" -> "cmark" -> "html"
-```
+- 1. define the structure of items
+- 2. list a collection of items
+- 3. implement some template I use to present these
 
-Using [Dhall](https://dhall-lang.org/) is a pretty good one-late-evening MVP.
+Separating 1. and 2. is a matter of getting some type and some syntax to write values.
+Separating 3. requires a novel feature in my blog-engine: to interpret some structure into some HTML chunk to embed in a longer article. Current generators only produce targets as fully-contained output objects (that then must be embedded via other HTML primitives like `<img>` or `<script>` tags).
 
-Advantages:
-- demonstrates how simple evaluations could run to replace sections entirely
-- first stone in some more advanced form of templating
-- interoperability is a bliss in Haskell
-- fun
+## mini design
 
-Limitation:
-- so far, no extra/magical environment is passed
+Let's go through my design process. This is a retroactive recount of the
+process I took rather than an upfront design-doc.
+
+### current situation
+
+Absent a proper solution for this need, I so far hand-write all these pages. A
+downside is that I need to carefully write CommonMark if I want to apply some
+CSS uniformly. More annoying is if I want to add a non-trivial and verbose
+annotations (e.g., adding a `mailto:` link). This process is _fastidious_.
+
+I do not want to trade fastidiousness for significant extra complexity. Indeed,
+in these tasks there is a risk to end up for a similarly-fastidious process
+involving more moving bits...  What I want to avoid is:
+- a. having a separate database, connectors, and section capable of reading the database at production-time
+- b. writing data structures in the Haskell-side of the blog-engine, including templates just for each type of listing
+- c. writing some JS that fetches a JSON-list and render only in the client
+
+Adding a database (a.) is the latest thing I would like to do because of all
+the deployment and extra changes required. I know this time will come if I want
+to do things like comments, but let me push it further. At this point, even
+SQLite would be too much overhead to add schemas, populate data etc.
+
+Writing Haskell-code (b.) and would be fine regarding the structure definition,
+however I do not like to "split" and article between supports. A reason why I
+wrote a blog-engine was to avoid distractions while focusing on writing an
+article.
+
+Of the three, I think that writing all the logic client-side (c.) probably
+would be the least intrusive to my writing flow. However, clients that do not
+support JavaScript would miss the content. I'm fine with JavaScript when it is
+_required_ or when it is a _nice to have_. Usage of JS for just laying-out the
+meaty-content is something I frown upon.
+
+Summarizing, I was searching for some way to embed logic that would return some
+HTML provided some type locally-defined and locally-filled in an article
+document.
+
+### filling in the gap
+
+To fill the gap, there are a two key decisions to make:
+- a. what scripting language(s) to support?
+- b. at which point of the computation pipeline should I incorporate this engine?
+
+For the first question (a), I want some minimal and non-trivial language.  I do
+not want to invest much time on the particular choice because I want to try
+different things rather than do some proper analysis to answer the second (b)
+question.  Indeed, if the cost for demonstrating (a) happens to be small, then
+I get a pretty good starting point to answer or try tradeoffs in (b).
+
+Working on the [Halogen demo article](/halogen-demo.html) I was reminded about
+[Dhall](https://dhall-lang.org/) as an improved YAML/JavaScript for
+configuration. Configurations are very similar to Microformats, so why no try
+Dhall first?
+
+Rather than providing a lengthy discussion, I'll leave only bullet points around pro/cons (note that I realize that these bullet points for pro/cons could themselves become microformats).
+
+#### Advantages
+
+- incorporating Dhall is a full demonstration of how scripted evaluations (I want some opaque IO returning some CommonMark)
+- still a first stone in some more advanced form of pipeline/build-system
+- Dhall has the ability to import libraries with little package management pain, I could use this to re-use parts across articles, it's a good nice to have
+- interoperability between Dhall and Haskell is a bliss (the [Dhall author](https://twitter.com/GabriellaG439) is a [prolific Haskell engineer](https://www.haskellforall.com/))
+
+#### Limitations
+
+- so far, no extra environment is passed to the Dhall interpreter (the Dhall code does not know about its surroundings, article title or any other data :arrow_right: for later)
 - no dependency between sections are planned (need to do detection cycles or find other approaches :arrow_right: for later)
 
-Drawbacks:
-- evaluation costs time, CPU, file-descriptors
-- opacity of intermediary results
+#### Drawbacks
+
+- evaluating Dhall code costs extra time, CPUs, and file-descriptors (especially important while I care about automatic reloads of previews when editing articles)
+- intermediary results are opaque and hidden, if some final HTML is wrong, I need to know what has been generated as intermediary
 - risk of adding non-deterministic content generation (e.g., breaking because I've no network, some hackers inserting duck picks or spam because the evaluator fetches from the Internet)
 
+#### Summary
 
-None of these drawbacks are fatal flaws and can be mitigated
-- evaluation costs can be mitigated using some cacheing
-- opacity of intermediary results would require exposing the internal 'Article' and 'Section' objects
-- non-determinism is heavily mitigated if we stick to Dhall
+Dhall still seems a darn-good choice.  None of the drawbacks are fatal flaws
+and can be mitigated.  The most dangerous in my opinion is the evaluation
+costs. I will likely mitigate it using some cacheing in the future. I need to
+keep in mind that there are two evaluation phases in my blog engine: one
+computing targets and another one rendering targets. Both have their
+trade-offs.
 
-Implementation so far is limited but took me a much less than two hours
-including babbling-around time.
+Non-determinism is heavily mitigated while sticking to Dhall, so I expect no
+big surprises. When adapting the pattern to other languages (e.g., if I ever
+want to run some python) then I will have to be more careful.
 
-I had to do the following changes:
-- add a new format (defining a new pattern, and parser pattern)
-- import dhall runtime
+## result
+
+I spent less than two hours, including family interruptions :baby: and
+babbling-around time. The implementation so far is extremely primitive, though.
+
+I decided to interpret the Dhall code while loading the Site targets rather
+than while generating targets. As much as I wanted to avoid this option, it is
+the pragmatic choice: on the one hand, I interpret sections' Commonmark in
+different places (e.g., for rendering HTML but also when analyzing content or
+generating a JSON AST). On the other hand, cache control and idempotency is
+more obvious to control at this early phase: one execution of the script gives
+one website-worth of recipes.
+
+Overall I had to do the following changes:
+- add a new format (defining a new pattern, and parser pattern) in my section-files
+- import the Dhall package and runtime (it's a Haskell library, nothing different from importing an HTTP-client here)
 - insert some case-switch on the section format in the code that loads an Article
 
-You can see for yoursefl in [the commit diff](http://localhost:7654/gen/out/dhall-section-demo.cmark__full-diff) .
+And that's all.
 
-And you can see this [whole article source](http://localhost:7654/gen/out/dhall-section-demo.cmark__source-cmark) including the `dhall` section.
+You can see for yourself in [the commit
+diff](http://localhost:7654/gen/out/dhall-section-demo.cmark__full-diff) .  And
+you can see this [whole article
+source](http://localhost:7654/gen/out/dhall-section-demo.cmark__source-cmark)
+including the `dhall` section.
+
+### future
 
 In the future, the Dhall object to return will be a beefier record rather than just a blob `List Text`.
-For instance, we could return extra information as metadata or as extra instructions that do not find their way in the HTML.
+For instance, we could return extra information as metadata or as extra instructions that do not find their way in the HTML. Also, the Dhall code could return something else than Commonmark, we could [directly generate HTML](https://github.com/andrewthad/dhall-html) or JSON values.
 
 =base:main-content.dhall
 
-let generate = https://prelude.dhall-lang.org/List/generate
+-- some imports
+let greaterThan = https://prelude.dhall-lang.org/Natural/greaterThan.dhall
+let list = https://prelude.dhall-lang.org/List/package.dhall
+let concat = list.concat
+let map = list.map
 
-let concat = https://prelude.dhall-lang.org/List/concat
- 
-let mkRow = \(i : Text) -> "* ${i}"
+-- main data type I want to format
+let User : Type =
+  { name : Text
+  , note  : Natural
+  , title  : Text
+  , website  : Text
+  , comment  : Text
+  }
 
-let buildUser = \(i : Natural) ->
-  mkRow "row-${Natural/show i}"
+-- some dsl-like helper function to build users
+let u = \(name : Text)
+  -> \(note: Natural)
+  -> \(title: Text)
+  -> \(website: Text)
+  -> \(comment: Text)
+  -> let u : User = {name, note, title, website, comment}
+     in u
 
-let bragging =
-  [ "# demo"
-  , ""
-  , "this whole `<section>` is interpreted from Dhall to Cmark to HTML then"
+-- the actual "data-base" of users
+let users : List User =
+  [ u "Alice" 7 "secret santa barbara" "https://www.example.com" "good to learn about the city"
+  , u "Bob" 8 "sponge's den" "https://www.example.com" "other cartoons are funnier but okay"
+  , u "Cindy" 3 "hello world I'm Cindy" "https://www.example.com" "abandonned site"
+  , u "Dave" 9 "blog of a developer" "https://www.example.com" "he sings so well"
+  , u "Emil" 2 "eating some chewing gum" "https://www.example.com" "French movies..."
+  , u "Felicia" 6 "yet another a website" "https://www.example.com" "average"
+  , u "Gerard" 3 "tech lead lead leader" "https://www.example.com" "lots of words to say nothing"
+  , u "Hortense" 8 "lotta tasty recipes" "https://www.example.com" "miam miam"
   ]
 
+-- templating
+let mkLink = \(l : Text) ->  \(t : Text) -> "<a href=${l}>${t}</a>"
+ 
+let mkRow = \(u : User) -> ''
+  <tr>
+    <td>${u.name}</td>
+    <td>${Natural/show u.note}/10</td>
+    <td>${mkLink u.website u.title}</td>
+    <td>${u.comment}</td>
+  </tr>
+''
+
+let bragging = 
+  [ ":::{#generated-section}"
+  , "---- start of generated section ----"
+  , "# this section is generated"
+  , ""
+  , "This whole `<section>` is interpreted from Dhall to Cmark to HTML."
+  , "The content likely is the boundary at which point I enjoy having some templating mechanism over repeating the same thing many times."
+  , "Indeed, if my data-type changes (adding columns) I need some help."
+  , "Same if the template changes (adding fields, changing the markup)."
+  , ""
+  , "In this example, I use two Dhall functions as two templates for a same dataset. Styling is then done in CSS."
+  ]
+
+let eof = 
+  [ ""
+  , "---- end of generated section ----"
+  , ":::"
+  ]
+
+let header : Text = ''
+  <thead>
+    <th>author</th>
+    <th>note</th>
+    <th>website</th>
+    <th>personal comment</th>
+  </thead>
+''
+
+let table = ["<table>", header, "<tbody>"] # map User Text mkRow users # ["</tbody>", "</table>"]
+
+let mkHeart = \(n : Natural) -> if greaterThan n 8 then "<i class=\"heart\"/>&hearts;</i>" else ""
+
+let mkTile = \(u : User) -> ''
+  <div class="tile">
+    <div class="heading">
+      <span class="name">${u.name}</span>
+      <span class="note">${mkHeart u.note}${Natural/show u.note}/10</span>
+    </div>
+    <div class="link">${mkLink u.website u.title}</div>
+    <div class="commnet">${u.comment}</div>
+  </div>
+''
+
+let tileset = [ "<div class=\"tileset\">" ] # map User Text mkTile users # [ "</div>" ]
+
+let cmark : List Text =
+   concat Text [ bragging, [ "\n## table layout " ] , table , [ "\n## tiles layout" ]  , tileset, eof ]
+
 in
-   concat Text [ bragging, generate 10 Text buildUser]
+  cmark
 
 =base:main-css.css
 @import "/css/main.css";
+
+#generated-section {
+  background: #fefefa;
+  border: 5px solid;
+  border-radius: 0 15px 0 0;
+  padding: 10px 25px 10px 25px;
+  width: 100%;
+}
+
+#generated-section p:hover {
+  background: transparent;
+}
+
+#generated-section p, #generated-section h1 {
+  font-family: monospace;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 15px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fad0fa;  
+}
+
+th {
+    text-decoration: underline;
+    text-align: center;
+}
+
+.tileset {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+div.tile {
+  border: 1px solid lightblue;
+  padding: 8px 8px 0 8px;
+  margin: 10px;
+  max-width: 200px;
+  box-shadow: 2px 2px rgba(0,0,0,0.2);
+}
+
+div.tile > div.heading {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lightblue;
+  height: 15%;
+}
+
+div.tile .link {
+}
+
+.link a {
+  display:  block;
+  border-radius: 3px;
+  min-height: 40px;
+  padding: 5%;
+  text-decoration: none;
+  font-family: monospace;
+  font-size: 14pt;
+  font-weight:  bolder;
+  background-color: #888;
+  color: white;
+}
+
+div.tile .commnet {
+  padding-top: 12px;
+  font-size: 12pt;
+  font-style: italic;
+  width: 100%;
+  bottom: 0;
+}
+
+.heart {
+  color: pink;
+  margin-right: 5px;
+}
 
 =generator:cmd.json
 {"cmd":"git"
