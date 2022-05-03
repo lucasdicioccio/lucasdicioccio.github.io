@@ -161,9 +161,9 @@ Overall I had to do the following changes:
 And that's all.
 
 You can see for yourself in [the commit
-diff](http://localhost:7654/gen/out/dhall-section-demo.cmark__full-diff) .  And
+diff](/gen/out/dhall-section-demo.cmark__full-diff) .  And
 you can see this [whole article
-source](http://localhost:7654/gen/out/dhall-section-demo.cmark__source-cmark)
+source](/gen/out/dhall-section-demo.cmark__source-cmark)
 including the `dhall` section.
 
 ### future
