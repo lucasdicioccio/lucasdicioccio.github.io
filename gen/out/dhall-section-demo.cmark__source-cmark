@@ -172,6 +172,10 @@ you can see this [whole article
 source](/gen/out/dhall-section-demo.cmark__source-cmark)
 including the `dhall` section.
 
+Later, I added a local "cache" of the Dhall prelude so that live-reloading my
+Dhall-code does not reload the Dhall prelude from the internet each time.
+Since Dhall supports cached import, the local cache requires little extra work: I just have this [file with a checksum-verified network import](/gen/out/dhall-section-demo.cmark__local-dhall-prelude-cache), which I then import as a filesystem-local import with `let prelude = ./dhall/Prelude.dhall`.
+
 ### future
 
 In the future, the Dhall object to return will be a beefier record rather than just a blob `List Text`.
@@ -179,9 +183,11 @@ For instance, we could return extra information as metadata or as extra instruct
 
 =base:main-content.dhall
 
+let prelude = ./dhall/Prelude.dhall
+
 -- some imports
-let greaterThan = https://prelude.dhall-lang.org/Natural/greaterThan.dhall
-let list = https://prelude.dhall-lang.org/List/package.dhall
+let greaterThan = prelude.Natural.greaterThan
+let list = prelude.List
 let concat = list.concat
 let map = list.map
 
@@ -260,7 +266,7 @@ let table = ["<table>", header, "<tbody>"] # map User Text mkRow users # ["</tbo
 let mkHeart = \(n : Natural) -> if greaterThan n 8 then "<i class=\"heart\"/>&hearts;</i>" else ""
 
 let mkTile = \(u : User) -> ''
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">${u.name}</span>
       <span class="note">${mkHeart u.note}${Natural/show u.note}/10</span>
@@ -322,10 +328,13 @@ th {
 
 div.tile {
   border: 1px solid lightblue;
-  padding: 8px 8px 0 8px;
+  padding: 8px 5% 0 5%;
   margin: 10px;
   max-width: 200px;
   box-shadow: 2px 2px rgba(0,0,0,0.2);
+
+  height: 188px;
+  box-sizing: border-box;
 }
 
 div.tile > div.heading {
@@ -336,32 +345,35 @@ div.tile > div.heading {
 }
 
 div.tile .link {
-}
-
-.link a {
-  display:  block;
-  border-radius: 3px;
-  min-height: 40px;
   padding: 5%;
-  text-decoration: none;
-  font-family: monospace;
-  font-size: 14pt;
-  font-weight:  bolder;
+  height: 50%;
+  border-radius: 3px;
   background-color: #888;
   color: white;
 }
 
+.link a {
+  text-decoration: none;
+  font-family: monospace;
+  font-size: 14pt;
+  font-weight:  bolder;
+}
+
 div.tile .commnet {
-  padding-top: 12px;
+  padding-top: 5%;
   font-size: 12pt;
   font-style: italic;
   width: 100%;
-  bottom: 0;
+  height: 20%;
 }
 
 .heart {
   color: pink;
   margin-right: 5px;
+}
+
+[draggable=true] {
+  cursor: move;
 }
 
 =generator:cmd.json
@@ -374,4 +386,10 @@ div.tile .commnet {
 {"cmd":"bash"
 ,"args":["-c", "cat ./site-src/dhall-section-demo.cmark"]
 ,"target":"source-cmark"
+}
+
+=generator:cmd.json
+{"cmd":"bash"
+,"args":["-c", "cat ./dhall/Prelude.dhall"]
+,"target":"local-dhall-prelude-cache"
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Scripting subsets of page contents in Dhall.</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="web, haskell, dhall, configuration languages, programming"><meta name="description" content="A demo of using Dhall as an intermediary step for my blog-engine sections."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Scripting subsets of page contents in Dhall."><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A demo of using Dhall as an intermediary step for my blog-engine sections."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Scripting subsets of page contents in Dhall."><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/dhall-section-demo.html"><meta property="og:description" content="A demo of using Dhall as an intermediary step for my blog-engine sections."><meta name="article:published_time" content="2022-05-03"><meta name="ks:article_json" content="/json/dhall-section-demo.cmark.json"><meta name="article:tag" content="web"><meta name="article:tag" content="haskell"><meta name="article:tag" content="dhall"><meta name="article:tag" content="configuration languages"><meta name="article:tag" content="programming"><style>@import "/css/main.css";#generated-section {  background: #fefefa;  border: 5px solid;  border-radius: 0 15px 0 0;  padding: 10px 25px 10px 25px;  width: 100%;}#generated-section p:hover {  background: transparent;}#generated-section p, #generated-section h1 {  font-family: monospace;}table {  border-collapse: collapse;}td {  padding: 15px;}tbody tr:nth-child(odd) {  background-color: #fad0fa;  }th {    text-decoration: underline;    text-align: center;}.tileset {  margin-top: 20px;  display: grid;  grid-template-columns: repeat(3, 1fr);}div.tile {  border: 1px solid lightblue;  padding: 8px 8px 0 8px;  margin: 10px;  max-width: 200px;  box-shadow: 2px 2px rgba(0,0,0,0.2);}div.tile > div.heading {  display: flex;  justify-content: space-between;  border-bottom: 1px solid lightblue;  height: 15%;}div.tile .link {}.link a {  display:  block;  border-radius: 3px;  min-height: 40px;  padding: 5%;  text-decoration: none;  font-family: monospace;  font-size: 14pt;  font-weight:  bolder;  background-color: #888;  color: white;}div.tile .commnet {  padding-top: 12px;  font-size: 12pt;  font-style: italic;  width: 100%;  bottom: 0;}.heart {  color: pink;  margin-right: 5px;}</style></head><body><div class="main"><article><header class="heading"><h1>Scripting subsets of page contents in Dhall.</h1><p>On <span>Tue, 03 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 1324 words, 10 links, 0images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/web.html"><span class="tag-name">web</span><span class="tag-count">3</span></a></div><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div></div></header><div class="main-article"><section class="main-section"><p>Since I’ve started building my own blog engine, I wanted some limited scripting
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Scripting subsets of page contents in Dhall.</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="web, haskell, dhall, configuration languages, programming"><meta name="description" content="A demo of using Dhall as an intermediary step for my blog-engine sections."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Scripting subsets of page contents in Dhall."><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A demo of using Dhall as an intermediary step for my blog-engine sections."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Scripting subsets of page contents in Dhall."><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/dhall-section-demo.html"><meta property="og:description" content="A demo of using Dhall as an intermediary step for my blog-engine sections."><meta name="article:published_time" content="2022-05-03"><meta name="ks:article_json" content="/json/dhall-section-demo.cmark.json"><meta name="article:tag" content="web"><meta name="article:tag" content="haskell"><meta name="article:tag" content="dhall"><meta name="article:tag" content="configuration languages"><meta name="article:tag" content="programming"><style>@import "/css/main.css";#generated-section {  background: #fefefa;  border: 5px solid;  border-radius: 0 15px 0 0;  padding: 10px 25px 10px 25px;  width: 100%;}#generated-section p:hover {  background: transparent;}#generated-section p, #generated-section h1 {  font-family: monospace;}table {  border-collapse: collapse;}td {  padding: 15px;}tbody tr:nth-child(odd) {  background-color: #fad0fa;  }th {    text-decoration: underline;    text-align: center;}.tileset {  margin-top: 20px;  display: grid;  grid-template-columns: repeat(3, 1fr);}div.tile {  border: 1px solid lightblue;  padding: 8px 5% 0 5%;  margin: 10px;  max-width: 200px;  box-shadow: 2px 2px rgba(0,0,0,0.2);  height: 188px;  box-sizing: border-box;}div.tile > div.heading {  display: flex;  justify-content: space-between;  border-bottom: 1px solid lightblue;  height: 15%;}div.tile .link {  padding: 5%;  height: 50%;  border-radius: 3px;  background-color: #888;  color: white;}.link a {  text-decoration: none;  font-family: monospace;  font-size: 14pt;  font-weight:  bolder;}div.tile .commnet {  padding-top: 5%;  font-size: 12pt;  font-style: italic;  width: 100%;  height: 20%;}.heart {  color: pink;  margin-right: 5px;}[draggable=true] {  cursor: move;}</style></head><body><div class="main"><article><header class="heading"><h1>Scripting subsets of page contents in Dhall.</h1><p>On <span>Tue, 03 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 1382 words, 11 links, 0images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/web.html"><span class="tag-name">web</span><span class="tag-count">3</span></a></div><div class="tag"><a class="tag-link" href="/topics/haskell.html"><span class="tag-name">haskell</span><span class="tag-count">5</span></a></div></div></header><div class="main-article"><section class="main-section"><p>Since I’ve started building my own blog engine, I wanted some limited scripting
 capabilities in the text-processing engine. A specific case I had in mind was
 to generate some tables or listings for what you currently find on the
 <a href="/readings.html">/readings.html</a> or on the <a href="/tips.html">/tips.html</a> page.  I
@@ -156,6 +156,9 @@ diff</a> .  And
 you can see this <a href="/gen/out/dhall-section-demo.cmark__source-cmark">whole article
 source</a>
 including the <code>dhall</code> section.</p>
+<p>Later, I added a local “cache” of the Dhall prelude so that live-reloading my
+Dhall-code does not reload the Dhall prelude from the internet each time.
+Since Dhall supports cached import, the local cache requires little extra work: I just have this <a href="/gen/out/dhall-section-demo.cmark__local-dhall-prelude-cache">file with a checksum-verified network import</a>, which I then import as a filesystem-local import with <code>let prelude = ./dhall/Prelude.dhall</code>.</p>
 <h3 id="future">future</h3>
 <p>In the future, the Dhall object to return will be a beefier record rather than just a blob <code>List Text</code>.
 For instance, we could return extra information as metadata or as extra instructions that do not find their way in the HTML. Also, the Dhall code could return something else than Commonmark, we could <a href="https://github.com/andrewthad/dhall-html">directly generate HTML</a> or JSON values.</p>
@@ -228,7 +231,7 @@ Same if the template changes (adding fields, changing the markup).</p>
 </table>
 <h2 id="tiles-layout">tiles layout</h2>
 <div class="tileset">
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Alice</span>
       <span class="note">7/10</span>
@@ -236,7 +239,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>secret santa barbara</a></div>
     <div class="commnet">good to learn about the city</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Bob</span>
       <span class="note">8/10</span>
@@ -244,7 +247,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>sponge's den</a></div>
     <div class="commnet">other cartoons are funnier but okay</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Cindy</span>
       <span class="note">3/10</span>
@@ -252,7 +255,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>hello world I'm Cindy</a></div>
     <div class="commnet">abandonned site</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Dave</span>
       <span class="note"><i class="heart"/>&hearts;</i>9/10</span>
@@ -260,7 +263,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>blog of a developer</a></div>
     <div class="commnet">he sings so well</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Emil</span>
       <span class="note">2/10</span>
@@ -268,7 +271,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>eating some chewing gum</a></div>
     <div class="commnet">French movies...</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Felicia</span>
       <span class="note">6/10</span>
@@ -276,7 +279,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>yet another a website</a></div>
     <div class="commnet">average</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Gerard</span>
       <span class="note">3/10</span>
@@ -284,7 +287,7 @@ Same if the template changes (adding fields, changing the markup).</p>
     <div class="link"><a href=https://www.example.com>tech lead lead leader</a></div>
     <div class="commnet">lots of words to say nothing</div>
   </div>
-  <div class="tile">
+  <div class="tile" draggable="true">
     <div class="heading">
       <span class="name">Hortense</span>
       <span class="note">8/10</span>
