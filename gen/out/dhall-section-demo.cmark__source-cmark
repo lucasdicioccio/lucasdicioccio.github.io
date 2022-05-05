@@ -282,7 +282,9 @@ let cmark : List Text =
    concat Text [ bragging, [ "\n## table layout " ] , table , [ "\n## tiles layout" ]  , tileset, eof ]
 
 in
-  cmark
+{ contents =  cmark
+, format = "cmark"
+}
 
 =base:main-css.css
 @import "/css/main.css";

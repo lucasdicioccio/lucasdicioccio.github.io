@@ -1,17 +1,17 @@
   381 ./app/Main.hs
   199 ./src/Commonmark/Free.hs
-   29 ./src/Blog/Assembler.hs
+   28 ./src/Blog/Assembler.hs
    47 ./src/Blog/Site.hs
   526 ./src/Blog/Layout.hs
-  259 ./src/Blog/Advanced.hs
-   50 ./src/Blog/Prelude.hs
+  263 ./src/Blog/Advanced.hs
+   52 ./src/Blog/Prelude.hs
    62 ./src/Blog/Basics.hs
    95 ./src/Blog/Target.hs
    84 ./src/Blog/Section.hs
    26 ./src/Blog/Wordcount.hs
-   21 ./src/Blog/Generator.hs
-  109 ./src/Blog/SiteLoader.hs
-   92 ./src/Blog/AssembleSections.hs
+   20 ./src/Blog/Generator.hs
+  127 ./src/Blog/SiteLoader.hs
+   99 ./src/Blog/AssembleSections.hs
   214 ./src/Blog.hs
   128 ./purescript/halogen-demo/src/Main.purs
- 2322 total
+ 2351 total
