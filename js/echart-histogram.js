@@ -20,7 +20,7 @@ $.get(jsonSrc, function (articlejson) {
   myChart.hideLoading();
   const slitems = articlejson.skyline.skylineItems;
 
-  const nSeries = slitems.filter((item) => item.tag == 'HeaderMark').length + 1;
+  const nSeries = slitems.filter((item) => item.tag == 'HeaderMark').length + 2; // one for 'previous cumulative series' and one for the 'incipit' section
   const newSeries = (name) => { return { name: name, type: 'bar', stack: 'one', data: zeroes(nSeries) } };
   let series = [newSeries('previous'), newSeries('incipit')];
   const offsetSeries = series[0];
@@ -29,6 +29,7 @@ $.get(jsonSrc, function (articlejson) {
   let seriesIdx = 1;
   let currentSeries = series[1];
   slitems.forEach((item) => {
+    console.log(item);
     if (item.tag == 'HeaderMark') {
       const title = item.contents[0];
       const heading = item.contents[1].reduce((c,x) => `${x}.${c}`, '');
@@ -44,6 +45,7 @@ $.get(jsonSrc, function (articlejson) {
       currentSeries.data[seriesIdx] += val;
     }
   });
+    console.log(series);
 
 
   offsetSeries.itemStyle = {'borderColor': 'transparent', color: 'transparent'};

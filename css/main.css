@@ -1,6 +1,7 @@
-* {
+html {
   font-family: "Helvetica", Arial, sans-serif;
   font-size: 14pt;
+  background-color: #fcfcfc;
 }
 body {
   display: flex;
@@ -61,7 +62,7 @@ article {
   color: #ccc;
 }
 h1 {
-  font-size: 24pt;
+  font-size: 21pt;
   text-transform: uppercase;
 }
 h2 {
@@ -78,6 +79,7 @@ p:hover {
 code {
   font-family: monospace;
 }
+
 p > code {
   font-weight: bold;
   color: coral;
@@ -183,4 +185,27 @@ a.tag-link {
 }
 #histogram {
   height: 300px;
+}
+
+
+/* skylighting classes for code */
+.va, .dv {
+  color: gray;
+}
+.dt,.fu {
+  color: black;
+}
+.co, .ot {
+  color: gray;
+}
+.kw, .im, .bu {
+  color: darkblue;
+}
+.op {
+  color: gray;
+  font-weight: bold;
+}
+.sc, .st, .ch, .cn, .fl {
+  color: coral;
+  font-weight: bold;
 }

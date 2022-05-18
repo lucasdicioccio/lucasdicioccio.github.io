@@ -142,7 +142,7 @@ code](gen/out/halogen-demo.cmark__source-cmark).
 
 The actual CommonMark content has two purposes. On one hand, the file contains the meaty-content, that is, the text you are reading right now. On the other hand we need to prepare the HTML content to have some DOM Node ready to accept the Halogen application. The latter is feasible as follows in CommonMark:
 
-```
+```markdown
 ::: {#halogen-routes}
 :::
 

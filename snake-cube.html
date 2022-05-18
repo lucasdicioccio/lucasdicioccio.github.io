@@ -36,7 +36,7 @@ values).</p>
 total. Thus we can give a name to each individual cube in the snake. Since
 solvers work with numbers, the easiest way is to use numerical names (i.e.,
 indexing of values).</p>
-<pre><code>set of int: CUBE = 1..27;
+<pre><code class="language-minizinc">set of int: CUBE = 1..27;
 </code></pre>
 <p>This MiniZinc statement says that we number each individual cube starting from
 <code>1 up to 27</code>. We could have used <code>0..26</code> or another <em>indexing scheme</em>. The
@@ -47,7 +47,7 @@ leave <code>0</code> as a special index to represent ‘absence of cube’.</p>
 <em>folded-cube</em>, which represents the cube as a collection of 27 slots or
 <em>positions</em>. This concept of position allows-us to explain the rules of
 Snake-Cube. Thus, let’s give a numerical index to each final position.</p>
-<pre><code>set of int: POS = 1..27;
+<pre><code class="language-minizinc">set of int: POS = 1..27;
 </code></pre>
 <p>Astute readers may wonder why both <code>CUBE</code> and <code>POS</code> are numbered <code>1..27</code>. The
 enumeration of values 1 to 27 is merely the representation of integers backing
@@ -71,7 +71,7 @@ arrays</em>. Like variables, dimension variables must have some initial domain. 
 instance machine integers, 1..100, or some set introduced beforehand.  In our
 case, for each <code>CUBE</code> we want a <code>var POS</code>. So let’s introduce one array,
 indexed by <code>CUBE</code> and containing <code>var POS</code>:</p>
-<pre><code>array[CUBE] of var POS: positions;
+<pre><code class="language-minizinc">array[CUBE] of var POS: positions;
 </code></pre>
 <p>Repeating for clarity: this statement says that <code>positions</code> is an array, which
 is indexed by <code>CUBE</code> (i.e., it has one item for each of the 27 cubes) and of
@@ -135,7 +135,7 @@ in a formal tone <strong>no two distinct CUBEs can be attributed to the same POS
 the position array</strong>.  Even if this formulation hurts the ears, this
 formulation is good because we already have everything at our disposal. In
 MiniZinc, this statement would be written like this</p>
-<pre><code>constraint forall(c1, c2 in CUBE c1 != c2)
+<pre><code class="language-minizinc">constraint forall(c1, c2 in CUBE c1 != c2)
   (position[c1] != position[c2])`;
 </code></pre>
 <p>The <code>constraint</code> keyword introduces a new constraint.  The <code>forall</code> keyword has
@@ -157,7 +157,7 @@ predicates are functions that return constraints. As a modeler you would use
 predicates and functions to create increasingly-high level constraints from
 atomic constraints. You will find a library predicate in MiniZinc named
 <code>all_different</code>. Thus we can rewrite our statement above with</p>
-<pre><code>include &quot;all_different.mzn&quot;;
+<pre><code class="language-minizinc">include &quot;all_different.mzn&quot;;
 constraint all_different(positions);
 </code></pre>
 <p>This formulation is better than the <code>forall</code> because it is more declarative:
@@ -207,7 +207,7 @@ have three lists in parallel, each one encoding a single coordinate. Such a
 modeling with “one column per field” is typical in ‘columnar databases’ or in
 ‘ECS frameworks’, or even good old ‘CSV files’.</p>
 <p>In MiniZinc you write:</p>
-<pre><code>set  of int: X = 0..2;
+<pre><code class="language-minizinc">set  of int: X = 0..2;
 set  of int: Y = 0..2;
 set  of int: Z = 0..2;
 array[POS] of X: xs = [   (p - 1)        mod 3 | p in POS ];
@@ -244,7 +244,7 @@ a starting and an ending <code>CUBE</code>.</p>
 </code></pre>
 <p>This is the part of the puzzle where I had to verify five times I did the right
 counting because I’m not very good at counting above ten.</p>
-<pre><code>set of int: SEGMENT = 1..17;
+<pre><code class="language-minizinc">set of int: SEGMENT = 1..17;
 array[SEGMENT,1..2] of CUBE: segments = [|1,3|3,5|5,7|7,9|9,10|10,11|11,12|12,14|14,16|16,17|17,18|18,20|20,21|21,23|23,24|24,25|25,27|];
 </code></pre>
 <p>This compact syntax allows to declare a <em>two-dimensional array</em> and its
@@ -307,7 +307,7 @@ number of new syntaxes (like <em>let-bindings</em>) will not be explained so you
 have to read code-examples slowly before and after reading the explanation.</p>
 <p>We would like to do something like saying <strong>all SEGMENT must form straight
 lines</strong>.  Which is a straightforward.</p>
-<pre><code>constraint forall(s in SEGMENT)(straight(s));
+<pre><code class="language-minizinc">constraint forall(s in SEGMENT)(straight(s));
 </code></pre>
 <p>MiniZinc will complain that <code>straight</code> is not defined yet, but at least the
 only new “top-level constraint” is written down and we are left with
@@ -318,7 +318,7 @@ is true then it tells you that at least <code>a</code> or <code>b</code> is true
 when stated but can look unusual to programmers used to handling ORs with
 information flowing in a single direction. Let’s write down our disjunction
 along all three axes:</p>
-<pre><code>predicate straight(SEGMENT: s) =
+<pre><code class="language-minizinc">predicate straight(SEGMENT: s) =
   let {CUBE: c0 = segments[s,1]; CUBE: c1 = segments[s,2]}
   in alongX(c0..c1) \/ alongY(c0..c1) \/ alongZ(c0..c1);
 </code></pre>
@@ -334,7 +334,7 @@ positioned cubes vary whereas the <code>Y</code> and <code>Z</code> coordinates 
 back to my pictures, the three cubes in the L-shape are “along X”, hence <code>Y</code>
 and <code>Z</code> are fixed and <code>X</code> vary). We can thus encode such a predicate with a
 <em>boolean AND conjunction</em> of three clauses:</p>
-<pre><code>predicate alongX(array[int] of CUBE: cubes) = along(cubes, xs)   /\ samePos(cubes, ys) /\ samePos(cubes, zs);
+<pre><code class="language-minizinc">predicate alongX(array[int] of CUBE: cubes) = along(cubes, xs)   /\ samePos(cubes, ys) /\ samePos(cubes, zs);
 predicate alongY(array[int] of CUBE: cubes) = samePos(cubes, xs) /\ along(cubes, ys)   /\ samePos(cubes, zs);
 predicate alongZ(array[int] of CUBE: cubes) = samePos(cubes, xs) /\ samePos(cubes, ys) /\ along(cubes, zs);
 </code></pre>
@@ -343,7 +343,7 @@ repeating ourselves while elaborating further, we will pass the useful
 information “in which dimension we are” as arguments to the lower-level
 predicates: <code>along</code> and <code>samePos</code> . Both predicates take a series of cubes and
 a the coordinates in the dimension of interest as arguments. Let’s formulate <code>along</code>.</p>
-<pre><code>predicate along(array[int] of CUBE: cubes, array[POS] of int: proj) =
+<pre><code class="language-minizinc">predicate along(array[int] of CUBE: cubes, array[POS] of int: proj) =
   let { CUBE: c0 = cubes[1]} in
   forall(c1 in cubes where c1 &gt; c0)(abs(proj[positions[c0]] - proj[positions[c1]]) = c1 - c0);
 </code></pre>
@@ -367,7 +367,7 @@ same arguments as <code>along</code> to avoid typing it for each dimension. Howe
 <code>samePos</code> is simple to write: while <code>along</code> enforced some distance along an
 axis, <code>samePos</code> enforce no changes along an axis. Thus, we do not need
 complicated arithmetics with absolute values, a simple <em>equality</em> will do.</p>
-<pre><code>predicate samePos(array[int] of CUBE: cubes, array[POS] of int: proj) =
+<pre><code class="language-minizinc">predicate samePos(array[int] of CUBE: cubes, array[POS] of int: proj) =
    forall(c0, c1 in cubes where c0 &lt; c1)(proj[positions[c0]] = proj[positions[c1]]);
 </code></pre>
 <p>And we are done! Overall, forcing successive coordinates along X and same
@@ -488,7 +488,7 @@ for each dimension we care about the particular direction (left-to-right or
 right-to-left). In total it means six directions. We could use <code>set of int: DIR = 1..6</code> but I instead use a pretty similar construct when you want to give
 individual names to directions: enums.
 We somehow now that every <code>SEGMENT</code> will have a <code>DIR</code>, so let’s declare that at the same time.</p>
-<pre><code>enum DIR = {XP, XN, YP, YN, ZP, ZN};
+<pre><code class="language-minizinc">enum DIR = {XP, XN, YP, YN, ZP, ZN};
 array[SEGMENT] of var DIR: directions;
 </code></pre>
 <p>For instance, <code>directions[3] = XP</code> stands for ‘segment number 3 has cubes laid out
@@ -496,7 +496,7 @@ along the X-axis with increasing values’.</p>
 <p>The remaining work is to connect <code>DIRs</code> of <code>SEGMENTs</code> with the coordinates of
 positioned <code>CUBEs</code>.  I did that by augmenting the predicate <code>straight</code> to impose
 extra conditions with <code>alongX</code> (and the same for Z and Y).</p>
-<pre><code>predicate straight(SEGMENT: s) =
+<pre><code class="language-minizinc">predicate straight(SEGMENT: s) =
   let {CUBE: c0 = segments[s,1]; CUBE: c1 = segments[s,2]}
   in (alongX(c0..c1) /\ direction(s, xs, XP, XN))
   \/ (alongY(c0..c1) /\ direction(s, ys, YP, YN))
@@ -506,7 +506,7 @@ extra conditions with <code>alongX</code> (and the same for Z and Y).</p>
 modified <code>alongX</code> directly to pass the <code>SEGMENT</code> rather than its <code>CUBEs</code> expansion.
 What is important is that we now force yet another predicate relating the
 <code>SEGMENT</code> and the <code>DIR</code> together. The <code>direction</code> predicate is defined as follows:</p>
-<pre><code>predicate direction(SEGMENT: s, array[POS] of int: proj, DIR: dp, DIR: dn) =
+<pre><code class="language-minizinc">predicate direction(SEGMENT: s, array[POS] of int: proj, DIR: dp, DIR: dn) =
      (proj[positions[segments[s,1]]] &lt; proj[positions[segments[s,2]]] /\ directions[s] = dp)
   \/ (proj[positions[segments[s,1]]] &gt; proj[positions[segments[s,2]]] /\ directions[s] = dn);
 </code></pre>
@@ -518,7 +518,7 @@ the solutions to the solver.  However this extra wiring allows us to formulate
 symmetry-breaking constraints.</p>
 <p>One way to say that the first segment defines the X axis, and the first bent
 segment defines Y is to add.</p>
-<pre><code>constraint directions[1] = XP;
+<pre><code class="language-minizinc">constraint directions[1] = XP;
 constraint directions[2] = YP;
 </code></pre>
 <p>However, such a scheme would be insufficient for breaking all symmetries.
@@ -542,7 +542,7 @@ that ‘the first occurrence of XP is before the first occurrence of XN and so o
 and so forth’. I’ve decided to pick <code>value_precede_chain</code> and <code>value_precede</code>
 to encode the fact that <code>XP</code> is before <code>YP</code> which in turns is before <code>ZP</code> and
 that <code>positive</code> is before <code>negative</code>.</p>
-<pre><code>include &quot;globals.mzn&quot;;
+<pre><code class="language-minizinc">include &quot;globals.mzn&quot;;
 constraint value_precede(XP,XN, directions);
 constraint value_precede(YP,YN, directions);
 constraint value_precede(ZP,ZN, directions);

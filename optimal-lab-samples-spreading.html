@@ -107,7 +107,7 @@ from our introductory model).</p>
 </ul>
 <h2 id="formalized-in-minizinc">formalized in MiniZinc</h2>
 <p>The core of the model would be something as follows:</p>
-<pre><code>int: nLab;
+<pre><code class="language-minizinc">int: nLab;
 int: nZone;
 int: nTime;
 int: sample_lifetime;
@@ -162,7 +162,7 @@ right).
 <h3 id="conservation-law">conservation law</h3>
 <p>The conservation-law is not too complicated: at any given TIME, the demand is
 partitioned in two sets: dropped quantities and dispatched quantities.</p>
-<pre><code>% must dispatch all demand
+<pre><code class="language-minizinc">% must dispatch all demand
 constraint forall(z in ZONE, t in TIME)
   (demand[z,t] - dropped[z,t] = sum(l in LAB, d in DELAY)( dispatch[z,l,t,d] ));
 </code></pre>
@@ -175,7 +175,7 @@ reason and debug with this extra ‘dropped’ variable.</p>
 <p>Here we are using some <em>implication</em> connective that says that if the transit
 time and the considered queuing delay exceeds the sample lifetime, then the
 dispatched amount for this zone, lab, and delay has to be zero.</p>
-<pre><code>% cannot delay (including transit time) past sample_lifetime
+<pre><code class="language-minizinc">% cannot delay (including transit time) past sample_lifetime
 constraint forall(z in ZONE, l in LAB, t in TIME, d in DELAY)
   ((transit[z,l] + d &gt; sample_lifetime) -&gt; dispatch[z,l,t,d] = 0);
 </code></pre>
@@ -192,7 +192,7 @@ quantities to move to the dropped quantity.</p>
 <p>We need some way to prevent LABs overload. For this we need a definition of
 load of a LAB at a given time. This load consists of the dispatched amounts
 (including transit costs and backlog-delays).</p>
-<pre><code>% helper: workload processed by a lab at a given time (includes delayed dispatches)
+<pre><code class="language-minizinc">% helper: workload processed by a lab at a given time (includes delayed dispatches)
 array[LAB,TIME] of var int: load;
 constraint forall(l in LAB, t_load in TIME)
  ( load[l,t_load] = sum(t_route in t_load-sample_lifetime..t_load where t_route &gt; 0, z in ZONE)
@@ -201,13 +201,13 @@ constraint forall(l in LAB, t_load in TIME)
 </code></pre>
 <p>It takes some work to sum all the right terms, but once we have the load at a
 given time, the constraint becomes trivial.</p>
-<pre><code>% cannot overload labs
+<pre><code class="language-minizinc">% cannot overload labs
 constraint forall(l in LAB, t in TIME)
   (capacity[l] &gt;= load[l,t]);
 </code></pre>
 <h3 id="objective-no-waste">objective: no waste</h3>
 <p>This probably is the easiest part of the work. We sum the total dropped amounts and minimize this.</p>
-<pre><code>var int: total_drop = sum(array1d(dropped));
+<pre><code class="language-minizinc">var int: total_drop = sum(array1d(dropped));
 
 solve minimize total_drop;
 </code></pre>
@@ -222,7 +222,7 @@ model.</p>
 output format than you get by default with MiniZinc (hopefully it’s more
 readable).</p>
 <p>An example simple input that allows to understand what happens is a data file like the following:</p>
-<pre><code>nLab = 3;
+<pre><code class="language-minizinc">nLab = 3;
 nZone = 2;
 nTime = 5;
 sample_lifetime = 0;
@@ -273,7 +273,7 @@ file and have fun changing parameters. For instance, allowing some extra
 lifetime, adding transit, and increasing the total demand. We can arrive at
 situations where backlogging is required.</p>
 <p>With this input for instance,</p>
-<pre><code>nLab = 3;
+<pre><code class="language-minizinc">nLab = 3;
 nZone = 2;
 nTime = 5;
 sample_lifetime = 2;
@@ -360,7 +360,7 @@ see how the constraint-programming approach is beneficial.</p>
 <p>Lab capacities are given as a fixed value. However we could easily modify the
 lab capacities to be known time-varying values. Such a change could allow to
 model the effect of opening/closing some labs for WE breaks. The change here is pretty limited, we would introduce a <code>TIME</code> component to the capacity and use it in the adequate constraint:</p>
-<pre><code>array[LAB,TIME] of int: capacity;
+<pre><code class="language-minizinc">array[LAB,TIME] of int: capacity;
 
 % cannot overload labs
 constraint forall(l in LAB, t in TIME)
@@ -380,7 +380,7 @@ sites or the laboratories (e.g., because they use different sampling techniques
 or material).</p>
 <p>For instance, if we attribute some dispatch value that decreases with the
 DELAY, we could use such an objective (turned into a maximization here).</p>
-<pre><code>var int: w = sum(z in ZONE, l in LAB, t in TIME, d in DELAY)(dispatch[z,l,t,d] * (sample_lifetime-d));
+<pre><code class="language-minizinc">var int: w = sum(z in ZONE, l in LAB, t in TIME, d in DELAY)(dispatch[z,l,t,d] * (sample_lifetime-d));
 solve maximize w;
 </code></pre>
 <h3 id="varying-processing-costs-at-laboratories">Varying processing costs at laboratories</h3>
@@ -393,7 +393,7 @@ cheapest LABs first in a “water-filling” approach (starting from the cheapes
 LAB reachable from a given ZONE until the LAB is no longer the cheapest
 alternative etc.).</p>
 <p>We could do something like this:</p>
-<pre><code>var int: w = sum(l in LAB, t in TIME)(processing_cost(l, load[l,t]));
+<pre><code class="language-minizinc">var int: w = sum(l in LAB, t in TIME)(processing_cost(l, load[l,t]));
 solve minimize w + drop_cost * total_drop;
 </code></pre>
 <p>Given a <code>processing_cost</code> function mapping LABs and loads to a numerical cost
@@ -429,7 +429,7 @@ auxiliary variables telling how many LABs a ZONE serves at a given TIME
 (irrespective of the DELAY). Say you get a <code>sent</code> array. Then force the
 cardinality of zeros with a <a href="https://www.minizinc.org/doc-2.5.5/en/lib-globals.html#counting-constraints">global counting constraint</a>.</p>
 <p>That said, the overall constraint is not that complicated to write.</p>
-<pre><code>% helper: work sent from zone to a lab at a given time (whichever delay is dispatched)
+<pre><code class="language-minizinc">% helper: work sent from zone to a lab at a given time (whichever delay is dispatched)
 array[ZONE,LAB,TIME] of var 0..maxAttr: sent;
 constraint forall(l in LAB, z in ZONE, t in TIME)
   (sent[z,l,t] = sum(d in DELAY)(dispatch[z,l,t,d]));

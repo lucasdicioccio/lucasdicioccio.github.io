@@ -1,4 +1,65 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Always refactoring!</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="design, programming, programming-technique, software"><meta name="description" content="Programming is a non-linear tasks."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Always refactoring!"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Programming is a non-linear tasks."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Always refactoring!"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/always-refactoring.html"><meta property="og:description" content="Programming is a non-linear tasks."><meta name="article:published_time" content="2022-05-01"><meta name="ks:article_json" content="/json/always-refactoring.cmark.json"><meta name="article:tag" content="design"><meta name="article:tag" content="programming"><meta name="article:tag" content="programming-technique"><meta name="article:tag" content="software"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>Always refactoring!</h1><p>On <span>Sun, 01 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 88 words, 0 links, 1images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/design.html"><span class="tag-name">design</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>Number of phases:</p>
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - My devs are always refactoring! why is it important?</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="design, programming, programming-technique, software"><meta name="description" content="Developers often discuss about the need to &quot;refactor&quot; some piece of code.  I have ran into a number of product-owner puzzled by how frequently they feel like the developers express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This article summarizes the answers I gave to people in product roles. We discuss what is refactoring, why it is important, and how to bring some productive discussion when push-back is felt."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why is it important?"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Developers often discuss about the need to &quot;refactor&quot; some piece of code.  I have ran into a number of product-owner puzzled by how frequently they feel like the developers express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This article summarizes the answers I gave to people in product roles. We discuss what is refactoring, why it is important, and how to bring some productive discussion when push-back is felt."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why is it important?"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/always-refactoring.html"><meta property="og:description" content="Developers often discuss about the need to &quot;refactor&quot; some piece of code.  I have ran into a number of product-owner puzzled by how frequently they feel like the developers express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This article summarizes the answers I gave to people in product roles. We discuss what is refactoring, why it is important, and how to bring some productive discussion when push-back is felt."><meta name="article:published_time" content="2022-05-01"><meta name="ks:article_json" content="/json/always-refactoring.cmark.json"><meta name="article:tag" content="design"><meta name="article:tag" content="programming"><meta name="article:tag" content="programming-technique"><meta name="article:tag" content="software"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>My devs are always refactoring! why is it important?</h1><p>On <span>Sun, 01 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 962 words, 0 links, 2images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/design.html"><span class="tag-name">design</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>From a non-developer viewpoint, it may be hard to connect with developers who
+are <strong>always refactoring</strong>. I wrote this article to fill some gap I observed a
+number of times with non-technical stakeholders worried that tech teams where
+“always refactorin’”. Cannot developers refactor once and move to something more
+useful?</p>
+<p>To answer this question, let’s have a refresher on what development looks like:
+a non-linear and discontinuous process. Then we’ll discuss what refactorings
+are. Finally we’ll discuss how to gauge whether your teams are refactoring
+too often.</p>
+<h1 id="a-refresh-on-the-development-process">A refresh on the development process</h1>
+<p>The main tangible output of software development is software: an increased
+amount of lines of code, extra kilobytes of configurations, a flurry of new
+packages and services. All these deliverables need to be organized, cleared of
+bugs, key limitations need to be documented. Meanwhile, new business questions
+are raised, technical questions are raised, and hairbrows are raised too
+<span class="emoji" data-emoji="thinking">🤔</span>.</p>
+<p>Two key characteristics we can emphasize are the fact that developing software
+is <em>agglomerative</em> and <em>non-linear</em>.</p>
+<h2 id="the-development-process-is-agglomerative">The development process is agglomerative</h2>
+<p>We write software to fill a given vaccum, to address a set of problems. The
+amount of vaccum to fill is the <em>scope</em> of the software.</p>
+<p>Most software features will require a similar set of technical steps (e.g.,
+writing tests, writing a data schema, writing an API provider or consumer,
+performing some quality-assurance). Thus it makes sense to categorize these
+technical steps as layers of work. A single developer can work on a single step
+at a time. Also developers will specialize into some of these layers, forcing
+the project management to get some ordering between technical steps. For two
+different features the steps may not have to share the same ordering, however
+it’s generally the case that there is some bottom-up sequence in a <em>vertical</em> fashion.</p>
+<p>To fill a scope, you need many features, which means that if we collect all the
+steps for all features, we get a tiling of tasks to fill a given scope.</p>
+<p>To fill a scope, you have thus two broad strategies:</p>
+<ul>
+<li>follow the <em>horizontal</em> axis: focus on some technical layer, assuming that
+batching everything together is gonna be more efficient. For instance, it is
+easier to write database schemas when you know all requirements, and is sensible
+when all requirements are laid out.
+</li>
+<li>follow the <em>vertical</em> axis: deliver one feature and then move to the next one, assuming
+that getting some subset of the scope early is a favourable outcome (early
+revenues, first-mover advantage, reduce pressure from the C-suite)
+</li>
+</ul>
+<p>In modern software practices, it is admitted that the vertical is better as the
+scope is too hard to discover upfront. We’ll discuss scope changes in the next section though.</p>
+<p>Whether one writes code along verticals or horizontals, both strategies
+eventually accumulate code, configurations, packages, documentations and what
+not. Thus overall software projects inflate and <em>agglomerate</em>. As time passes,
+gaps are filled, <strong>two opposing forces are at play</strong>:</p>
+<ul>
+<li>the agglomeration of software is more and more complex and <em>friction</em> drags your developers down
+</li>
+<li>developers get more experienced on the project and find or build ways to <em>accelerate</em> the delivery
+</li>
+</ul>
+<p>Which of these forces is winning will determine the fate of your project. In
+particular, too much friction or not enough time spent on accelerating will
+lead to losing momentum.</p>
+<p>A software project is more than a feature-bingo card. You have to
+cope with undesired effects leading to bugs and scope-change.</p>
+<h2 id="the-development-process-is-discontinuous-and-not-linear">The development process is discontinuous and not linear</h2>
+<p>Number of phases:</p>
 <ul>
 <li>design: sketching the goal and overall structure
 </li>
@@ -11,6 +72,45 @@
 <li>refactor package: mainly import structures, dependency links should be clear enough to avoid cycles, but also extra logging
 </li>
 </ul>
-<p><img src="/gen/images/progphases-linear.dot.png" alt="linear thinking" /></p>
-<p>actual thinking: multi-dimensional expansion with thresholds at boundaries</p>
+<p>actual thinking: multi-dimensional expansion with thresholds at boundaries
+<img src="/gen/images/progphases-linear.dot.png" alt="linear thinking" /></p>
+<p><img src="/gen/images/progphases-fractal.dot.png" alt="fractal thinking" /></p>
+<h2 id="development-is-not-about-code">Development is not about code</h2>
+<p>Actually, many developers treat code as a second-class citizen. More important
+concerns are <em>operability</em> and <em>maintainability</em>.</p>
+<h1 id="introducing-refactoring">Introducing refactoring</h1>
+<p>Let’s recollect what we have: we agglomerate code and see what sticks.</p>
+<h2 id="a-definition-of-refactoring">A definition of refactoring</h2>
+<p>Refactoring is a technical task which consists in. While changing almost no behaviour.</p>
+<p>Goal of the refactoring is pairwise:</p>
+<ul>
+<li>sediment and cement some idioms
+</li>
+<li>maintain an acceptable level of surprise/horror for people who need to touch the code or operate the system
+</li>
+</ul>
+<p>Purely-technical tasks like changing the logging format are not really
+recognized as refactoring but they share most of the characteristics: from a
+business-user standpoint you see no behaviour, however from an operator-user
+standpoint the behaviour changes.</p>
+<p>This absence of external changes is desirable and developers will bring up
+refactoring to help you understand how to classify this task: it takes work but
+you need not know how the sausage is made.</p>
+<p>=&gt; <span class="emoji" data-emoji="warning">⚠️</span> Could lead to some breach of trust.
+The catch: developer happiness and morale is part of their productivity.</p>
+<h1 id="i-believe-my-team-is-always-refactoring-what-should-i-do">I believe my team is always refactoring what should I do?</h1>
+<h2 id="first-is-it-really-true">First, is it really true?</h2>
+<p>You need to settle on some acceptable amount of technical work, which includes refactors.</p>
+<h2 id="pushing-back-in-a-healthy-way">Pushing back in a healthy way</h2>
+<p>What is key to keep in mind: developers bring up refactoring tasks for a reason.</p>
+<ul>
+<li>upfront as preventative: when discussing new tasks, be honest about the amount of uncertainty you have with a feature, especially on things that are pretty structural like “can there be zero, one, many” items connected to a user, to a group etc.
+</li>
+<li>reframe/clarify whether it’s a refactoring or some other technical tasks, mostly you’ll be able to re-classify and you’ll realize that there is more complexity or richness to the work they do
+</li>
+<li>organizational:  quantify the friction accumulated, did the lack of refactor led to extra friction? can you weigh the refactoring work? can you budget an amount of refactoring time?
+</li>
+<li>bluff: it’s a good way to lose trust so you have to be really sure some near wins will offset this; say that you need a bit more real-world feedback (it’s in general true, but it’s often a small-lie we tell themselves because of how hard it is to collect scientifically sound feedback)
+</li>
+</ul>
 </section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div><nav id="navigation" class="nav"><a href="/">home</a><div id="search-box"><script type="text/javascript" src="/js/search-box.js" async></script></div></nav></body></html>

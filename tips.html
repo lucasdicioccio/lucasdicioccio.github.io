@@ -1,15 +1,13 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Some tips</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content><meta name="description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Some tips"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Some tips"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/tips.html"><meta property="og:description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="ks:article_json" content="/json/tips.cmark.json"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>Some tips</h1><p>By <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 331 words, 0 links, 0images.</p><div class="taglist"></div></header><div class="main-article"><section class="main-section"><h2 id="linux">linux</h2>
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Some tips</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content><meta name="description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Some tips"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Some tips"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/tips.html"><meta property="og:description" content="A collection of tips that also serves as a personal cheat-sheet."><meta name="ks:article_json" content="/json/tips.cmark.json"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>Some tips</h1><p>By <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 321 words, 0 links, 0images.</p><div class="taglist"></div></header><div class="main-article"><section class="main-section"><h2 id="linux">linux</h2>
 <h3 id="screencast-to-mp4-in-ubuntu">screencast to mp4 in Ubuntu</h3>
 <p>If you record your screen with <code>(ctrl+shift+alt+R)</code> in Ubuntu, you’ll get a <strong>webm</strong> file, GitHub, iPhones all want <strong>mp4</strong>. So you need to convert from webm to mp4.</p>
 <p>The <code>ffmpeg</code> command allows such a conversion. As a bonus, Ubuntu’s file
 navigator allows to have some right-click scripts shortcuts.</p>
-<pre><code class="language-bash">#!/bin/bash
-
-path=$1
-ffmpeg -y -i &quot;${path}&quot; &quot;${path}.mp4&quot;
-notify-send &quot;converted ${path}&quot;
-</code></pre>
-<p>You can benefit from contextual menu in Ubuntu’s file navigator. If you drop
+<div class="sourceCode"><pre class="sourceCode"><code class="sourceCode"><span id="1"><a href="#1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="2"><a href="#2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="3"><a href="#3" aria-hidden="true" tabindex="-1"></a><span class="va">path</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="4"><a href="#4" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-y</span> <span class="at">-i</span> <span class="st">&quot;</span><span class="va">${path}</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${path}</span><span class="st">.mp4&quot;</span></span>
+<span id="5"><a href="#5" aria-hidden="true" tabindex="-1"></a><span class="ex">notify-send</span> <span class="st">&quot;converted </span><span class="va">${path}</span><span class="st">&quot;</span></span></code></pre></div><p>You can benefit from contextual menu in Ubuntu’s file navigator. If you drop
 the script at a special path like
 <code>~/.local/share/nautilus/scripts/ffmpeg-convert-to-mp4</code> and do not forget to
 make it executable with <code>chmod</code>.</p>
@@ -24,14 +22,14 @@ of the demo screencast.</p>
 <li>mount the existing .iso in loop mode on a local dir
 </li>
 </ol>
-<pre><code>mkdir original
+<pre><code class="language-console">mkdir original
 mount -o loop $ISO original/
 </code></pre>
 <ol>
 <li>copy files from local dir to new dir with
 </li>
 </ol>
-<pre><code>mkdir new-iso
+<pre><code class="language-console">mkdir new-iso
 rsync -a -H --exclude=TRANS.TBL original new-iso
 umount original
 </code></pre>
@@ -52,20 +50,20 @@ precisely: at the beginning of <code>isolinux/isolinux.cfg</code> (1st line afte
 <li>regenerate md5 files inside ./new-iso
 </li>
 </ol>
-<pre><code>cd ./new-iso
+<pre><code class="language-console">cd ./new-iso
 md5sum `find -follow -type f` &gt; md5sum.txt
 </code></pre>
 <ol start="5">
 <li>build a bootable .iso from all this
 </li>
 </ol>
-<pre><code>genisoimage -o $NEWISO -r -J -no-emul-boot -boot-load-size 4  -boot-info-table -b isolinux/isolinux.bin -c isolinux/boot.cat ./new-iso
+<pre><code class="language-console">genisoimage -o $NEWISO -r -J -no-emul-boot -boot-load-size 4  -boot-info-table -b isolinux/isolinux.bin -c isolinux/boot.cat ./new-iso
 </code></pre>
 <ol start="7">
 <li>start a qemu, pay attention to the <code>-serial</code> argument
 </li>
 </ol>
-<pre><code>qemu-img create -f qcow2 $IMG 5G
+<pre><code class="language-console">qemu-img create -f qcow2 $IMG 5G
 qemu-system-x86_64 -nographic \
   -m 512 \
   -boot d \
