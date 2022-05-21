@@ -1,6 +1,7 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-1]</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="management, engineering, programming, programming-technique, software"><meta name="description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-1]"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-1]"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/what-is-the-project-scope.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/project-scope-fractal-tesselation.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/images/project-scope-fractal-tesselation.png"><meta property="og:description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects."><meta name="article:published_time" content="2022-05-21"><meta name="ks:article_json" content="/json/what-is-the-project-scope.cmark.json"><meta name="article:tag" content="management"><meta name="article:tag" content="engineering"><meta name="article:tag" content="programming"><meta name="article:tag" content="programming-technique"><meta name="article:tag" content="software"><style>@import "/css/main.css";.note {  background-color: red;}</style></head><body><div class="main"><article><header class="heading"><h1>My devs are always refactoring! why? [part-1]</h1><p>On <span>Sat, 21 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2190 words, 4 links, 9images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/management.html"><span class="tag-name">management</span><span class="tag-count">3</span></a></div><div class="tag"><a class="tag-link" href="/topics/engineering.html"><span class="tag-name">engineering</span><span class="tag-count">2</span></a></div></div></header><div class="main-article"><section class="main-section"><div class=".note">
-<p>This article is the first in a series of articles on refactoring and merely
-introduces what is the scope of a project.</p>
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-1]</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="management, engineering, programming, programming-technique, software"><meta name="description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-1]"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-1]"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/what-is-the-project-scope.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/project-scope-fractal-tesselation.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/images/project-scope-fractal-tesselation.png"><meta property="og:description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects."><meta name="article:published_time" content="2022-05-21"><meta name="ks:article_json" content="/json/what-is-the-project-scope.cmark.json"><meta name="article:tag" content="management"><meta name="article:tag" content="engineering"><meta name="article:tag" content="programming"><meta name="article:tag" content="programming-technique"><meta name="article:tag" content="software"><style>@import "/css/main.css";.note {  font-style: italic;  color: orange;  border-left: 5px solid orange;  margin-left: 1rem;  padding: 0 0 0 1rem;}</style></head><body><div class="main"><article><header class="heading"><h1>My devs are always refactoring! why? [part-1]</h1><p>On <span>Sat, 21 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 2259 words, 4 links, 9images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/management.html"><span class="tag-name">management</span><span class="tag-count">3</span></a></div><div class="tag"><a class="tag-link" href="/topics/engineering.html"><span class="tag-name">engineering</span><span class="tag-count">2</span></a></div></div></header><div class="main-article"><section class="main-section"><div class="note">
+<p>This article is the first in a series of articles on refactoring and is focused
+on discussing what is the “scope” of a project and how the dynamics of the
+scope affect a project.</p>
 </div>
 <p>From a non-developer viewpoint, it may be hard to connect with developers who
 are <strong>always refactoring</strong>. I wrote this article to fill some gap I observed a
@@ -40,7 +41,7 @@ to a technical unit for a given feature.</p>
 <p>This model is a simplification of real-world projects, in real-world projects
 you have more dimensions to consider and you do not need to fill a
 full-rectangle as some features may not have the same requirements. I believe
-this model is goo for a number of reasons: first, this model serves the purpose
+this model is good for a number of reasons: first, this model serves the purpose
 of illustration and the model is complex enough to make my point, second the
 model is simple enough to allow making graphical visualisations, finally we
 could say that not having the same requirements just means that the
@@ -72,12 +73,12 @@ gaps are filled, <strong>two opposing forces are at play</strong>:</p>
 </ul>
 <p>Which of these forces is winning will determine the fate of your project. In
 particular, too much friction or not enough time spent on accelerating will
-lead to losing momentum. If your team lose momentum, your project is doomed to
-fail, if your team gain momentum… you get to play for longer.</p>
-<p>If you are lucky enough to play longer, as tasks get delivered, in addition to
-features, software projects accumulate even more bugs, customer tickets, and
-are shaked by changes in the scope of the problem. In short, the evolution of
-software projects is erratic, with non-linearities, asperities, and
+lead to losing momentum. If your team loses momentum, your project is doomed to
+fail, if your team gains momentum… you get to play for longer.</p>
+<p>If you are lucky enough to play longer, your project will accumulate features.
+On top of features, software projects also accumulate bugs, customer tickets,
+and are shaked by changes in the scope of the problem. In short, the evolution
+of software projects is erratic, with non-linearities, asperities, and
 discontinuities.</p>
 <h2 id="the-development-process-is-discontinuous-and-not-linear">The development process is discontinuous and not linear</h2>
 <p>Let’s assume your team has been working on a project for some time now.  You
@@ -104,7 +105,7 @@ small project with its own varying scope.</p>
 <h2 id="new-features">New features</h2>
 <p>New features are the routine of software projects. As your system collects
 more data, as business discussions uncover new pain-points and opportunities,
-new features happen.</p>
+new features are needed.</p>
 <p>Graphically, we can illustrate the new features has new verticals that we append.</p>
 <p><img src="/images/project-scope-increase-feature.png" alt="scope changes adding a new column of feature" /></p>
 <p>I used a slightly darker red to distinguish the verticals corresponding to the
@@ -163,12 +164,15 @@ will likely need to experiment around.</p>
 Oftentimes we realize that there is some an abundant amount of details and
 extra technical bits and internal features to implement.  Anticipating whether
 a task has enough scope to be split upfront is a difficult betting game.</p>
-<p>When picking a single task and zoom-ing in, we often can formalize the scope of
-the task, we may lay down verticals and horizontals as well.  For instance, if
-the whole task is to add some visual representation of some statistics for a
-customer, the sub-tasks may be about defining edge cases, verifying against
-historical data, deciding to present a single statistics or an evolution in
-time etc. Overall a seemingly simple feature in itself can have a rich scope.</p>
+<p>When picking a single task and zoom-ing in, we often can formulate the scope of
+the task. Within this contour, we may lay down verticals and horizontals like
+we did for our project earlier.  For instance, if the whole task is to add some
+visual representation of some statistics for a customer, the sub-tasks may be
+about defining edge cases, verifying against historical data, deciding to
+present a single statistics or an evolution in time etc. Overall a seemingly
+simple feature in itself can have a rich scope.  If we keep zooming, the code
+organization, making sure that business rules are decoupled from glue code and
+so-on and so forth also are mini-scopes within a task substasks.</p>
 <p>Graphically we can give a feeling of what it means by zooming on a task as
 follows:</p>
 <p><img src="/images/project-scope-fractal.png" alt="scope actually are fractals" /></p>
@@ -176,22 +180,23 @@ follows:</p>
 a given task has ended. A hand-wavy rule may be to say a task is mark as done
 when “enough” of the scope of the task is actually covered. If we try to put
 numbers, in our case we could define that a task is green when a majority of
-the subtasks are green. In your tile with nine sub-task this means that the
-task is done when at most four tasks are “skipped” (yellow).</p>
+the subtasks are green. In our example a tile has nine sub-tasks. Which means
+that the task is done when at most four tasks are “skipped” (yellow) – which
+we distinguish from “not encountered yet” (rose).</p>
 <p>Such a rule is reasonable, and individual tasks may be left in various
-patterns.  Some tasks will have led to code that is perfect in many aspects,
-some others where a few edge cases are not treated yet, some where the code is
-disorganised or daunting but does the job, often the documentation and tests
-are lacking, and so on and so forth.</p>
-<p>Overall, our project is a mosaic that can be looked with various resolutions.
-Non-developers stakeholders will look at the project at a high-level and with
-coarse granularity. Looking at a low-resolution you may get the impression that
-tasks are fully done and indeed the project delivers features.  However if you
-had the possibility to <strong>increase the resolution</strong> of the whole project, you
-would see the delicate complexity of feature deliveries.  We can illustrate
-this with our example by replacing each task by a set of smaller tasks. We
-replace every box by nine smaller boxes and we keep the rule that “to make the
-tile green, we need at most four yellow”.</p>
+patterns.  Some tasks will have led to code that is complete in many aspects.
+Some others will have a few edge cases unhandled. Some patchy tasks will have
+disorganised code but it does the job. Often, the documentation and tests are
+lacking, and so on and so forth.</p>
+<p>Overall, our project is a mosaic that can be scrutinized at a variety of
+resolutions.  Non-developers stakeholders will look at the big-picture<span class="emoji" data-emoji="tm">™️</span> of
+the project and with coarse granularity. Looking at a low-resolution you may
+get the impression that tasks are fully-done and indeed the project delivers
+features.  However if you had the possibility to <strong>increase the resolution</strong> of
+the whole project, you would see the delicate complexity of feature deliveries.
+We can illustrate this with our example by replacing each task by a set of
+smaller tasks. We replace every box by nine smaller boxes and we keep the rule
+that “to make the tile green, we need at most four yellow”.</p>
 <p><img src="/images/project-scope-fractal-tesselation.png" alt="scope actually are fractals" /></p>
 <p>This picture shows that looking closely we may realize that our shiny project
 where everything is on track actually has a number of holes like a good
@@ -203,11 +208,11 @@ important to understand the dynamics of the system.</p>
 cavities left behind to progress on the project may cave-in as the time passes.
 Indeed, remember that each task in the project has a scope that may inflate
 (often) or deflate (rarely). If it occurs that an already-shipped feature has a
-vertical or horizontal scope change, then we also must make choice to drop a
-task or fill-it again. The extra difficulty is that if you drop or postpone for
-too long, a task that used to be green now has became red. Let’s illustrate again
-on our high-resolution picture: assume that scope changes affect two already-shipped
-verticals at the second horizontal-layer.</p>
+vertical or horizontal scope change, then we also must make a choice between
+dropping a task or filling-it at 50% again. The extra difficulty is that if you
+drop or postpone for too long, a task that is green now will become red.  Let’s
+illustrate again on our high-resolution picture: assume that scope changes
+affect two already-shipped verticals at the second horizontal-layer.</p>
 <p><img src="/images/project-scope-fractal-cave-in.png" alt="scope actually are fractals" /></p>
 <p>Here both affected tasks used to be filled six out of nine sub-tasks (67%) and
 are now filled six out of sixteen (38%)! Such a situation is dangerous.
@@ -220,12 +225,13 @@ focus in particular on the feature-scope (verticals) and on the technical-scope
 (horizontals).  Adding a new vertical has low impact besides prioritization.
 Adding a new horizontal forces to cut scope or heavily de-prioritization of
 ongoing features.</p>
-<p>Scope is discovered as the project progresses, the scope inflates, with a first
-large increase at the beginning of the project. Occasionally, the scope
+<p>Scope is discovered as the project progresses: the scope inflates. Beginning of
+projects often have a steep inflationnary phase and then the scope accrues more
+requirements at a lower rate as the project matures.  Occasionally, the scope
 deflates. As delivery of tasks progresses, features get shipped and the
 coverage of the scope effectively grows in increments.  When the scope changes,
-you risk a cave-in effect where already-shipped features are no-longer
-passing the bar can no longer be considered as filling the gap.</p>
+you risk a cave-in effect where already-shipped features are no-longer passing
+the bar can no longer be considered as filling the user needs.</p>
 <p>All of this can be summarized in the following picture.</p>
 <p><img src="/images/project-scope-timeline.png" alt="scope actually are fractals" /></p>
 <p>In the next article, which we can expect in a few weeks (meanwhile you can see the <a href="/always-refactoring.html">progress in draft</a>), we’ll discuss what refactorings are and how they help avoid cave-ins.</p>
