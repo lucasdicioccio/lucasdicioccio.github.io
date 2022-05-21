@@ -1,151 +1,11 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - My devs are always refactoring! why is it important?</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="management, engineering, programming, programming-technique, software"><meta name="description" content="Developers often discuss about the need to &quot;refactor&quot; some piece of code.  I have ran into a number of product-owner puzzled by how frequently they feel like the developers express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This article summarizes the answers I gave to people in product roles. We discuss what is refactoring, why it is important, and how to bring some productive discussion when push-back is felt."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why is it important?"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="Developers often discuss about the need to &quot;refactor&quot; some piece of code.  I have ran into a number of product-owner puzzled by how frequently they feel like the developers express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This article summarizes the answers I gave to people in product roles. We discuss what is refactoring, why it is important, and how to bring some productive discussion when push-back is felt."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why is it important?"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/always-refactoring.html"><meta property="og:description" content="Developers often discuss about the need to &quot;refactor&quot; some piece of code.  I have ran into a number of product-owner puzzled by how frequently they feel like the developers express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This article summarizes the answers I gave to people in product roles. We discuss what is refactoring, why it is important, and how to bring some productive discussion when push-back is felt."><meta name="article:published_time" content="2022-05-01"><meta name="ks:article_json" content="/json/always-refactoring.cmark.json"><meta name="article:tag" content="management"><meta name="article:tag" content="engineering"><meta name="article:tag" content="programming"><meta name="article:tag" content="programming-technique"><meta name="article:tag" content="software"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>My devs are always refactoring! why is it important?</h1><p>On <span>Sun, 01 May 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 1739 words, 3 links, 6images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/management.html"><span class="tag-name">management</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/engineering.html"><span class="tag-name">engineering</span><span class="tag-count">1</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>From a non-developer viewpoint, it may be hard to connect with developers who
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-2]</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="management, engineering, programming, programming-technique, software"><meta name="description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article is the meaty discussion about refactoring."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-2]"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article is the meaty discussion about refactoring."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - My devs are always refactoring! why? [part-2]"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/always-refactoring.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/project-scope-fractal-tesselation.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/images/project-scope-fractal-tesselation.png"><meta property="og:description" content="I have ran into a number of product-owner puzzled by how often developers in their team express a need to &quot;refactor&quot;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article.  This article is the meaty discussion about refactoring."><meta name="article:published_time" content="2022-06-01"><meta name="ks:article_json" content="/json/always-refactoring.cmark.json"><meta name="article:tag" content="management"><meta name="article:tag" content="engineering"><meta name="article:tag" content="programming"><meta name="article:tag" content="programming-technique"><meta name="article:tag" content="software"><style>@import "/css/main.css";.note {  background-color: red;}</style></head><body><div class="main"><article><header class="heading"><h1>My devs are always refactoring! why? [part-2]</h1><p>On <span>Wed, 01 Jun 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 473 words, 1 links, 0images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/management.html"><span class="tag-name">management</span><span class="tag-count">3</span></a></div><div class="tag"><a class="tag-link" href="/topics/engineering.html"><span class="tag-name">engineering</span><span class="tag-count">2</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><div class=".note">
+<p>This article is the second in a series of articles on refactoring.</p>
+</div>
+<p>From a non-developer viewpoint, it may be hard to connect with developers who
 are <strong>always refactoring</strong>. I wrote this article to fill some gap I observed a
 number of times with non-technical stakeholders worried that tech teams where
 “always refactorin’”. Cannot developers refactor once and move to something more
 useful?</p>
-<p>To answer this question, let’s have a refresher on what development looks like:
-a non-linear and discontinuous process. Then we’ll discuss what refactorings
-are. Finally we’ll discuss how to gauge whether your teams are refactoring
-too often.</p>
-<h1 id="a-refresh-on-the-development-process">A refresh on the development process</h1>
-<p>The main tangible output of software development is software: an increased
-amount of lines of code, extra kilobytes of configurations, a flurry of new
-packages and services. All these deliverables need to be organized, cleared of
-bugs, key limitations need to be documented. Meanwhile, new business questions
-are raised, technical questions are raised, and hairbrows are raised too
-<span class="emoji" data-emoji="thinking">🤔</span>.</p>
-<p>Two key characteristics we can emphasize are the fact that developing software
-is <em>agglomerative</em> and <em>non-linear</em>.</p>
-<h2 id="the-development-process-is-agglomerative">The development process is agglomerative</h2>
-<p>We write software to fill a given vaccum, to address a set of problems. The
-amount of vaccum to fill is the <em>scope</em> of the software.</p>
-<p>Most software features will require a similar set of technical steps (e.g.,
-writing tests, writing a data schema, writing an API provider or consumer,
-performing some quality-assurance). Thus it makes sense to categorize these
-technical steps as layers of work. A single developer can work on a single step
-at a time. Also developers will specialize into some of these layers, forcing
-the project management to get some ordering between technical steps. For two
-different features the steps may not have to share the same ordering, however
-it’s generally the case that there is some bottom-up sequence in a <em>vertical</em> fashion.</p>
-<p>To fill a scope, you need many features, which means that if we collect all the
-steps for all features, we get a tiling of tasks to fill a given scope.</p>
-<p>Graphically you could display that as a set of tiles, each tile corresponding
-to a technical unit for a given feature.</p>
-<p><img src="/images/project-scope-tiles.png" alt="scope to be delivered is a set of tiles" /></p>
-<p>This model is a simplification of real-world projects, in real-world projects
-you have more dimensions to consider and you do not need to fill a
-full-rectangle as some features may not have the same requirements. I believe
-this model is goo for a number of reasons: first, this model serves the purpose
-of illustration and the model is complex enough to make my point, second the
-model is simple enough to allow making graphical visualisations, finally we
-could say that not having the same requirements just means that the
-requirements exists but takes zero effort to fill.</p>
-<p>To fill a scope, you have thus two broad strategies:</p>
-<ul>
-<li>follow the <em>horizontal</em> axis: focus on some technical layer, assuming that
-batching everything together is gonna be more efficient. For instance, it is
-easier to write database schemas when you know all requirements, and is sensible
-when all requirements are laid out.
-</li>
-<li>follow the <em>vertical</em> axis: deliver one feature and then move to the next one, assuming
-that getting some subset of the scope early is a favourable outcome (early
-revenues, first-mover advantage, reduce pressure from the C-suite)
-</li>
-</ul>
-<p><img src="/images/project-scope-delivery-directions.png" alt="scope delivered horizontally or vertically" /></p>
-<p>In modern software practices, it is admitted that the vertical is best as the
-scope is too hard to discover upfront. We’ll discuss scope changes in the next section though.</p>
-<p>Whether one writes code along verticals or horizontals, both strategies
-eventually accumulate code, configurations, packages, documentations and what
-not. Thus overall software projects inflate and <em>agglomerate</em>. As time passes,
-gaps are filled, <strong>two opposing forces are at play</strong>:</p>
-<ul>
-<li>the agglomeration of software is more and more complex and <em>friction</em> drags your developers down
-</li>
-<li>developers get more experienced on the project and find or build ways to <em>accelerate</em> the delivery
-</li>
-</ul>
-<p>Which of these forces is winning will determine the fate of your project. In
-particular, too much friction or not enough time spent on accelerating will
-lead to losing momentum. If your team lose momentum, your project is doomed to
-fail, if your team gain momentum… you get to play for longer.</p>
-<p>If you are lucky enough to play longer, as tasks get delivered, in addition to
-features, software projects accumulate even more bugs, customer tickets, and
-are shaked by changes in the scope of the problem. In short, the evolution of
-software projects is erratic, with non-linearities, asperities, and
-discontinuities.</p>
-<h2 id="the-development-process-is-discontinuous-and-not-linear">The development process is discontinuous and not linear</h2>
-<p>Let’s assume your team has been working on a project for some time now.  You
-are roughly half-done. Let’s illustrate it graphically.</p>
-<p><img src="/images/project-scope-delivery-3of5.png" alt="scope delivered a bit more than 2 of 5 verticals" /></p>
-<p>You have shipped (in green) two verticals and one fourth of third vertical as
-illustrated in the following picture. Remains a <em>backlog</em> (in light red) of
-three fourth for the third vertical plus two full verticals.</p>
-<p>When changes of scope occur, two things can happen:</p>
-<ul>
-<li>the scope <em>deflates</em>: this is so rare we won’t dicuss it at length here, softwares allows you to isolate dead weight like un-needed features somewhat easily; however if some feature drags you down you should spend some time cleaning it out (in a refactoring hehehe)
-</li>
-<li>the scope <em>inflates</em>: this is the typical scenario, software often risk something named <em>feature creep</em> where we want to support so many things that the complexity exploses compared to the team capacity
-</li>
-</ul>
-<p>In this essay we are looking at two dimensions of the scope: features and
-technicals. The scope changes may be blurry. Although scope may change in both
-dimensions at a time, it is still valid to studying both
-dimensions independently.</p>
-<h3 id="new-features">New features</h3>
-<p>New features are the routine of software projects. As your system collects
-more data, as business discussions uncover new pain-points and opportunities,
-new features happen.</p>
-<p>Graphically, we can illustrate the new features has new verticals that we append.</p>
-<p><img src="/images/project-scope-increase-feature.png" alt="scope changes adding a new column of feature" /></p>
-<p>I used a slightly darker red to distinguish the verticals corresponding to the
-new features.  In this situation, the main problem that arises is whether to
-prioritize iterations on the new features or not. If the prioritization is very
-high, you may even pause the current vertical where it is.</p>
-<p>One key thing to remark is when scope grows horizontally, the software is still
-deemed perfectly adequate. Thus, whatever value delivered is not at risk and
-life is good as the future will be a continuation of what worked. Vertical
-changes are bit more annoying.</p>
-<h3 id="new-technical-requirements">New technical requirements</h3>
-<p>You know where we’re aiming at. Technical requirements changes are disruptive.
-Such changes can either have endogenous causes (e.g., you have a reached a
-point where there are too many defects and you need to increase testing) or
-exogeneous causes (e.g., regulatory changes like the
-<a href="https://gdpr-info.eu/">GDPR</a>).</p>
-<p><img src="/images/project-scope-increase-technical.png" alt="scope changes adding a new row of technicals" /></p>
-<p>As the technical landscape changes, we need two colors to disinguish what
-happens to software that exists and is shipped (crimson red) and future software
-that you will write later (middle-tone red).</p>
-<p>The later a vertical change of scope occurs, the larger the impact on your
-backlog. A late vertical scope change is like a late realization that you were
-partying on borrowed money. I also like the image of realizing that you were
-playing in easy mode after subscribing to a video-game tournament: you’re set
-for some reckoning.</p>
-<p>For future verticals, you have one simple decision to make: cut or keep in
-scope. Cutting an already-started vertical will incur a sunk-cost. Thus, beware
-the <a href="https://en.wikipedia.org/wiki/Sunk_cost">sunk-cost fallacy</a>.</p>
-<p>For existing verticals, I picked crimson red for a good reason: new technical
-requirements are difficult to retrofit. Here you have three broad choices:</p>
-<ul>
-<li>(a) dropping already-shipped verticals
-</li>
-<li>(b) fill the gap for previous verticals
-</li>
-<li>(c) ignoring the new requirements for previous verticals.
-You can make a different decision for each vertical.
-</li>
-</ul>
-<p>Dropping the whole vertical (a) may not be just a sunk-cost but a visible cost as
-some customer already relies on the corresponding feature.</p>
-<p>Filling the gap for a vertical (b) can be hard to sell to other stakeholders as
-you are not solving new problems. You also need to prioritize these new tasks
-and consider delaying the ongoing vertical.</p>
-<p>Ignoring new requirements (c) may be sensible, but as scope will continue to grow
-vertically you may just be post-poning the choice (with an increasingly gap to
-fill to put in balance with dropping an even older vertical).</p>
-<p>Summarizing, vertical scope changes are dangerous for projects as they force
-difficult choices and have compounding effects. You need to prepare for these,
-this is where refactorings enter the game.</p>
 <h1 id="introducing-refactoring">Introducing refactoring</h1>
 <p>Let’s recollect what we have: we agglomerate code and see what sticks.  When
 new features arrive, we either pause what we are doing and agglomerate more
@@ -167,7 +27,6 @@ standpoint the behaviour changes.</p>
 <p>This absence of external changes is desirable and developers will bring up
 refactoring to help you understand how to classify this task: it takes work but
 you need not know how the sausage is made.</p>
-<p><img src="/images/project-scope-fractal.png" alt="scope actually are fractals" /></p>
 <p>=&gt; <span class="emoji" data-emoji="warning">⚠️</span> Could lead to some breach of trust.
 The catch: developer happiness and morale is part of their productivity.</p>
 <h1 id="i-believe-my-team-is-always-refactoring-what-should-i-do">I believe my team is always refactoring what should I do?</h1>
