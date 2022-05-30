@@ -29,7 +29,6 @@ $.get(jsonSrc, function (articlejson) {
   let seriesIdx = 1;
   let currentSeries = series[1];
   slitems.forEach((item) => {
-    console.log(item);
     if (item.tag == 'HeaderMark') {
       const title = item.contents[0];
       const heading = item.contents[1].reduce((c,x) => `${x}.${c}`, '');
@@ -45,8 +44,6 @@ $.get(jsonSrc, function (articlejson) {
       currentSeries.data[seriesIdx] += val;
     }
   });
-    console.log(series);
-
 
   offsetSeries.itemStyle = {'borderColor': 'transparent', color: 'transparent'};
   offsetSeries.emphasis = {'itemStyle':  {'borderColor': 'transparent', color: 'transparent'}};
