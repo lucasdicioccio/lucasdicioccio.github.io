@@ -1,4 +1,21 @@
 (() => {
+  // output/Control.Apply/foreign.js
+  var arrayApply = function(fs) {
+    return function(xs) {
+      var l = fs.length;
+      var k = xs.length;
+      var result = new Array(l * k);
+      var n = 0;
+      for (var i2 = 0; i2 < l; i2++) {
+        var f = fs[i2];
+        for (var j = 0; j < k; j++) {
+          result[n++] = f(xs[j]);
+        }
+      }
+      return result;
+    };
+  };
+
   // output/Control.Semigroupoid/index.js
   var semigroupoidFn = {
     compose: function(f) {
@@ -40,6 +57,221 @@
     };
   };
 
+  // output/Data.Functor/foreign.js
+  var arrayMap = function(f) {
+    return function(arr) {
+      var l = arr.length;
+      var result = new Array(l);
+      for (var i2 = 0; i2 < l; i2++) {
+        result[i2] = f(arr[i2]);
+      }
+      return result;
+    };
+  };
+
+  // output/Data.Unit/foreign.js
+  var unit = void 0;
+
+  // output/Type.Proxy/index.js
+  var $$Proxy = /* @__PURE__ */ function() {
+    function $$Proxy2() {
+    }
+    ;
+    $$Proxy2.value = new $$Proxy2();
+    return $$Proxy2;
+  }();
+
+  // output/Data.Functor/index.js
+  var map = function(dict) {
+    return dict.map;
+  };
+  var $$void = function(dictFunctor) {
+    return map(dictFunctor)($$const(unit));
+  };
+  var voidLeft = function(dictFunctor) {
+    var map110 = map(dictFunctor);
+    return function(f) {
+      return function(x) {
+        return map110($$const(x))(f);
+      };
+    };
+  };
+  var functorArray = {
+    map: arrayMap
+  };
+
+  // output/Control.Apply/index.js
+  var identity2 = /* @__PURE__ */ identity(categoryFn);
+  var applyArray = {
+    apply: arrayApply,
+    Functor0: function() {
+      return functorArray;
+    }
+  };
+  var apply = function(dict) {
+    return dict.apply;
+  };
+  var applySecond = function(dictApply) {
+    var apply1 = apply(dictApply);
+    var map24 = map(dictApply.Functor0());
+    return function(a2) {
+      return function(b2) {
+        return apply1(map24($$const(identity2))(a2))(b2);
+      };
+    };
+  };
+
+  // output/Control.Applicative/index.js
+  var pure = function(dict) {
+    return dict.pure;
+  };
+  var unless = function(dictApplicative) {
+    var pure14 = pure(dictApplicative);
+    return function(v) {
+      return function(v1) {
+        if (!v) {
+          return v1;
+        }
+        ;
+        if (v) {
+          return pure14(unit);
+        }
+        ;
+        throw new Error("Failed pattern match at Control.Applicative (line 68, column 1 - line 68, column 65): " + [v.constructor.name, v1.constructor.name]);
+      };
+    };
+  };
+  var when = function(dictApplicative) {
+    var pure14 = pure(dictApplicative);
+    return function(v) {
+      return function(v1) {
+        if (v) {
+          return v1;
+        }
+        ;
+        if (!v) {
+          return pure14(unit);
+        }
+        ;
+        throw new Error("Failed pattern match at Control.Applicative (line 63, column 1 - line 63, column 63): " + [v.constructor.name, v1.constructor.name]);
+      };
+    };
+  };
+  var liftA1 = function(dictApplicative) {
+    var apply3 = apply(dictApplicative.Apply0());
+    var pure14 = pure(dictApplicative);
+    return function(f) {
+      return function(a2) {
+        return apply3(pure14(f))(a2);
+      };
+    };
+  };
+  var applicativeArray = {
+    pure: function(x) {
+      return [x];
+    },
+    Apply0: function() {
+      return applyArray;
+    }
+  };
+
+  // output/Data.Foldable/foreign.js
+  var foldrArray = function(f) {
+    return function(init2) {
+      return function(xs) {
+        var acc = init2;
+        var len = xs.length;
+        for (var i2 = len - 1; i2 >= 0; i2--) {
+          acc = f(xs[i2])(acc);
+        }
+        return acc;
+      };
+    };
+  };
+  var foldlArray = function(f) {
+    return function(init2) {
+      return function(xs) {
+        var acc = init2;
+        var len = xs.length;
+        for (var i2 = 0; i2 < len; i2++) {
+          acc = f(acc)(xs[i2]);
+        }
+        return acc;
+      };
+    };
+  };
+
+  // output/Data.Semigroup/foreign.js
+  var concatArray = function(xs) {
+    return function(ys) {
+      if (xs.length === 0)
+        return ys;
+      if (ys.length === 0)
+        return xs;
+      return xs.concat(ys);
+    };
+  };
+
+  // output/Data.Symbol/index.js
+  var reflectSymbol = function(dict) {
+    return dict.reflectSymbol;
+  };
+
+  // output/Data.Semigroup/index.js
+  var semigroupArray = {
+    append: concatArray
+  };
+  var append = function(dict) {
+    return dict.append;
+  };
+
+  // output/Control.Bind/index.js
+  var discard = function(dict) {
+    return dict.discard;
+  };
+  var bind = function(dict) {
+    return dict.bind;
+  };
+  var bindFlipped = function(dictBind) {
+    return flip(bind(dictBind));
+  };
+  var composeKleisliFlipped = function(dictBind) {
+    var bindFlipped12 = bindFlipped(dictBind);
+    return function(f) {
+      return function(g) {
+        return function(a2) {
+          return bindFlipped12(f)(g(a2));
+        };
+      };
+    };
+  };
+  var composeKleisli = function(dictBind) {
+    var bind15 = bind(dictBind);
+    return function(f) {
+      return function(g) {
+        return function(a2) {
+          return bind15(f(a2))(g);
+        };
+      };
+    };
+  };
+  var discardUnit = {
+    discard: function(dictBind) {
+      return bind(dictBind);
+    }
+  };
+
+  // output/Control.Plus/index.js
+  var empty = function(dict) {
+    return dict.empty;
+  };
+
+  // output/Data.Bounded/foreign.js
+  var topChar = String.fromCharCode(65535);
+  var bottomChar = String.fromCharCode(0);
+  var topNumber = Number.POSITIVE_INFINITY;
+  var bottomNumber = Number.NEGATIVE_INFINITY;
+
   // output/Data.Ord/foreign.js
   var unsafeCompareImpl = function(lt) {
     return function(eq3) {
@@ -64,20 +296,6 @@
   var eqBooleanImpl = refEq;
   var eqIntImpl = refEq;
   var eqStringImpl = refEq;
-
-  // output/Type.Proxy/index.js
-  var $$Proxy = /* @__PURE__ */ function() {
-    function $$Proxy2() {
-    }
-    ;
-    $$Proxy2.value = new $$Proxy2();
-    return $$Proxy2;
-  }();
-
-  // output/Data.Symbol/index.js
-  var reflectSymbol = function(dict) {
-    return dict.reflectSymbol;
-  };
 
   // output/Data.Eq/index.js
   var eqString = {
@@ -163,15 +381,18 @@
     };
   };
 
-  // output/Data.Unit/foreign.js
-  var unit = void 0;
-
   // output/Data.Semiring/index.js
+  var zero = function(dict) {
+    return dict.zero;
+  };
   var semiringInt = {
     add: intAdd,
     zero: 0,
     mul: intMul,
     one: 1
+  };
+  var add = function(dict) {
+    return dict.add;
   };
 
   // output/Data.Ring/index.js
@@ -202,154 +423,6 @@
   var compare = function(dict) {
     return dict.compare;
   };
-
-  // output/Control.Apply/foreign.js
-  var arrayApply = function(fs) {
-    return function(xs) {
-      var l = fs.length;
-      var k = xs.length;
-      var result = new Array(l * k);
-      var n = 0;
-      for (var i2 = 0; i2 < l; i2++) {
-        var f = fs[i2];
-        for (var j = 0; j < k; j++) {
-          result[n++] = f(xs[j]);
-        }
-      }
-      return result;
-    };
-  };
-
-  // output/Data.Functor/foreign.js
-  var arrayMap = function(f) {
-    return function(arr) {
-      var l = arr.length;
-      var result = new Array(l);
-      for (var i2 = 0; i2 < l; i2++) {
-        result[i2] = f(arr[i2]);
-      }
-      return result;
-    };
-  };
-
-  // output/Data.Functor/index.js
-  var map = function(dict) {
-    return dict.map;
-  };
-  var $$void = function(dictFunctor) {
-    return map(dictFunctor)($$const(unit));
-  };
-  var voidLeft = function(dictFunctor) {
-    var map110 = map(dictFunctor);
-    return function(f) {
-      return function(x) {
-        return map110($$const(x))(f);
-      };
-    };
-  };
-  var functorArray = {
-    map: arrayMap
-  };
-
-  // output/Control.Apply/index.js
-  var identity2 = /* @__PURE__ */ identity(categoryFn);
-  var applyArray = {
-    apply: arrayApply,
-    Functor0: function() {
-      return functorArray;
-    }
-  };
-  var apply = function(dict) {
-    return dict.apply;
-  };
-  var applySecond = function(dictApply) {
-    var apply1 = apply(dictApply);
-    var map24 = map(dictApply.Functor0());
-    return function(a2) {
-      return function(b2) {
-        return apply1(map24($$const(identity2))(a2))(b2);
-      };
-    };
-  };
-
-  // output/Control.Applicative/index.js
-  var pure = function(dict) {
-    return dict.pure;
-  };
-  var unless = function(dictApplicative) {
-    var pure13 = pure(dictApplicative);
-    return function(v) {
-      return function(v1) {
-        if (!v) {
-          return v1;
-        }
-        ;
-        if (v) {
-          return pure13(unit);
-        }
-        ;
-        throw new Error("Failed pattern match at Control.Applicative (line 68, column 1 - line 68, column 65): " + [v.constructor.name, v1.constructor.name]);
-      };
-    };
-  };
-  var when = function(dictApplicative) {
-    var pure13 = pure(dictApplicative);
-    return function(v) {
-      return function(v1) {
-        if (v) {
-          return v1;
-        }
-        ;
-        if (!v) {
-          return pure13(unit);
-        }
-        ;
-        throw new Error("Failed pattern match at Control.Applicative (line 63, column 1 - line 63, column 63): " + [v.constructor.name, v1.constructor.name]);
-      };
-    };
-  };
-  var liftA1 = function(dictApplicative) {
-    var apply3 = apply(dictApplicative.Apply0());
-    var pure13 = pure(dictApplicative);
-    return function(f) {
-      return function(a2) {
-        return apply3(pure13(f))(a2);
-      };
-    };
-  };
-  var applicativeArray = {
-    pure: function(x) {
-      return [x];
-    },
-    Apply0: function() {
-      return applyArray;
-    }
-  };
-
-  // output/Data.Semigroup/foreign.js
-  var concatArray = function(xs) {
-    return function(ys) {
-      if (xs.length === 0)
-        return ys;
-      if (ys.length === 0)
-        return xs;
-      return xs.concat(ys);
-    };
-  };
-
-  // output/Data.Semigroup/index.js
-  var semigroupArray = {
-    append: concatArray
-  };
-  var append = function(dict) {
-    return dict.append;
-  };
-
-  // output/Data.Bounded/foreign.js
-  var topChar = String.fromCharCode(65535);
-  var bottomChar = String.fromCharCode(0);
-  var topNumber = Number.POSITIVE_INFINITY;
-  var bottomNumber = Number.NEGATIVE_INFINITY;
 
   // output/Data.Show/foreign.js
   var showIntImpl = function(n) {
@@ -730,93 +803,6 @@
     return dict.bimap;
   };
 
-  // output/Control.Bind/index.js
-  var discard = function(dict) {
-    return dict.discard;
-  };
-  var bind = function(dict) {
-    return dict.bind;
-  };
-  var bindFlipped = function(dictBind) {
-    return flip(bind(dictBind));
-  };
-  var composeKleisliFlipped = function(dictBind) {
-    var bindFlipped12 = bindFlipped(dictBind);
-    return function(f) {
-      return function(g) {
-        return function(a2) {
-          return bindFlipped12(f)(g(a2));
-        };
-      };
-    };
-  };
-  var composeKleisli = function(dictBind) {
-    var bind15 = bind(dictBind);
-    return function(f) {
-      return function(g) {
-        return function(a2) {
-          return bind15(f(a2))(g);
-        };
-      };
-    };
-  };
-  var discardUnit = {
-    discard: function(dictBind) {
-      return bind(dictBind);
-    }
-  };
-
-  // output/Control.Plus/index.js
-  var empty = function(dict) {
-    return dict.empty;
-  };
-
-  // output/Data.Identity/index.js
-  var Identity = function(x) {
-    return x;
-  };
-  var functorIdentity = {
-    map: function(f) {
-      return function(m) {
-        return f(m);
-      };
-    }
-  };
-  var applyIdentity = {
-    apply: function(v) {
-      return function(v1) {
-        return v(v1);
-      };
-    },
-    Functor0: function() {
-      return functorIdentity;
-    }
-  };
-  var bindIdentity = {
-    bind: function(v) {
-      return function(f) {
-        return f(v);
-      };
-    },
-    Apply0: function() {
-      return applyIdentity;
-    }
-  };
-  var applicativeIdentity = {
-    pure: Identity,
-    Apply0: function() {
-      return applyIdentity;
-    }
-  };
-  var monadIdentity = {
-    Applicative0: function() {
-      return applicativeIdentity;
-    },
-    Bind1: function() {
-      return bindIdentity;
-    }
-  };
-
   // output/Unsafe.Coerce/foreign.js
   var unsafeCoerce2 = function(x) {
     return x;
@@ -833,50 +819,20 @@
     return coerce2;
   };
 
-  // output/Data.Exists/index.js
-  var runExists = unsafeCoerce2;
-  var mkExists = unsafeCoerce2;
-
-  // output/Data.Foldable/foreign.js
-  var foldrArray = function(f) {
-    return function(init2) {
-      return function(xs) {
-        var acc = init2;
-        var len = xs.length;
-        for (var i2 = len - 1; i2 >= 0; i2--) {
-          acc = f(xs[i2])(acc);
-        }
-        return acc;
-      };
-    };
-  };
-  var foldlArray = function(f) {
-    return function(init2) {
-      return function(xs) {
-        var acc = init2;
-        var len = xs.length;
-        for (var i2 = 0; i2 < len; i2++) {
-          acc = f(acc)(xs[i2]);
-        }
-        return acc;
-      };
-    };
-  };
-
   // output/Data.Foldable/index.js
   var eq12 = /* @__PURE__ */ eq(eqOrdering);
   var foldr = function(dict) {
     return dict.foldr;
   };
   var traverse_ = function(dictApplicative) {
-    var applySecond3 = applySecond(dictApplicative.Apply0());
-    var pure13 = pure(dictApplicative);
+    var applySecond2 = applySecond(dictApplicative.Apply0());
+    var pure14 = pure(dictApplicative);
     return function(dictFoldable) {
       var foldr22 = foldr(dictFoldable);
       return function(f) {
         return foldr22(function($449) {
-          return applySecond3(f($449));
-        })(pure13(unit));
+          return applySecond2(f($449));
+        })(pure14(unit));
       };
     };
   };
@@ -919,6 +875,12 @@
     var compare2 = compare(dictOrd);
     return function(dictFoldable) {
       return maximumBy(dictFoldable)(compare2);
+    };
+  };
+  var sum = function(dictFoldable) {
+    var foldl2 = foldl(dictFoldable);
+    return function(dictSemiring) {
+      return foldl2(add(dictSemiring))(zero(dictSemiring));
     };
   };
   var foldableMaybe = {
@@ -994,6 +956,56 @@
     return dict.foldMap;
   };
 
+  // output/Data.Identity/index.js
+  var Identity = function(x) {
+    return x;
+  };
+  var functorIdentity = {
+    map: function(f) {
+      return function(m) {
+        return f(m);
+      };
+    }
+  };
+  var applyIdentity = {
+    apply: function(v) {
+      return function(v1) {
+        return v(v1);
+      };
+    },
+    Functor0: function() {
+      return functorIdentity;
+    }
+  };
+  var bindIdentity = {
+    bind: function(v) {
+      return function(f) {
+        return f(v);
+      };
+    },
+    Apply0: function() {
+      return applyIdentity;
+    }
+  };
+  var applicativeIdentity = {
+    pure: Identity,
+    Apply0: function() {
+      return applyIdentity;
+    }
+  };
+  var monadIdentity = {
+    Applicative0: function() {
+      return applicativeIdentity;
+    },
+    Bind1: function() {
+      return bindIdentity;
+    }
+  };
+
+  // output/Data.Exists/index.js
+  var runExists = unsafeCoerce2;
+  var mkExists = unsafeCoerce2;
+
   // output/Data.Traversable/foreign.js
   var traverseArrayImpl = function() {
     function array1(a2) {
@@ -1018,13 +1030,13 @@
     }
     return function(apply3) {
       return function(map24) {
-        return function(pure13) {
+        return function(pure14) {
           return function(f) {
             return function(array) {
               function go2(bot, top2) {
                 switch (top2 - bot) {
                   case 0:
-                    return pure13([]);
+                    return pure14([]);
                   case 1:
                     return map24(array1)(f(array[bot]));
                   case 2:
@@ -1097,12 +1109,12 @@
   };
   var ap = function(dictMonad) {
     var bind7 = bind(dictMonad.Bind1());
-    var pure13 = pure(dictMonad.Applicative0());
+    var pure14 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a2) {
         return bind7(f)(function(f$prime) {
           return bind7(a2)(function(a$prime) {
-            return pure13(f$prime(a$prime));
+            return pure14(f$prime(a$prime));
           });
         });
       };
@@ -2799,10 +2811,10 @@
     };
   };
   var foreachSlot = function(dictApplicative) {
-    var traverse_7 = traverse_(dictApplicative)(foldableMap);
+    var traverse_8 = traverse_(dictApplicative)(foldableMap);
     return function(v) {
       return function(k) {
-        return traverse_7(function($54) {
+        return traverse_8(function($54) {
           return k($54);
         })(v);
       };
@@ -3133,6 +3145,13 @@
   var length2 = function(xs) {
     return xs.length;
   };
+  var unconsImpl = function(empty9) {
+    return function(next) {
+      return function(xs) {
+        return xs.length === 0 ? empty9({}) : next(xs[0])(xs.slice(1));
+      };
+    };
+  };
   var findIndexImpl = function(just) {
     return function(nothing) {
       return function(f) {
@@ -3288,6 +3307,16 @@
   // output/Data.Array/index.js
   var fromJust2 = /* @__PURE__ */ fromJust();
   var append2 = /* @__PURE__ */ append(semigroupArray);
+  var uncons = /* @__PURE__ */ function() {
+    return unconsImpl($$const(Nothing.value))(function(x) {
+      return function(xs) {
+        return new Just({
+          head: x,
+          tail: xs
+        });
+      };
+    });
+  }();
   var take = function(n) {
     return function(xs) {
       var $145 = n < 1;
@@ -4045,10 +4074,10 @@
     var catchError1 = catchError(dictMonadError);
     var Monad0 = dictMonadError.MonadThrow0().Monad0();
     var map24 = map(Monad0.Bind1().Apply0().Functor0());
-    var pure13 = pure(Monad0.Applicative0());
+    var pure14 = pure(Monad0.Applicative0());
     return function(a2) {
       return catchError1(map24(Right.create)(a2))(function($52) {
-        return pure13(Left.create($52));
+        return pure14(Left.create($52));
       });
     };
   };
@@ -4123,12 +4152,12 @@
   };
   var bindExceptT = function(dictMonad) {
     var bind7 = bind(dictMonad.Bind1());
-    var pure13 = pure(dictMonad.Applicative0());
+    var pure14 = pure(dictMonad.Applicative0());
     return {
       bind: function(v) {
         return function(k) {
           return bind7(v)(either(function($187) {
-            return pure13(Left.create($187));
+            return pure14(Left.create($187));
           })(function(a2) {
             var v1 = k(a2);
             return v1;
@@ -4213,12 +4242,12 @@
     };
   };
   var unsafeReadTagged = function(dictMonad) {
-    var pure13 = pure(applicativeExceptT(dictMonad));
+    var pure14 = pure(applicativeExceptT(dictMonad));
     var fail1 = fail(dictMonad);
     return function(tag) {
       return function(value14) {
         if (tagOf(value14) === tag) {
-          return pure13(unsafeFromForeign(value14));
+          return pure14(unsafeFromForeign(value14));
         }
         ;
         if (otherwise) {
@@ -4682,7 +4711,7 @@
     return Lift.create;
   }();
   var goLeft = function(dictApplicative) {
-    var pure13 = pure(dictApplicative);
+    var pure14 = pure(dictApplicative);
     return function(fStack) {
       return function(valStack) {
         return function(nat) {
@@ -4690,7 +4719,7 @@
             return function(count) {
               if (func instanceof Pure) {
                 return new Tuple(new Cons({
-                  func: pure13(func.value0),
+                  func: pure14(func.value0),
                   count
                 }, fStack), valStack);
               }
@@ -4761,7 +4790,7 @@
   };
   var foldFreeAp = function(dictApplicative) {
     var goApply1 = goApply(dictApplicative);
-    var pure13 = pure(dictApplicative);
+    var pure14 = pure(dictApplicative);
     var goLeft1 = goLeft(dictApplicative);
     return function(nat) {
       return function(z) {
@@ -4770,7 +4799,7 @@
           var $tco_result;
           function $tco_loop(v) {
             if (v.value1.value0 instanceof Pure) {
-              var v1 = goApply1(v.value0)(v.value1.value1)(pure13(v.value1.value0.value0));
+              var v1 = goApply1(v.value0)(v.value1.value1)(pure14(v.value1.value0.value0));
               if (v1 instanceof Left) {
                 $tco_done = true;
                 return v1.value0;
@@ -4860,7 +4889,7 @@
     };
     return CatQueue2;
   }();
-  var uncons2 = function($copy_v) {
+  var uncons3 = function($copy_v) {
     var $tco_done = false;
     var $tco_result;
     function $tco_loop(v) {
@@ -4982,7 +5011,7 @@
             var $tco_done1 = false;
             var $tco_result;
             function $tco_loop(xs, ys) {
-              var v = uncons2(xs);
+              var v = uncons3(xs);
               if (v instanceof Nothing) {
                 $tco_done1 = true;
                 return foldl2(function(x) {
@@ -5012,7 +5041,7 @@
       };
     };
   };
-  var uncons3 = function(v) {
+  var uncons4 = function(v) {
     if (v instanceof CatNil) {
       return Nothing.value;
     }
@@ -5108,7 +5137,7 @@
         };
       };
       if (v.value0 instanceof Return) {
-        var v2 = uncons3(v.value1);
+        var v2 = uncons4(v.value1);
         if (v2 instanceof Nothing) {
           $tco_done = true;
           return new Return(v.value0.value0);
@@ -5187,7 +5216,6 @@
       }
     };
   });
-  var freeApply = /* @__PURE__ */ $lazy_freeApply(77);
   var pure2 = /* @__PURE__ */ pure(freeApplicative);
   var liftF = function(f) {
     return fromView(new Bind(f, function($192) {
@@ -5197,13 +5225,13 @@
   var foldFree = function(dictMonadRec) {
     var Monad0 = dictMonadRec.Monad0();
     var map110 = map(Monad0.Bind1().Apply0().Functor0());
-    var pure13 = pure(Monad0.Applicative0());
+    var pure14 = pure(Monad0.Applicative0());
     var tailRecM4 = tailRecM(dictMonadRec);
     return function(k) {
       var go2 = function(f) {
         var v = toView(f);
         if (v instanceof Return) {
-          return map110(Done.create)(pure13(v.value0));
+          return map110(Done.create)(pure14(v.value0));
         }
         ;
         if (v instanceof Bind) {
@@ -6134,10 +6162,10 @@
   var identity5 = /* @__PURE__ */ identity(categoryFn);
   var parTraverse_ = function(dictParallel) {
     var sequential3 = sequential(dictParallel);
-    var traverse_7 = traverse_(dictParallel.Applicative1());
+    var traverse_8 = traverse_(dictParallel.Applicative1());
     var parallel3 = parallel(dictParallel);
     return function(dictFoldable) {
-      var traverse_14 = traverse_7(dictFoldable);
+      var traverse_14 = traverse_8(dictFoldable);
       return function(f) {
         var $48 = traverse_14(function($50) {
           return parallel3(f($50));
@@ -6633,9 +6661,9 @@
           return function(p2) {
             return function(q2) {
               return liftF(new ChildQuery2(mkChildQueryBox(new ChildQuery(function(dictApplicative) {
-                var pure13 = pure(dictApplicative);
+                var pure14 = pure(dictApplicative);
                 return function(k) {
-                  var $177 = maybe(pure13(Nothing.value))(k);
+                  var $177 = maybe(pure14(Nothing.value))(k);
                   var $178 = lookup23(label5)(p2);
                   return function($179) {
                     return $177($178($179));
@@ -6674,7 +6702,6 @@
   };
   var functorHalogenM = freeFunctor;
   var bindHalogenM = freeBind;
-  var applyHalogenM = freeApply;
   var applicativeHalogenM = freeApplicative;
 
   // output/Halogen.Query.HalogenQ/index.js
@@ -6897,6 +6924,8 @@
     return element(Nothing.value);
   }();
   var form = /* @__PURE__ */ element2("form");
+  var h1 = /* @__PURE__ */ element2("h1");
+  var h1_ = /* @__PURE__ */ h1([]);
   var h4 = /* @__PURE__ */ element2("h4");
   var h4_ = /* @__PURE__ */ h4([]);
   var input = function(props) {
@@ -7044,10 +7073,10 @@
   // output/Foreign.Index/index.js
   var unsafeReadProp = function(dictMonad) {
     var fail2 = fail(dictMonad);
-    var pure13 = pure(applicativeExceptT(dictMonad));
+    var pure14 = pure(applicativeExceptT(dictMonad));
     return function(k) {
       return function(value14) {
-        return unsafeReadPropImpl(fail2(new TypeMismatch("object", typeOf(value14))), pure13, k, value14);
+        return unsafeReadPropImpl(fail2(new TypeMismatch("object", typeOf(value14))), pure14, k, value14);
       };
     };
   };
@@ -7531,7 +7560,7 @@
   var put2 = /* @__PURE__ */ put(monadStateHalogenM);
   var fromFoldable4 = /* @__PURE__ */ fromFoldable(foldableArray);
   var pure6 = /* @__PURE__ */ pure(applicativeHalogenM);
-  var applySecond2 = /* @__PURE__ */ applySecond(applyHalogenM);
+  var discard3 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
   var Changed = /* @__PURE__ */ function() {
     function Changed2(value0) {
       this.value0 = value0;
@@ -7615,6 +7644,19 @@
     Unzoom2.value = new Unzoom2();
     return Unzoom2;
   }();
+  var RunAction = /* @__PURE__ */ function() {
+    function RunAction2(value0, value1) {
+      this.value0 = value0;
+      this.value1 = value1;
+    }
+    ;
+    RunAction2.create = function(value0) {
+      return function(value1) {
+        return new RunAction2(value0, value1);
+      };
+    };
+    return RunAction2;
+  }();
   var _button = /* @__PURE__ */ function() {
     return $$Proxy.value;
   }();
@@ -7646,7 +7688,14 @@
         return unzoomButton;
       }
       ;
-      throw new Error("Failed pattern match at ScopeExploration (line 101, column 3 - line 103, column 31): " + [state3.constructor.name]);
+      throw new Error("Failed pattern match at ScopeExploration (line 103, column 3 - line 105, column 31): " + [state3.constructor.name]);
+    };
+    var renderRootProgress = function(progress3) {
+      if (progress3.total === 0) {
+        return span_([text("Blank slate.")]);
+      }
+      ;
+      return span_([text(show2(progress3.done)), text("/"), text(show2(progress3.total))]);
     };
     var renderProgress2 = function(progress3) {
       if (progress3.total === 0) {
@@ -7657,7 +7706,14 @@
     };
     var renderScopeStatus = function(state3) {
       var progress3 = progress2(state3.zoomed);
-      return div2([class_("scope-status")])([renderProgress2(progress3)]);
+      return div2([class_("scope-status")])([function() {
+        var $41 = $$null2(state3.path);
+        if ($41) {
+          return renderRootProgress(progress3);
+        }
+        ;
+        return renderProgress2(progress3);
+      }()]);
     };
     var renderToggleCell = function(state3) {
       return function(techstep) {
@@ -7682,7 +7738,7 @@
               return p_([text("disagreement: "), renderProgress2(v.value0)]);
             }
             ;
-            throw new Error("Failed pattern match at ScopeExploration (line 272, column 11 - line 276, column 99): " + [v.constructor.name]);
+            throw new Error("Failed pattern match at ScopeExploration (line 276, column 11 - line 280, column 99): " + [v.constructor.name]);
           }()])]);
         };
       };
@@ -7708,7 +7764,7 @@
               return "state-disagreement";
             }
             ;
-            throw new Error("Failed pattern match at ScopeExploration (line 235, column 9 - line 239, column 52): " + [v.constructor.name]);
+            throw new Error("Failed pattern match at ScopeExploration (line 239, column 9 - line 243, column 52): " + [v.constructor.name]);
           }();
           return div2([class_("table-cell " + statusClass)])([div2([class_("table-cell-popup")])([div2([class_("table-cell-title")])([text(techstep), text(" :: "), text(feature)]), renderToggleCell(state3)(techstep)(feature), renderZoomCell(techstep)(feature)])]);
         };
@@ -7731,8 +7787,8 @@
     var renderList = function(mkSpan) {
       return function(strs) {
         var contents = function() {
-          var $47 = $$null2(strs);
-          if ($47) {
+          var $51 = $$null2(strs);
+          if ($51) {
             return [span2([class_("list-empty-warning")])([text("list is empty")])];
           }
           ;
@@ -7750,7 +7806,7 @@
     };
     var renderFeatures = renderList(rmButton(RemoveFeature.create));
     var projectRootLabel = span2([class_("path-component")])([text("\u{1F310} global")]);
-    var placeHolderTable = p([class_("message")])([text("This is a leaf node with no tiles to dig further. If you think the work is not atomic you should clarify the scope by adding features and tech-steps.")]);
+    var placeHolderTable = p([class_("message")])([text("This scope is empty and has no tiles yet. If you think this item of work merits some clarification, refine the scope by adding features and tech-steps.")]);
     var renderTable = function(state3) {
       if (progress2(state3.zoomed).total === 0) {
         return placeHolderTable;
@@ -7760,7 +7816,7 @@
         return tiledTable(state3);
       }
       ;
-      throw new Error("Failed pattern match at ScopeExploration (line 201, column 3 - line 203, column 35): " + [state3.constructor.name]);
+      throw new Error("Failed pattern match at ScopeExploration (line 205, column 3 - line 207, column 35): " + [state3.constructor.name]);
     };
     var pathComponent = function(t) {
       return function(f) {
@@ -7786,21 +7842,6 @@
     var handleAction = function(v) {
       if (v instanceof CreateTechStep) {
         return modify_4(function(st0) {
-          var $54 = {};
-          for (var $55 in st0) {
-            if ({}.hasOwnProperty.call(st0, $55)) {
-              $54[$55] = st0[$55];
-            }
-            ;
-          }
-          ;
-          $54.zoomed = addTechStep(st0.zoomed)(v.value0);
-          return $54;
-        });
-      }
-      ;
-      if (v instanceof CreateFeature) {
-        return modify_4(function(st0) {
           var $58 = {};
           for (var $59 in st0) {
             if ({}.hasOwnProperty.call(st0, $59)) {
@@ -7809,12 +7850,12 @@
             ;
           }
           ;
-          $58.zoomed = addFeature(st0.zoomed)(v.value0);
+          $58.zoomed = addTechStep(st0.zoomed)(v.value0);
           return $58;
         });
       }
       ;
-      if (v instanceof RemoveTechStep) {
+      if (v instanceof CreateFeature) {
         return modify_4(function(st0) {
           var $62 = {};
           for (var $63 in st0) {
@@ -7824,12 +7865,12 @@
             ;
           }
           ;
-          $62.zoomed = removeTechStep(st0.zoomed)(v.value0);
+          $62.zoomed = addFeature(st0.zoomed)(v.value0);
           return $62;
         });
       }
       ;
-      if (v instanceof RemoveFeature) {
+      if (v instanceof RemoveTechStep) {
         return modify_4(function(st0) {
           var $66 = {};
           for (var $67 in st0) {
@@ -7839,8 +7880,23 @@
             ;
           }
           ;
-          $66.zoomed = removeFeature(st0.zoomed)(v.value0);
+          $66.zoomed = removeTechStep(st0.zoomed)(v.value0);
           return $66;
+        });
+      }
+      ;
+      if (v instanceof RemoveFeature) {
+        return modify_4(function(st0) {
+          var $70 = {};
+          for (var $71 in st0) {
+            if ({}.hasOwnProperty.call(st0, $71)) {
+              $70[$71] = st0[$71];
+            }
+            ;
+          }
+          ;
+          $70.zoomed = removeFeature(st0.zoomed)(v.value0);
+          return $70;
         });
       }
       ;
@@ -7848,18 +7904,18 @@
         return bind3(get2)(function(st0) {
           var deeper = cons3(key(v.value0)(v.value1))(st0.path);
           return put2(function() {
-            var $70 = {};
-            for (var $71 in st0) {
-              if ({}.hasOwnProperty.call(st0, $71)) {
-                $70[$71] = st0[$71];
+            var $74 = {};
+            for (var $75 in st0) {
+              if ({}.hasOwnProperty.call(st0, $75)) {
+                $74[$75] = st0[$75];
               }
               ;
             }
             ;
-            $70.path = deeper;
-            $70.zoomed = getAt(st0.zoomed)(fromFoldable4(deeper));
-            $70.root = mergeAt(st0.root)(fromFoldable4(st0.path))(st0.zoomed);
-            return $70;
+            $74.path = deeper;
+            $74.zoomed = getAt(st0.zoomed)(fromFoldable4(deeper));
+            $74.root = mergeAt(st0.root)(fromFoldable4(st0.path))(st0.zoomed);
+            return $74;
           }());
         });
       }
@@ -7869,38 +7925,38 @@
           var upper = drop(1)(st0.path);
           var updatedRoot = mergeAt(st0.root)(fromFoldable4(st0.path))(st0.zoomed);
           return put2(function() {
-            var $75 = {};
-            for (var $76 in st0) {
-              if ({}.hasOwnProperty.call(st0, $76)) {
-                $75[$76] = st0[$76];
+            var $79 = {};
+            for (var $80 in st0) {
+              if ({}.hasOwnProperty.call(st0, $80)) {
+                $79[$80] = st0[$80];
               }
               ;
             }
             ;
-            $75.path = upper;
-            $75.zoomed = getAt(updatedRoot)(fromFoldable4(upper));
-            $75.root = updatedRoot;
-            return $75;
+            $79.path = upper;
+            $79.zoomed = getAt(updatedRoot)(fromFoldable4(upper));
+            $79.root = updatedRoot;
+            return $79;
           }());
         });
       }
       ;
       if (v instanceof ToggleDone) {
         return modify_4(function(st0) {
-          var $78 = {};
-          for (var $79 in st0) {
-            if ({}.hasOwnProperty.call(st0, $79)) {
-              $78[$79] = st0[$79];
+          var $82 = {};
+          for (var $83 in st0) {
+            if ({}.hasOwnProperty.call(st0, $83)) {
+              $82[$83] = st0[$83];
             }
             ;
           }
           ;
-          $78.zoomed = toggle2(st0.zoomed)(key(v.value0)(v.value1));
-          return $78;
+          $82.zoomed = toggle2(st0.zoomed)(key(v.value0)(v.value1));
+          return $82;
         });
       }
       ;
-      throw new Error("Failed pattern match at ScopeExploration (line 301, column 18 - line 328, column 96): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at ScopeExploration (line 322, column 18 - line 349, column 96): " + [v.constructor.name]);
     };
     var features = function(state3) {
       return div2([class_("input-list")])([slot2(_button)(0)(form3({
@@ -7912,11 +7968,11 @@
       return div2([class_("inputs")])([features(state3), techsteps(state3)]);
     };
     var render = function(state3) {
-      return div_([renderPath(state3), renderTable(state3), renderScopeStatus(state3), renderInputs(state3)]);
+      return div_([renderPath(state3), renderScopeStatus(state3), renderTable(state3), renderInputs(state3)]);
     };
     var doNotify = bind3(get2)(function(st0) {
-      var $84 = $$null2(st0.path);
-      if ($84) {
+      var $88 = $$null2(st0.path);
+      if ($88) {
         return raise(new Changed(st0.zoomed));
       }
       ;
@@ -7952,14 +8008,22 @@
         return pure6(unit);
       });
     };
+    var handleActionAndNotify = function(action2) {
+      return discard3(handleAction(action2))(function() {
+        return notify2(action2);
+      });
+    };
+    var handleQuery = function(v) {
+      return discard3(handleActionAndNotify(v.value0))(function() {
+        return pure6(new Just(v.value1));
+      });
+    };
     return mkComponent({
       initialState,
       render,
       "eval": mkEval({
-        handleAction: function(x) {
-          return applySecond2(handleAction(x))(notify2(x));
-        },
-        handleQuery: defaultEval.handleQuery,
+        handleAction: handleActionAndNotify,
+        handleQuery,
         receive: defaultEval.receive,
         initialize: defaultEval.initialize,
         finalize: defaultEval.finalize
@@ -7969,10 +8033,12 @@
 
   // output/ScopeHistory/index.js
   var show3 = /* @__PURE__ */ show(showInt);
+  var sum2 = /* @__PURE__ */ sum(foldableArray)(semiringInt);
   var map15 = /* @__PURE__ */ map(functorArray);
-  var div3 = /* @__PURE__ */ div(euclideanRingInt);
+  var append12 = /* @__PURE__ */ append(semigroupArray);
   var maximum2 = /* @__PURE__ */ maximum(ordInt)(foldableArray);
-  var discard3 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
+  var div3 = /* @__PURE__ */ div(euclideanRingInt);
+  var discard4 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
   var modify_5 = /* @__PURE__ */ modify_2(monadStateHalogenM);
   var pure7 = /* @__PURE__ */ pure(applicativeHalogenM);
   var InsertScope = /* @__PURE__ */ function() {
@@ -7992,25 +8058,13 @@
     var row = function(r) {
       return div2([style("background-color: " + (r.color + ("; height: " + (show3(r.percent) + "%;"))))])([]);
     };
-    return td_([div_([div2([style("background-color: gray; width: 20px; height: 70px;")])(map15(row)(stack))])]);
-  };
-  var renderRelative = function(rel4) {
-    var renderCell = function(pct) {
-      return renderCellStack([{
-        color: "lightgreen",
-        percent: pct
-      }]);
-    };
-    return tr_(map15(renderCell)(rel4.percent));
-  };
-  var renderCoverage = function(cov) {
-    var rel4 = {
-      basis: 100,
-      percent: map15(function(x) {
-        return div3(100 * x.covered | 0)(x.total);
-      })(cov)
-    };
-    return table_([renderRelative(rel4)]);
+    var filler = [{
+      color: "transparent",
+      percent: 100 - sum2(map15(function(v) {
+        return v.percent;
+      })(stack)) | 0
+    }];
+    return td_([div_([div2([style("background-color: gray; width: 20px; height: 70px;")])(map15(row)(append12(filler)(stack)))])]);
   };
   var renderStacks = function(stacks) {
     return tr_(map15(renderCellStack)(stacks));
@@ -8021,21 +8075,60 @@
     })(prog)));
     var stack = function(p2) {
       return [{
-        percent: div3(100 * p2.done | 0)(basis),
-        color: "lightgreen"
-      }, {
         percent: div3(100 * (p2.total - p2.done | 0) | 0)(basis),
         color: "lightblue"
+      }, {
+        percent: div3(100 * p2.done | 0)(basis),
+        color: "lightgreen"
       }];
     };
     var stacks = map15(stack)(prog);
     return table([class_("histogram")])([renderStacks(stacks)]);
   };
+  var renderRelative = function(rel4) {
+    var stack = map15(function(x) {
+      return [{
+        color: "lightgreen",
+        percent: x
+      }];
+    })(rel4.percent);
+    return renderStacks(stack);
+  };
+  var renderCoverage = function(cov) {
+    var rel4 = {
+      percent: map15(function(x) {
+        return div3(100 * x.covered | 0)(x.total);
+      })(cov)
+    };
+    return table([class_("histogram")])([renderRelative(rel4)]);
+  };
+  var renderDelivery = function(prog) {
+    var basis = fromMaybe(0)(maximum2(map15(function(v) {
+      return v.done;
+    })(prog)));
+    var rel4 = {
+      percent: map15(function(p2) {
+        return div3(100 * p2.done | 0)(basis);
+      })(prog)
+    };
+    return table([class_("histogram")])([renderRelative(rel4)]);
+  };
+  var renderScope = function(prog) {
+    var basis = fromMaybe(0)(maximum2(map15(function(v) {
+      return v.total;
+    })(prog)));
+    var rel4 = {
+      percent: map15(function(p2) {
+        return div3(100 * p2.total | 0)(basis);
+      })(prog)
+    };
+    return table([class_("histogram")])([renderRelative(rel4)]);
+  };
   var scopeHistory = function(dictMonadAff) {
     var render = function(state3) {
-      return div_([h4_([text("progress")]), renderProgress(reverse2(take(25)(state3.progress))), h4_([text("coverage")]), renderCoverage(reverse2(take(25)(state3.coverage)))]);
+      return div2([class_("history")])([h4_([text("scope")]), p([class_("help")])([text("how much of the scope is 'specified'")]), renderScope(reverse2(take(25)(state3.progress))), h4_([text("delivery")]), p([class_("help")])([text("how many tasks are 'done'")]), renderDelivery(reverse2(take(25)(state3.progress))), h4_([text("progress")]), p([class_("help")])([text("what fraction of the scope is 'done'")]), renderProgress(reverse2(take(25)(state3.progress))), h4_([text("coverage")]), p([class_("help")])([text("what fraction of features (verticals) are 'covered'")]), renderCoverage(reverse2(take(25)(state3.coverage)))]);
     };
-    var initialState = function(input3) {
+    var initialState = function(v) {
       return {
         history: [],
         progress: [],
@@ -8043,19 +8136,19 @@
       };
     };
     var handleQuery = function(v) {
-      return discard3(modify_5(function(st0) {
-        var $18 = {};
-        for (var $19 in st0) {
-          if ({}.hasOwnProperty.call(st0, $19)) {
-            $18[$19] = st0[$19];
+      return discard4(modify_5(function(st0) {
+        var $25 = {};
+        for (var $26 in st0) {
+          if ({}.hasOwnProperty.call(st0, $26)) {
+            $25[$26] = st0[$26];
           }
           ;
         }
         ;
-        $18.history = cons3(v.value0)(st0.history);
-        $18.progress = cons3(progress2(v.value0))(st0.progress);
-        $18.coverage = cons3(coverage(v.value0))(st0.coverage);
-        return $18;
+        $25.history = cons3(v.value0)(st0.history);
+        $25.progress = cons3(progress2(v.value0))(st0.progress);
+        $25.coverage = cons3(coverage(v.value0))(st0.coverage);
+        return $25;
       }))(function() {
         return pure7(new Just(v.value1));
       });
@@ -8073,19 +8166,137 @@
     });
   };
 
+  // output/Tutorial/index.js
+  var discard5 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
+  var modify_6 = /* @__PURE__ */ modify_2(monadStateHalogenM);
+  var Batch = /* @__PURE__ */ function() {
+    function Batch2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    Batch2.create = function(value0) {
+      return new Batch2(value0);
+    };
+    return Batch2;
+  }();
+  var NoOp = /* @__PURE__ */ function() {
+    function NoOp2() {
+    }
+    ;
+    NoOp2.value = new NoOp2();
+    return NoOp2;
+  }();
+  var ExplorationStep = /* @__PURE__ */ function() {
+    function ExplorationStep2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    ExplorationStep2.create = function(value0) {
+      return new ExplorationStep2(value0);
+    };
+    return ExplorationStep2;
+  }();
+  var StepRequested = /* @__PURE__ */ function() {
+    function StepRequested2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    StepRequested2.create = function(value0) {
+      return new StepRequested2(value0);
+    };
+    return StepRequested2;
+  }();
+  var RunStep = /* @__PURE__ */ function() {
+    function RunStep2(value0, value1) {
+      this.value0 = value0;
+      this.value1 = value1;
+    }
+    ;
+    RunStep2.create = function(value0) {
+      return function(value1) {
+        return new RunStep2(value0, value1);
+      };
+    };
+    return RunStep2;
+  }();
+  var tutorial = function(dictMonadAff) {
+    var render = function(state3) {
+      var classNamefor = function(v2) {
+        if (v2 instanceof NoOp) {
+          return "step-noop";
+        }
+        ;
+        return "step-effectful";
+      };
+      var v = uncons(state3.steps);
+      if (v instanceof Nothing) {
+        return text("End of tutorial!");
+      }
+      ;
+      if (v instanceof Just) {
+        return div2([class_("tutorial-step ")])([p_([text(v.value0.head.message)]), button([class_(classNamefor(v.value0.head.step)), onClick($$const(new RunStep(v.value0.head, v.value0.tail)))])([text(fromMaybe("run")(v.value0.head.prompt))])]);
+      }
+      ;
+      throw new Error("Failed pattern match at Tutorial (line 72, column 5 - line 83, column 20): " + [v.constructor.name]);
+    };
+    var initialState = function(input3) {
+      return {
+        steps: input3.steps
+      };
+    };
+    var handleAction = function(v) {
+      return discard5(raise(new StepRequested(v.value0.step)))(function() {
+        return modify_6(function(v1) {
+          var $13 = {};
+          for (var $14 in v1) {
+            if ({}.hasOwnProperty.call(v1, $14)) {
+              $13[$14] = v1[$14];
+            }
+            ;
+          }
+          ;
+          $13.steps = v.value1;
+          return $13;
+        });
+      });
+    };
+    return mkComponent({
+      initialState,
+      render,
+      "eval": mkEval({
+        handleAction,
+        handleQuery: defaultEval.handleQuery,
+        receive: defaultEval.receive,
+        initialize: defaultEval.initialize,
+        finalize: defaultEval.finalize
+      })
+    });
+  };
+
   // output/App/index.js
-  var slot3 = /* @__PURE__ */ slot()({
+  var tell3 = /* @__PURE__ */ tell2();
+  var explorerIsSymbol = {
     reflectSymbol: function() {
       return "explorer";
     }
+  };
+  var tell1 = /* @__PURE__ */ tell3(explorerIsSymbol)(ordInt);
+  var traverse_4 = /* @__PURE__ */ traverse_(applicativeHalogenM)(foldableArray);
+  var pure8 = /* @__PURE__ */ pure(applicativeHalogenM);
+  var slot3 = /* @__PURE__ */ slot();
+  var slot1 = /* @__PURE__ */ slot3({
+    reflectSymbol: function() {
+      return "tutorial";
+    }
   })(ordInt);
+  var slot22 = /* @__PURE__ */ slot3(explorerIsSymbol)(ordInt);
   var historyIsSymbol = {
     reflectSymbol: function() {
       return "history";
     }
   };
   var slot_2 = /* @__PURE__ */ slot_()(historyIsSymbol)(ordInt);
-  var tell3 = /* @__PURE__ */ tell2()(historyIsSymbol)(ordInt);
+  var tell22 = /* @__PURE__ */ tell3(historyIsSymbol)(ordInt);
   var ScopeModified = /* @__PURE__ */ function() {
     function ScopeModified2(value0) {
       this.value0 = value0;
@@ -8096,6 +8307,218 @@
     };
     return ScopeModified2;
   }();
+  var PerformStep = /* @__PURE__ */ function() {
+    function PerformStep2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    PerformStep2.create = function(value0) {
+      return new PerformStep2(value0);
+    };
+    return PerformStep2;
+  }();
+  var tutoScript = /* @__PURE__ */ function() {
+    return [{
+      step: NoOp.value,
+      message: "Press the following button to start the tutorial. The tutorial is a primitive linear script that simulates user-actions without taking control out of the users (i.e., you will likely interfere with the tutorial if you also click in the interface while the tutorial runs). For the first time you may want to just follow along. Refresh the page if you need to reset.",
+      prompt: new Just("Understood")
+    }, {
+      step: NoOp.value,
+      message: "The explorer shows two main sections: and EDIT and a GRAPHS sections.",
+      prompt: new Just("Next")
+    }, {
+      step: NoOp.value,
+      message: "The EDIT section allows you to navigate and iteratively refine the scope of the project.",
+      prompt: new Just("Next")
+    }, {
+      step: NoOp.value,
+      message: "The GRAPHS section shows the history of the 'global' scope of the project.",
+      prompt: new Just("Next")
+    }, {
+      step: NoOp.value,
+      message: "So far both sections are empty because we have not started defining the scope of our project yet. The EDIT sections tells us we are in a blank state, we'll change that soon.",
+      prompt: new Just("Get Started")
+    }, {
+      step: new ExplorationStep({
+        action: new CreateFeature("Proof of Concept")
+      }),
+      message: "Let's say we are building a startup and we need a proof-of-concept. Thus 'PoC' will be a first feature.",
+      prompt: new Just("Add new Feature")
+    }, {
+      step: NoOp.value,
+      message: "The EDIT section says we're still in a blank state because we have not told which technical steps are required for features yet.",
+      prompt: new Just("OK, I see.")
+    }, {
+      step: new Batch([new ExplorationStep({
+        action: new CreateTechStep("Design")
+      }), new ExplorationStep({
+        action: new CreateTechStep("Development")
+      }), new ExplorationStep({
+        action: new CreateTechStep("Production Env")
+      })]),
+      message: "Let's say our PoC needs a minimal amount of design, some development, and some production environment to run on. That makes three technical steps. The tutorial will create the three in one fell swoop.",
+      prompt: new Just("Add three Technical Steps.")
+    }, {
+      step: NoOp.value,
+      message: "The EDIT section now shows a 'vertical' of tiles. If you move your mouse over the tiles you'll notice each tile represents a delivery task (i.e., a given Technical step for a given Feature). Currently zero of three tasks have been delivered.",
+      prompt: new Just("OK, I see.")
+    }, {
+      step: NoOp.value,
+      message: "Meanwhile the GRAPHS section has evolved. We see that the 'scope' has grown as we have more steps to undertake in our project. The delivery is 'flat' because no tasks have been delivered. We'll discuss other graphs later.",
+      prompt: new Just("Obviously yes.")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("Design", "Proof of Concept")
+      }),
+      message: "What we want to do now is to deliver some tasks. If we put our mouse over the 'Design :: Proof of Concept' tile and mark it as done, we'll see the graphs move a bit.",
+      prompt: new Just("Toggle tile.")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("Development", "Proof of Concept")
+      }),
+      message: "Let's also toggle the 'Development :: Proof of Concept' tile.",
+      prompt: new Just("Alright.")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("Production Env", "Proof of Concept")
+      }),
+      message: "And finally we also toggle the 'Production Env :: Proof of Concept' tile.",
+      prompt: new Just("Oof we're done!.")
+    }, {
+      step: NoOp.value,
+      message: "At this point we can see that the 'delivery' graph increased as we cleared more tasks. We also can read this increase relative to the 'scope' in the 'progress' chart: in blue we see the scope that was defined before we started working on tasks, then as tasks get delivered, the fraction in green grows (indeed, done tasks replace tasks-to-be-done).",
+      prompt: new Just("I'll get it with a bit more time.")
+    }, {
+      step: NoOp.value,
+      message: "Finally the 'coverage' chart shows the fraction of Features effectively covered. It started full as we had a 'Proof of Concept' feature with no Technical Step, then dropped to zero until we eventually had all tasks done in the 'vertical'. As we add new Feature the fraction will drop a bit, and when adding new Technical steps the coverage will drop to zero as no 'vertical' will be done (see my blog article on the topic).",
+      prompt: new Just("I've read the article, I know this.")
+    }, {
+      step: new ExplorationStep({
+        action: new CreateFeature("User Management")
+      }),
+      message: "Now let's say that our business grows, and we have users who want to pay. We need to allow them to log in and do stuff. So let's add a User-management feature.",
+      prompt: Nothing.value
+    }, {
+      step: NoOp.value,
+      message: "Adding the new feature has not changed the 'delivery' (still three tasks are done). But this operation has affected the 'scope' and the relative 'progress' (three new tasks hence the scope grew in size and the relative progress dropped in proportion), as well as the 'coverage' (one new feature means our coverage is half of what it used to be).",
+      prompt: new Just("Makes sense.")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("Design", "User Management")
+      }),
+      message: "If we mark 'User-Management :: Design' as done the 'delivery' and the 'progress' will increase a bit.",
+      prompt: new Just("Mark this task as done.")
+    }, {
+      step: NoOp.value,
+      message: "Now we want to clarify a bit what to develop for the 'User Management', so what we'll do is 'zoom' into the tile for 'Development :: User Management'. Zooming means we'll be editing the inner aspects of the tile, we'll EDIT details of this subscope like a new little scope. The GRAPHS only update when we zoom out and reach the 'global' scope.",
+      prompt: new Just("OK, I'm ready")
+    }, {
+      step: new ExplorationStep({
+        action: new ZoomOn("Development", "User Management")
+      }),
+      message: "Zoom on 'Development :: User-Management'.",
+      prompt: Nothing.value
+    }, {
+      step: new Batch([new ExplorationStep({
+        action: new CreateFeature("login/pass")
+      }), new ExplorationStep({
+        action: new CreateFeature("SSO")
+      }), new ExplorationStep({
+        action: new CreateFeature("user settings")
+      })]),
+      message: "OK, this is a blank slate for a subscope. The jargon term we use is a 'Leaf node'. For our user-management we want to lay-out some Features as requirements. For instance: login with a password, login with Single-Sign-On, and configure some settings.",
+      prompt: new Just("Add three Features.")
+    }, {
+      step: new Batch([new ExplorationStep({
+        action: new CreateTechStep("study solutions")
+      }), new ExplorationStep({
+        action: new CreateTechStep("backend")
+      }), new ExplorationStep({
+        action: new CreateTechStep("frontend")
+      })]),
+      message: "For each of these features, we'll need some Study to pick an implementation and some Backend/Frontend work.",
+      prompt: new Just("Add three Technical Steps.")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("study solutions", "user settings")
+      }),
+      message: "And finally let'assume we immediately mark the 'study solutions :: user settings' task as done because we don't really have many solution: we'll implement using our typical web-app framework.",
+      prompt: Nothing.value
+    }, {
+      step: NoOp.value,
+      message: "Now we have detailed the subscope. When we unzoom and get back to the Global scope, we'll see the effect on our status.",
+      prompt: new Just("OK")
+    }, {
+      step: new ExplorationStep({
+        action: Unzoom.value
+      }),
+      message: "Unzooming we'll get us back to the global scope.",
+      prompt: new Just("Get back to global scope")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("Development", "User Management")
+      }),
+      message: "We now see that the 'Development :: User Management' is in a dark-blue tone (it is no longer a 'leaf' node and has subtasks to perform. If we claim it is done while there is still a lot of ongoing work we'll be upsetting the system.",
+      prompt: new Just("Toggle anyway, it's fun to upset the system")
+    }, {
+      step: NoOp.value,
+      message: "Great the tile is now detected as in disagreement between the top-level scope and the internals. Such a situation might exist when a top-ranking executive is told that something is done but in reality there is more leftover work.",
+      prompt: new Just("...")
+    }, {
+      step: new ExplorationStep({
+        action: new ZoomOn("Development", "User Management")
+      }),
+      message: "Let's zoom-in again and mark stuff as done.",
+      prompt: Nothing.value
+    }, {
+      step: new Batch([new ExplorationStep({
+        action: new ToggleDone("backend", "user settings")
+      }), new ExplorationStep({
+        action: new ToggleDone("frontend", "user settings")
+      }), new ExplorationStep({
+        action: new ToggleDone("study solutions", "login/pass")
+      }), new ExplorationStep({
+        action: new ToggleDone("frontend", "login/pass")
+      }), new ExplorationStep({
+        action: new ToggleDone("frontend", "login/pass")
+      }), new ExplorationStep({
+        action: new ToggleDone("study solutions", "SSO")
+      })]),
+      message: "Let's pretend a bunch of tasks were done.",
+      prompt: new Just("Mark lots of tasks as done.")
+    }, {
+      step: new ExplorationStep({
+        action: Unzoom.value
+      }),
+      message: "Unzoom again",
+      prompt: new Just("Get back to global scope")
+    }, {
+      step: NoOp.value,
+      message: "At last! no more disagreement between our global-level claim and the detail of the sub-scope.",
+      prompt: new Just("Amazing.")
+    }, {
+      step: new ExplorationStep({
+        action: new ToggleDone("Production Env", "User Management")
+      }),
+      message: "Finally we want to complete everything. Let's mark the last task as done as we prodify our 'User Management'",
+      prompt: Nothing.value
+    }, {
+      step: NoOp.value,
+      message: "The project should now be complete 6/6; our GRAPHS section is satisfying as the 'coverage' is now full again and we made steady progress.",
+      prompt: new Just("So satisfying!")
+    }, {
+      step: NoOp.value,
+      message: "In real world project, however, progress is more bumpy. New technical steps, and new features pop-up all the time. We have not scripted every weird situation from the real world in this tutorial so you should start playing around. You can now freely click around, add or even remove features and technical steps at any level of zoom you like.",
+      prompt: new Just("Is this an embarassingly long sentence to tell me it's finished?")
+    }, {
+      step: NoOp.value,
+      message: "Indeed, comes the time to conclude the tutorial.  I hope you enjoyed the small tool and tutorial and I hope you find it is a good illustration of the challenges of Scope-management tasks. Please re-share and send feedback if you found the format fun and/or interesting.",
+      prompt: new Just("Good bye! I'll spread the word.")
+    }];
+  }();
+  var _tutorial = /* @__PURE__ */ function() {
+    return $$Proxy.value;
+  }();
   var _history = /* @__PURE__ */ function() {
     return $$Proxy.value;
   }();
@@ -8103,17 +8526,46 @@
     return $$Proxy.value;
   }();
   var app = function(dictMonadAff) {
+    var tutorial2 = tutorial(dictMonadAff);
     var scopeExploration2 = scopeExploration(dictMonadAff);
     var scopeHistory2 = scopeHistory(dictMonadAff);
     return function(defaults) {
+      var handleTutorialStep = function(v) {
+        if (v instanceof ExplorationStep) {
+          return tell1(_explorer)(0)(RunAction.create(v.value0.action));
+        }
+        ;
+        if (v instanceof Batch) {
+          return traverse_4(handleTutorialStep)(v.value0);
+        }
+        ;
+        if (v instanceof NoOp) {
+          return pure8(unit);
+        }
+        ;
+        throw new Error("Failed pattern match at App (line 72, column 24 - line 78, column 16): " + [v.constructor.name]);
+      };
+      var handleTutorialOutput = function(v) {
+        return new PerformStep(v.value0);
+      };
       var handleScopeExplorationOutput = function(v) {
         return new ScopeModified(v.value0);
       };
       var render = function(v) {
-        return div_([h4_([text("edit")]), slot3(_explorer)(0)(scopeExploration2)(defaults)(handleScopeExplorationOutput), slot_2(_history)(0)(scopeHistory2)(unit)]);
+        return div_([h4_([text("tutorial")]), slot1(_tutorial)(0)(tutorial2)({
+          steps: tutoScript
+        })(handleTutorialOutput), h1_([text("edit")]), slot22(_explorer)(0)(scopeExploration2)(defaults)(handleScopeExplorationOutput), h1_([text("graphs")]), slot_2(_history)(0)(scopeHistory2)(unit)]);
       };
       var handleAction = function(v) {
-        return tell3(_history)(0)(InsertScope.create(v.value0));
+        if (v instanceof ScopeModified) {
+          return tell22(_history)(0)(InsertScope.create(v.value0));
+        }
+        ;
+        if (v instanceof PerformStep) {
+          return handleTutorialStep(v.value0);
+        }
+        ;
+        throw new Error("Failed pattern match at App (line 80, column 18 - line 84, column 30): " + [v.constructor.name]);
       };
       return mkComponent({
         render,
@@ -8210,11 +8662,11 @@
   var liftEffect3 = /* @__PURE__ */ liftEffect(monadEffectAff);
   var bindFlipped4 = /* @__PURE__ */ bindFlipped(bindEffect);
   var composeKleisliFlipped3 = /* @__PURE__ */ composeKleisliFlipped(bindEffect);
-  var pure8 = /* @__PURE__ */ pure(applicativeAff);
+  var pure9 = /* @__PURE__ */ pure(applicativeAff);
   var bindFlipped1 = /* @__PURE__ */ bindFlipped(bindMaybe);
   var pure1 = /* @__PURE__ */ pure(applicativeEffect);
   var map17 = /* @__PURE__ */ map(functorEffect);
-  var discard4 = /* @__PURE__ */ discard(discardUnit);
+  var discard6 = /* @__PURE__ */ discard(discardUnit);
   var throwError2 = /* @__PURE__ */ throwError(monadThrowAff);
   var selectElement = function(query3) {
     return bind4(liftEffect3(bindFlipped4(composeKleisliFlipped3(function() {
@@ -8223,7 +8675,7 @@
         return $16(toParentNode($17));
       };
     }())(document))(windowImpl)))(function(mel) {
-      return pure8(bindFlipped1(fromElement)(mel));
+      return pure9(bindFlipped1(fromElement)(mel));
     });
   };
   var runHalogenAff = /* @__PURE__ */ runAff_(/* @__PURE__ */ either(throwException)(/* @__PURE__ */ $$const(/* @__PURE__ */ pure1(unit))));
@@ -8243,9 +8695,9 @@
       return nonCanceler;
     };
   });
-  var awaitBody = /* @__PURE__ */ discard4(bindAff)(awaitLoad)(function() {
+  var awaitBody = /* @__PURE__ */ discard6(bindAff)(awaitLoad)(function() {
     return bind4(selectElement("body"))(function(body2) {
-      return maybe(throwError2(error("Could not find body")))(pure8)(body2);
+      return maybe(throwError2(error("Could not find body")))(pure9)(body2);
     });
   });
 
@@ -8276,10 +8728,10 @@
   var unRenderStateX = unsafeCoerce2;
   var unDriverStateX = unsafeCoerce2;
   var renderStateX_ = function(dictApplicative) {
-    var traverse_7 = traverse_(dictApplicative)(foldableMaybe);
+    var traverse_8 = traverse_(dictApplicative)(foldableMaybe);
     return function(f) {
       return unDriverStateX(function(st) {
-        return traverse_7(f)(st.rendering);
+        return traverse_8(f)(st.rendering);
       });
     };
   };
@@ -8339,18 +8791,18 @@
   };
 
   // output/Halogen.Aff.Driver.Eval/index.js
-  var traverse_4 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
+  var traverse_5 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
   var bindFlipped5 = /* @__PURE__ */ bindFlipped(bindMaybe);
   var lookup7 = /* @__PURE__ */ lookup(ordSubscriptionId);
   var bind12 = /* @__PURE__ */ bind(bindAff);
   var liftEffect4 = /* @__PURE__ */ liftEffect(monadEffectAff);
-  var discard5 = /* @__PURE__ */ discard(discardUnit);
-  var discard1 = /* @__PURE__ */ discard5(bindAff);
+  var discard7 = /* @__PURE__ */ discard(discardUnit);
+  var discard1 = /* @__PURE__ */ discard7(bindAff);
   var traverse_12 = /* @__PURE__ */ traverse_(applicativeAff);
   var traverse_22 = /* @__PURE__ */ traverse_12(foldableList);
   var fork3 = /* @__PURE__ */ fork2(monadForkAff);
   var parSequence_2 = /* @__PURE__ */ parSequence_(parallelAff)(foldableList);
-  var pure9 = /* @__PURE__ */ pure(applicativeAff);
+  var pure10 = /* @__PURE__ */ pure(applicativeAff);
   var map18 = /* @__PURE__ */ map(functorCoyoneda);
   var parallel2 = /* @__PURE__ */ parallel(parallelAff);
   var map19 = /* @__PURE__ */ map(functorAff);
@@ -8371,7 +8823,7 @@
       return function __do2() {
         var v = read(ref2)();
         var subs = read(v.subscriptions)();
-        return traverse_4(unsubscribe)(bindFlipped5(lookup7(sid))(subs))();
+        return traverse_5(unsubscribe)(bindFlipped5(lookup7(sid))(subs))();
       };
     };
   };
@@ -8400,7 +8852,7 @@
           return bind12(liftEffect4(read(lchs)))(function(v) {
             return discard1(traverse_22(fork3)(v.finalizers))(function() {
               return discard1(parSequence_2(v.initializers))(function() {
-                return pure9(result);
+                return pure10(result);
               });
             });
           });
@@ -8455,7 +8907,7 @@
               return bind12(liftEffect4(read(ref2)))(function(v2) {
                 var v3 = v1.value0(v2.state);
                 if (unsafeRefEq(v2.state)(v3.value1)) {
-                  return pure9(v3.value0);
+                  return pure10(v3.value0);
                 }
                 ;
                 if (otherwise) {
@@ -8478,7 +8930,7 @@
                     lifecycleHandlers: v2.lifecycleHandlers
                   })(ref2)))(function() {
                     return discard1(handleLifecycle(v2.lifecycleHandlers)(render(v2.lifecycleHandlers)(ref2)))(function() {
-                      return pure9(v3.value0);
+                      return pure10(v3.value0);
                     });
                   });
                 }
@@ -8494,7 +8946,7 @@
                 })))(function(finalize) {
                   return bind12(liftEffect4(read(ref2)))(function(v2) {
                     return discard1(liftEffect4(modify_(map22(insert4(sid)(finalize)))(v2.subscriptions)))(function() {
-                      return pure9(v1.value1(sid));
+                      return pure10(v1.value1(sid));
                     });
                   });
                 });
@@ -8503,7 +8955,7 @@
             ;
             if (v1 instanceof Unsubscribe) {
               return discard1(liftEffect4(unsubscribe3(v1.value0)(ref2)))(function() {
-                return pure9(v1.value1);
+                return pure10(v1.value1);
               });
             }
             ;
@@ -8519,7 +8971,7 @@
               return bind12(liftEffect4(read(ref2)))(function(v2) {
                 return bind12(liftEffect4(read(v2.handlerRef)))(function(handler3) {
                   return discard1(queueOrRun(v2.pendingOuts)(handler3(v1.value0)))(function() {
-                    return pure9(v1.value1);
+                    return pure10(v1.value1);
                   });
                 });
               });
@@ -8543,7 +8995,7 @@
                       return write(true)(doneRef)();
                     }))(evalM(render)(ref2)(v1.value0))))(function(fiber) {
                       return discard1(liftEffect4(unlessM2(read(doneRef))(modify_(insert12(fid)(fiber))(v2.forks))))(function() {
-                        return pure9(v1.value1(fid));
+                        return pure10(v1.value1(fid));
                       });
                     });
                   });
@@ -8555,7 +9007,7 @@
               return bind12(liftEffect4(read(ref2)))(function(v2) {
                 return bind12(liftEffect4(read(v2.forks)))(function(forkMap) {
                   return discard1(traverse_32(joinFiber)(lookup12(v1.value0)(forkMap)))(function() {
-                    return pure9(v1.value1);
+                    return pure10(v1.value1);
                   });
                 });
               });
@@ -8565,7 +9017,7 @@
               return bind12(liftEffect4(read(ref2)))(function(v2) {
                 return bind12(liftEffect4(read(v2.forks)))(function(forkMap) {
                   return discard1(traverse_32(killFiber(error("Cancelled")))(lookup12(v1.value0)(forkMap)))(function() {
-                    return pure9(v1.value1);
+                    return pure10(v1.value1);
                   });
                 });
               });
@@ -8573,7 +9025,7 @@
             ;
             if (v1 instanceof GetRef) {
               return bind12(liftEffect4(read(ref2)))(function(v2) {
-                return pure9(v1.value1(lookup22(v1.value0)(v2.refs)));
+                return pure10(v1.value1(lookup22(v1.value0)(v2.refs)));
               });
             }
             ;
@@ -8623,18 +9075,18 @@
 
   // output/Halogen.Aff.Driver/index.js
   var bind5 = /* @__PURE__ */ bind(bindEffect);
-  var discard6 = /* @__PURE__ */ discard(discardUnit);
+  var discard8 = /* @__PURE__ */ discard(discardUnit);
   var for_2 = /* @__PURE__ */ for_(applicativeEffect)(foldableMaybe);
-  var traverse_5 = /* @__PURE__ */ traverse_(applicativeAff)(foldableList);
+  var traverse_6 = /* @__PURE__ */ traverse_(applicativeAff)(foldableList);
   var fork4 = /* @__PURE__ */ fork2(monadForkAff);
   var bindFlipped6 = /* @__PURE__ */ bindFlipped(bindEffect);
   var traverse_13 = /* @__PURE__ */ traverse_(applicativeEffect);
   var traverse_23 = /* @__PURE__ */ traverse_13(foldableMaybe);
   var traverse_33 = /* @__PURE__ */ traverse_13(foldableMap);
-  var discard22 = /* @__PURE__ */ discard6(bindAff);
+  var discard22 = /* @__PURE__ */ discard8(bindAff);
   var parSequence_3 = /* @__PURE__ */ parSequence_(parallelAff)(foldableList);
   var liftEffect5 = /* @__PURE__ */ liftEffect(monadEffectAff);
-  var pure10 = /* @__PURE__ */ pure(applicativeEffect);
+  var pure11 = /* @__PURE__ */ pure(applicativeEffect);
   var map20 = /* @__PURE__ */ map(functorEffect);
   var pure12 = /* @__PURE__ */ pure(applicativeAff);
   var when2 = /* @__PURE__ */ when(applicativeEffect);
@@ -8657,7 +9109,7 @@
       var queue = read(ref2)();
       write(Nothing.value)(ref2)();
       return for_2(queue)(function() {
-        var $58 = traverse_5(fork4);
+        var $58 = traverse_6(fork4);
         return function($59) {
           return handleAff($58(reverse($59)));
         };
@@ -8774,7 +9226,7 @@
                       }
                       ;
                       if (v instanceof Just) {
-                        return pure10(renderSpec2.renderChild(v.value0));
+                        return pure11(renderSpec2.renderChild(v.value0));
                       }
                       ;
                       throw new Error("Failed pattern match at Halogen.Aff.Driver (line 227, column 37 - line 229, column 50): " + [v.constructor.name]);
@@ -8843,7 +9295,7 @@
                   var handlers = read(v.pendingHandlers)();
                   write(new Just(Nil.value))(v.pendingHandlers)();
                   traverse_23(function() {
-                    var $75 = traverse_5(fork4);
+                    var $75 = traverse_6(fork4);
                     return function($76) {
                       return handleAff($75(reverse($76)));
                     };
@@ -8925,7 +9377,7 @@
                 };
               }())(i2)(component))();
               return unDriverStateX(function(st) {
-                return pure10({
+                return pure11({
                   query: evalDriver(disposed)(st.selfRef),
                   messages: sio.emitter,
                   dispose: dispose(disposed)(lchs)(dsx)
@@ -9012,8 +9464,8 @@
     };
   };
   var $$void7 = /* @__PURE__ */ $$void(functorEffect);
-  var pure11 = /* @__PURE__ */ pure(applicativeEffect);
-  var traverse_6 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
+  var pure13 = /* @__PURE__ */ pure(applicativeEffect);
+  var traverse_7 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
   var unwrap6 = /* @__PURE__ */ unwrap();
   var when3 = /* @__PURE__ */ when(applicativeEffect);
   var not2 = /* @__PURE__ */ not(/* @__PURE__ */ heytingAlgebraFunction(/* @__PURE__ */ heytingAlgebraFunction(heytingAlgebraBoolean)));
@@ -9033,14 +9485,14 @@
           return $$void7(appendChild(v)(v2.value0));
         }
         ;
-        return pure11(unit);
+        return pure13(unit);
       };
     };
   };
   var removeChild3 = function(v) {
     return function __do2() {
       var npn = parentNode2(v.node)();
-      return traverse_6(function(pn) {
+      return traverse_7(function(pn) {
         return removeChild2(v.node)(pn);
       })(npn)();
     };
@@ -9183,7 +9635,7 @@
       var tgt = fromMaybe(body2)(elem2);
       var defaults = {
         features: [],
-        techsteps: ["design", "dev", "prod"]
+        techsteps: []
       };
       return runUI2(app2(defaults))(unit)(tgt);
     });
