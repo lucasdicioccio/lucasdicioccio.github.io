@@ -8491,7 +8491,7 @@
       }), new ExplorationStep({
         action: new ToggleDone("study solutions", "SSO")
       })]),
-      message: "Let's pretend a bunch of tasks were done.",
+      message: "Let's pretend a bunch of tasks were done. Our application defined the whole scope as 'done' if more than 50% of the subtasks are 'done' (yes, this is a recursive definition if you dig even further).",
       prompt: new Just("Mark lots of tasks as done.")
     }, {
       step: new ExplorationStep({
