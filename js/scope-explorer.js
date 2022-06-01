@@ -8064,7 +8064,7 @@
         return v.percent;
       })(stack)) | 0
     }];
-    return td_([div_([div2([style("background-color: gray; width: 20px; height: 70px;")])(map15(row)(append12(filler)(stack)))])]);
+    return td_([div_([div2([style("background-color: gray; width: 12px; height: 60px;")])(map15(row)(append12(filler)(stack)))])]);
   };
   var renderStacks = function(stacks) {
     return tr_(map15(renderCellStack)(stacks));
@@ -8124,15 +8124,22 @@
     };
     return table([class_("histogram")])([renderRelative(rel4)]);
   };
+  var historyDepth = 18;
   var scopeHistory = function(dictMonadAff) {
     var render = function(state3) {
-      return div2([class_("history")])([h4_([text("scope")]), p([class_("help")])([text("how much of the scope is 'specified'")]), renderScope(reverse2(take(25)(state3.progress))), h4_([text("delivery")]), p([class_("help")])([text("how many tasks are 'done'")]), renderDelivery(reverse2(take(25)(state3.progress))), h4_([text("progress")]), p([class_("help")])([text("what fraction of the scope is 'done'")]), renderProgress(reverse2(take(25)(state3.progress))), h4_([text("coverage")]), p([class_("help")])([text("what fraction of features (verticals) are 'covered'")]), renderCoverage(reverse2(take(25)(state3.coverage)))]);
+      return div2([class_("history")])([h4_([text("scope")]), p([class_("help")])([text("how much of the scope is 'specified'")]), renderScope(reverse2(take(historyDepth)(state3.progress))), h4_([text("delivery")]), p([class_("help")])([text("how many tasks are 'done'")]), renderDelivery(reverse2(take(historyDepth)(state3.progress))), h4_([text("progress")]), p([class_("help")])([text("what fraction of the scope is 'done'")]), renderProgress(reverse2(take(historyDepth)(state3.progress))), h4_([text("coverage")]), p([class_("help")])([text("what fraction of features (verticals) are 'covered'")]), renderCoverage(reverse2(take(historyDepth)(state3.coverage)))]);
     };
     var initialState = function(v) {
       return {
-        history: [],
-        progress: [],
-        coverage: []
+        history: replicate(historyDepth)(Nothing.value),
+        progress: replicate(historyDepth)({
+          total: 0,
+          done: 0
+        }),
+        coverage: replicate(historyDepth)({
+          total: 0,
+          covered: 0
+        })
       };
     };
     var handleQuery = function(v) {
@@ -8145,7 +8152,7 @@
           ;
         }
         ;
-        $25.history = cons3(v.value0)(st0.history);
+        $25.history = cons3(new Just(v.value0))(st0.history);
         $25.progress = cons3(progress2(v.value0))(st0.progress);
         $25.coverage = cons3(coverage(v.value0))(st0.coverage);
         return $25;
@@ -8234,10 +8241,10 @@
       }
       ;
       if (v instanceof Just) {
-        return div2([class_("tutorial-step ")])([p_([text(v.value0.head.message)]), button([class_(classNamefor(v.value0.head.step)), onClick($$const(new RunStep(v.value0.head, v.value0.tail)))])([text(fromMaybe("run")(v.value0.head.prompt))])]);
+        return div2([class_("tutorial-step ")])([div2([class_("tutorial-step-content ")])([p_([text(v.value0.head.message)]), button([class_(classNamefor(v.value0.head.step)), onClick($$const(new RunStep(v.value0.head, v.value0.tail)))])([text(fromMaybe("run")(v.value0.head.prompt))])])]);
       }
       ;
-      throw new Error("Failed pattern match at Tutorial (line 72, column 5 - line 83, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Tutorial (line 72, column 5 - line 87, column 20): " + [v.constructor.name]);
     };
     var initialState = function(input3) {
       return {
@@ -8543,7 +8550,7 @@
           return pure8(unit);
         }
         ;
-        throw new Error("Failed pattern match at App (line 72, column 24 - line 78, column 16): " + [v.constructor.name]);
+        throw new Error("Failed pattern match at App (line 83, column 24 - line 89, column 16): " + [v.constructor.name]);
       };
       var handleTutorialOutput = function(v) {
         return new PerformStep(v.value0);
@@ -8552,9 +8559,9 @@
         return new ScopeModified(v.value0);
       };
       var render = function(v) {
-        return div_([h4_([text("tutorial")]), slot1(_tutorial)(0)(tutorial2)({
+        return div2([class_("app")])([div2([class_("app-pane app-tutorial")])([h1_([text("tutorial")]), slot1(_tutorial)(0)(tutorial2)({
           steps: tutoScript
-        })(handleTutorialOutput), h1_([text("edit")]), slot22(_explorer)(0)(scopeExploration2)(defaults)(handleScopeExplorationOutput), h1_([text("graphs")]), slot_2(_history)(0)(scopeHistory2)(unit)]);
+        })(handleTutorialOutput)]), div2([class_("app-pane app-editor")])([h1_([text("edit")]), slot22(_explorer)(0)(scopeExploration2)(defaults)(handleScopeExplorationOutput)]), div2([class_("app-pane app-graphs")])([h1_([text("graphs")]), slot_2(_history)(0)(scopeHistory2)(unit)])]);
       };
       var handleAction = function(v) {
         if (v instanceof ScopeModified) {
@@ -8565,7 +8572,7 @@
           return handleTutorialStep(v.value0);
         }
         ;
-        throw new Error("Failed pattern match at App (line 80, column 18 - line 84, column 30): " + [v.constructor.name]);
+        throw new Error("Failed pattern match at App (line 91, column 18 - line 95, column 30): " + [v.constructor.name]);
       };
       return mkComponent({
         render,
