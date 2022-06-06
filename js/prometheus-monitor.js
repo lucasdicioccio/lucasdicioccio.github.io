@@ -4581,10 +4581,10 @@
   var identity7 = /* @__PURE__ */ identity(categoryFn);
   var parTraverse_ = function(dictParallel) {
     var sequential3 = sequential(dictParallel);
-    var traverse_7 = traverse_(dictParallel.Applicative1());
+    var traverse_8 = traverse_(dictParallel.Applicative1());
     var parallel3 = parallel(dictParallel);
     return function(dictFoldable) {
-      var traverse_14 = traverse_7(dictFoldable);
+      var traverse_14 = traverse_8(dictFoldable);
       return function(f) {
         var $48 = traverse_14(function($50) {
           return parallel3(f($50));
@@ -5293,6 +5293,17 @@
   }();
   var specKey = function(v2) {
     return new Tuple(v2.value2, v2.value3);
+  };
+  var cycleDisplayMode = function(v2) {
+    if (v2 instanceof Samples) {
+      return DiffSamples.value;
+    }
+    ;
+    if (v2 instanceof DiffSamples) {
+      return Samples.value;
+    }
+    ;
+    throw new Error("Failed pattern match at Charting.Charts (line 13, column 1 - line 13, column 57): " + [v2.constructor.name]);
   };
 
   // output/DOM.HTML.Indexed.ButtonType/index.js
@@ -6575,8 +6586,6 @@
   var element2 = /* @__PURE__ */ function() {
     return element(Nothing.value);
   }();
-  var em = /* @__PURE__ */ element2("em");
-  var em_ = /* @__PURE__ */ em([]);
   var form = /* @__PURE__ */ element2("form");
   var form_ = /* @__PURE__ */ form([]);
   var h1 = /* @__PURE__ */ element2("h1");
@@ -8151,10 +8160,10 @@
     };
   };
   var foreachSlot = function(dictApplicative) {
-    var traverse_7 = traverse_(dictApplicative)(foldableMap);
+    var traverse_8 = traverse_(dictApplicative)(foldableMap);
     return function(v2) {
       return function(k) {
-        return traverse_7(function($54) {
+        return traverse_8(function($54) {
           return k($54);
         })(v2);
       };
@@ -11090,16 +11099,17 @@
   var map25 = /* @__PURE__ */ map(functorList);
   var map111 = /* @__PURE__ */ map(functorMaybe);
   var fromFoldable5 = /* @__PURE__ */ fromFoldable2(foldableList);
-  var discard2 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
-  var modify_4 = /* @__PURE__ */ modify_2(monadStateHalogenM);
-  var pure11 = /* @__PURE__ */ pure(applicativeHalogenM);
+  var type_5 = /* @__PURE__ */ type_(isPropButtonType);
   var bind7 = /* @__PURE__ */ bind(bindHalogenM);
   var get4 = /* @__PURE__ */ get(monadStateHalogenM);
   var eq5 = /* @__PURE__ */ eq(/* @__PURE__ */ eqMaybe(eqInt));
   var ordTuple4 = /* @__PURE__ */ ordTuple(ordString);
   var lookup7 = /* @__PURE__ */ lookup2(/* @__PURE__ */ ordTuple4(/* @__PURE__ */ ordList(/* @__PURE__ */ ordTuple4(ordString))));
   var bindFlipped6 = /* @__PURE__ */ bindFlipped(bindMaybe);
+  var discard2 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
   var put3 = /* @__PURE__ */ put(monadStateHalogenM);
+  var pure11 = /* @__PURE__ */ pure(applicativeHalogenM);
+  var modify_4 = /* @__PURE__ */ modify_2(monadStateHalogenM);
   var SetSpec = /* @__PURE__ */ function() {
     function SetSpec2(value0, value1) {
       this.value0 = value0;
@@ -11126,6 +11136,16 @@
     };
     return PassData2;
   }();
+  var PerspectiveSaved = /* @__PURE__ */ function() {
+    function PerspectiveSaved2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    PerspectiveSaved2.create = function(value0) {
+      return new PerspectiveSaved2(value0);
+    };
+    return PerspectiveSaved2;
+  }();
   var SetSeqnum2 = /* @__PURE__ */ function() {
     function SetSeqnum3(value0) {
       this.value0 = value0;
@@ -11136,6 +11156,26 @@
     };
     return SetSeqnum3;
   }();
+  var UpdateChartSpec = /* @__PURE__ */ function() {
+    function UpdateChartSpec2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    UpdateChartSpec2.create = function(value0) {
+      return new UpdateChartSpec2(value0);
+    };
+    return UpdateChartSpec2;
+  }();
+  var PinPerspective = /* @__PURE__ */ function() {
+    function PinPerspective2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    PinPerspective2.create = function(value0) {
+      return new PinPerspective2(value0);
+    };
+    return PinPerspective2;
+  }();
   var showDisplayMode = function(v2) {
     if (v2 instanceof Samples) {
       return "raw";
@@ -11145,7 +11185,7 @@
       return "delta";
     }
     ;
-    throw new Error("Failed pattern match at Perspective (line 133, column 19 - line 135, column 25): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Perspective (line 235, column 19 - line 237, column 25): " + [v2.constructor.name]);
   };
   var renderLabelPair2 = function(pair) {
     return span_([strong_([text(pairName(pair))]), text(": "), text(pairValue(pair))]);
@@ -11153,12 +11193,122 @@
   var renderLabels2 = function(labels10) {
     return div_(toUnfoldable9(map25(renderLabelPair2)(labels10)));
   };
+  var perspective = function(dictMonadAff) {
+    return function(spec) {
+      var renderChart = function(st) {
+        return function(v2) {
+          var timeseries = fromMaybe(Nil.value)(map111(fromFoldable5)(st.timeseries));
+          var key = new Tuple(v2.value2, v2.value3);
+          return div_([h4_([text(v2.value2)]), p_([text(showDisplayMode(v2.value1)), button([type_5(ButtonSubmit.value), onClick(function(v1) {
+            return new UpdateChartSpec(new TimeSeries(v2.value0, cycleDisplayMode(v2.value1), v2.value2, v2.value3));
+          })])([text(showDisplayMode(cycleDisplayMode(v2.value1)))])]), p_([renderLabels2(v2.value3)]), function() {
+            if (v2.value1 instanceof Samples) {
+              return renderChartTimeseries(take(100)(timeseries));
+            }
+            ;
+            if (v2.value1 instanceof DiffSamples) {
+              return renderChartDiffTimeseries(take(100)(timeseries));
+            }
+            ;
+            throw new Error("Failed pattern match at Perspective (line 229, column 11 - line 231, column 80): " + [v2.value1.constructor.name]);
+          }()]);
+        };
+      };
+      var render2 = function(state3) {
+        return div_([function() {
+          if (state3.spec instanceof Just) {
+            return renderChart(state3)(state3.spec.value0);
+          }
+          ;
+          if (state3.spec instanceof Nothing) {
+            return text("no chart");
+          }
+          ;
+          throw new Error("Failed pattern match at Perspective (line 207, column 9 - line 209, column 40): " + [state3.spec.constructor.name]);
+        }()]);
+      };
+      var initialState = function(i2) {
+        return {
+          seqnum: -1 | 0,
+          spec: new Just(spec),
+          timeseries: Nothing.value
+        };
+      };
+      var handleQuery = function(v2) {
+        if (v2 instanceof PassData) {
+          return bind7(get4)(function(st0) {
+            var getseqnum = function(v1) {
+              return v1.value0;
+            };
+            var $59 = eq5(map111(getseqnum)(st0.spec))(new Just(v2.value0.seqnum));
+            if ($59) {
+              var ts = function(key) {
+                return map111(fromFoldable5)(lookup7(key)(v2.value0.historyData));
+              };
+              var timeseries = bindFlipped6(ts)(map111(specKey)(st0.spec));
+              return discard2(put3(function() {
+                var $60 = {};
+                for (var $61 in st0) {
+                  if ({}.hasOwnProperty.call(st0, $61)) {
+                    $60[$61] = st0[$61];
+                  }
+                  ;
+                }
+                ;
+                $60.timeseries = timeseries;
+                return $60;
+              }()))(function() {
+                return pure11(new Just(v2.value1));
+              });
+            }
+            ;
+            return pure11(new Just(v2.value1));
+          });
+        }
+        ;
+        return pure11(Nothing.value);
+      };
+      var handleAction2 = function(v2) {
+        if (v2 instanceof UpdateChartSpec) {
+          return modify_4(function(v1) {
+            var $66 = {};
+            for (var $67 in v1) {
+              if ({}.hasOwnProperty.call(v1, $67)) {
+                $66[$67] = v1[$67];
+              }
+              ;
+            }
+            ;
+            $66.spec = new Just(v2.value0);
+            return $66;
+          });
+        }
+        ;
+        return pure11(unit);
+      };
+      return mkComponent({
+        initialState,
+        render: render2,
+        "eval": mkEval({
+          handleAction: handleAction2,
+          handleQuery,
+          receive: defaultEval.receive,
+          initialize: defaultEval.initialize,
+          finalize: defaultEval.finalize
+        })
+      });
+    };
+  };
   var newPerspective = function(dictMonadAff) {
     var renderChart = function(st) {
       return function(v2) {
         var timeseries = fromMaybe(Nil.value)(map111(fromFoldable5)(st.timeseries));
         var key = new Tuple(v2.value2, v2.value3);
-        return div_([h4_([text(v2.value2), text(" "), em_([text(showDisplayMode(v2.value1))])]), p_([renderLabels2(v2.value3)]), function() {
+        return div_([h4_([text(v2.value2)]), p_([button([type_5(ButtonSubmit.value), onClick(function(v1) {
+          return new PinPerspective(v2);
+        })])([text("pin")])]), p_([text(showDisplayMode(v2.value1)), button([type_5(ButtonSubmit.value), onClick(function(v1) {
+          return new UpdateChartSpec(new TimeSeries(v2.value0, cycleDisplayMode(v2.value1), v2.value2, v2.value3));
+        })])([text(showDisplayMode(cycleDisplayMode(v2.value1)))])]), p_([renderLabels2(v2.value3)]), function() {
           if (v2.value1 instanceof Samples) {
             return renderChartTimeseries(take(100)(timeseries));
           }
@@ -11167,7 +11317,7 @@
             return renderChartDiffTimeseries(take(100)(timeseries));
           }
           ;
-          throw new Error("Failed pattern match at Perspective (line 127, column 11 - line 129, column 80): " + [v2.value1.constructor.name]);
+          throw new Error("Failed pattern match at Perspective (line 158, column 11 - line 160, column 80): " + [v2.value1.constructor.name]);
         }()]);
       };
     };
@@ -11181,7 +11331,7 @@
           return text("no chart");
         }
         ;
-        throw new Error("Failed pattern match at Perspective (line 113, column 9 - line 115, column 40): " + [state3.spec.constructor.name]);
+        throw new Error("Failed pattern match at Perspective (line 129, column 9 - line 131, column 40): " + [state3.spec.constructor.name]);
       }()]);
     };
     var initialState = function(i2) {
@@ -11194,17 +11344,17 @@
     var handleQuery = function(v2) {
       if (v2 instanceof SetSpec) {
         return discard2(modify_4(function(v1) {
-          var $40 = {};
-          for (var $41 in v1) {
-            if ({}.hasOwnProperty.call(v1, $41)) {
-              $40[$41] = v1[$41];
+          var $80 = {};
+          for (var $81 in v1) {
+            if ({}.hasOwnProperty.call(v1, $81)) {
+              $80[$81] = v1[$81];
             }
             ;
           }
           ;
-          $40.spec = new Just(v2.value0.spec);
-          $40.timeseries = new Just(v2.value0.timeseries);
-          return $40;
+          $80.spec = new Just(v2.value0.spec);
+          $80.timeseries = new Just(v2.value0.timeseries);
+          return $80;
         }))(function() {
           return pure11(new Just(v2.value1));
         });
@@ -11215,23 +11365,23 @@
           var getseqnum = function(v1) {
             return v1.value0;
           };
-          var $50 = eq5(map111(getseqnum)(st0.spec))(new Just(v2.value0.seqnum));
-          if ($50) {
+          var $90 = eq5(map111(getseqnum)(st0.spec))(new Just(v2.value0.seqnum));
+          if ($90) {
             var ts = function(key) {
               return map111(fromFoldable5)(lookup7(key)(v2.value0.historyData));
             };
             var timeseries = bindFlipped6(ts)(map111(specKey)(st0.spec));
             return discard2(put3(function() {
-              var $51 = {};
-              for (var $52 in st0) {
-                if ({}.hasOwnProperty.call(st0, $52)) {
-                  $51[$52] = st0[$52];
+              var $91 = {};
+              for (var $92 in st0) {
+                if ({}.hasOwnProperty.call(st0, $92)) {
+                  $91[$92] = st0[$92];
                 }
                 ;
               }
               ;
-              $51.timeseries = timeseries;
-              return $51;
+              $91.timeseries = timeseries;
+              return $91;
             }()))(function() {
               return pure11(new Just(v2.value1));
             });
@@ -11241,24 +11391,52 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Perspective (line 94, column 19 - line 108, column 24): " + [v2.constructor.name]);
+      throw new Error("Failed pattern match at Perspective (line 110, column 19 - line 124, column 24): " + [v2.constructor.name]);
     };
     var handleInput = function(i2) {
       return new Just(new SetSeqnum2(i2));
     };
     var handleAction2 = function(v2) {
-      return modify_4(function(v1) {
-        var $57 = {};
-        for (var $58 in v1) {
-          if ({}.hasOwnProperty.call(v1, $58)) {
-            $57[$58] = v1[$58];
+      if (v2 instanceof SetSeqnum2) {
+        return modify_4(function(v1) {
+          var $97 = {};
+          for (var $98 in v1) {
+            if ({}.hasOwnProperty.call(v1, $98)) {
+              $97[$98] = v1[$98];
+            }
+            ;
           }
           ;
-        }
-        ;
-        $57.seqnum = v2.value0;
-        return $57;
-      });
+          $97.seqnum = v2.value0;
+          return $97;
+        });
+      }
+      ;
+      if (v2 instanceof UpdateChartSpec) {
+        return modify_4(function(v1) {
+          var $101 = {};
+          for (var $102 in v1) {
+            if ({}.hasOwnProperty.call(v1, $102)) {
+              $101[$102] = v1[$102];
+            }
+            ;
+          }
+          ;
+          $101.spec = new Just(v2.value0);
+          return $101;
+        });
+      }
+      ;
+      if (v2 instanceof PinPerspective) {
+        return bind7(get4)(function(state3) {
+          return raise(new PerspectiveSaved({
+            seqnum: state3.seqnum,
+            spec: v2.value0
+          }));
+        });
+      }
+      ;
+      throw new Error("Failed pattern match at Perspective (line 99, column 20 - line 107, column 12): " + [v2.constructor.name]);
     };
     return mkComponent({
       initialState,
@@ -11283,11 +11461,17 @@
   var lookup8 = /* @__PURE__ */ lookup2(/* @__PURE__ */ ordTuple5(/* @__PURE__ */ ordList(/* @__PURE__ */ ordTuple5(ordString))));
   var map27 = /* @__PURE__ */ map(functorArray);
   var historyKeys2 = /* @__PURE__ */ historyKeys(unfoldableArray);
-  var type_5 = /* @__PURE__ */ type_(isPropButtonType);
+  var type_6 = /* @__PURE__ */ type_(isPropButtonType);
   var forever2 = /* @__PURE__ */ forever(monadRecAff);
   var discard3 = /* @__PURE__ */ discard(discardUnit);
   var discard1 = /* @__PURE__ */ discard3(bindAff);
   var liftEffect3 = /* @__PURE__ */ liftEffect(monadEffectAff);
+  var perspectiveIsSymbol = {
+    reflectSymbol: function() {
+      return "perspective";
+    }
+  };
+  var slot_2 = /* @__PURE__ */ slot_()(perspectiveIsSymbol)(ordInt);
   var discard22 = /* @__PURE__ */ discard3(bindHalogenM);
   var bind8 = /* @__PURE__ */ bind(bindHalogenM);
   var pure12 = /* @__PURE__ */ pure(applicativeHalogenM);
@@ -11296,16 +11480,19 @@
   var get5 = /* @__PURE__ */ get(monadStateHalogenM);
   var $$for2 = /* @__PURE__ */ $$for(applicativeHalogenM)(traversableArray);
   var map32 = /* @__PURE__ */ map(functorHalogenM);
+  var tell3 = /* @__PURE__ */ tell2();
   var newPerspectiveIsSymbol = {
     reflectSymbol: function() {
       return "newPerspective";
     }
   };
-  var tell3 = /* @__PURE__ */ tell2()(newPerspectiveIsSymbol)(ordInt);
+  var tell1 = /* @__PURE__ */ tell3(newPerspectiveIsSymbol)(ordInt);
+  var traverse_4 = /* @__PURE__ */ traverse_(applicativeHalogenM)(foldableArray);
+  var tell22 = /* @__PURE__ */ tell3(perspectiveIsSymbol)(ordInt);
   var put4 = /* @__PURE__ */ put(monadStateHalogenM);
-  var show13 = /* @__PURE__ */ show(showInt);
-  var slot_2 = /* @__PURE__ */ slot_()(newPerspectiveIsSymbol)(ordInt);
-  var slot2 = /* @__PURE__ */ slot()({
+  var slot2 = /* @__PURE__ */ slot();
+  var slot1 = /* @__PURE__ */ slot2(newPerspectiveIsSymbol)(ordInt);
+  var slot22 = /* @__PURE__ */ slot2({
     reflectSymbol: function() {
       return "newExporter";
     }
@@ -11319,6 +11506,16 @@
       return new RegisterExporter2(value0);
     };
     return RegisterExporter2;
+  }();
+  var RegisterPerspective = /* @__PURE__ */ function() {
+    function RegisterPerspective2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    RegisterPerspective2.create = function(value0) {
+      return new RegisterPerspective2(value0);
+    };
+    return RegisterPerspective2;
   }();
   var TriggerFetches = /* @__PURE__ */ function() {
     function TriggerFetches2() {
@@ -11389,16 +11586,16 @@
     })(historyKeys2(exporter.history)));
   };
   var renderButtons = function(state3) {
-    var unpause = button([type_5(ButtonSubmit.value), onClick(function(v2) {
+    var unpause = button([type_6(ButtonSubmit.value), onClick(function(v2) {
       return new StartPolling(state3.pollingPeriod);
     })])([text("\u25B6\uFE0F")]);
-    var pause2 = button([type_5(ButtonSubmit.value), onClick(function(v2) {
+    var pause2 = button([type_6(ButtonSubmit.value), onClick(function(v2) {
       return StopPolling.value;
     })])([text("\u23F8")]);
-    var slowdown = button([type_5(ButtonSubmit.value), onClick(function(v2) {
+    var slowdown = button([type_6(ButtonSubmit.value), onClick(function(v2) {
       return new StartPolling(state3.pollingPeriod * 2);
     })])([text("\u{1F422}")]);
-    var hasten = button([type_5(ButtonSubmit.value), onClick(function(v2) {
+    var hasten = button([type_6(ButtonSubmit.value), onClick(function(v2) {
       return new StartPolling(state3.pollingPeriod / 2);
     })])([text("\u{1F407}")]);
     var currentPeriod = span_([text(show6(state3.pollingPeriod))]);
@@ -11410,8 +11607,11 @@
       return div_([pause2, hasten, slowdown, currentPeriod]);
     }
     ;
-    throw new Error("Failed pattern match at Dashboard (line 195, column 5 - line 197, column 69): " + [state3.polling.constructor.name]);
+    throw new Error("Failed pattern match at Dashboard (line 230, column 5 - line 232, column 69): " + [state3.polling.constructor.name]);
   };
+  var _perspective = /* @__PURE__ */ function() {
+    return $$Proxy.value;
+  }();
   var _newPerspective = /* @__PURE__ */ function() {
     return $$Proxy.value;
   }();
@@ -11419,6 +11619,7 @@
     return $$Proxy.value;
   }();
   var dashboard = function(dictMonadAff) {
+    var perspective2 = perspective(dictMonadAff);
     var monadAffHalogenM2 = monadAffHalogenM(dictMonadAff);
     var liftAff2 = liftAff(monadAffHalogenM2);
     var liftEffect12 = liftEffect(monadEffectHalogenM(dictMonadAff.MonadEffect0()));
@@ -11432,10 +11633,19 @@
         }));
       };
     };
+    var perspectivesListItem = function(persp) {
+      return li_([div_([slot_2(_perspective)(persp.definition.seqnum)(perspective2(persp.definition.spec))(unit)])]);
+    };
+    var perspectivesList = function(state3) {
+      return div_([h1([])([text("monitors")]), ul_(map27(perspectivesListItem)(state3.perspectives))]);
+    };
     var killPoller = function(poller) {
       return discard22(unsubscribe2(poller.sub))(function() {
         return liftAff2(killFiber(error("Event source finalized"))(poller.fiber));
       });
+    };
+    var handleNewPerspectiveOutput = function(v2) {
+      return new RegisterPerspective(v2.value0);
     };
     var handleNewExporterOutput = function(v2) {
       return new RegisterExporter(v2.value0);
@@ -11460,17 +11670,36 @@
           historyData: empty3
         };
         return modify_5(function(state3) {
-          var $79 = {};
-          for (var $80 in state3) {
-            if ({}.hasOwnProperty.call(state3, $80)) {
-              $79[$80] = state3[$80];
+          var $90 = {};
+          for (var $91 in state3) {
+            if ({}.hasOwnProperty.call(state3, $91)) {
+              $90[$91] = state3[$91];
             }
             ;
           }
           ;
-          $79.seqnum = fromMaybe(0)(succ2(state3.seqnum));
-          $79.exporters = cons2(e)(state3.exporters);
-          return $79;
+          $90.seqnum = fromMaybe(0)(succ2(state3.seqnum));
+          $90.exporters = cons2(e)(state3.exporters);
+          return $90;
+        });
+      }
+      ;
+      if (v2 instanceof RegisterPerspective) {
+        var e = {
+          definition: v2.value0
+        };
+        return modify_5(function(state3) {
+          var $94 = {};
+          for (var $95 in state3) {
+            if ({}.hasOwnProperty.call(state3, $95)) {
+              $94[$95] = state3[$95];
+            }
+            ;
+          }
+          ;
+          $94.seqnum = fromMaybe(0)(succ2(state3.seqnum));
+          $94.perspectives = cons2(e)(state3.perspectives);
+          return $94;
         });
       }
       ;
@@ -11478,16 +11707,16 @@
         return bind8(get5)(function(state3) {
           return discard22(maybe(pure12(unit))(killPoller)(state3.polling))(function() {
             return modify_5(function(v1) {
-              var $83 = {};
-              for (var $84 in v1) {
-                if ({}.hasOwnProperty.call(v1, $84)) {
-                  $83[$84] = v1[$84];
+              var $98 = {};
+              for (var $99 in v1) {
+                if ({}.hasOwnProperty.call(v1, $99)) {
+                  $98[$99] = v1[$99];
                 }
                 ;
               }
               ;
-              $83.polling = Nothing.value;
-              return $83;
+              $98.polling = Nothing.value;
+              return $98;
             });
           });
         });
@@ -11498,17 +11727,17 @@
           return discard22(maybe(pure12(unit))(killPoller)(state3.polling))(function() {
             return bind8(forkPoller(v2.value0))(function(poller) {
               return modify_5(function(v1) {
-                var $86 = {};
-                for (var $87 in v1) {
-                  if ({}.hasOwnProperty.call(v1, $87)) {
-                    $86[$87] = v1[$87];
+                var $101 = {};
+                for (var $102 in v1) {
+                  if ({}.hasOwnProperty.call(v1, $102)) {
+                    $101[$102] = v1[$102];
                   }
                   ;
                 }
                 ;
-                $86.polling = new Just(poller);
-                $86.pollingPeriod = v2.value0;
-                return $86;
+                $101.polling = new Just(poller);
+                $101.pollingPeriod = v2.value0;
+                return $101;
               });
             });
           });
@@ -11521,55 +11750,60 @@
             return bind8(map32(hush)(fetchProm2(e2.definition)))(function(prom) {
               return bind8(liftEffect12(updateHistory$prime(map112(fromPromDoc)(prom))(e2.history)))(function(history2) {
                 return bind8(liftEffect12(toArrayMap(history2)))(function(historyData) {
-                  return discard22(tell3(_newPerspective)(0)(PassData.create({
+                  var dat = PassData.create({
                     seqnum: e2.definition.seqnum,
                     historyData
-                  })))(function() {
-                    return pure12(function() {
-                      var $90 = {};
-                      for (var $91 in e2) {
-                        if ({}.hasOwnProperty.call(e2, $91)) {
-                          $90[$91] = e2[$91];
+                  });
+                  return discard22(tell1(_newPerspective)(0)(dat))(function() {
+                    return discard22(traverse_4(function(x3) {
+                      return tell22(_perspective)(x3.definition.seqnum)(dat);
+                    })(state3.perspectives))(function() {
+                      return pure12(function() {
+                        var $105 = {};
+                        for (var $106 in e2) {
+                          if ({}.hasOwnProperty.call(e2, $106)) {
+                            $105[$106] = e2[$106];
+                          }
+                          ;
                         }
                         ;
-                      }
-                      ;
-                      $90.history = history2;
-                      $90.historyData = historyData;
-                      return $90;
-                    }());
+                        $105.history = history2;
+                        $105.historyData = historyData;
+                        return $105;
+                      }());
+                    });
                   });
                 });
               });
             });
           }))(function(updated) {
             return put4(function() {
-              var $93 = {};
-              for (var $94 in state3) {
-                if ({}.hasOwnProperty.call(state3, $94)) {
-                  $93[$94] = state3[$94];
+              var $108 = {};
+              for (var $109 in state3) {
+                if ({}.hasOwnProperty.call(state3, $109)) {
+                  $108[$109] = state3[$109];
                 }
                 ;
               }
               ;
-              $93.exporters = updated;
-              return $93;
+              $108.exporters = updated;
+              return $108;
             }());
           });
         });
       }
       ;
       if (v2 instanceof AddToPerspective) {
-        return tell3(_newPerspective)(0)(SetSpec.create({
+        return tell1(_newPerspective)(0)(SetSpec.create({
           spec: v2.value1,
           timeseries: v2.value2
         }));
       }
       ;
-      throw new Error("Failed pattern match at Dashboard (line 114, column 20 - line 143, column 76): " + [v2.constructor.name]);
+      throw new Error("Failed pattern match at Dashboard (line 123, column 20 - line 159, column 76): " + [v2.constructor.name]);
     };
     var exportersListItem = function(exporter) {
-      return li_([p_([text(exporter.definition.url), text(" "), text(show13(exporter.definition.seqnum))]), div_([renderSparkTable(exporter)])]);
+      return li_([p_([text(exporter.definition.url)]), div_([renderSparkTable(exporter)])]);
     };
     var exportersList = function(state3) {
       return div_([h1([])([text("configured endpoints")]), ul_(map27(exportersListItem)(state3.exporters))]);
@@ -11578,18 +11812,19 @@
       return {
         seqnum: 0,
         exporters: [],
+        perspectives: [],
         pollingPeriod: 1e3,
         polling: Nothing.value
       };
     };
     var addPerspective = function(state3) {
-      return div_([h1([])([text("edit display")]), slot_2(_newPerspective)(0)(newPerspective2)(state3.seqnum)]);
+      return div_([h1([])([text("edit display")]), slot1(_newPerspective)(0)(newPerspective2)(state3.seqnum)(handleNewPerspectiveOutput)]);
     };
     var addExporter = function(state3) {
-      return div_([h1([])([text("add Prometheus endpoint")]), slot2(_newExporter)(0)(newExporter2)(state3.seqnum)(handleNewExporterOutput)]);
+      return div_([h1([])([text("add Prometheus endpoint")]), slot22(_newExporter)(0)(newExporter2)(state3.seqnum)(handleNewExporterOutput)]);
     };
     var render2 = function(state3) {
-      return div_([renderButtons(state3), addPerspective(state3), exportersList(state3), addExporter(state3)]);
+      return div_([renderButtons(state3), addPerspective(state3), perspectivesList(state3), exportersList(state3), addExporter(state3)]);
     };
     return mkComponent({
       initialState,
@@ -11751,10 +11986,10 @@
   var unRenderStateX = unsafeCoerce2;
   var unDriverStateX = unsafeCoerce2;
   var renderStateX_ = function(dictApplicative) {
-    var traverse_7 = traverse_(dictApplicative)(foldableMaybe);
+    var traverse_8 = traverse_(dictApplicative)(foldableMaybe);
     return function(f) {
       return unDriverStateX(function(st) {
-        return traverse_7(f)(st.rendering);
+        return traverse_8(f)(st.rendering);
       });
     };
   };
@@ -11814,7 +12049,7 @@
   };
 
   // output/Halogen.Aff.Driver.Eval/index.js
-  var traverse_4 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
+  var traverse_5 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
   var bindFlipped8 = /* @__PURE__ */ bindFlipped(bindMaybe);
   var lookup9 = /* @__PURE__ */ lookup2(ordSubscriptionId);
   var bind12 = /* @__PURE__ */ bind(bindAff);
@@ -11846,7 +12081,7 @@
       return function __do3() {
         var v2 = read(ref2)();
         var subs = read(v2.subscriptions)();
-        return traverse_4(unsubscribe)(bindFlipped8(lookup9(sid))(subs))();
+        return traverse_5(unsubscribe)(bindFlipped8(lookup9(sid))(subs))();
       };
     };
   };
@@ -12100,7 +12335,7 @@
   var bind10 = /* @__PURE__ */ bind(bindEffect);
   var discard6 = /* @__PURE__ */ discard(discardUnit);
   var for_2 = /* @__PURE__ */ for_(applicativeEffect)(foldableMaybe);
-  var traverse_5 = /* @__PURE__ */ traverse_(applicativeAff)(foldableList);
+  var traverse_6 = /* @__PURE__ */ traverse_(applicativeAff)(foldableList);
   var fork4 = /* @__PURE__ */ fork2(monadForkAff);
   var bindFlipped9 = /* @__PURE__ */ bindFlipped(bindEffect);
   var traverse_13 = /* @__PURE__ */ traverse_(applicativeEffect);
@@ -12132,7 +12367,7 @@
       var queue = read(ref2)();
       write(Nothing.value)(ref2)();
       return for_2(queue)(function() {
-        var $58 = traverse_5(fork4);
+        var $58 = traverse_6(fork4);
         return function($59) {
           return handleAff($58(reverse2($59)));
         };
@@ -12318,7 +12553,7 @@
                   var handlers = read(v2.pendingHandlers)();
                   write(new Just(Nil.value))(v2.pendingHandlers)();
                   traverse_23(function() {
-                    var $75 = traverse_5(fork4);
+                    var $75 = traverse_6(fork4);
                     return function($76) {
                       return handleAff($75(reverse2($76)));
                     };
@@ -12488,7 +12723,7 @@
   };
   var $$void7 = /* @__PURE__ */ $$void(functorEffect);
   var pure18 = /* @__PURE__ */ pure(applicativeEffect);
-  var traverse_6 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
+  var traverse_7 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
   var unwrap6 = /* @__PURE__ */ unwrap();
   var when3 = /* @__PURE__ */ when(applicativeEffect);
   var not2 = /* @__PURE__ */ not(/* @__PURE__ */ heytingAlgebraFunction(/* @__PURE__ */ heytingAlgebraFunction(heytingAlgebraBoolean)));
@@ -12515,7 +12750,7 @@
   var removeChild3 = function(v2) {
     return function __do3() {
       var npn = parentNode2(v2.node)();
-      return traverse_6(function(pn) {
+      return traverse_7(function(pn) {
         return removeChild2(v2.node)(pn);
       })(npn)();
     };
