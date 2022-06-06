@@ -1,12 +1,19 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Prometheus Monitor</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="sre, application, monitoring, prometheus"><meta name="description" content="A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Prometheus Monitor"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Prometheus Monitor"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/prometheus-monitor.html"><meta property="og:description" content="A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job."><meta name="article:published_time" content="2022-06-12"><meta name="ks:article_json" content="/json/prometheus-monitor.cmark.json"><meta name="article:tag" content="sre"><meta name="article:tag" content="application"><meta name="article:tag" content="monitoring"><meta name="article:tag" content="prometheus"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>Prometheus Monitor</h1><p>On <span>Sun, 12 Jun 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 166 words, 3 links, 0images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/sre.html"><span class="tag-name">sre</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/application.html"><span class="tag-name">application</span><span class="tag-count">2</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>Note: I have no affiliation with the Prometheus official project.</p>
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Prometheus Monitor</title><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="sre, application, monitoring, prometheus"><meta name="description" content="A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Prometheus Monitor"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="lucasdicioccio"><meta property="twitter:description" content="A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Prometheus Monitor"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/prometheus-monitor.html"><meta property="og:description" content="A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job."><meta name="article:published_time" content="2022-06-12"><meta name="ks:article_json" content="/json/prometheus-monitor.cmark.json"><meta name="article:tag" content="sre"><meta name="article:tag" content="application"><meta name="article:tag" content="monitoring"><meta name="article:tag" content="prometheus"><style>@import "/css/main.css";</style></head><body><div class="main"><article><header class="heading"><h1>Prometheus Monitor</h1><p>On <span>Sun, 12 Jun 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 277 words, 5 links, 0images.</p><div class="taglist"><div class="tag"><a class="tag-link" href="/topics/sre.html"><span class="tag-name">sre</span><span class="tag-count">2</span></a></div><div class="tag"><a class="tag-link" href="/topics/application.html"><span class="tag-name">application</span><span class="tag-count">2</span></a></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>Note: I have no affiliation with the Prometheus official project.</p>
 <div id="metrics">
 <script src="/js/prometheus-monitor.js"></script>
 </div>
-</section><section class="main-section"><h1 id="faq">FAQ</h1>
-<h2 id="some-demo">Some demo</h2>
+</section><section class="main-section"><h1 id="purpose">Purpose</h1>
+<p>Two main goals:</p>
+<ul>
+<li>occasional troubleshooting utility when you want to probe one or two selected processes at a high frequency
+</li>
+<li>when developing to get an immediate feedback on counters developers had (a secondary goal is to encourage devs to annotate their code with more monitoring information)
+</li>
+</ul>
+<h1 id="how-to-run-it">How to run it?</h1>
 <p>The Prometheus project shows a <a href="https://prometheus.demo.do.prometheus.io/">DEMO instance</a> ,
 do not hammer it please.</p>
-<h2 id="failed-to-fetch-and-url-that-works-in-from-my-browser-cors-errors-in-the-console">‘Failed to fetch’ and URL that works in from my browser CORS errors in the console</h2>
+<h2 id="failed-to-fetch-an-url-that-works-from-my-browser-but-gives-cors-errors-in-the-console">‘Failed to fetch’ an URL that works from my browser, but gives CORS errors in the console</h2>
 <p>You may want to use a so-called ‘CORS-proxy’ (i.e., an HTTP web proxy that adds
 CORS-authorization headers).</p>
 <h3 id="modify-your-code">modify your code</h3>
@@ -15,14 +22,15 @@ CORS-header allowing this page to get data on the metrics endpoint you want to
 probe.</p>
 <h3 id="open-proxies">open proxies</h3>
 <p>You may find open-proxies but you have no way to tell what they will do with
-your in-flight requests, may be rate-limited, and will only be able to access
-public endpoints.</p>
+your in-flight requests: cacheing, rate-limitations, data-collection. Plus
+open-proxies will only be able to access public endpoints (i.e., not for dev
+environments).</p>
 <p>I’ve found the <a href="https://allorigins.win/">All Origins open proxy</a> to work if you
 want to probe public endpoints (like the prometheus demo).</p>
 <blockquote>
 <p><code>https://api.allorigins.win/raw?url=https://prometheus.demo.do.prometheus.io/metrics</code></p>
 </blockquote>
-<h3 id="run-locally">run locally</h3>
+<h3 id="run-the-proxy-locally">run the proxy locally</h3>
 <p>If you shop around on GitHub you will find some solutions. For instance I’ve
 found <a href="https://github.com/okfn/gobetween">GoBetween</a> to work as claimed in the
 README. If you manage to run this package locally on port <code>3000</code> you can try
@@ -30,4 +38,12 @@ adding:</p>
 <blockquote>
 <p><code>http://localhost:3000/pipe/https://prometheus.demo.do.prometheus.io/metrics</code></p>
 </blockquote>
+<h3 id="serve-the-js-directly-from-your-endpoint">serve the JS directly from your endpoint</h3>
+<p>This is the solution I take in
+<a href="https://github.com/lucasdicioccio/prodapi">prodapi</a>, just serve the
+<a href="/js/prometheus-monitor.js">JavaScript</a> file and include it in some HTML that
+you serve as well. Optionally, the HTML can have a div with ID <code>metrics</code> to
+select the script insertion place.</p>
+<div class="sourceCode"><pre class="sourceCode"><code class="sourceCode"><span id="1"><a href="#1" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;div</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;metrics&quot;</span><span class="kw">&gt;&lt;/div&gt;</span></span>
+<span id="2"><a href="#2" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/js/prometheus-monitor.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span></code></pre></div><p>You’ll need some CSS to style it, but this will come later (when I’m out of alpha mode).</p>
 </section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter: @lucasdicioccio</a><a href="https://github.com/lucasdicioccio">github: lucasdicioccio</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin: lucasdicioccio</a></div></footer></article></div><nav id="navigation" class="nav"><a href="/">home</a><div id="search-box"><script type="text/javascript" src="/js/search-box.js" async></script></div></nav></body></html>
