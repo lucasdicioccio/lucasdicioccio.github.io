@@ -1,0 +1,19 @@
+
+.message {
+  font-size: large;
+  margin: 0.5em;
+  padding: 1em;
+  border-left: 5px solid transparent;
+}
+
+.message.notice {
+  background-color: rgb(202,120,60);
+  border-color: white;
+  color: white;
+}
+
+.message.error {
+  background-color: rgb(233,85,71);
+  border-color: white;
+  color: white;
+}
