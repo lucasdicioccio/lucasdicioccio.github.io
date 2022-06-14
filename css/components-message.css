@@ -17,3 +17,10 @@
   border-color: white;
   color: white;
 }
+
+.message.success {
+  background-color: rgb(192,250,202);
+  border-color: white;
+  color: #888;
+}
+
