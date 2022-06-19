@@ -1,0 +1,204 @@
+html {
+  font-family: "Helvetica", Arial, sans-serif;
+  font-size: 14pt;
+  background-color: #fcfcfc;
+}
+body {
+  display: flex;
+}
+#navigation {
+  flex-grow: 0.5;
+  top: 10;
+  padding: 1em;
+  display:flex;
+  flex-direction: column;
+}
+#search-box {
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  padding: 0.2em;
+}
+#search-box ul {
+  list-style: none;
+  margin: 10px 0;
+  padding: 0;
+  max-height: 500px;
+  overflow: scroll;
+}
+#search-box li:nth-child(even) {
+  background: #eee;
+  padding: 4px;
+}
+#search-box a {
+  color: #888;
+  font-size: 12pt;
+}
+.main {
+  flex-grow: 2;
+}
+a {
+  color: inherit;
+}
+img {
+  display: block;
+  width: 80%;
+  padding: 20px;
+  margin: auto;
+}
+
+.heading h1 {
+  margin-bottom: 0;
+}
+.heading p {
+  margin-top: 0;
+  line-height: 1em;
+  color: #ccc;
+}
+h1 {
+  font-size: 21pt;
+  text-transform: uppercase;
+}
+h2 {
+  font-size: 20pt;
+}
+p {
+  font-size: 16pt;
+  line-height: 1.4em;
+  border-radius: 5px;
+}
+p:hover {
+  background-color: aliceblue;
+}
+code {
+  font-family: monospace;
+}
+
+p > code {
+  font-weight: bold;
+  color: coral;
+  display: inline-block;
+}
+p > em {
+  color: darkcyan;
+}
+pre {
+  background-color: #eee;
+  padding: 1em;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 12pt;
+  color: darkgreen;
+  overflow-x: scroll;
+}
+.footing {
+  margin-top: 3em;
+  padding-bottom: 300px;
+  padding-top: 2em;
+}
+.social-links {
+  display: flex;
+  justify-content: space-around;
+}
+header .taglist {
+  display: flex;
+  justify-content: left;
+}
+header .tag {
+  font-size: 10pt;
+  font-weight: bold;
+  margin-left: 1em;
+  color: white;
+  background-color: #555555;
+  border-radius: 4px;
+  padding: 4px;
+}
+header a.tag-link {
+  text-decoration: none;
+}
+header .tag-name {
+  padding-right: 5px;
+}
+header .tag-count {
+  padding-left: 5px;
+  border-left: 1px solid #ccc;
+}
+
+@media (max-width:800px) {
+  body {
+    flex-flow: column-reverse;
+  }
+  article {
+    width: 100%;
+    margin-top: 10px;
+    text-align: left;
+  }
+  code {
+    font-size: 12pt;
+  }
+  pre {
+    padding: 0.2em;
+    color: darkslategray;
+  }
+  pre > code {
+    font-size: 10pt;
+  }
+  .taglist {
+    display: block;
+  }
+  .tag {
+    border-radius: 0;
+    margin-top: 4px;
+    background-color: #999999;
+    text-align: right;
+  }
+  .tag:hover {
+    background-color: #777777;
+  }
+}
+.upcoming-notice {
+  margin: 1em;
+  padding: 1em;
+  color: white;
+  text-shadow:
+     3px 5px 0 #c00,
+     -5px 3px 0 #c00,
+     7px -5px 0 #c00,
+     -15px -17px 0 #c00,
+     13px -15px 0 #c00,
+     11px 13px 0 #c00,
+     -15px 15px 0 #c00;
+  background-color: #7c0000;
+  background-image: linear-gradient(75deg, #7c0000 20%, #3c303c 30%, #3c303c 35%, #7c0000 50%, #7c0000 65%, #3c303c 75%, #3c303c 100%);
+  border-radius: 24px;
+}
+.upcoming-notice p {
+  font-weight: bold;
+  font-size: 25pt !important;
+  background-color: transparent;
+}
+#histogram {
+  height: 300px;
+}
+
+
+/* skylighting classes for code */
+.va, .dv {
+  color: gray;
+}
+.dt,.fu {
+  color: black;
+}
+.co, .ot {
+  color: gray;
+}
+.kw, .im, .bu {
+  color: darkblue;
+}
+.op {
+  color: gray;
+  font-weight: bold;
+}
+.sc, .st, .ch, .cn, .fl {
+  color: coral;
+  font-weight: bold;
+}

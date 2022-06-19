@@ -11862,7 +11862,7 @@
       var req = {
         url,
         responseFormat: string,
-        timeout: new Just(250),
+        timeout: new Just(1e3),
         content: defaultRequest.content,
         headers: defaultRequest.headers,
         method: defaultRequest.method,
