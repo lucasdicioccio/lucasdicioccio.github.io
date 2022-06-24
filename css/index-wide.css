@@ -2,29 +2,37 @@
   font-family: "Helvetica", Arial, sans-serif;
   font-size: 14pt;
 }
+html {
+}
 body {
-  max-width: calc(min(80%,1200px));
-  margin: auto;
+  background-color: white;
+  margin: 1em;
+  border-radius: 8px;
 }
 
 a {
   color: inherit;
 }
 article {
-  width: 80%;
-  margin: auto;
   text-align: justify;
 }
 .main-section {
+  width: 50%;
   padding: 4em 4em 2em 4em;
-  margin: 1em;
+  margin: 1em auto;
 }
 .listing-callout {
   color: #aaa;
   text-transform: lowercase;
 }
-.articles-listing, .articles-graph, .topics-listing {
-  margin: 2em;
+.articles-graph {
+  width: 90%;
+  margin: 2em auto;
+  padding: 1em;
+}
+.articles-listing, .topics-listing {
+  width: 75%;
+  margin: 2em auto;
   padding: 1em;
 }
 .articles-listing-item {
