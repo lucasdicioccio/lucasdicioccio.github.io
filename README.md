@@ -1,1 +1,2 @@
-I am rebooting my website. This is a placeholder page for my temp-blog.
+This is a generated repository.
+Code for the static-site generator is not public yet.
