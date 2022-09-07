@@ -10,9 +10,11 @@
       params.push(['server-id', serverId]);
     }
     url.search = new URLSearchParams(params).toString();
+      console.log(`fetching ${url}`);
     fetch(url)
     .then(response => response.json())
     .then(data => {
+      console.log("got response");
       serverId = data[0];
       if (data[1] === "Respawned") {
         const params = new URLSearchParams();
@@ -22,7 +24,7 @@
       if (data[1] === "Reloaded") {
         location.reload();
       }
-      else {
+      if (data[1] === "Disappeared") {
         retry();
       }
     })
