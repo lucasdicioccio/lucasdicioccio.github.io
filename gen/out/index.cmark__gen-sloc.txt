@@ -3,7 +3,7 @@
    51 ./src/Commonmark/BlogHTML.hs
    28 ./src/Blog/Assembler.hs
    57 ./src/Blog/Site.hs
-  540 ./src/Blog/Layout.hs
+  545 ./src/Blog/Layout.hs
   265 ./src/Blog/Advanced.hs
    52 ./src/Blog/Prelude.hs
    62 ./src/Blog/Basics.hs
@@ -16,4 +16,4 @@
   101 ./src/Blog/AssembleSections.hs
   288 ./src/Blog.hs
   128 ./purescript/halogen-demo/src/Main.purs
- 2577 total
+ 2582 total
