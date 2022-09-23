@@ -1,4 +1,22 @@
 (function(){
+  const addDialog = (content, f) => {
+    let pre = document.createElement('pre');
+    pre.style = 'max-height: 35vh; overflow: scroll;';
+    pre.appendChild(document.createTextNode(content));
+
+    let btn = document.createElement('button');
+    btn.className = "dev-produce-button";
+    btn.appendChild(document.createTextNode("close"));
+
+    let div = document.createElement('div');
+    div.style = 'position:fixed; inset:20%; background-color:white; padding: 1em; border: 1px solid black';
+    div.appendChild(pre);
+    div.appendChild(btn);
+
+    var navDom = document.getElementById('site-navigation');
+    btn.onclick = () => div.remove();
+    navDom.appendChild(div);
+  };
   const callRoute = (path) => (ev) => {
     const btn = ev.target;
     btn.disabled = true;
@@ -6,7 +24,7 @@
     fetch(url, {'method': 'POST'})
     .then(response => response.json())
     .then(data => {
-      alert("done");
+      addDialog(data);
       btn.disabled = false;
     })
     .catch(error => {
