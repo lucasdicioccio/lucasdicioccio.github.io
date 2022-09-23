@@ -36,9 +36,6 @@ p {
   line-height: 1.4em;
   border-radius: 5px;
 }
-p:hover {
-  background-color: aliceblue;
-}
 code {
   font-family: monospace;
 }
