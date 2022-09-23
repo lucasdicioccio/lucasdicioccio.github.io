@@ -1,4 +1,4 @@
-  422 ./app/Main.hs
+  423 ./app/Main.hs
   202 ./src/Commonmark/Free.hs
    51 ./src/Commonmark/BlogHTML.hs
    28 ./src/Blog/Assembler.hs
@@ -16,4 +16,4 @@
   101 ./src/Blog/AssembleSections.hs
   288 ./src/Blog.hs
   128 ./purescript/halogen-demo/src/Main.purs
- 2582 total
+ 2583 total
