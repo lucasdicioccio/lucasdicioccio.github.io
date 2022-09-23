@@ -135,6 +135,11 @@ a.tag-link {
     background-color: #777777;
   }
 }
+.no-layout-notice {
+  margin: 1em;
+  padding: 1em;
+  color: red;
+}
 .upcoming-notice {
   margin: 1em;
   padding: 1em;

@@ -14418,7 +14418,7 @@
       return write(url)(ref2);
     })();
     return runHalogenAff(bind11(awaitBody)(function(body2) {
-      return bind11(selectElement("#metrics"))(function(elem3) {
+      return bind11(selectElement("#spa"))(function(elem3) {
         var tgt = fromMaybe(body2)(elem3);
         return runUI2(component1(ref2))(unit)(tgt);
       });

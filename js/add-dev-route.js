@@ -1,26 +1,31 @@
 (function(){
-  const callProduce = (ev) => {
+  const callRoute = (path) => (ev) => {
     const btn = ev.target;
     btn.disabled = true;
-    const url = new URL(document.location.origin + '/dev/produce');
+    const url = new URL(document.location.origin + path);
     fetch(url, {'method': 'POST'})
     .then(response => response.json())
     .then(data => {
-      alert("built");
+      alert("done");
+      btn.disabled = false;
     })
     .catch(error => {
       console.error('Error:', error);
+      btn.disabled = false;
       alert("failed");
     })
-    btn.disabled = false;
   };
-  const go = () => {
+  const addButton = (name, f) => {
     let btn = document.createElement('button');
     btn.className = "dev-produce-button";
-    btn.onclick = callProduce;
-    btn.appendChild(document.createTextNode("produce"));
+    btn.onclick = f;
+    btn.appendChild(document.createTextNode(name));
     var navDom = document.getElementById('site-navigation');
     navDom.appendChild(btn);
   };
-  setTimeout(go, 1000);
+  const go = () => {
+    addButton("produce", callRoute("/dev/produce"));
+    addButton("publish", callRoute("/dev/publish"));
+  };
+  document.addEventListener("DOMContentLoaded", go);
 })();
