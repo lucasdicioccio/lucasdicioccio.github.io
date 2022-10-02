@@ -15,6 +15,6 @@
    29 ./src/KitchenSink/Blog/Highlighting.hs
   101 ./src/KitchenSink/Blog/AssembleSections.hs
   288 ./src/KitchenSink/Blog.hs
-  492 ./src/KitchenSink/Engine.hs
+  503 ./src/KitchenSink/Engine.hs
   128 ./purescript/halogen-demo/src/Main.purs
- 2671 total
+ 2682 total
