@@ -78,6 +78,10 @@ pre {
 .social-links {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+}
+.social-links a {
+  margin: 1rem;
 }
 .taglist {
   display: flex;
