@@ -11,9 +11,9 @@ https://lucasdicioccio.github.io/readings.html
 https://lucasdicioccio.github.io/there-is-no-documentation.html
 https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html
 https://lucasdicioccio.github.io/what-is-the-project-scope.html
-https://lucasdicioccio.github.io/how-to-weigh-decisions.html
 https://lucasdicioccio.github.io/halogen-demo.html
 https://lucasdicioccio.github.io/gallery-001.html
+https://lucasdicioccio.github.io/decisions-are-not-outcomes.html
 https://lucasdicioccio.github.io/talks.html
 https://lucasdicioccio.github.io/scope-explorer.html
 https://lucasdicioccio.github.io/todo-list.html

@@ -3,11 +3,11 @@
 <p>If you record your screen with <code>(ctrl+shift+alt+R)</code> in Ubuntu, you’ll get a <strong>webm</strong> file, GitHub, iPhones all want <strong>mp4</strong>. So you need to convert from webm to mp4.</p>
 <p>The <code>ffmpeg</code> command allows such a conversion. As a bonus, Ubuntu’s file
 navigator allows to have some right-click scripts shortcuts.</p>
-<div class="sourceCode"><pre class="sourceCode"><code class="sourceCode"><span id="1"><a href="#1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<div class="code code--highlighted"><div class="sourceCode"><pre class="sourceCode"><code class="sourceCode"><span id="1"><a href="#1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="2"><a href="#2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="3"><a href="#3" aria-hidden="true" tabindex="-1"></a><span class="va">path</span><span class="op">=</span><span class="va">$1</span></span>
 <span id="4"><a href="#4" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-y</span> <span class="at">-i</span> <span class="st">&quot;</span><span class="va">${path}</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${path}</span><span class="st">.mp4&quot;</span></span>
-<span id="5"><a href="#5" aria-hidden="true" tabindex="-1"></a><span class="ex">notify-send</span> <span class="st">&quot;converted </span><span class="va">${path}</span><span class="st">&quot;</span></span></code></pre></div><p>You can benefit from contextual menu in Ubuntu’s file navigator. If you drop
+<span id="5"><a href="#5" aria-hidden="true" tabindex="-1"></a><span class="ex">notify-send</span> <span class="st">&quot;converted </span><span class="va">${path}</span><span class="st">&quot;</span></span></code></pre></div></div><p>You can benefit from contextual menu in Ubuntu’s file navigator. If you drop
 the script at a special path like
 <code>~/.local/share/nautilus/scripts/ffmpeg-convert-to-mp4</code> and do not forget to
 make it executable with <code>chmod</code>.</p>

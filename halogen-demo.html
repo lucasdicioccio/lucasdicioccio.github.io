@@ -85,10 +85,10 @@ use some trick for you to see the source of the PureScript file).</p>
 <p>You can also look at the <a href="gen/out/halogen-demo.cmark__source-cmark">CommonMark file with sections source
 code</a>.</p>
 <p>The actual CommonMark content has two purposes. On one hand, the file contains the meaty-content, that is, the text you are reading right now. On the other hand we need to prepare the HTML content to have some DOM Node ready to accept the Halogen application. The latter is feasible as follows in CommonMark:</p>
-<div class="sourceCode"><pre class="sourceCode"><code class="sourceCode"><span id="1"><a href="#1" aria-hidden="true" tabindex="-1"></a>::: {#halogen-routes}</span>
+<div class="code code--highlighted"><div class="sourceCode"><pre class="sourceCode"><code class="sourceCode"><span id="1"><a href="#1" aria-hidden="true" tabindex="-1"></a>::: {#halogen-routes}</span>
 <span id="2"><a href="#2" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="3"><a href="#3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="4"><a href="#4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/js/halogen-demo.js&quot;</span> <span class="er">async</span><span class="kw">&gt;&lt;/script&gt;</span></span></code></pre></div><p>The above CommonMark will generate some <code>div</code> with the <code>id</code> tag that the
+<span id="4"><a href="#4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/js/halogen-demo.js&quot;</span> <span class="er">async</span><span class="kw">&gt;&lt;/script&gt;</span></span></code></pre></div></div><p>The above CommonMark will generate some <code>div</code> with the <code>id</code> tag that the
 Halogen expects to find (the <code>#halogen-routes</code> from the <code>QuerySelector</code> in
 previous sectoin). Whereas the <code>script</code> tag is a normal HTML tag that gets
 integrated as raw HTML.</p>
