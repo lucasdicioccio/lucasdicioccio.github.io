@@ -31,6 +31,26 @@
     </entry>
     <entry>
         <id>
+            https://lucasdicioccio.github.io/halogen-echarts-example.html
+        </id>
+        <title type="text">
+            Halogen-ECharts-Simple example
+        </title>
+        <updated>
+            2022-12-10T01:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://lucasdicioccio.github.io/halogen-echarts-example.html" rel="alternate"/>
+        <summary type="text">
+            A demo of a [ECharts-for-Halogen](https://github.com/lucasdicioccio/purescript-halogen-echarts-simple) library.
+        </summary>
+    </entry>
+    <entry>
+        <id>
             https://lucasdicioccio.github.io/kitchen-sink.html
         </id>
         <title type="text">

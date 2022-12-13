@@ -5,6 +5,7 @@ https://lucasdicioccio.github.io/on-dualities.html
 https://lucasdicioccio.github.io/notes.html
 https://lucasdicioccio.github.io/dhall-section-demo.html
 https://lucasdicioccio.github.io/tactical-projects.html
+https://lucasdicioccio.github.io/halogen-echarts-example.html
 https://lucasdicioccio.github.io/gallery-2022-08-cabourg.html
 https://lucasdicioccio.github.io/alphabets.html
 https://lucasdicioccio.github.io/readings.html
