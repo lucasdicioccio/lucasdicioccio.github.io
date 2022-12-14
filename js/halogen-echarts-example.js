@@ -524,10 +524,10 @@
     return map(dictFunctor)($$const(unit));
   };
   var voidLeft = function(dictFunctor) {
-    var map19 = map(dictFunctor);
+    var map110 = map(dictFunctor);
     return function(f) {
       return function(x) {
-        return map19($$const(x))(f);
+        return map110($$const(x))(f);
       };
     };
   };
@@ -542,10 +542,10 @@
   };
   var applySecond = function(dictApply) {
     var apply1 = apply(dictApply);
-    var map19 = map(dictApply.Functor0());
+    var map21 = map(dictApply.Functor0());
     return function(a2) {
       return function(b2) {
-        return apply1(map19($$const(identity2))(a2))(b2);
+        return apply1(map21($$const(identity2))(a2))(b2);
       };
     };
   };
@@ -597,6 +597,7 @@
   };
 
   // output/Control.Bind/index.js
+  var identity3 = /* @__PURE__ */ identity(categoryFn);
   var discard = function(dict) {
     return dict.discard;
   };
@@ -620,6 +621,12 @@
     discard: function(dictBind) {
       return bind(dictBind);
     }
+  };
+  var join = function(dictBind) {
+    var bind15 = bind(dictBind);
+    return function(m2) {
+      return bind15(m2)(identity3);
+    };
   };
 
   // output/Data.Semigroup/foreign.js
@@ -749,7 +756,7 @@
   };
 
   // output/Data.Maybe/index.js
-  var identity3 = /* @__PURE__ */ identity(categoryFn);
+  var identity4 = /* @__PURE__ */ identity(categoryFn);
   var Nothing = /* @__PURE__ */ function() {
     function Nothing2() {
     }
@@ -797,7 +804,7 @@
   };
   var map2 = /* @__PURE__ */ map(functorMaybe);
   var fromMaybe = function(a2) {
-    return maybe(a2)(identity3);
+    return maybe(a2)(identity4);
   };
   var fromJust = function() {
     return function(v) {
@@ -1251,17 +1258,17 @@
           }
         }
       }
-      function onComplete(join4) {
+      function onComplete(join5) {
         return function() {
           if (status === COMPLETED) {
-            rethrow = rethrow && join4.rethrow;
-            join4.handler(step4)();
+            rethrow = rethrow && join5.rethrow;
+            join5.handler(step4)();
             return function() {
             };
           }
           var jid = joinId++;
           joins = joins || {};
-          joins[jid] = join4;
+          joins[jid] = join5;
           return function() {
             if (joins !== null) {
               delete joins[jid];
@@ -1316,7 +1323,7 @@
           return canceler;
         };
       }
-      function join3(cb) {
+      function join4(cb) {
         return function() {
           var canceler = onComplete({
             rethrow: false,
@@ -1330,7 +1337,7 @@
       }
       return {
         kill: kill2,
-        join: join3,
+        join: join4,
         onComplete,
         isSuspended: function() {
           return status === SUSPENDED;
@@ -1414,7 +1421,7 @@
         }
         return kills2;
       }
-      function join3(result, head3, tail) {
+      function join4(result, head3, tail) {
         var fail, step4, lhs, rhs, tmp, kid;
         if (util.isLeft(result)) {
           fail = result;
@@ -1461,9 +1468,9 @@
                       if (tmp) {
                         tmp = false;
                       } else if (tail === null) {
-                        join3(fail, null, null);
+                        join4(fail, null, null);
                       } else {
-                        join3(fail, tail._1, tail._2);
+                        join4(fail, tail._1, tail._2);
                       }
                     };
                   });
@@ -1498,9 +1505,9 @@
                       if (tmp) {
                         tmp = false;
                       } else if (tail === null) {
-                        join3(step4, null, null);
+                        join4(step4, null, null);
                       } else {
-                        join3(step4, tail._1, tail._2);
+                        join4(step4, tail._1, tail._2);
                       }
                     };
                   });
@@ -1524,7 +1531,7 @@
           return function() {
             delete fibers[fiber._1];
             fiber._3 = result;
-            join3(result, fiber._2._1, fiber._2._2);
+            join4(result, fiber._2._1, fiber._2._2);
           };
         };
       }
@@ -1906,10 +1913,10 @@
   var $$try = function(dictMonadError) {
     var catchError1 = catchError(dictMonadError);
     var Monad0 = dictMonadError.MonadThrow0().Monad0();
-    var map19 = map(Monad0.Bind1().Apply0().Functor0());
+    var map21 = map(Monad0.Bind1().Apply0().Functor0());
     var pure9 = pure(Monad0.Applicative0());
     return function(a2) {
-      return catchError1(map19(Right.create)(a2))(function($52) {
+      return catchError1(map21(Right.create)(a2))(function($52) {
         return pure9(Left.create($52));
       });
     };
@@ -2395,7 +2402,7 @@
       };
     }
     return function(apply2) {
-      return function(map19) {
+      return function(map21) {
         return function(pure9) {
           return function(f) {
             return function(array) {
@@ -2404,14 +2411,14 @@
                   case 0:
                     return pure9([]);
                   case 1:
-                    return map19(array1)(f(array[bot]));
+                    return map21(array1)(f(array[bot]));
                   case 2:
-                    return apply2(map19(array2)(f(array[bot])))(f(array[bot + 1]));
+                    return apply2(map21(array2)(f(array[bot])))(f(array[bot + 1]));
                   case 3:
-                    return apply2(apply2(map19(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
+                    return apply2(apply2(map21(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
                   default:
                     var pivot = bot + Math.floor((top2 - bot) / 4) * 2;
-                    return apply2(map19(concat2)(go2(bot, pivot)))(go2(pivot, top2));
+                    return apply2(map21(concat2)(go2(bot, pivot)))(go2(pivot, top2));
                 }
               }
               return go2(0, array.length);
@@ -2422,8 +2429,53 @@
     };
   }();
 
+  // output/Data.Traversable/index.js
+  var traverse = function(dict) {
+    return dict.traverse;
+  };
+  var traversableMaybe = {
+    traverse: function(dictApplicative) {
+      var pure9 = pure(dictApplicative);
+      var map21 = map(dictApplicative.Apply0().Functor0());
+      return function(v) {
+        return function(v12) {
+          if (v12 instanceof Nothing) {
+            return pure9(Nothing.value);
+          }
+          ;
+          if (v12 instanceof Just) {
+            return map21(Just.create)(v(v12.value0));
+          }
+          ;
+          throw new Error("Failed pattern match at Data.Traversable (line 115, column 1 - line 119, column 33): " + [v.constructor.name, v12.constructor.name]);
+        };
+      };
+    },
+    sequence: function(dictApplicative) {
+      var pure9 = pure(dictApplicative);
+      var map21 = map(dictApplicative.Apply0().Functor0());
+      return function(v) {
+        if (v instanceof Nothing) {
+          return pure9(Nothing.value);
+        }
+        ;
+        if (v instanceof Just) {
+          return map21(Just.create)(v.value0);
+        }
+        ;
+        throw new Error("Failed pattern match at Data.Traversable (line 115, column 1 - line 119, column 33): " + [v.constructor.name]);
+      };
+    },
+    Functor0: function() {
+      return functorMaybe;
+    },
+    Foldable1: function() {
+      return foldableMaybe;
+    }
+  };
+
   // output/Control.Parallel/index.js
-  var identity4 = /* @__PURE__ */ identity(categoryFn);
+  var identity5 = /* @__PURE__ */ identity(categoryFn);
   var parTraverse_ = function(dictParallel) {
     var sequential3 = sequential(dictParallel);
     var traverse_8 = traverse_(dictParallel.Applicative1());
@@ -2443,7 +2495,7 @@
   var parSequence_ = function(dictParallel) {
     var parTraverse_1 = parTraverse_(dictParallel);
     return function(dictFoldable) {
-      return parTraverse_1(dictFoldable)(identity4);
+      return parTraverse_1(dictFoldable)(identity5);
     };
   };
 
@@ -2809,6 +2861,9 @@
   function _readyState(doc) {
     return doc.readyState;
   }
+  function _currentScript(doc) {
+    return doc.currentScript;
+  }
 
   // output/Web.HTML.HTMLDocument.ReadyState/index.js
   var Loading = /* @__PURE__ */ function() {
@@ -2862,6 +2917,11 @@
       return _readyState(doc);
     });
   };
+  var currentScript = function(doc) {
+    return map6(toMaybe)(function() {
+      return _currentScript(doc);
+    });
+  };
 
   // output/Web.HTML.HTMLElement/foreign.js
   function _read(nothing, just, value12) {
@@ -2878,6 +2938,9 @@
   var fromElement = function(x) {
     return _read(Nothing.value, Just.create, x);
   };
+
+  // output/Web.HTML.HTMLScriptElement/index.js
+  var toElement = unsafeCoerce2;
 
   // output/Web.HTML.Window/foreign.js
   function document2(window2) {
@@ -4712,9 +4775,24 @@
   var _prefix = getProp("prefix");
   var localName = getProp("localName");
   var tagName = getProp("tagName");
+  function _getAttribute(name15) {
+    return function(element3) {
+      return function() {
+        return element3.getAttribute(name15);
+      };
+    };
+  }
 
   // output/Web.DOM.Element/index.js
+  var map9 = /* @__PURE__ */ map(functorEffect);
   var toNode2 = unsafeCoerce2;
+  var getAttribute = function(attr3) {
+    var $6 = map9(toMaybe);
+    var $7 = _getAttribute(attr3);
+    return function($8) {
+      return $6($7($8));
+    };
+  };
 
   // output/Halogen.VDom.DOM/index.js
   var $runtime_lazy3 = function(name15, moduleName, init6) {
@@ -5414,7 +5492,7 @@
   };
 
   // output/Control.Applicative.Free/index.js
-  var identity5 = /* @__PURE__ */ identity(categoryFn);
+  var identity6 = /* @__PURE__ */ identity(categoryFn);
   var Pure = /* @__PURE__ */ function() {
     function Pure2(value0) {
       this.value0 = value0;
@@ -5594,7 +5672,7 @@
     };
   };
   var retractFreeAp = function(dictApplicative) {
-    return foldFreeAp(dictApplicative)(identity5);
+    return foldFreeAp(dictApplicative)(identity6);
   };
   var applyFreeAp = {
     apply: function(fba) {
@@ -5970,18 +6048,18 @@
   };
   var foldFree = function(dictMonadRec) {
     var Monad0 = dictMonadRec.Monad0();
-    var map19 = map(Monad0.Bind1().Apply0().Functor0());
+    var map110 = map(Monad0.Bind1().Apply0().Functor0());
     var pure14 = pure(Monad0.Applicative0());
     var tailRecM4 = tailRecM(dictMonadRec);
     return function(k) {
       var go2 = function(f) {
         var v = toView(f);
         if (v instanceof Return) {
-          return map19(Done.create)(pure14(v.value0));
+          return map110(Done.create)(pure14(v.value0));
         }
         ;
         if (v instanceof Bind) {
-          return map19(function($199) {
+          return map110(function($199) {
             return Loop.create(v.value1($199));
           })(k(v.value0));
         }
@@ -6046,7 +6124,7 @@
   };
 
   // output/Halogen.Query.HalogenM/index.js
-  var identity6 = /* @__PURE__ */ identity(categoryFn);
+  var identity7 = /* @__PURE__ */ identity(categoryFn);
   var SubscriptionId = function(x) {
     return x;
   };
@@ -6190,7 +6268,7 @@
   var subscribe2 = function(es) {
     return liftF(new Subscribe(function(v) {
       return es;
-    }, identity6));
+    }, identity7));
   };
   var raise = function(o) {
     return liftF(new Raise(o, unit));
@@ -6220,7 +6298,7 @@
     };
   };
   var getRef = function(p2) {
-    return liftF(new GetRef(p2, identity6));
+    return liftF(new GetRef(p2, identity7));
   };
   var functorHalogenM = freeFunctor;
   var bindHalogenM = freeBind;
@@ -6342,7 +6420,7 @@
   // output/Halogen.Component/index.js
   var voidLeft2 = /* @__PURE__ */ voidLeft(functorHalogenM);
   var traverse_3 = /* @__PURE__ */ traverse_(applicativeHalogenM)(foldableMaybe);
-  var map9 = /* @__PURE__ */ map(functorHalogenM);
+  var map10 = /* @__PURE__ */ map(functorHalogenM);
   var pure5 = /* @__PURE__ */ pure(applicativeHalogenM);
   var lookup4 = /* @__PURE__ */ lookup2();
   var pop3 = /* @__PURE__ */ pop2();
@@ -6389,7 +6467,7 @@
       ;
       if (v instanceof Query) {
         return unCoyoneda(function(g) {
-          var $45 = map9(maybe(v.value1(unit))(g));
+          var $45 = map10(maybe(v.value1(unit))(g));
           return function($46) {
             return $45(args.handleQuery($46));
           };
@@ -6549,16 +6627,16 @@
   var SCALE = 100;
   var defaultWidthMapStr = "007LLmW'55;N0500LLLLLLLLLL00NNNLzWW\\\\WQb\\0FWLg\\bWb\\WQ\\WrWWQ000CL5LLFLL0LL**F*gLLLL5F0LF\\FFF5.5N";
   function getTextWidthMap(mapStr) {
-    var map19 = {};
+    var map21 = {};
     if (typeof JSON === "undefined") {
-      return map19;
+      return map21;
     }
     for (var i2 = 0; i2 < mapStr.length; i2++) {
       var char2 = String.fromCharCode(i2 + 32);
       var size4 = (mapStr.charCodeAt(i2) - OFFSET) / SCALE;
-      map19[char2] = size4;
+      map21[char2] = size4;
     }
-    return map19;
+    return map21;
   }
   var DEFAULT_TEXT_WIDTH_MAP = getTextWidthMap(defaultWidthMapStr);
   var platformApi = {
@@ -6809,7 +6887,7 @@
       }
     }
   }
-  function map10(arr, cb, context) {
+  function map11(arr, cb, context) {
     if (!arr) {
       return [];
     }
@@ -7743,7 +7821,7 @@
   function create5() {
     return [1, 0, 0, 1, 0, 0];
   }
-  function identity7(out2) {
+  function identity8(out2) {
     out2[0] = 1;
     out2[1] = 0;
     out2[2] = 0;
@@ -9798,15 +9876,15 @@
     }
     LRU2.prototype.put = function(key, value12) {
       var list = this._list;
-      var map19 = this._map;
+      var map21 = this._map;
       var removed = null;
-      if (map19[key] == null) {
+      if (map21[key] == null) {
         var len2 = list.len();
         var entry = this._lastRemovedEntry;
         if (len2 >= this._maxSize && len2 > 0) {
           var leastUsedEntry = list.head;
           list.remove(leastUsedEntry);
-          delete map19[leastUsedEntry.key];
+          delete map21[leastUsedEntry.key];
           removed = leastUsedEntry.value;
           this._lastRemovedEntry = leastUsedEntry;
         }
@@ -9817,7 +9895,7 @@
         }
         entry.key = key;
         list.insertEntry(entry);
-        map19[key] = entry;
+        map21[key] = entry;
       }
       return removed;
     };
@@ -10603,7 +10681,7 @@
           }
         } else if (isGradientObject(rawValue)) {
           var parsedGradient = extend2({}, value12);
-          parsedGradient.colorStops = map10(rawValue.colorStops, function(colorStop) {
+          parsedGradient.colorStops = map11(rawValue.colorStops, function(colorStop) {
             return {
               offset: colorStop.offset,
               color: parse7(colorStop.color)
@@ -10745,7 +10823,7 @@
           type: isLinearGradient_1 ? "linear" : "radial",
           x: interpolateNumber(val.x, nextVal_1.x, w),
           y: interpolateNumber(val.y, nextVal_1.y, w),
-          colorStops: map10(val.colorStops, function(colorStop, idx) {
+          colorStops: map11(val.colorStops, function(colorStop, idx) {
             var nextColorStop = nextVal_1.colorStops[idx];
             return {
               offset: interpolateNumber(colorStop.offset, nextColorStop.offset, w),
@@ -11044,7 +11122,7 @@
     };
     Animator2.prototype.getTracks = function() {
       var _this = this;
-      return map10(this._trackKeys, function(key) {
+      return map11(this._trackKeys, function(key) {
         return _this._tracks[key];
       });
     };
@@ -11282,7 +11360,7 @@
       pointermove: 1,
       pointerout: 1
     };
-    var pointerHandlerNames = map10(mouseHandlerNames, function(name15) {
+    var pointerHandlerNames = map11(mouseHandlerNames, function(name15) {
       var nm = name15.replace("mouse", "pointer");
       return pointerEventNameMap.hasOwnProperty(nm) ? nm : name15;
     });
@@ -11563,7 +11641,7 @@
   var LIGHTER_LABEL_COLOR = "#eee";
 
   // node_modules/zrender/lib/core/Transformable.js
-  var mIdentity = identity7;
+  var mIdentity = identity8;
   var EPSILON3 = 5e-5;
   function isNotAroundZero2(val) {
     return val > EPSILON3 || val < -EPSILON3;
@@ -13450,17 +13528,17 @@
       return [];
     }
     var digits = Math.pow(10, precision);
-    var votesPerQuota = map10(valueList, function(val) {
+    var votesPerQuota = map11(valueList, function(val) {
       return (isNaN(val) ? 0 : val) / sum3 * digits * 100;
     });
     var targetSeats = digits * 100;
-    var seats = map10(votesPerQuota, function(votes) {
+    var seats = map11(votesPerQuota, function(votes) {
       return Math.floor(votes);
     });
     var currentSum = reduce(seats, function(acc, val) {
       return acc + val;
     }, 0);
-    var remainder2 = map10(votesPerQuota, function(votes, idx) {
+    var remainder2 = map11(votesPerQuota, function(votes, idx) {
       return votes - seats[idx];
     });
     while (currentSum < targetSeats) {
@@ -13476,7 +13554,7 @@
       remainder2[maxId] = 0;
       ++currentSum;
     }
-    return map10(seats, function(seat) {
+    return map11(seats, function(seat) {
       return seat / digits;
     });
   }
@@ -13667,7 +13745,7 @@
       var makePrintableStringIfPossible_1 = function(val) {
         return val === void 0 ? "undefined" : val === Infinity ? "Infinity" : val === -Infinity ? "-Infinity" : eqNaN(val) ? "NaN" : val instanceof Date ? "Date(" + val.toISOString() + ")" : isFunction(val) ? "function () { ... }" : isRegExp(val) ? val + "" : null;
       };
-      msg = map10(hintInfo, function(arg) {
+      msg = map11(hintInfo, function(arg) {
         if (isString(arg)) {
           return arg;
         } else {
@@ -13933,7 +14011,7 @@
     makeMap(batchA || [], mapA);
     makeMap(batchB || [], mapB, mapA);
     return [mapToArray(mapA), mapToArray(mapB)];
-    function makeMap(sourceBatch, map19, otherMap) {
+    function makeMap(sourceBatch, map21, otherMap) {
       for (var i2 = 0, len2 = sourceBatch.length; i2 < len2; i2++) {
         var seriesId = convertOptionIdName(sourceBatch[i2].seriesId, null);
         if (seriesId == null) {
@@ -13946,19 +14024,19 @@
           if (otherDataIndices && otherDataIndices[dataIndex]) {
             otherDataIndices[dataIndex] = null;
           } else {
-            (map19[seriesId] || (map19[seriesId] = {}))[dataIndex] = 1;
+            (map21[seriesId] || (map21[seriesId] = {}))[dataIndex] = 1;
           }
         }
       }
     }
-    function mapToArray(map19, isData) {
+    function mapToArray(map21, isData) {
       var result = [];
-      for (var i2 in map19) {
-        if (map19.hasOwnProperty(i2) && map19[i2] != null) {
+      for (var i2 in map21) {
+        if (map21.hasOwnProperty(i2) && map21[i2] != null) {
           if (isData) {
             result.push(+i2);
           } else {
-            var dataIndices = mapToArray(map19[i2], true);
+            var dataIndices = mapToArray(map21[i2], true);
             dataIndices.length && result.push({
               seriesId: i2,
               dataIndex: dataIndices
@@ -13973,11 +14051,11 @@
     if (payload.dataIndexInside != null) {
       return payload.dataIndexInside;
     } else if (payload.dataIndex != null) {
-      return isArray2(payload.dataIndex) ? map10(payload.dataIndex, function(value12) {
+      return isArray2(payload.dataIndex) ? map11(payload.dataIndex, function(value12) {
         return data.indexOfRawIndex(value12);
       }) : data.indexOfRawIndex(payload.dataIndex);
     } else if (payload.name != null) {
-      return isArray2(payload.name) ? map10(payload.name, function(value12) {
+      return isArray2(payload.name) ? map11(payload.name, function(value12) {
         return data.indexOfName(value12);
       }) : data.indexOfName(payload.name);
     }
@@ -14084,7 +14162,7 @@
   function setAttribute3(dom, key, value12) {
     dom.setAttribute ? dom.setAttribute(key, value12) : dom[key] = value12;
   }
-  function getAttribute(dom, key) {
+  function getAttribute2(dom, key) {
     return dom.getAttribute ? dom.getAttribute(key) : dom[key];
   }
   function getTooltipRenderMode(renderModeOption) {
@@ -17559,7 +17637,7 @@
       return liftedColor;
     } else if (isGradientObject(color)) {
       var ret = extend2({}, color);
-      ret.colorStops = map10(color.colorStops, function(stop2) {
+      ret.colorStops = map11(color.colorStops, function(stop2) {
         return {
           offset: stop2.offset,
           color: lift3(stop2.color, -0.1)
@@ -19803,7 +19881,7 @@
   }
   var subPixelOptimize2 = subPixelOptimize;
   function getTransform(target5, ancestor) {
-    var mat = identity7([]);
+    var mat = identity8([]);
     while (target5 && target5 !== ancestor) {
       mul2(mat, target5.getLocalTransform(), mat);
       target5 = target5.parent;
@@ -19869,7 +19947,7 @@
     });
   }
   function clipPointsByRect(points4, rect) {
-    return map10(points4, function(point) {
+    return map11(points4, function(point) {
       var x = point[0];
       x = mathMax5(x, rect.x);
       x = mathMin5(x, rect.x + rect.width);
@@ -21611,7 +21689,7 @@
     each(ComponentModel.getClassesByMainType(componentType), function(clz) {
       deps = deps.concat(clz.dependencies || clz.prototype.dependencies || []);
     });
-    deps = map10(deps, function(type) {
+    deps = map11(deps, function(type) {
       return parseClassType(type).main;
     });
     if (componentType !== "dataset" && indexOf(deps, "dataset") <= 0) {
@@ -22690,7 +22768,7 @@
         indices = [-1];
       }
       if (indices.length && !indicesEquals(indices, this._currentMediaIndices)) {
-        result = map10(indices, function(index3) {
+        result = map11(indices, function(index3) {
           return clone(index3 === -1 ? mediaDefault.option : mediaList[index3].option);
         });
       }
@@ -23496,7 +23574,7 @@
       return;
     }
     var nameMap = createHashMap();
-    return map10(dimensionsDefine, function(rawItem, index3) {
+    return map11(dimensionsDefine, function(rawItem, index3) {
       rawItem = isObject(rawItem) ? rawItem : {
         name: rawItem
       };
@@ -24400,7 +24478,7 @@
       }
       throwError3(errMsg);
     }
-    var extUpSourceList = map10(upSourceList, function(upSource) {
+    var extUpSourceList = map11(upSourceList, function(upSource) {
       return createExternalSource(upSource, externalTransform);
     });
     var resultList = normalizeToArray(externalTransform.transform({
@@ -24410,14 +24488,14 @@
     }));
     if (true) {
       if (transOption.print) {
-        var printStrArr = map10(resultList, function(extSource) {
+        var printStrArr = map11(resultList, function(extSource) {
           var pipeIndexStr = pipeIndex != null ? " === pipe index: " + pipeIndex : "";
           return ["=== dataset index: " + infoForPrint.datasetIndex + pipeIndexStr + " ===", "- transform result data:", makePrintable(extSource.data), "- transform result dimensions:", makePrintable(extSource.dimensions)].join("\n");
         }).join("\n");
         log2(printStrArr);
       }
     }
-    return map10(resultList, function(result, resultIndex) {
+    return map11(resultList, function(result, resultIndex) {
       var errMsg2 = "";
       if (!isObject(result)) {
         if (true) {
@@ -24526,7 +24604,7 @@
       this._dimValueGetter = dimValueGetter || defaultGetter;
       this._rawExtent = [];
       var willRetrieveDataByName = shouldRetrieveDataByName(source2);
-      this._dimensions = map10(inputDimensions, function(dim) {
+      this._dimensions = map11(inputDimensions, function(dim) {
         if (true) {
           if (willRetrieveDataByName) {
             assert(dim.property != null);
@@ -24645,7 +24723,7 @@
       var dimensions = this._dimensions;
       var dimLen = dimensions.length;
       var rawExtent = this._rawExtent;
-      var dimNames = map10(dimensions, function(dim2) {
+      var dimNames = map11(dimensions, function(dim2) {
         return dim2.property;
       });
       for (var i2 = 0; i2 < dimLen; i2++) {
@@ -25421,7 +25499,7 @@
         var datasetModel = querySeriesUpstreamDatasetModel(sourceHost);
         return !datasetModel ? [] : [datasetModel.getSourceManager()];
       } else {
-        return map10(queryDatasetUpstreamDatasetModels(sourceHost), function(datasetModel2) {
+        return map11(queryDatasetUpstreamDatasetModels(sourceHost), function(datasetModel2) {
           return datasetModel2.getSourceManager();
         });
       }
@@ -25567,7 +25645,7 @@
     var useUTC = ctx.useUTC;
     var valueFormatter = fragment.valueFormatter || ctx.valueFormatter || function(value12) {
       value12 = isArray2(value12) ? value12 : [value12];
-      return map10(value12, function(val, idx) {
+      return map11(value12, function(val, idx) {
         return makeValueReadable(val, isArray2(valueTypeOption) ? valueTypeOption[idx] : valueTypeOption, useUTC);
       });
     };
@@ -25616,7 +25694,7 @@
     var paddingStr = valueCloseToMarker ? "10px" : "20px";
     var alignCSS = alignRight ? "float:right;margin-left:" + paddingStr : "";
     valueList = isArray2(valueList) ? valueList : [valueList];
-    return '<span style="' + alignCSS + ";" + style3 + '">' + map10(valueList, function(value12) {
+    return '<span style="' + alignCSS + ";" + style3 + '">' + map11(valueList, function(value12) {
       return encodeHTML(value12);
     }).join("&nbsp;&nbsp;") + "</span>";
   }
@@ -26916,7 +26994,7 @@
       context.data.clearAllVisual();
     }
     var resetDefines = context.resetDefines = normalizeToArray(context.reset(context.model, context.ecModel, context.api, context.payload));
-    return resetDefines.length > 1 ? map10(resetDefines, function(v, idx) {
+    return resetDefines.length > 1 ? map11(resetDefines, function(v, idx) {
       return makeSeriesTaskProgress(idx);
     }) : singleSeriesTaskProgress;
   }
@@ -27827,7 +27905,7 @@
     if (lineDash) {
       var lineScale_1 = style3.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
       if (lineScale_1 && lineScale_1 !== 1) {
-        lineDash = map10(lineDash, function(rawVal) {
+        lineDash = map11(lineDash, function(rawVal) {
           return rawVal / lineScale_1;
         });
         lineDashOffset /= lineScale_1;
@@ -28585,7 +28663,7 @@
         var dashValue = Math.ceil(dash[i2]);
         result.push([dashValue, dashValue]);
       } else {
-        var dashValue = map10(dash[i2], function(n) {
+        var dashValue = map11(dash[i2], function(n) {
           return Math.ceil(n);
         });
         if (dashValue.length % 2 === 1) {
@@ -28605,13 +28683,13 @@
       var dashValue_1 = Math.ceil(dash);
       return [dashValue_1, dashValue_1];
     }
-    var dashValue = map10(dash, function(n) {
+    var dashValue = map11(dash, function(n) {
       return Math.ceil(n);
     });
     return dash.length % 2 ? dashValue.concat(dashValue) : dashValue;
   }
   function getLineBlockLengthX(dash) {
-    return map10(dash, function(line) {
+    return map11(dash, function(line) {
       return getLineBlockLengthY(line);
     });
   }
@@ -29700,7 +29778,7 @@
         var batched = false;
         if (payload.batch) {
           batched = true;
-          payloads = map10(payload.batch, function(item) {
+          payloads = map11(payload.batch, function(item) {
             item = defaults(extend2({}, item), payload);
             item.batch = null;
             return item;
@@ -30262,7 +30340,7 @@
     return chart;
   }
   function getInstanceByDom(dom) {
-    return instances2[getAttribute(dom, DOM_ATTRIBUTE_KEY)];
+    return instances2[getAttribute2(dom, DOM_ATTRIBUTE_KEY)];
   }
   function registerTheme(name15, theme2) {
     themeStorage[name15] = theme2;
@@ -30564,25 +30642,25 @@
         newDataIndexMap[newKey] = null;
       }
     };
-    DataDiffer2.prototype._initIndexMap = function(arr, map19, keyArr, keyGetterName) {
+    DataDiffer2.prototype._initIndexMap = function(arr, map21, keyArr, keyGetterName) {
       var cbModeMultiple = this._diffModeMultiple;
       for (var i2 = 0; i2 < arr.length; i2++) {
         var key = "_ec_" + this[keyGetterName](arr[i2], i2);
         if (!cbModeMultiple) {
           keyArr[i2] = key;
         }
-        if (!map19) {
+        if (!map21) {
           continue;
         }
-        var idxMapVal = map19[key];
+        var idxMapVal = map21[key];
         var idxMapValLen = dataIndexMapValueLength(idxMapVal);
         if (idxMapValLen === 0) {
-          map19[key] = i2;
+          map21[key] = i2;
           if (cbModeMultiple) {
             keyArr.push(key);
           }
         } else if (idxMapValLen === 1) {
-          map19[key] = [idxMapVal, i2];
+          map21[key] = [idxMapVal, i2];
         } else {
           idxMapVal.push(i2);
         }
@@ -30655,7 +30733,7 @@
       dataDimsOnCoord = dataDimsOnCoord.concat(dimArr);
     });
     summary2.dataDimsOnCoord = dataDimsOnCoord;
-    summary2.dataDimIndicesOnCoord = map10(dataDimsOnCoord, function(dimName) {
+    summary2.dataDimIndicesOnCoord = map11(dataDimsOnCoord, function(dimName) {
       return data.getDimensionInfo(dimName).storeDimIndex;
     });
     summary2.encodeFirstDimNotExtra = encodeFirstDimNotExtra;
@@ -30834,7 +30912,7 @@
 
   // node_modules/echarts/lib/data/SeriesData.js
   var isObject3 = isObject;
-  var map11 = map10;
+  var map13 = map11;
   var CtorInt32Array2 = typeof Int32Array === "undefined" ? Array : Int32Array;
   var ID_PREFIX = "e\0\0";
   var INDEX_NOT_FOUND = -1;
@@ -31008,7 +31086,7 @@
         var dimensions = this.dimensions;
         var provider = isSourceInstance(data) || isArrayLike(data) ? new DefaultDataProvider(data, dimensions.length) : data;
         store = new DataStore_default();
-        var dimensionInfos = map11(dimensions, function(dimName) {
+        var dimensionInfos = map13(dimensions, function(dimName) {
           return {
             type: _this._dimInfos[dimName].type,
             property: dimName
@@ -31160,7 +31238,7 @@
     SeriesData2.prototype.getValues = function(dimensions, idx) {
       var _this = this;
       var store = this._store;
-      return isArray2(dimensions) ? store.getValues(map11(dimensions, function(dim) {
+      return isArray2(dimensions) ? store.getValues(map13(dimensions, function(dim) {
         return _this._getStoreDimIndex(dim);
       }), idx) : store.getValues(dimensions);
     };
@@ -31211,7 +31289,7 @@
         dims = [];
       }
       var fCtx = ctx || this;
-      var dimIndices = map11(normalizeDimensions(dims), this._getStoreDimIndex, this);
+      var dimIndices = map13(normalizeDimensions(dims), this._getStoreDimIndex, this);
       this._store.each(dimIndices, fCtx ? bind4(cb, fCtx) : cb);
     };
     SeriesData2.prototype.filterSelf = function(dims, cb, ctx) {
@@ -31222,7 +31300,7 @@
         dims = [];
       }
       var fCtx = ctx || this;
-      var dimIndices = map11(normalizeDimensions(dims), this._getStoreDimIndex, this);
+      var dimIndices = map13(normalizeDimensions(dims), this._getStoreDimIndex, this);
       this._store = this._store.filter(dimIndices, fCtx ? bind4(cb, fCtx) : cb);
       return this;
     };
@@ -31257,7 +31335,7 @@
     SeriesData2.prototype.map = function(dims, cb, ctx, ctxCompat) {
       "use strict";
       var fCtx = ctx || ctxCompat || this;
-      var dimIndices = map11(normalizeDimensions(dims), this._getStoreDimIndex, this);
+      var dimIndices = map13(normalizeDimensions(dims), this._getStoreDimIndex, this);
       var list = cloneListForMapAndSample(this);
       list._store = this._store.map(dimIndices, fCtx ? bind4(cb, fCtx) : cb);
       return list;
@@ -31273,7 +31351,7 @@
           }
         });
       }
-      var dimIndices = map11(normalizeDimensions(dims), this._getStoreDimIndex, this);
+      var dimIndices = map13(normalizeDimensions(dims), this._getStoreDimIndex, this);
       this._store.modify(dimIndices, fCtx ? bind4(cb, fCtx) : cb);
     };
     SeriesData2.prototype.downSample = function(dimension, rate, sampleValue, sampleIndex) {
@@ -31388,7 +31466,7 @@
     };
     SeriesData2.prototype.cloneShallow = function(list) {
       if (!list) {
-        list = new SeriesData2(this._schema ? this._schema : map11(this.dimensions, this._getDimInfo, this), this.hostModel);
+        list = new SeriesData2(this._schema ? this._schema : map13(this.dimensions, this._getDimInfo, this), this.hostModel);
       }
       transferProperties(list, this);
       list._store = this._store;
@@ -31444,7 +31522,7 @@
         return dimensions;
       };
       cloneListForMapAndSample = function(original) {
-        var list = new SeriesData2(original._schema ? original._schema : map11(original.dimensions, original._getDimInfo, original), original.hostModel);
+        var list = new SeriesData2(original._schema ? original._schema : map13(original.dimensions, original._getDimInfo, original), original.hostModel);
         transferProperties(list, original);
         return list;
       };
@@ -31678,15 +31756,15 @@
     });
     return dimCount;
   }
-  function genCoordDimName(name15, map19, fromZero) {
-    if (fromZero || map19.hasKey(name15)) {
+  function genCoordDimName(name15, map21, fromZero) {
+    if (fromZero || map21.hasKey(name15)) {
       var i2 = 0;
-      while (map19.hasKey(name15 + i2)) {
+      while (map21.hasKey(name15 + i2)) {
         i2++;
       }
       name15 += i2;
     }
-    map19.set(name15, true);
+    map21.set(name15, true);
     return name15;
   }
 
@@ -31901,7 +31979,7 @@
     var registeredCoordSys = CoordinateSystem_default.get(coordSysName);
     var coordSysDimDefs;
     if (coordSysInfo && coordSysInfo.coordSysDims) {
-      coordSysDimDefs = map10(coordSysInfo.coordSysDims, function(dim) {
+      coordSysDimDefs = map11(coordSysInfo.coordSysDims, function(dim) {
         var dimInfo = {
           name: dim
         };
@@ -32051,7 +32129,7 @@
     OrdinalMeta2.createByAxisModel = function(axisModel) {
       var option2 = axisModel.option;
       var data = option2.data;
-      var categories = data && map10(data, getName);
+      var categories = data && map11(data, getName);
       return new OrdinalMeta2({
         categories,
         needCollect: !categories,
@@ -32073,13 +32151,13 @@
         this.categories[index3] = category;
         return index3;
       }
-      var map19 = this._getOrCreateMap();
-      index3 = map19.get(category);
+      var map21 = this._getOrCreateMap();
+      index3 = map21.get(category);
       if (index3 == null) {
         if (needCollect) {
           index3 = this.categories.length;
           this.categories[index3] = category;
-          map19.set(category, index3);
+          map21.set(category, index3);
         } else {
           index3 = NaN;
         }
@@ -32178,7 +32256,7 @@
       }
       if (isArray2(ordinalMeta)) {
         ordinalMeta = new OrdinalMeta_default({
-          categories: map10(ordinalMeta, function(item) {
+          categories: map11(ordinalMeta, function(item) {
             return isObject(item) ? item.value : item;
           })
         });
@@ -33184,7 +33262,7 @@
         warn("Exceed safe limit.");
       }
     }
-    var levelsTicksInExtent = filter4(map10(levelsTicks, function(levelTicks2) {
+    var levelsTicksInExtent = filter4(map11(levelsTicks, function(levelTicks2) {
       return filter4(levelTicks2, function(tick) {
         return tick.value >= extent3[0] && tick.value <= extent3[1] && !tick.notAdd;
       });
@@ -33239,7 +33317,7 @@
       var extent3 = this._extent;
       var originalExtent = originalScale.getExtent();
       var ticks = intervalScaleProto.getTicks.call(this, expandToNicedExtent);
-      return map10(ticks, function(tick) {
+      return map11(ticks, function(tick) {
         var val = tick.value;
         var powVal = round2(mathPow2(this.base, val));
         powVal = val === extent3[0] && this._fixMin ? fixRoundingError(powVal, originalExtent[0]) : powVal;
@@ -33901,7 +33979,7 @@
       var el = this._elOnlyForCalculate;
       var rect = el.getBoundingRect();
       var center3 = [rect.x + rect.width / 2, rect.y + rect.height / 2];
-      var mat = identity7(TMP_TRANSFORM);
+      var mat = identity8(TMP_TRANSFORM);
       var target5 = el;
       while (target5 && !target5.isGeoSVGGraphicRoot) {
         mul2(mat, target5.getLocalTransform(), mat);
@@ -33975,7 +34053,7 @@
   }
   function parseGeoJSON(geoJson, nameProperty) {
     geoJson = decode(geoJson);
-    return map10(filter4(geoJson.features, function(featureObj) {
+    return map11(filter4(geoJson.features, function(featureObj) {
       return featureObj.geometry && featureObj.properties && featureObj.geometry.coordinates.length > 0;
     }), function(featureObj) {
       var properties = featureObj.properties;
@@ -34012,7 +34090,7 @@
   }
   function createAxisTicks(axis, tickModel) {
     return axis.type === "category" ? makeCategoryTicks(axis, tickModel) : {
-      ticks: map10(axis.scale.getTicks(), function(tick) {
+      ticks: map11(axis.scale.getTicks(), function(tick) {
         return tick.value;
       })
     };
@@ -34062,7 +34140,7 @@
     } else if (optionTickInterval === "auto") {
       var labelsResult = makeCategoryLabelsActually(axis, axis.getLabelModel());
       tickCategoryInterval = labelsResult.labelCategoryInterval;
-      ticks = map10(labelsResult.labels, function(labelItem) {
+      ticks = map11(labelsResult.labels, function(labelItem) {
         return labelItem.tickValue;
       });
     } else {
@@ -34078,7 +34156,7 @@
     var ticks = axis.scale.getTicks();
     var labelFormatter = makeLabelFormatter(axis);
     return {
-      labels: map10(ticks, function(tick, idx) {
+      labels: map11(ticks, function(tick, idx) {
         return {
           level: tick.level,
           formattedLabel: labelFormatter(tick, idx),
@@ -34280,7 +34358,7 @@
       var tickModel = opt.tickModel || this.getTickModel();
       var result = createAxisTicks(this, tickModel);
       var ticks = result.ticks;
-      var ticksCoords = map10(ticks, function(tickVal) {
+      var ticksCoords = map11(ticks, function(tickVal) {
         return {
           coord: this.dataToCoord(this.scale.type === "ordinal" ? this.scale.getRawOrdinalNumber(tickVal) : tickVal),
           tickValue: tickVal
@@ -34300,8 +34378,8 @@
         splitNumber = 5;
       }
       var minorTicks = this.scale.getMinorTicks(splitNumber);
-      var minorTicksCoords = map10(minorTicks, function(minorTicksGroup) {
-        return map10(minorTicksGroup, function(minorTick) {
+      var minorTicksCoords = map11(minorTicks, function(minorTicksGroup) {
+        return map11(minorTicksGroup, function(minorTick) {
           return {
             coord: this.dataToCoord(minorTick),
             tickValue: minorTick
@@ -35508,7 +35586,7 @@
     return stroke != null && stroke !== NONE;
   }
   var strokeProps = ["lineCap", "miterLimit", "lineJoin"];
-  var svgStrokeProps = map10(strokeProps, function(prop3) {
+  var svgStrokeProps = map11(strokeProps, function(prop3) {
     return "stroke-" + prop3.toLowerCase();
   });
   function mapStyleToAttrs(updateAttr2, style3, el, forceUpdate) {
@@ -35608,7 +35686,7 @@
     var S = opts.newline ? "\n" : "";
     function convertElToString(el2) {
       var children2 = el2.children, tag = el2.tag, attrs = el2.attrs;
-      return createElementOpen(tag, attrs) + encodeHTML(el2.text) + (children2 ? "" + S + map10(children2, function(child) {
+      return createElementOpen(tag, attrs) + encodeHTML(el2.text) + (children2 ? "" + S + map11(children2, function(child) {
         return convertElToString(child);
       }).join(S) + S : "") + createElementClose(tag);
     }
@@ -35619,14 +35697,14 @@
     var S = opts.newline ? "\n" : "";
     var bracketBegin = " {" + S;
     var bracketEnd = S + "}";
-    var selectors = map10(keys2(selectorNodes), function(className2) {
-      return className2 + bracketBegin + map10(keys2(selectorNodes[className2]), function(attrName) {
+    var selectors = map11(keys2(selectorNodes), function(className2) {
+      return className2 + bracketBegin + map11(keys2(selectorNodes[className2]), function(attrName) {
         return attrName + ":" + selectorNodes[className2][attrName] + ";";
       }).join(S) + bracketEnd;
     }).join(S);
-    var animations = map10(keys2(animationNodes), function(animationName) {
-      return "@keyframes " + animationName + bracketBegin + map10(keys2(animationNodes[animationName]), function(percent) {
-        return percent + bracketBegin + map10(keys2(animationNodes[animationName][percent]), function(attrName) {
+    var animations = map11(keys2(animationNodes), function(animationName) {
+      return "@keyframes " + animationName + bracketBegin + map11(keys2(animationNodes[animationName]), function(percent) {
+        return percent + bracketBegin + map11(keys2(animationNodes[animationName][percent]), function(attrName) {
           var val = animationNodes[animationName][percent][attrName];
           if (attrName === "d") {
             val = 'path("' + val + '")';
@@ -35981,7 +36059,7 @@
     return !shape2.smooth;
   }
   function createAttrsConvert(desc) {
-    var normalizedDesc = map10(desc, function(item) {
+    var normalizedDesc = map11(desc, function(item) {
       return typeof item === "string" ? [item, item] : item;
     });
     return function(shape2, attrs, mul3) {
@@ -36387,19 +36465,19 @@
     return s !== void 0;
   }
   function createKeyToOldIdx(children2, beginIdx, endIdx) {
-    var map19 = {};
+    var map21 = {};
     for (var i2 = beginIdx; i2 <= endIdx; ++i2) {
       var key = children2[i2].key;
       if (key !== void 0) {
         if (true) {
-          if (map19[key] != null) {
+          if (map21[key] != null) {
             console.error("Duplicate key " + key);
           }
         }
-        map19[key] = i2;
+        map21[key] = i2;
       }
     }
-    return map19;
+    return map21;
   }
   function sameVnode(vnode1, vnode2) {
     var isSameKey = vnode1.key === vnode2.key;
@@ -36668,7 +36746,7 @@
       var mainVNode = !opts.compress ? this._mainVNode = createVNode("g", "main", {}, []) : null;
       this._paintList(list, scope2, mainVNode ? mainVNode.children : children2);
       mainVNode && children2.push(mainVNode);
-      var defs = map10(keys2(scope2.defs), function(id2) {
+      var defs = map11(keys2(scope2.defs), function(id2) {
         return scope2.defs[id2];
       });
       if (defs.length) {
@@ -38248,7 +38326,7 @@
     var valueDim = data.mapDimension(valueAxisDim);
     var baseDim = data.mapDimension(baseAxisDim);
     var baseDataOffset = valueAxisDim === "x" || valueAxisDim === "radius" ? 1 : 0;
-    var dims = map10(coordSys.dimensions, function(coordDim) {
+    var dims = map11(coordSys.dimensions, function(coordDim) {
       return data.mapDimension(coordDim);
     });
     var stacked = false;
@@ -38962,7 +39040,7 @@
       return;
     }
     var axis = coordSys.getAxis(coordDim);
-    var colorStops = map10(visualMeta.stops, function(stop2) {
+    var colorStops = map11(visualMeta.stops, function(stop2) {
       return {
         coord: axis.toGlobalCoord(axis.dataToCoord(stop2.value)),
         color: stop2.color
@@ -39749,7 +39827,7 @@
         if (!coordSys) {
           return;
         }
-        var dims = map10(coordSys.dimensions, function(dim) {
+        var dims = map11(coordSys.dimensions, function(dim) {
           return data.mapDimension(dim);
         }).slice(0, 2);
         var dimLen = dims.length;
@@ -40471,7 +40549,7 @@
         return b2.mappedValue - a2.mappedValue;
       });
       return {
-        ordinalNumbers: map10(info2, function(item) {
+        ordinalNumbers: map11(info2, function(item) {
           return item.ordinalNumber;
         })
       };
@@ -41537,7 +41615,7 @@
     }
     var dr = Math.abs(shape2.r || 0 - shape2.r0 || 0);
     return {
-      cornerRadius: map10(cornerRadius, function(cr) {
+      cornerRadius: map11(cornerRadius, function(cr) {
         return parsePercent(cr, dr);
       })
     };
@@ -42549,7 +42627,7 @@
       return this._axes[dim];
     };
     Cartesian2.prototype.getAxes = function() {
-      return map10(this._dimList, function(dim) {
+      return map11(this._dimList, function(dim) {
         return this._axes[dim];
       }, this);
     };
@@ -43374,7 +43452,7 @@
       fixMinMaxLabelShow(axisModel, labelEls, ticksEls);
       buildAxisMinorTicks(group2, transformGroup, axisModel, opt.tickDirection);
       if (axisModel.get(["axisLabel", "hideOverlap"])) {
-        var labelList = prepareLayoutList(map10(labelEls, function(label5) {
+        var labelList = prepareLayoutList(map11(labelEls, function(label5) {
           return {
             label: label5,
             priority: label5.z2,
@@ -43533,7 +43611,7 @@
     if (!firstRect || !nextRect) {
       return;
     }
-    var mRotationBack = identity7([]);
+    var mRotationBack = identity8([]);
     rotate(mRotationBack, mRotationBack, -current.rotation);
     firstRect.applyTransform(mul2([], mRotationBack, current.getLocalTransform()));
     nextRect.applyTransform(mul2([], mRotationBack, next.getLocalTransform()));
@@ -44325,7 +44403,7 @@
         }
       }
       function getInitialPoints(points4) {
-        return map10(points4, function(pt) {
+        return map11(points4, function(pt) {
           return [polar.cx, polar.cy];
         });
       }
@@ -44473,7 +44551,7 @@
       return createTooltipMarkup("section", {
         header: nameToDisplay,
         sortBlocks: true,
-        blocks: map10(indicatorAxes, function(axis) {
+        blocks: map11(indicatorAxes, function(axis) {
           var val = data.get(data.mapDimension(axis.dim), dataIndex);
           return createTooltipMarkup("nameValue", {
             markerType: "subItem",
@@ -44489,7 +44567,7 @@
       if (dataIndex != null) {
         var data_1 = this.getData();
         var coordSys = this.coordinateSystem;
-        var values = data_1.getValues(map10(coordSys.dimensions, function(dim) {
+        var values = data_1.getValues(map11(coordSys.dimensions, function(dim) {
           return data_1.mapDimension(dim);
         }), dataIndex);
         for (var i2 = 0, len2 = values.length; i2 < len2; i2++) {
@@ -44548,7 +44626,7 @@
       var nameFormatter = this.get(["axisName", "formatter"]);
       var nameGap = this.get("axisNameGap");
       var triggerEvent = this.get("triggerEvent");
-      var indicatorModels = map10(this.get("indicator") || [], function(indicatorOpt) {
+      var indicatorModels = map11(this.get("indicator") || [], function(indicatorOpt) {
         if (indicatorOpt.max != null && indicatorOpt.max > 0 && !indicatorOpt.min) {
           indicatorOpt.min = 0;
         } else if (indicatorOpt.min != null && indicatorOpt.min < 0 && !indicatorOpt.max) {
@@ -44638,7 +44716,7 @@
     RadarView3.prototype._buildAxes = function(radarModel) {
       var radar = radarModel.coordinateSystem;
       var indicatorAxes = radar.getIndicatorAxes();
-      var axisBuilders = map10(indicatorAxes, function(indicatorAxis) {
+      var axisBuilders = map11(indicatorAxes, function(indicatorAxis) {
         var axisName = indicatorAxis.model.get("showName") ? indicatorAxis.name : "";
         var axisBuilder = new AxisBuilder_default(indicatorAxis.model, {
           axisName,
@@ -44708,10 +44786,10 @@
         }
       } else {
         var realSplitNumber_1;
-        var axesTicksPoints = map10(indicatorAxes, function(indicatorAxis, idx) {
+        var axesTicksPoints = map11(indicatorAxes, function(indicatorAxis, idx) {
           var ticksCoords = indicatorAxis.getTicksCoords();
           realSplitNumber_1 = realSplitNumber_1 == null ? ticksCoords.length - 1 : Math.min(ticksCoords.length - 1, realSplitNumber_1);
-          return map10(ticksCoords, function(tickCoord) {
+          return map11(ticksCoords, function(tickCoord) {
             return radar.coordToPoint(tickCoord.coord, idx);
           });
         });
@@ -44792,7 +44870,7 @@
     function Radar2(radarModel, ecModel, api) {
       this.dimensions = [];
       this._model = radarModel;
-      this._indicatorAxes = map10(radarModel.getIndicatorModels(), function(indicatorModel, idx) {
+      this._indicatorAxes = map11(radarModel.getIndicatorModels(), function(indicatorModel, idx) {
         var dim = "indicator_" + idx;
         var indicatorAxis = new IndicatorAxis_default(dim, new Interval_default());
         indicatorAxis.name = indicatorModel.get("name");
@@ -45631,7 +45709,7 @@
       disp.__selfStyle = selfStyle;
     }
     if (inheritedStyle.lineDash) {
-      disp.style.lineDash = map10(splitNumberSequence(inheritedStyle.lineDash), function(str) {
+      disp.style.lineDash = map11(splitNumberSequence(inheritedStyle.lineDash), function(str) {
         return parseFloat(str);
       });
     }
@@ -45971,7 +46049,7 @@
           return;
         }
       }
-      regions.push(new GeoJSONRegion(nanhaiName, map10(points2, function(exterior) {
+      regions.push(new GeoJSONRegion(nanhaiName, map11(points2, function(exterior) {
         return {
           type: "polygon",
           exterior
@@ -46909,7 +46987,7 @@
       (seriesGroups[key] = seriesGroups[key] || []).push(seriesModel);
     });
     each(seriesGroups, function(seriesList, key) {
-      var data = dataStatistics(map10(seriesList, function(seriesModel) {
+      var data = dataStatistics(map11(seriesList, function(seriesModel) {
         return seriesModel.getData();
       }), seriesList[0].get("mapValueCalculation"));
       for (var i2 = 0; i2 < seriesList.length; i2++) {
@@ -47133,15 +47211,15 @@
   var geo2DDimensions = ["lng", "lat"];
   var Geo = function(_super) {
     __extends(Geo2, _super);
-    function Geo2(name15, map19, opt) {
+    function Geo2(name15, map21, opt) {
       var _this = _super.call(this, name15) || this;
       _this.dimensions = geo2DDimensions;
       _this.type = "geo";
       _this._nameCoordMap = createHashMap();
-      _this.map = map19;
+      _this.map = map21;
       var projection = opt.projection;
-      var source2 = geoSourceManager_default.load(map19, opt.nameMap, opt.nameProperty);
-      var resource = geoSourceManager_default.getGeoResource(map19);
+      var source2 = geoSourceManager_default.load(map21, opt.nameMap, opt.nameProperty);
+      var resource = geoSourceManager_default.getGeoResource(map21);
       var resourceType = _this.resourceType = resource ? resource.type : null;
       var regions = _this.regions = source2.regions;
       var defaultParams = GEO_DEFAULT_PARAMS[resource.type];
@@ -47150,7 +47228,7 @@
       if (projection) {
         if (resourceType === "geoSVG") {
           if (true) {
-            warn("Map " + map19 + " with SVG source can't use projection. Only GeoJSON source supports projection.");
+            warn("Map " + map21 + " with SVG source can't use projection. Only GeoJSON source supports projection.");
           }
           projection = null;
         }
@@ -47384,13 +47462,13 @@
         }
       });
       each(mapModelGroupBySeries, function(mapSeries, mapType) {
-        var nameMapList = map10(mapSeries, function(singleMapSeries) {
+        var nameMapList = map11(mapSeries, function(singleMapSeries) {
           return singleMapSeries.get("nameMap");
         });
         var geo = new Geo_default(mapType, mapType, extend2({
           nameMap: mergeAll(nameMapList)
         }, getCommonGeoProperties(mapSeries[0])));
-        geo.zoomLimit = retrieve.apply(null, map10(mapSeries, function(singleMapSeries) {
+        geo.zoomLimit = retrieve.apply(null, map11(mapSeries, function(singleMapSeries) {
           return singleMapSeries.get("scaleLimit");
         }));
         geoList.push(geo);
@@ -48485,7 +48563,7 @@
     var mainData = inner8(this).mainData;
     return mainData == null ? [{
       data: mainData
-    }] : map10(keys2(inner8(mainData).datas), function(type) {
+    }] : map11(keys2(inner8(mainData).datas), function(type) {
       return {
         type,
         data: inner8(mainData).datas[type]
@@ -49172,7 +49250,7 @@
         itemStyle: designatedVisualItemStyle
       }, this, ecModel);
       levels = option2.levels = setDefault2(levels, ecModel);
-      var levelModels = map10(levels || [], function(levelDefine) {
+      var levelModels = map11(levels || [], function(levelDefine) {
         return new Model_default(levelDefine, designatedVisualModel, ecModel);
       }, this);
       var tree = Tree_default.createTree(root, this, beforeLink);
@@ -50545,7 +50623,7 @@
   function setVisualToOption(thisOption, visualArr) {
     thisOption.visual = visualArr;
     if (thisOption.type === "color") {
-      thisOption.parsedVisual = map10(visualArr, function(item) {
+      thisOption.parsedVisual = map11(visualArr, function(item) {
         var color = parse7(item);
         if (!color && true) {
           warn("'" + item + "' is an illegal color, fallback to '#000000'", true);
@@ -53037,7 +53115,7 @@
       return nodeMarkup;
     };
     GraphSeriesModel2.prototype._updateCategoriesData = function() {
-      var categories = map10(this.option.categories || [], function(category) {
+      var categories = map11(this.option.categories || [], function(category) {
         return category.value != null ? category : extend2({
           value: 0
         }, category);
@@ -55304,7 +55382,7 @@
       if (true) {
         assert(this._mounted);
       }
-      coverConfigList = map10(coverConfigList, function(coverConfig) {
+      coverConfigList = map11(coverConfigList, function(coverConfig) {
         return merge(clone(DEFAULT_BRUSH_OPT), coverConfig, true);
       });
       var tmpIdPrefix = "\0-brush-index-";
@@ -55419,7 +55497,7 @@
     return !!originalLength;
   }
   function trigger2(controller, opt) {
-    var areas2 = map10(controller._covers, function(cover) {
+    var areas2 = map11(controller._covers, function(cover) {
       var brushOption = cover.__brushOption;
       var range3 = clone(brushOption.range);
       return {
@@ -55548,7 +55626,7 @@
     return getTransform(controller.group);
   }
   function getGlobalDirection1(controller, localDirName) {
-    var map19 = {
+    var map21 = {
       w: "left",
       e: "right",
       n: "top",
@@ -55560,7 +55638,7 @@
       top: "n",
       bottom: "s"
     };
-    var dir3 = transformDirection(map19[localDirName], getTransform2(controller));
+    var dir3 = transformDirection(map21[localDirName], getTransform2(controller));
     return inverseMap[dir3];
   }
   function getGlobalDirection2(controller, localDirNameSeq) {
@@ -55928,7 +56006,7 @@
       var coverInfoList = eventParam.areas;
       var axisModel = this.axisModel;
       var axis = axisModel.axis;
-      var intervals = map10(coverInfoList, function(coverInfo) {
+      var intervals = map11(coverInfoList, function(coverInfo) {
         return [axis.coordToData(coverInfo.range[0], true), axis.coordToData(coverInfo.range[1], true)];
       });
       if (!axisModel.option.realtime === eventParam.isEnd || eventParam.removeOnClick) {
@@ -55953,7 +56031,7 @@
   }
   function getCoverInfoList(axisModel) {
     var axis = axisModel.axis;
-    return map10(axisModel.activeIntervals, function(interval) {
+    return map11(axisModel.activeIntervals, function(interval) {
       return {
         brushType: "lineX",
         panelId: "pl",
@@ -57118,7 +57196,7 @@
     toggleHoverEmphasis(el, emphasisModel.get("focus"), emphasisModel.get("blurScope"), emphasisModel.get("disabled"));
   }
   function transInit(points4, dim, itemLayout) {
-    return map10(points4, function(point) {
+    return map11(points4, function(point) {
       point = point.slice();
       point[dim] = itemLayout.initBaseline;
       return point;
@@ -57508,7 +57586,7 @@
     setStatesStylesFromModel(el, itemModel);
   }
   function transInit2(points4, itemLayout) {
-    return map10(points4, function(point) {
+    return map11(points4, function(point) {
       point = point.slice();
       point[1] = itemLayout.initBaseline;
       return point;
@@ -57722,7 +57800,7 @@
       var vDimIdx = 1;
       var coordDims = ["x", "y"];
       var cDimI = data.getDimensionIndex(data.mapDimension(coordDims[cDimIdx]));
-      var vDimsI = map10(data.mapDimensionsAll(coordDims[vDimIdx]), data.getDimensionIndex, data);
+      var vDimsI = map11(data.mapDimensionsAll(coordDims[vDimIdx]), data.getDimensionIndex, data);
       var openDimI = vDimsI[0];
       var closeDimI = vDimsI[1];
       var lowestDimI = vDimsI[2];
@@ -58830,7 +58908,7 @@
       if (true) {
         console.warn("Lines data configuration has been changed to { coords:[[1,2],[2,3]] }");
       }
-      seriesOpt.data = map10(data, function(itemOpt) {
+      seriesOpt.data = map11(data, function(itemOpt) {
         var coords2 = [itemOpt[0].coord, itemOpt[1].coord];
         var target5 = {
           coords: coords2
@@ -59205,7 +59283,7 @@
   // node_modules/echarts/lib/chart/heatmap/HeatmapView.js
   function getIsInPiecewiseRange(dataExtent, pieceList, selected2) {
     var dataSpan = dataExtent[1] - dataExtent[0];
-    pieceList = map10(pieceList, function(piece) {
+    pieceList = map11(pieceList, function(piece) {
       return {
         interval: [(piece.interval[0] - dataExtent[0]) / dataSpan, (piece.interval[1] - dataExtent[0]) / dataSpan]
       };
@@ -60395,8 +60473,8 @@
     var layerSeries = seriesModel.getLayerSeries();
     var timeDim = data.mapDimension("single");
     var valueDim = data.mapDimension("value");
-    var layerPoints = map10(layerSeries, function(singleLayer) {
-      return map10(singleLayer.indices, function(idx) {
+    var layerPoints = map11(layerSeries, function(singleLayer) {
+      return map11(singleLayer.indices, function(idx) {
         var pt = coordSys.dataToPoint(data.get(timeDim, idx));
         pt[1] = data.get(valueDim, idx);
         return pt;
@@ -60853,7 +60931,7 @@
         children: option2.data
       };
       completeTreeValue2(root);
-      var levelModels = this._levelModels = map10(option2.levels || [], function(levelDefine) {
+      var levelModels = this._levelModels = map11(option2.levels || [], function(levelDefine) {
         return new Model_default(levelDefine, this, ecModel);
       }, this);
       var tree = Tree_default.createTree(root, this, beforeLink);
@@ -61078,7 +61156,7 @@
   }
   function sort3(children2, sortOrder) {
     if (isFunction(sortOrder)) {
-      var sortTargets = map10(children2, function(child, idx) {
+      var sortTargets = map11(children2, function(child, idx) {
         var value12 = child.getValue();
         return {
           params: {
@@ -61095,7 +61173,7 @@
       sortTargets.sort(function(a2, b2) {
         return sortOrder(a2.params, b2.params);
       });
-      return map10(sortTargets, function(target5) {
+      return map11(sortTargets, function(target5) {
         return children2[target5.index];
       });
     } else {
@@ -61195,7 +61273,7 @@
   // node_modules/echarts/lib/coord/cartesian/prepareCustom.js
   function dataToCoordSize(dataSize, dataItem) {
     dataItem = dataItem || [0, 0];
-    return map10(["x", "y"], function(dim, dimIdx) {
+    return map11(["x", "y"], function(dim, dimIdx) {
       var axis = this.getAxis(dim);
       var val = dataItem[dimIdx];
       var halfSize = dataSize[dimIdx] / 2;
@@ -61224,7 +61302,7 @@
   // node_modules/echarts/lib/coord/geo/prepareCustom.js
   function dataToCoordSize2(dataSize, dataItem) {
     dataItem = dataItem || [0, 0];
-    return map10([0, 1], function(dimIdx) {
+    return map11([0, 1], function(dimIdx) {
       var val = dataItem[dimIdx];
       var halfSize = dataSize[dimIdx] / 2;
       var p1 = [];
@@ -61284,7 +61362,7 @@
   // node_modules/echarts/lib/coord/polar/prepareCustom.js
   function dataToCoordSize4(dataSize, dataItem) {
     dataItem = dataItem || [0, 0];
-    return map10(["Radius", "Angle"], function(dim, dimIdx) {
+    return map11(["Radius", "Angle"], function(dim, dimIdx) {
       var getterName = "get" + dim + "Axis";
       var axis = this[getterName]();
       var val = dataItem[dimIdx];
@@ -63306,7 +63384,7 @@
         stackedData[1 - baseDataOffset] = data.get(data.getCalculationInfo("stackResultDimension"), dataIndex);
         point = coordSys.dataToPoint(stackedData) || [];
       } else {
-        point = coordSys.dataToPoint(data.getValues(map10(coordSys.dimensions, function(dim) {
+        point = coordSys.dataToPoint(data.getValues(map11(coordSys.dimensions, function(dim) {
           return data.mapDimension(dim);
         }), dataIndex)) || [];
       }
@@ -64100,7 +64178,7 @@
       var radiusExtent = polar.getRadiusAxis().getExtent();
       var ticksAngles = angleAxis.getTicksCoords();
       var minorTickAngles = angleAxis.getMinorTicksCoords();
-      var labels9 = map10(angleAxis.getViewLabels(), function(labelItem) {
+      var labels9 = map11(angleAxis.getViewLabels(), function(labelItem) {
         labelItem = clone(labelItem);
         var scale4 = angleAxis.scale;
         var tickValue = scale4.type === "ordinal" ? scale4.getRawOrdinalNumber(labelItem.tickValue) : labelItem.tickValue;
@@ -64155,7 +64233,7 @@
       var tickModel = angleAxisModel.getModel("axisTick");
       var tickLen = (tickModel.get("inside") ? -1 : 1) * tickModel.get("length");
       var radius = radiusExtent[getRadiusIdx(polar)];
-      var lines = map10(ticksAngles, function(tickAngleItem) {
+      var lines = map11(ticksAngles, function(tickAngleItem) {
         return new Line_default({
           shape: getAxisLineShape(polar, [radius, radius + tickLen], tickAngleItem.coord)
         });
@@ -65238,7 +65316,7 @@
     if (cellSizeArr.length === 1) {
       cellSizeArr[1] = cellSizeArr[0];
     }
-    var ignoreSize = map10([0, 1], function(hvIdx) {
+    var ignoreSize = map11([0, 1], function(hvIdx) {
       if (sizeCalculable(raw, hvIdx)) {
         cellSizeArr[hvIdx] = "auto";
       }
@@ -65541,7 +65619,7 @@
           localeModel = getLocaleModel(nameMap) || localeModel;
         }
         var dayOfWeekShort = localeModel.get(["time", "dayOfWeekShort"]);
-        nameMap = dayOfWeekShort || map10(localeModel.get(["time", "dayOfWeekAbbr"]), function(val) {
+        nameMap = dayOfWeekShort || map11(localeModel.get(["time", "dayOfWeekAbbr"]), function(val) {
           return val[0];
         });
       }
@@ -66830,7 +66908,7 @@
         }
         if (filterMode === "weakFilter") {
           var store_1 = seriesData.getStore();
-          var dataDimIndices_1 = map10(dataDims, function(dim) {
+          var dataDimIndices_1 = map11(dataDims, function(dim) {
             return seriesData.getDimensionIndex(dim);
           }, seriesData);
           seriesData.filterSelf(function(dataIndex) {
@@ -67595,7 +67673,7 @@
       var categoryAxis2 = group2.categoryAxis;
       var valueAxis2 = group2.valueAxis;
       var valueAxisDim = valueAxis2.dim;
-      var headers = [" "].concat(map10(group2.series, function(series) {
+      var headers = [" "].concat(map11(group2.series, function(series) {
         return series.name;
       }));
       var columns = [categoryAxis2.model.getCategories()];
@@ -67618,7 +67696,7 @@
     return tables.join("\n\n" + BLOCK_SPLITER + "\n\n");
   }
   function assembleOtherSeries(series) {
-    return map10(series, function(series2) {
+    return map11(series, function(series2) {
       var data = series2.getRawData();
       var lines = [series2.name];
       var vals = [];
@@ -67657,7 +67735,7 @@
     var tsvLines = tsv.split(/\n+/g);
     var headers = trim3(tsvLines.shift()).split(itemSplitRegex);
     var categories = [];
-    var series = map10(headers, function(header2) {
+    var series = map11(headers, function(header2) {
       return {
         name: header2,
         data: []
@@ -67863,7 +67941,7 @@
     return DataView2;
   }(ToolboxFeature);
   function tryMergeDataOption(newData, originalData) {
-    return map10(newData, function(newVal, idx) {
+    return map11(newData, function(newVal, idx) {
       var original = originalData && originalData[idx];
       if (isObject(original) && !isArray2(original)) {
         var newValIsObject = isObject(newVal) && !isArray2(newVal);
@@ -68055,7 +68133,7 @@
       }, this);
     };
     BrushTargetManager2.prototype.makePanelOpts = function(api, getDefaultBrushType) {
-      return map10(this._targetInfoList, function(targetInfo) {
+      return map11(this._targetInfoList, function(targetInfo) {
         var rect = targetInfo.getPanelRect();
         return {
           panelId: targetInfo.panelId,
@@ -68200,7 +68278,7 @@
     },
     polygon: function(to, coordSys, rangeOrCoordRange, clamp2) {
       var xyMinMax = [[Infinity, -Infinity], [Infinity, -Infinity]];
-      var values = map10(rangeOrCoordRange, function(item) {
+      var values = map11(rangeOrCoordRange, function(item) {
         var p2 = to ? coordSys.pointToData(item, clamp2) : coordSys.dataToPoint(item, clamp2);
         xyMinMax[0][0] = Math.min(xyMinMax[0][0], p2[0]);
         xyMinMax[1][0] = Math.min(xyMinMax[1][0], p2[1]);
@@ -68219,7 +68297,7 @@
       assert(coordSys.type === "cartesian2d", "lineX/lineY brush is available only in cartesian2d.");
     }
     var axis = coordSys.getAxis(["x", "y"][axisNameIndex]);
-    var values = formatMinMax(map10([0, 1], function(i2) {
+    var values = formatMinMax(map11([0, 1], function(i2) {
       return to ? axis.coordToData(axis.toLocalCoord(rangeOrCoordRange[i2]), true) : axis.toGlobalCoord(axis.dataToCoord(rangeOrCoordRange[i2]));
     }));
     var xyMinMax = [];
@@ -68237,7 +68315,7 @@
       return [[values[0][0] - scales[0] * refer[0][0], values[0][1] - scales[0] * refer[0][1]], [values[1][0] - scales[1] * refer[1][0], values[1][1] - scales[1] * refer[1][1]]];
     },
     polygon: function(values, refer, scales) {
-      return map10(values, function(item, idx) {
+      return map11(values, function(item, idx) {
         return [item[0] - scales[0] * refer[idx][0], item[1] - scales[1] * refer[idx][1]];
       });
     }
@@ -69670,12 +69748,12 @@
     }
   }
   function removeDuplicate(arr) {
-    var map19 = {};
+    var map21 = {};
     each(arr, function(val) {
-      map19[val] = 1;
+      map21[val] = 1;
     });
     arr.length = 0;
-    each(map19, function(flag, val) {
+    each(map21, function(flag, val) {
       arr.push(val);
     });
   }
@@ -69921,7 +69999,7 @@
         throttleType = brushOption.throttleType;
         throttleDelay = brushOption.throttleDelay;
       }
-      var areas2 = map10(brushModel.areas, function(area2) {
+      var areas2 = map11(brushModel.areas, function(area2) {
         var builder = boundingRectBuilders[area2.brushType];
         var selectableArea = defaults({
           boundingRect: builder ? builder(area2) : void 0
@@ -70137,7 +70215,7 @@
       if (!areas2) {
         return;
       }
-      this.areas = map10(areas2, function(area2) {
+      this.areas = map11(areas2, function(area2) {
         return generateBrushOption(this.option, area2);
       }, this);
     };
@@ -71777,7 +71855,7 @@
   function createData(coordSys, seriesModel, mpModel) {
     var coordDimsInfos;
     if (coordSys) {
-      coordDimsInfos = map10(coordSys && coordSys.dimensions, function(coordDim) {
+      coordDimsInfos = map11(coordSys && coordSys.dimensions, function(coordDim) {
         var info2 = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {};
         return extend2(extend2({}, info2), {
           name: coordDim,
@@ -71791,7 +71869,7 @@
       }];
     }
     var mpData = new SeriesData_default(coordDimsInfos, mpModel);
-    var dataOpt = map10(mpModel.get("data"), curry2(dataTransform, seriesModel));
+    var dataOpt = map11(mpModel.get("data"), curry2(dataTransform, seriesModel));
     if (coordSys) {
       dataOpt = filter4(dataOpt, curry2(dataFilter2, coordSys));
     }
@@ -72074,7 +72152,7 @@
   function createList(coordSys, seriesModel, mlModel) {
     var coordDimsInfos;
     if (coordSys) {
-      coordDimsInfos = map10(coordSys && coordSys.dimensions, function(coordDim) {
+      coordDimsInfos = map11(coordSys && coordSys.dimensions, function(coordDim) {
         var info2 = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {};
         return extend2(extend2({}, info2), {
           name: coordDim,
@@ -72090,18 +72168,18 @@
     var fromData = new SeriesData_default(coordDimsInfos, mlModel);
     var toData = new SeriesData_default(coordDimsInfos, mlModel);
     var lineData = new SeriesData_default([], mlModel);
-    var optData = map10(mlModel.get("data"), curry2(markLineTransform, seriesModel, coordSys, mlModel));
+    var optData = map11(mlModel.get("data"), curry2(markLineTransform, seriesModel, coordSys, mlModel));
     if (coordSys) {
       optData = filter4(optData, curry2(markLineFilter, coordSys));
     }
     var dimValueGetter = createMarkerDimValueGetter(!!coordSys, coordDimsInfos);
-    fromData.initData(map10(optData, function(item) {
+    fromData.initData(map11(optData, function(item) {
       return item[0];
     }), null, dimValueGetter);
-    toData.initData(map10(optData, function(item) {
+    toData.initData(map11(optData, function(item) {
       return item[1];
     }), null, dimValueGetter);
-    lineData.initData(map10(optData, function(item) {
+    lineData.initData(map11(optData, function(item) {
       return item[2];
     }));
     lineData.hasItemOption = true;
@@ -72279,7 +72357,7 @@
         if (maModel) {
           var areaData_1 = maModel.getData();
           areaData_1.each(function(idx) {
-            var points4 = map10(dimPermutations, function(dim) {
+            var points4 = map11(dimPermutations, function(dim) {
               return getSingleMarkerEndPoint(areaData_1, idx, dim, seriesModel, api);
             });
             areaData_1.setItemLayout(idx, points4);
@@ -72302,7 +72380,7 @@
       var areaData = createList2(coordSys, seriesModel, maModel);
       maModel.setData(areaData);
       areaData.each(function(idx) {
-        var points4 = map10(dimPermutations, function(dim) {
+        var points4 = map11(dimPermutations, function(dim) {
           return getSingleMarkerEndPoint(areaData, idx, dim, seriesModel, api);
         });
         var xAxisScale = coordSys.getAxis("x").scale;
@@ -72394,7 +72472,7 @@
     var dataDims;
     var dims = ["x0", "y0", "x1", "y1"];
     if (coordSys) {
-      var coordDimsInfos_1 = map10(coordSys && coordSys.dimensions, function(coordDim) {
+      var coordDimsInfos_1 = map11(coordSys && coordSys.dimensions, function(coordDim) {
         var data = seriesModel.getData();
         var info2 = data.getDimensionInfo(data.mapDimension(coordDim)) || {};
         return extend2(extend2({}, info2), {
@@ -72402,7 +72480,7 @@
           ordinalMeta: null
         });
       });
-      dataDims = map10(dims, function(dim, idx) {
+      dataDims = map11(dims, function(dim, idx) {
         return {
           name: dim,
           type: coordDimsInfos_1[idx % 2].type
@@ -72416,7 +72494,7 @@
       }];
       areaData = new SeriesData_default(dataDims, maModel);
     }
-    var optData = map10(maModel.get("data"), curry2(markAreaTransform, seriesModel, coordSys, maModel));
+    var optData = map11(maModel.get("data"), curry2(markAreaTransform, seriesModel, coordSys, maModel));
     if (coordSys) {
       optData = filter4(optData, curry2(markAreaFilter, coordSys));
     }
@@ -72536,7 +72614,7 @@
       this._availableNames = availableNames;
       var rawData = this.get("data") || potentialData;
       var legendNameMap = createHashMap();
-      var legendData = map10(rawData, function(dataItem) {
+      var legendData = map11(rawData, function(dataItem) {
         if (isString(dataItem) || isNumber(dataItem)) {
           dataItem = {
             name: dataItem
@@ -74560,13 +74638,13 @@
     return SliderZoomView2;
   }(DataZoomView_default);
   function getOtherDim(thisDim) {
-    var map19 = {
+    var map21 = {
       x: "y",
       y: "x",
       radius: "angle",
       angle: "radius"
     };
-    return map19[thisDim];
+    return map21[thisDim];
   }
   function getCursor(orient) {
     return orient === "vertical" ? "ns-resize" : "ew-resize";
@@ -75883,7 +75961,7 @@
         } else {
           mappingOption.dataExtent = this.getExtent();
           mappingOption.mappingMethod = "piecewise";
-          mappingOption.pieceList = map10(this._pieceList, function(piece) {
+          mappingOption.pieceList = map11(this._pieceList, function(piece) {
             piece = clone(piece);
             if (state3 !== "inRange") {
               piece.visual = null;
@@ -76279,7 +76357,7 @@
     };
     PiecewiseVisualMapView2.prototype._getViewData = function() {
       var visualMapModel = this.visualMapModel;
-      var viewPieceList = map10(visualMapModel.getPieceList(), function(piece, index3) {
+      var viewPieceList = map11(visualMapModel.getPieceList(), function(piece, index3) {
         return {
           piece,
           indexInModelPieceList: index3
@@ -76666,7 +76744,7 @@
       throwError3(errMsg);
     }
     var cond = op === "and" ? new AndConditionInternal() : new OrConditionInternal();
-    cond.children = map10(subOptionArr, function(subOption) {
+    cond.children = map11(subOptionArr, function(subOption) {
       return parseOption(subOption, getters);
     });
     if (!cond.children.length) {
@@ -77383,7 +77461,7 @@
       default:
         var m2 = path.getComputedTransform();
         var scale4 = m2 ? Math.sqrt(Math.max(m2[0] * m2[0] + m2[1] * m2[1], m2[2] * m2[2] + m2[3] * m2[3])) : 1;
-        var polygons = map10(pathToPolygons(path.getUpdatedPathProxy(), scale4), function(poly) {
+        var polygons = map11(pathToPolygons(path.getUpdatedPathProxy(), scale4), function(poly) {
           return polygonConvert(poly);
         });
         var polygonCount = polygons.length;
@@ -77399,7 +77477,7 @@
           }
         } else {
           var totalArea_1 = 0;
-          var items = map10(polygons, function(poly) {
+          var items = map11(polygons, function(poly) {
             var min7 = [];
             var max8 = [];
             fromPoints(poly, min7, max8);
@@ -77820,7 +77898,7 @@
     var yMin = Infinity;
     var xMax = -Infinity;
     var yMax = -Infinity;
-    var cps = map10(pathList, function(path) {
+    var cps = map11(pathList, function(path) {
       var rect = path.getBoundingRect();
       var m2 = path.getComputedTransform();
       var x = rect.x + rect.width / 2 + (m2 ? m2[4] : 0);
@@ -77831,7 +77909,7 @@
       yMax = Math.max(y, yMax);
       return [x, y];
     });
-    var items = map10(cps, function(cp, idx) {
+    var items = map11(cps, function(cp, idx) {
       return {
         cp,
         z: hilbert(cp[0], cp[1], xMin, yMin, xMax, yMax),
@@ -78342,7 +78420,7 @@
       var newData = newItem2.data;
       var newSeries = newData.hostModel;
       var newEl2 = newData.getItemGraphicEl(newItem2.dataIndex);
-      var oldElsList = filter4(map10(oldIndices, function(idx) {
+      var oldElsList = filter4(map11(oldIndices, function(idx) {
         return oldDiffItems[idx].data.getItemGraphicEl(oldDiffItems[idx].dataIndex);
       }), function(oldEl) {
         return oldEl && oldEl !== newEl2 && !isElementStillInChart[oldEl.id];
@@ -78366,7 +78444,7 @@
       if (oldEl && isElementStillInChart[oldEl.id]) {
         return;
       }
-      var newElsList = filter4(map10(newIndices, function(idx) {
+      var newElsList = filter4(map11(newIndices, function(idx) {
         return newDiffItems[idx].data.getItemGraphicEl(newDiffItems[idx].dataIndex);
       }), function(el2) {
         return el2 && el2 !== oldEl;
@@ -79029,9 +79107,9 @@
   var fork3 = /* @__PURE__ */ fork(monadForkAff);
   var parSequence_2 = /* @__PURE__ */ parSequence_(parallelAff)(foldableList);
   var pure6 = /* @__PURE__ */ pure(applicativeAff);
-  var map14 = /* @__PURE__ */ map(functorCoyoneda);
+  var map15 = /* @__PURE__ */ map(functorCoyoneda);
   var parallel2 = /* @__PURE__ */ parallel(parallelAff);
-  var map15 = /* @__PURE__ */ map(functorAff);
+  var map16 = /* @__PURE__ */ map(functorAff);
   var sequential2 = /* @__PURE__ */ sequential(parallelAff);
   var map22 = /* @__PURE__ */ map(functorMaybe);
   var insert4 = /* @__PURE__ */ insert(ordSubscriptionId);
@@ -79103,7 +79181,7 @@
     return function(ref3) {
       return function(q2) {
         return bind12(liftEffect4(read(ref3)))(function(v) {
-          return evalM(render2)(ref3)(v["component"]["eval"](new Query(map14(Just.create)(liftCoyoneda(q2)), $$const(Nothing.value))));
+          return evalM(render2)(ref3)(v["component"]["eval"](new Query(map15(Just.create)(liftCoyoneda(q2)), $$const(Nothing.value))));
         });
       };
     };
@@ -79122,7 +79200,7 @@
                     })(dsx);
                   }));
                 };
-                return map15(v22.value2)(sequential2(v22.value0(applicativeParAff)(evalChild)(v12.children)));
+                return map16(v22.value2)(sequential2(v22.value0(applicativeParAff)(evalChild)(v12.children)));
               })(cqb);
             });
           };
@@ -79313,7 +79391,7 @@
   var parSequence_3 = /* @__PURE__ */ parSequence_(parallelAff)(foldableList);
   var liftEffect5 = /* @__PURE__ */ liftEffect(monadEffectAff);
   var pure7 = /* @__PURE__ */ pure(applicativeEffect);
-  var map16 = /* @__PURE__ */ map(functorEffect);
+  var map17 = /* @__PURE__ */ map(functorEffect);
   var pure13 = /* @__PURE__ */ pure(applicativeAff);
   var when2 = /* @__PURE__ */ when(applicativeEffect);
   var renderStateX2 = /* @__PURE__ */ renderStateX(functorEffect);
@@ -79411,7 +79489,7 @@
               return function(childrenOutRef) {
                 return unComponentSlot(function(slot) {
                   return function __do2() {
-                    var childrenIn = map16(slot.pop)(read(childrenInRef))();
+                    var childrenIn = map17(slot.pop)(read(childrenInRef))();
                     var $$var2 = function() {
                       if (childrenIn instanceof Just) {
                         write(childrenIn.value0.value1)(childrenInRef)();
@@ -79441,7 +79519,7 @@
                       ;
                       throw new Error("Failed pattern match at Halogen.Aff.Driver (line 213, column 14 - line 222, column 98): " + [childrenIn.constructor.name]);
                     }();
-                    var isDuplicate = map16(function($68) {
+                    var isDuplicate = map17(function($68) {
                       return isJust(slot.get($68));
                     })(read(childrenOutRef))();
                     when2(isDuplicate)(warn2("Halogen: Duplicate slot address was detected during rendering, unexpected results may occur"))();
@@ -79467,7 +79545,7 @@
           return function($$var2) {
             return function __do2() {
               var v = read($$var2)();
-              var shouldProcessHandlers = map16(isNothing)(read(v.pendingHandlers))();
+              var shouldProcessHandlers = map17(isNothing)(read(v.pendingHandlers))();
               when2(shouldProcessHandlers)(write(new Just(Nil.value))(v.pendingHandlers))();
               write(empty3)(v.childrenOut)();
               write(v.children)(v.childrenIn)();
@@ -79660,15 +79738,15 @@
   }
 
   // output/Web.DOM.Node/index.js
-  var map17 = /* @__PURE__ */ map(functorEffect);
+  var map18 = /* @__PURE__ */ map(functorEffect);
   var parentNode3 = /* @__PURE__ */ function() {
-    var $6 = map17(toMaybe);
+    var $6 = map18(toMaybe);
     return function($7) {
       return $6(_parentNode($7));
     };
   }();
   var nextSibling2 = /* @__PURE__ */ function() {
-    var $15 = map17(toMaybe);
+    var $15 = map18(toMaybe);
     return function($16) {
       return $15(_nextSibling($16));
     };
@@ -79695,10 +79773,10 @@
   var unwrap3 = /* @__PURE__ */ unwrap();
   var when3 = /* @__PURE__ */ when(applicativeEffect);
   var not2 = /* @__PURE__ */ not(/* @__PURE__ */ heytingAlgebraFunction(/* @__PURE__ */ heytingAlgebraFunction(heytingAlgebraBoolean)));
-  var identity8 = /* @__PURE__ */ identity(categoryFn);
+  var identity9 = /* @__PURE__ */ identity(categoryFn);
   var bind14 = /* @__PURE__ */ bind(bindAff);
   var liftEffect6 = /* @__PURE__ */ liftEffect(monadEffectAff);
-  var map18 = /* @__PURE__ */ map(functorEffect);
+  var map19 = /* @__PURE__ */ map(functorEffect);
   var bindFlipped7 = /* @__PURE__ */ bindFlipped(bindEffect);
   var substInParent = function(v) {
     return function(v12) {
@@ -79837,7 +79915,7 @@
       };
       return {
         render: render2,
-        renderChild: identity8,
+        renderChild: identity9,
         removeChild: removeChild4,
         dispose: removeChild4
       };
@@ -79846,11 +79924,31 @@
   var runUI2 = function(component3) {
     return function(i2) {
       return function(element3) {
-        return bind14(liftEffect6(map18(toDocument)(bindFlipped7(document2)(windowImpl))))(function(document3) {
+        return bind14(liftEffect6(map19(toDocument)(bindFlipped7(document2)(windowImpl))))(function(document3) {
           return runUI(renderSpec(document3)(element3))(component3)(i2);
         });
       };
     };
+  };
+
+  // output/HumDrum/index.js
+  var bindFlipped8 = /* @__PURE__ */ bindFlipped(bindEffect);
+  var map20 = /* @__PURE__ */ map(functorEffect);
+  var join3 = /* @__PURE__ */ join(bindMaybe);
+  var traverse2 = /* @__PURE__ */ traverse(traversableMaybe)(applicativeEffect);
+  var fetchDataArg = function(argname) {
+    var go2 = function(scriptelem) {
+      var elem2 = toElement(scriptelem);
+      return getAttribute(argname)(elem2);
+    };
+    return function __do2() {
+      var htmlDoc = bindFlipped8(document2)(windowImpl)();
+      var script2 = currentScript(htmlDoc)();
+      return map20(join3)(traverse2(go2)(script2))();
+    };
+  };
+  var mainWithDataArg = function(go2) {
+    return bindFlipped8(go2)(fetchDataArg("data-humdrum-arg"));
   };
 
   // output/Main/index.js
@@ -79865,7 +79963,29 @@
   }();
   var component2 = function(dictMonadAff) {
     var component22 = component(dictMonadAff);
-    var render2 = function(v) {
+    var render1 = function() {
+      var obj = {
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [{
+          type: "line",
+          data: [150, 230, 224, 218, 135, 147, 260]
+        }, {
+          type: "line",
+          data: [250, 130, 254, 318, 137, 247, 160]
+        }]
+      };
+      return div_([text5("echarts simple-line example with two data-lines"), slot_2(_echarts)(unit)(component22)({
+        options: obj,
+        modified: false
+      })]);
+    }();
+    var render0 = function() {
       var obj = {
         xAxis: {
           type: "category",
@@ -79883,9 +80003,20 @@
         options: obj,
         modified: false
       })]);
+    }();
+    var render2 = function(v) {
+      if (v === "0") {
+        return render0;
+      }
+      ;
+      if (v === "1") {
+        return render1;
+      }
+      ;
+      return render0;
     };
-    var initialState = function(v) {
-      return unit;
+    var initialState = function(arg) {
+      return fromMaybe("")(arg.example);
     };
     return mkComponent({
       initialState,
@@ -79894,12 +80025,27 @@
     });
   };
   var component1 = /* @__PURE__ */ component2(monadAffAff);
-  var main2 = /* @__PURE__ */ runHalogenAff(/* @__PURE__ */ bind8(awaitBody)(function(body2) {
-    return bind8(selectElement("#example"))(function(elem2) {
-      var tgt = fromMaybe(body2)(elem2);
-      return runUI2(component1)({})(tgt);
-    });
-  }));
+  var main2 = /* @__PURE__ */ mainWithDataArg(function(arg) {
+    var selector2 = function() {
+      if (arg instanceof Just && arg.value0 === "0") {
+        return "#example-0";
+      }
+      ;
+      if (arg instanceof Just && arg.value0 === "1") {
+        return "#example-1";
+      }
+      ;
+      return "#example-err";
+    }();
+    return runHalogenAff(bind8(awaitBody)(function(body2) {
+      return bind8(selectElement(selector2))(function(elem2) {
+        var tgt = fromMaybe(body2)(elem2);
+        return runUI2(component1)({
+          example: arg
+        })(tgt);
+      });
+    }));
+  });
 
   // <stdin>
   main2();
