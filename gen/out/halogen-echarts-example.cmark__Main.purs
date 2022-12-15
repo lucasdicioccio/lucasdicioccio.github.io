@@ -6,6 +6,7 @@ import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
 import Data.Int as Int
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Traversable (fold)
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
@@ -28,10 +29,17 @@ type SimpleExampleOptions =
   , series :: Array { data :: Array Int, type :: String }
   }
 
+type SimpleExampleEvent =
+  ( name :: String
+  , seriesIndex :: Int
+  , dataIndex :: Int
+  )
+
 type DemoInput = { example :: Maybe String }
 
 data DemoAction
   = SetChart2Offset String
+  | Chart3Event (Record SimpleExampleEvent)
 
 component
   :: forall query output m. MonadAff m
@@ -45,11 +53,12 @@ component =
       }
     }
   where
-    initialState arg = {chartkey: fromMaybe "" arg.example, chart2Offset: 5}
+    initialState arg = {chartkey: fromMaybe "" arg.example, chart2Offset: 5, chart3ClickEvent: Nothing}
     render state = case state.chartkey of
       "0" -> render0
       "1" -> render1
       "2" -> render2 state.chart2Offset
+      "3" -> render3 state.chart3ClickEvent
       _ -> render0
 
     render0 =
@@ -107,11 +116,47 @@ component =
       , HH.slot_ _echarts unit ECharts.component {options: obj, modified:true}
       ]
 
+    render3 item =
+      let
+        obj :: SimpleExampleOptions
+        obj =
+          { xAxis: {type: "category", data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
+          , yAxis: {type: "value"}
+          , series:
+            [{type: "line", data: [150, 230, 224, 218, 135, 147, 260]}
+            ,{type: "line", data: [250, 130, 254, 318, 137, 247, 160]}
+            ]
+          }
+        renderItem = case item of
+          Nothing -> HH.p_ [ HH.text "nothing clicked" ]
+          Just r  -> HH.div_
+                     [ HH.h6_ [ HH.text "some click!" ]
+                     , HH.p_  [ HH.text r.name ]
+                     , HH.p_ 
+                       [ HH.text 
+                         $ fold
+                           [ "seriesIndex/dataIndex: "
+                           , show r.seriesIndex
+                           , " / "
+                           , show r.dataIndex
+                           ]
+                       ]
+                     ]
+      in
+      HH.div_
+      [ HH.p_ [ HH.text "echarts simple-line example with clickable callback" ]
+      , renderItem
+      , HH.slot _echarts unit ECharts.component {options: obj, modified:false} Chart3Event
+      ]
+
+
     handleAction = case _ of
      SetChart2Offset str -> do
        case Int.fromString str of
          Nothing -> pure unit
          Just n -> H.modify_ _ { chart2Offset = n }
+     Chart3Event ev -> do
+      H.modify_ _ { chart3ClickEvent = Just ev }
 
 
 main :: Effect Unit
@@ -120,6 +165,7 @@ main = mainWithDataArg \arg -> do
                   Just "0" -> "#example-0"
                   Just "1" -> "#example-1"
                   Just "2" -> "#example-2"
+                  Just "3" -> "#example-3"
                   _ -> "#example-err"
   HA.runHalogenAff do
     body <- HA.awaitBody

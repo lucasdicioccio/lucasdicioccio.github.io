@@ -849,6 +849,11 @@
   };
 
   // output/Data.Semigroup/foreign.js
+  var concatString = function(s1) {
+    return function(s2) {
+      return s1 + s2;
+    };
+  };
   var concatArray = function(xs) {
     return function(ys) {
       if (xs.length === 0)
@@ -860,6 +865,9 @@
   };
 
   // output/Data.Semigroup/index.js
+  var semigroupString = {
+    append: concatString
+  };
   var semigroupArray = {
     append: concatArray
   };
@@ -868,6 +876,12 @@
   };
 
   // output/Data.Monoid/index.js
+  var monoidString = {
+    mempty: "",
+    Semigroup0: function() {
+      return semigroupString;
+    }
+  };
   var mempty = function(dict) {
     return dict.mempty;
   };
@@ -1205,29 +1219,35 @@
     throw new Error("Failed pattern match at DOM.HTML.Indexed.InputType (line 33, column 19 - line 55, column 22): " + [v.constructor.name]);
   };
 
-  // output/Data.Int/foreign.js
-  var fromStringAsImpl = function(just) {
-    return function(nothing) {
-      return function(radix) {
-        var digits;
-        if (radix < 11) {
-          digits = "[0-" + (radix - 1).toString() + "]";
-        } else if (radix === 11) {
-          digits = "[0-9a]";
-        } else {
-          digits = "[0-9a-" + String.fromCharCode(86 + radix) + "]";
+  // output/Data.Foldable/foreign.js
+  var foldrArray = function(f) {
+    return function(init6) {
+      return function(xs) {
+        var acc = init6;
+        var len2 = xs.length;
+        for (var i2 = len2 - 1; i2 >= 0; i2--) {
+          acc = f(xs[i2])(acc);
         }
-        var pattern2 = new RegExp("^[\\+\\-]?" + digits + "+$", "i");
-        return function(s) {
-          if (pattern2.test(s)) {
-            var i2 = parseInt(s, radix);
-            return (i2 | 0) === i2 ? just(i2) : nothing;
-          } else {
-            return nothing;
-          }
-        };
+        return acc;
       };
     };
+  };
+  var foldlArray = function(f) {
+    return function(init6) {
+      return function(xs) {
+        var acc = init6;
+        var len2 = xs.length;
+        for (var i2 = 0; i2 < len2; i2++) {
+          acc = f(acc)(xs[i2]);
+        }
+        return acc;
+      };
+    };
+  };
+
+  // output/Control.Plus/index.js
+  var empty = function(dict) {
+    return dict.empty;
   };
 
   // output/Data.Maybe/index.js
@@ -1325,6 +1345,209 @@
     Apply0: function() {
       return applyMaybe;
     }
+  };
+
+  // output/Data.Either/index.js
+  var Left = /* @__PURE__ */ function() {
+    function Left2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    Left2.create = function(value0) {
+      return new Left2(value0);
+    };
+    return Left2;
+  }();
+  var Right = /* @__PURE__ */ function() {
+    function Right2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    Right2.create = function(value0) {
+      return new Right2(value0);
+    };
+    return Right2;
+  }();
+  var functorEither = {
+    map: function(f) {
+      return function(m2) {
+        if (m2 instanceof Left) {
+          return new Left(m2.value0);
+        }
+        ;
+        if (m2 instanceof Right) {
+          return new Right(f(m2.value0));
+        }
+        ;
+        throw new Error("Failed pattern match at Data.Either (line 0, column 0 - line 0, column 0): " + [m2.constructor.name]);
+      };
+    }
+  };
+  var either = function(v) {
+    return function(v12) {
+      return function(v22) {
+        if (v22 instanceof Left) {
+          return v(v22.value0);
+        }
+        ;
+        if (v22 instanceof Right) {
+          return v12(v22.value0);
+        }
+        ;
+        throw new Error("Failed pattern match at Data.Either (line 208, column 1 - line 208, column 64): " + [v.constructor.name, v12.constructor.name, v22.constructor.name]);
+      };
+    };
+  };
+
+  // output/Data.Bifunctor/index.js
+  var bimap = function(dict) {
+    return dict.bimap;
+  };
+
+  // output/Unsafe.Coerce/foreign.js
+  var unsafeCoerce2 = function(x) {
+    return x;
+  };
+
+  // output/Safe.Coerce/index.js
+  var coerce = function() {
+    return unsafeCoerce2;
+  };
+
+  // output/Data.Newtype/index.js
+  var coerce2 = /* @__PURE__ */ coerce();
+  var unwrap = function() {
+    return coerce2;
+  };
+
+  // output/Data.Foldable/index.js
+  var identity5 = /* @__PURE__ */ identity(categoryFn);
+  var foldr = function(dict) {
+    return dict.foldr;
+  };
+  var traverse_ = function(dictApplicative) {
+    var applySecond2 = applySecond(dictApplicative.Apply0());
+    var pure10 = pure(dictApplicative);
+    return function(dictFoldable) {
+      var foldr22 = foldr(dictFoldable);
+      return function(f) {
+        return foldr22(function($454) {
+          return applySecond2(f($454));
+        })(pure10(unit));
+      };
+    };
+  };
+  var for_ = function(dictApplicative) {
+    var traverse_14 = traverse_(dictApplicative);
+    return function(dictFoldable) {
+      return flip(traverse_14(dictFoldable));
+    };
+  };
+  var foldl = function(dict) {
+    return dict.foldl;
+  };
+  var foldableMaybe = {
+    foldr: function(v) {
+      return function(v12) {
+        return function(v22) {
+          if (v22 instanceof Nothing) {
+            return v12;
+          }
+          ;
+          if (v22 instanceof Just) {
+            return v(v22.value0)(v12);
+          }
+          ;
+          throw new Error("Failed pattern match at Data.Foldable (line 138, column 1 - line 144, column 27): " + [v.constructor.name, v12.constructor.name, v22.constructor.name]);
+        };
+      };
+    },
+    foldl: function(v) {
+      return function(v12) {
+        return function(v22) {
+          if (v22 instanceof Nothing) {
+            return v12;
+          }
+          ;
+          if (v22 instanceof Just) {
+            return v(v12)(v22.value0);
+          }
+          ;
+          throw new Error("Failed pattern match at Data.Foldable (line 138, column 1 - line 144, column 27): " + [v.constructor.name, v12.constructor.name, v22.constructor.name]);
+        };
+      };
+    },
+    foldMap: function(dictMonoid) {
+      var mempty2 = mempty(dictMonoid);
+      return function(v) {
+        return function(v12) {
+          if (v12 instanceof Nothing) {
+            return mempty2;
+          }
+          ;
+          if (v12 instanceof Just) {
+            return v(v12.value0);
+          }
+          ;
+          throw new Error("Failed pattern match at Data.Foldable (line 138, column 1 - line 144, column 27): " + [v.constructor.name, v12.constructor.name]);
+        };
+      };
+    }
+  };
+  var foldMapDefaultR = function(dictFoldable) {
+    var foldr22 = foldr(dictFoldable);
+    return function(dictMonoid) {
+      var append5 = append(dictMonoid.Semigroup0());
+      var mempty2 = mempty(dictMonoid);
+      return function(f) {
+        return foldr22(function(x) {
+          return function(acc) {
+            return append5(f(x))(acc);
+          };
+        })(mempty2);
+      };
+    };
+  };
+  var foldableArray = {
+    foldr: foldrArray,
+    foldl: foldlArray,
+    foldMap: function(dictMonoid) {
+      return foldMapDefaultR(foldableArray)(dictMonoid);
+    }
+  };
+  var foldMap = function(dict) {
+    return dict.foldMap;
+  };
+  var fold = function(dictFoldable) {
+    var foldMap2 = foldMap(dictFoldable);
+    return function(dictMonoid) {
+      return foldMap2(dictMonoid)(identity5);
+    };
+  };
+
+  // output/Data.Int/foreign.js
+  var fromStringAsImpl = function(just) {
+    return function(nothing) {
+      return function(radix) {
+        var digits;
+        if (radix < 11) {
+          digits = "[0-" + (radix - 1).toString() + "]";
+        } else if (radix === 11) {
+          digits = "[0-9a]";
+        } else {
+          digits = "[0-9a-" + String.fromCharCode(86 + radix) + "]";
+        }
+        var pattern2 = new RegExp("^[\\+\\-]?" + digits + "+$", "i");
+        return function(s) {
+          if (pattern2.test(s)) {
+            var i2 = parseInt(s, radix);
+            return (i2 | 0) === i2 ? just(i2) : nothing;
+          } else {
+            return nothing;
+          }
+        };
+      };
+    };
   };
 
   // output/Data.Int/index.js
@@ -2263,58 +2486,6 @@
     };
   };
 
-  // output/Data.Either/index.js
-  var Left = /* @__PURE__ */ function() {
-    function Left2(value0) {
-      this.value0 = value0;
-    }
-    ;
-    Left2.create = function(value0) {
-      return new Left2(value0);
-    };
-    return Left2;
-  }();
-  var Right = /* @__PURE__ */ function() {
-    function Right2(value0) {
-      this.value0 = value0;
-    }
-    ;
-    Right2.create = function(value0) {
-      return new Right2(value0);
-    };
-    return Right2;
-  }();
-  var functorEither = {
-    map: function(f) {
-      return function(m2) {
-        if (m2 instanceof Left) {
-          return new Left(m2.value0);
-        }
-        ;
-        if (m2 instanceof Right) {
-          return new Right(f(m2.value0));
-        }
-        ;
-        throw new Error("Failed pattern match at Data.Either (line 0, column 0 - line 0, column 0): " + [m2.constructor.name]);
-      };
-    }
-  };
-  var either = function(v) {
-    return function(v12) {
-      return function(v22) {
-        if (v22 instanceof Left) {
-          return v(v22.value0);
-        }
-        ;
-        if (v22 instanceof Right) {
-          return v12(v22.value0);
-        }
-        ;
-        throw new Error("Failed pattern match at Data.Either (line 208, column 1 - line 208, column 64): " + [v.constructor.name, v12.constructor.name, v22.constructor.name]);
-      };
-    };
-  };
-
   // output/Effect/foreign.js
   var pureE = function(a2) {
     return function() {
@@ -2572,11 +2743,6 @@
     }
   };
 
-  // output/Unsafe.Coerce/foreign.js
-  var unsafeCoerce2 = function(x) {
-    return x;
-  };
-
   // output/Effect.Class/index.js
   var monadEffectEffect = {
     liftEffect: /* @__PURE__ */ identity(categoryFn),
@@ -2675,157 +2841,12 @@
     };
   };
 
-  // output/Control.Plus/index.js
-  var empty = function(dict) {
-    return dict.empty;
-  };
-
-  // output/Safe.Coerce/index.js
-  var coerce = function() {
-    return unsafeCoerce2;
-  };
-
-  // output/Data.Newtype/index.js
-  var coerce2 = /* @__PURE__ */ coerce();
-  var unwrap = function() {
-    return coerce2;
-  };
-
   // output/Control.Parallel.Class/index.js
   var sequential = function(dict) {
     return dict.sequential;
   };
   var parallel = function(dict) {
     return dict.parallel;
-  };
-
-  // output/Data.Foldable/foreign.js
-  var foldrArray = function(f) {
-    return function(init6) {
-      return function(xs) {
-        var acc = init6;
-        var len2 = xs.length;
-        for (var i2 = len2 - 1; i2 >= 0; i2--) {
-          acc = f(xs[i2])(acc);
-        }
-        return acc;
-      };
-    };
-  };
-  var foldlArray = function(f) {
-    return function(init6) {
-      return function(xs) {
-        var acc = init6;
-        var len2 = xs.length;
-        for (var i2 = 0; i2 < len2; i2++) {
-          acc = f(acc)(xs[i2]);
-        }
-        return acc;
-      };
-    };
-  };
-
-  // output/Data.Bifunctor/index.js
-  var bimap = function(dict) {
-    return dict.bimap;
-  };
-
-  // output/Data.Foldable/index.js
-  var foldr = function(dict) {
-    return dict.foldr;
-  };
-  var traverse_ = function(dictApplicative) {
-    var applySecond2 = applySecond(dictApplicative.Apply0());
-    var pure10 = pure(dictApplicative);
-    return function(dictFoldable) {
-      var foldr22 = foldr(dictFoldable);
-      return function(f) {
-        return foldr22(function($454) {
-          return applySecond2(f($454));
-        })(pure10(unit));
-      };
-    };
-  };
-  var for_ = function(dictApplicative) {
-    var traverse_14 = traverse_(dictApplicative);
-    return function(dictFoldable) {
-      return flip(traverse_14(dictFoldable));
-    };
-  };
-  var foldl = function(dict) {
-    return dict.foldl;
-  };
-  var foldableMaybe = {
-    foldr: function(v) {
-      return function(v12) {
-        return function(v22) {
-          if (v22 instanceof Nothing) {
-            return v12;
-          }
-          ;
-          if (v22 instanceof Just) {
-            return v(v22.value0)(v12);
-          }
-          ;
-          throw new Error("Failed pattern match at Data.Foldable (line 138, column 1 - line 144, column 27): " + [v.constructor.name, v12.constructor.name, v22.constructor.name]);
-        };
-      };
-    },
-    foldl: function(v) {
-      return function(v12) {
-        return function(v22) {
-          if (v22 instanceof Nothing) {
-            return v12;
-          }
-          ;
-          if (v22 instanceof Just) {
-            return v(v12)(v22.value0);
-          }
-          ;
-          throw new Error("Failed pattern match at Data.Foldable (line 138, column 1 - line 144, column 27): " + [v.constructor.name, v12.constructor.name, v22.constructor.name]);
-        };
-      };
-    },
-    foldMap: function(dictMonoid) {
-      var mempty2 = mempty(dictMonoid);
-      return function(v) {
-        return function(v12) {
-          if (v12 instanceof Nothing) {
-            return mempty2;
-          }
-          ;
-          if (v12 instanceof Just) {
-            return v(v12.value0);
-          }
-          ;
-          throw new Error("Failed pattern match at Data.Foldable (line 138, column 1 - line 144, column 27): " + [v.constructor.name, v12.constructor.name]);
-        };
-      };
-    }
-  };
-  var foldMapDefaultR = function(dictFoldable) {
-    var foldr22 = foldr(dictFoldable);
-    return function(dictMonoid) {
-      var append5 = append(dictMonoid.Semigroup0());
-      var mempty2 = mempty(dictMonoid);
-      return function(f) {
-        return foldr22(function(x) {
-          return function(acc) {
-            return append5(f(x))(acc);
-          };
-        })(mempty2);
-      };
-    };
-  };
-  var foldableArray = {
-    foldr: foldrArray,
-    foldl: foldlArray,
-    foldMap: function(dictMonoid) {
-      return foldMapDefaultR(foldableArray)(dictMonoid);
-    }
-  };
-  var foldMap = function(dict) {
-    return dict.foldMap;
   };
 
   // output/Data.Traversable/foreign.js
@@ -2924,7 +2945,7 @@
   };
 
   // output/Control.Parallel/index.js
-  var identity5 = /* @__PURE__ */ identity(categoryFn);
+  var identity6 = /* @__PURE__ */ identity(categoryFn);
   var parTraverse_ = function(dictParallel) {
     var sequential3 = sequential(dictParallel);
     var traverse_8 = traverse_(dictParallel.Applicative1());
@@ -2944,7 +2965,7 @@
   var parSequence_ = function(dictParallel) {
     var parTraverse_1 = parTraverse_(dictParallel);
     return function(dictFoldable) {
-      return parTraverse_1(dictFoldable)(identity5);
+      return parTraverse_1(dictFoldable)(identity6);
     };
   };
 
@@ -5996,7 +6017,7 @@
   };
 
   // output/Control.Applicative.Free/index.js
-  var identity6 = /* @__PURE__ */ identity(categoryFn);
+  var identity7 = /* @__PURE__ */ identity(categoryFn);
   var Pure = /* @__PURE__ */ function() {
     function Pure2(value0) {
       this.value0 = value0;
@@ -6176,7 +6197,7 @@
     };
   };
   var retractFreeAp = function(dictApplicative) {
-    return foldFreeAp(dictApplicative)(identity6);
+    return foldFreeAp(dictApplicative)(identity7);
   };
   var applyFreeAp = {
     apply: function(fba) {
@@ -6628,7 +6649,7 @@
   };
 
   // output/Halogen.Query.HalogenM/index.js
-  var identity7 = /* @__PURE__ */ identity(categoryFn);
+  var identity8 = /* @__PURE__ */ identity(categoryFn);
   var SubscriptionId = function(x) {
     return x;
   };
@@ -6772,7 +6793,7 @@
   var subscribe2 = function(es) {
     return liftF(new Subscribe(function(v) {
       return es;
-    }, identity7));
+    }, identity8));
   };
   var raise = function(o) {
     return liftF(new Raise(o, unit));
@@ -6802,7 +6823,7 @@
     };
   };
   var getRef = function(p2) {
-    return liftF(new GetRef(p2, identity7));
+    return liftF(new GetRef(p2, identity8));
   };
   var functorHalogenM = freeFunctor;
   var bindHalogenM = freeBind;
@@ -8325,7 +8346,7 @@
   function create5() {
     return [1, 0, 0, 1, 0, 0];
   }
-  function identity8(out2) {
+  function identity9(out2) {
     out2[0] = 1;
     out2[1] = 0;
     out2[2] = 0;
@@ -12145,7 +12166,7 @@
   var LIGHTER_LABEL_COLOR = "#eee";
 
   // node_modules/zrender/lib/core/Transformable.js
-  var mIdentity = identity8;
+  var mIdentity = identity9;
   var EPSILON3 = 5e-5;
   function isNotAroundZero2(val) {
     return val > EPSILON3 || val < -EPSILON3;
@@ -20385,7 +20406,7 @@
   }
   var subPixelOptimize2 = subPixelOptimize;
   function getTransform(target6, ancestor) {
-    var mat = identity8([]);
+    var mat = identity9([]);
     while (target6 && target6 !== ancestor) {
       mul2(mat, target6.getLocalTransform(), mat);
       target6 = target6.parent;
@@ -34483,7 +34504,7 @@
       var el = this._elOnlyForCalculate;
       var rect = el.getBoundingRect();
       var center3 = [rect.x + rect.width / 2, rect.y + rect.height / 2];
-      var mat = identity8(TMP_TRANSFORM);
+      var mat = identity9(TMP_TRANSFORM);
       var target6 = el;
       while (target6 && !target6.isGeoSVGGraphicRoot) {
         mul2(mat, target6.getLocalTransform(), mat);
@@ -44115,7 +44136,7 @@
     if (!firstRect || !nextRect) {
       return;
     }
-    var mRotationBack = identity8([]);
+    var mRotationBack = identity9([]);
     rotate(mRotationBack, mRotationBack, -current.rotation);
     firstRect.applyTransform(mul2([], mRotationBack, current.getLocalTransform()));
     nextRect.applyTransform(mul2([], mRotationBack, next.getLocalTransform()));
@@ -79274,6 +79295,8 @@
   var element2 = /* @__PURE__ */ function() {
     return element(Nothing.value);
   }();
+  var h6 = /* @__PURE__ */ element2("h6");
+  var h6_ = /* @__PURE__ */ h6([]);
   var input2 = function(props) {
     return element2("input")(props)([]);
   };
@@ -79512,6 +79535,27 @@
             return function(component3) {
               return function(input3) {
                 return widget(new ComponentSlot(componentSlot22(label5)(p2)(component3)(input3)($$const(Nothing.value))));
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+  var slot = function() {
+    return function(dictIsSymbol) {
+      var componentSlot1 = componentSlot2(dictIsSymbol);
+      return function(dictOrd) {
+        var componentSlot22 = componentSlot1(dictOrd);
+        return function(label5) {
+          return function(p2) {
+            return function(component3) {
+              return function(input3) {
+                return function(outputQuery) {
+                  return widget(new ComponentSlot(componentSlot22(label5)(p2)(component3)(input3)(function($11) {
+                    return Just.create(outputQuery($11));
+                  })));
+                };
               };
             };
           };
@@ -80068,9 +80112,9 @@
           return function(handler2) {
             return function(childrenInRef) {
               return function(childrenOutRef) {
-                return unComponentSlot(function(slot) {
+                return unComponentSlot(function(slot3) {
                   return function __do2() {
-                    var childrenIn = map19(slot.pop)(read(childrenInRef))();
+                    var childrenIn = map19(slot3.pop)(read(childrenInRef))();
                     var $$var2 = function() {
                       if (childrenIn instanceof Just) {
                         write(childrenIn.value0.value1)(childrenInRef)();
@@ -80080,10 +80124,10 @@
                             flip(write)(st.handlerRef)(function() {
                               var $64 = maybe(pure13(unit))(handler2);
                               return function($65) {
-                                return $64(slot.output($65));
+                                return $64(slot3.output($65));
                               };
                             }())();
-                            return handleAff(evalM(render2)(st.selfRef)(st["component"]["eval"](new Receive(slot.input, unit))))();
+                            return handleAff(evalM(render2)(st.selfRef)(st["component"]["eval"](new Receive(slot3.input, unit))))();
                           };
                         })(dsx)();
                         return childrenIn.value0.value0;
@@ -80093,18 +80137,18 @@
                         return runComponent(lchs)(function() {
                           var $66 = maybe(pure13(unit))(handler2);
                           return function($67) {
-                            return $66(slot.output($67));
+                            return $66(slot3.output($67));
                           };
-                        }())(slot.input)(slot.component)();
+                        }())(slot3.input)(slot3.component)();
                       }
                       ;
                       throw new Error("Failed pattern match at Halogen.Aff.Driver (line 213, column 14 - line 222, column 98): " + [childrenIn.constructor.name]);
                     }();
                     var isDuplicate = map19(function($68) {
-                      return isJust(slot.get($68));
+                      return isJust(slot3.get($68));
                     })(read(childrenOutRef))();
                     when2(isDuplicate)(warn2("Halogen: Duplicate slot address was detected during rendering, unexpected results may occur"))();
-                    modify_2(slot.set($$var2))(childrenOutRef)();
+                    modify_2(slot3.set($$var2))(childrenOutRef)();
                     return bind7(read($$var2))(renderStateX2(function(v) {
                       if (v instanceof Nothing) {
                         return $$throw("Halogen internal error: child was not initialized in renderChild");
@@ -80354,7 +80398,7 @@
   var unwrap4 = /* @__PURE__ */ unwrap();
   var when3 = /* @__PURE__ */ when(applicativeEffect);
   var not2 = /* @__PURE__ */ not(/* @__PURE__ */ heytingAlgebraFunction(/* @__PURE__ */ heytingAlgebraFunction(heytingAlgebraBoolean)));
-  var identity9 = /* @__PURE__ */ identity(categoryFn);
+  var identity10 = /* @__PURE__ */ identity(categoryFn);
   var bind14 = /* @__PURE__ */ bind(bindAff);
   var liftEffect6 = /* @__PURE__ */ liftEffect(monadEffectAff);
   var map21 = /* @__PURE__ */ map(functorEffect);
@@ -80398,36 +80442,36 @@
         var buildWidget2 = function(spec) {
           var buildThunk2 = buildThunk(unwrap4)(spec);
           var $lazy_patch = $runtime_lazy7("patch", "Halogen.VDom.Driver", function() {
-            return function(st, slot) {
+            return function(st, slot3) {
               if (st instanceof Just) {
-                if (slot instanceof ComponentSlot) {
+                if (slot3 instanceof ComponentSlot) {
                   halt(st.value0);
-                  return $lazy_renderComponentSlot(100)(slot.value0);
+                  return $lazy_renderComponentSlot(100)(slot3.value0);
                 }
                 ;
-                if (slot instanceof ThunkSlot) {
-                  var step$prime = step3(st.value0, slot.value0);
+                if (slot3 instanceof ThunkSlot) {
+                  var step$prime = step3(st.value0, slot3.value0);
                   return mkStep(new Step(extract2(step$prime), new Just(step$prime), $lazy_patch(103), done));
                 }
                 ;
-                throw new Error("Failed pattern match at Halogen.VDom.Driver (line 97, column 22 - line 103, column 79): " + [slot.constructor.name]);
+                throw new Error("Failed pattern match at Halogen.VDom.Driver (line 97, column 22 - line 103, column 79): " + [slot3.constructor.name]);
               }
               ;
-              return $lazy_render(104)(slot);
+              return $lazy_render(104)(slot3);
             };
           });
           var $lazy_render = $runtime_lazy7("render", "Halogen.VDom.Driver", function() {
-            return function(slot) {
-              if (slot instanceof ComponentSlot) {
-                return $lazy_renderComponentSlot(86)(slot.value0);
+            return function(slot3) {
+              if (slot3 instanceof ComponentSlot) {
+                return $lazy_renderComponentSlot(86)(slot3.value0);
               }
               ;
-              if (slot instanceof ThunkSlot) {
-                var step4 = buildThunk2(slot.value0);
+              if (slot3 instanceof ThunkSlot) {
+                var step4 = buildThunk2(slot3.value0);
                 return mkStep(new Step(extract2(step4), new Just(step4), $lazy_patch(89), done));
               }
               ;
-              throw new Error("Failed pattern match at Halogen.VDom.Driver (line 84, column 7 - line 89, column 75): " + [slot.constructor.name]);
+              throw new Error("Failed pattern match at Halogen.VDom.Driver (line 84, column 7 - line 89, column 75): " + [slot3.constructor.name]);
             };
           });
           var $lazy_renderComponentSlot = $runtime_lazy7("renderComponentSlot", "Halogen.VDom.Driver", function() {
@@ -80496,7 +80540,7 @@
       };
       return {
         render: render2,
-        renderChild: identity9,
+        renderChild: identity10,
         removeChild: removeChild4,
         dispose: removeChild4
       };
@@ -80533,15 +80577,18 @@
   };
 
   // output/Main/index.js
-  var map24 = /* @__PURE__ */ map(functorArray);
-  var type_19 = /* @__PURE__ */ type_17(isPropInputType);
-  var value13 = /* @__PURE__ */ value12(isPropString);
+  var fold2 = /* @__PURE__ */ fold(foldableArray)(monoidString);
   var show2 = /* @__PURE__ */ show(showInt);
-  var slot_2 = /* @__PURE__ */ slot_()({
+  var echartsIsSymbol = {
     reflectSymbol: function() {
       return "echarts";
     }
-  })(ordUnit);
+  };
+  var slot2 = /* @__PURE__ */ slot()(echartsIsSymbol)(ordUnit);
+  var map24 = /* @__PURE__ */ map(functorArray);
+  var type_19 = /* @__PURE__ */ type_17(isPropInputType);
+  var value13 = /* @__PURE__ */ value12(isPropString);
+  var slot_2 = /* @__PURE__ */ slot_()(echartsIsSymbol)(ordUnit);
   var pure9 = /* @__PURE__ */ pure(applicativeHalogenM);
   var modify_4 = /* @__PURE__ */ modify_(monadStateHalogenM);
   var bind8 = /* @__PURE__ */ bind(bindAff);
@@ -80555,11 +80602,54 @@
     };
     return SetChart2Offset2;
   }();
+  var Chart3Event = /* @__PURE__ */ function() {
+    function Chart3Event2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    Chart3Event2.create = function(value0) {
+      return new Chart3Event2(value0);
+    };
+    return Chart3Event2;
+  }();
   var _echarts = /* @__PURE__ */ function() {
     return $$Proxy.value;
   }();
   var component2 = function(dictMonadAff) {
     var component22 = component(dictMonadAff);
+    var render3 = function(item) {
+      var renderItem = function() {
+        if (item instanceof Nothing) {
+          return p_([text5("nothing clicked")]);
+        }
+        ;
+        if (item instanceof Just) {
+          return div_([h6_([text5("some click!")]), p_([text5(item.value0.name)]), p_([text5(fold2(["seriesIndex/dataIndex: ", show2(item.value0.seriesIndex), " / ", show2(item.value0.dataIndex)]))])]);
+        }
+        ;
+        throw new Error("Failed pattern match at Main (line 130, column 22 - line 144, column 23): " + [item.constructor.name]);
+      }();
+      var obj = {
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [{
+          type: "line",
+          data: [150, 230, 224, 218, 135, 147, 260]
+        }, {
+          type: "line",
+          data: [250, 130, 254, 318, 137, 247, 160]
+        }]
+      };
+      return div_([p_([text5("echarts simple-line example with clickable callback")]), renderItem, slot2(_echarts)(unit)(component22)({
+        options: obj,
+        modified: false
+      })(Chart3Event.create)]);
+    };
     var render2 = function(offset) {
       var ys = [150, 230, 224, 218, 135, 147, 260];
       var obj = {
@@ -80626,7 +80716,7 @@
         modified: false
       })]);
     }();
-    var render3 = function(state3) {
+    var render4 = function(state3) {
       if (state3.chartkey === "0") {
         return render0;
       }
@@ -80639,40 +80729,64 @@
         return render2(state3.chart2Offset);
       }
       ;
+      if (state3.chartkey === "3") {
+        return render3(state3.chart3ClickEvent);
+      }
+      ;
       return render0;
     };
     var initialState = function(arg) {
       return {
         chartkey: fromMaybe("")(arg.example),
-        chart2Offset: 5
+        chart2Offset: 5,
+        chart3ClickEvent: Nothing.value
       };
     };
     var handleAction = function(v) {
-      var v12 = fromString(v.value0);
-      if (v12 instanceof Nothing) {
-        return pure9(unit);
+      if (v instanceof SetChart2Offset) {
+        var v12 = fromString(v.value0);
+        if (v12 instanceof Nothing) {
+          return pure9(unit);
+        }
+        ;
+        if (v12 instanceof Just) {
+          return modify_4(function(v22) {
+            var $30 = {};
+            for (var $31 in v22) {
+              if ({}.hasOwnProperty.call(v22, $31)) {
+                $30[$31] = v22[$31];
+              }
+              ;
+            }
+            ;
+            $30.chart2Offset = v12.value0;
+            return $30;
+          });
+        }
+        ;
+        throw new Error("Failed pattern match at Main (line 155, column 8 - line 157, column 52): " + [v12.constructor.name]);
       }
       ;
-      if (v12 instanceof Just) {
-        return modify_4(function(v22) {
-          var $22 = {};
-          for (var $23 in v22) {
-            if ({}.hasOwnProperty.call(v22, $23)) {
-              $22[$23] = v22[$23];
+      if (v instanceof Chart3Event) {
+        return modify_4(function(v13) {
+          var $35 = {};
+          for (var $36 in v13) {
+            if ({}.hasOwnProperty.call(v13, $36)) {
+              $35[$36] = v13[$36];
             }
             ;
           }
           ;
-          $22.chart2Offset = v12.value0;
-          return $22;
+          $35.chart3ClickEvent = new Just(v.value0);
+          return $35;
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 112, column 8 - line 114, column 52): " + [v12.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 153, column 20 - line 159, column 49): " + [v.constructor.name]);
     };
     return mkComponent({
       initialState,
-      render: render3,
+      render: render4,
       "eval": mkEval({
         handleAction,
         handleQuery: defaultEval.handleQuery,
@@ -80695,6 +80809,10 @@
       ;
       if (arg instanceof Just && arg.value0 === "2") {
         return "#example-2";
+      }
+      ;
+      if (arg instanceof Just && arg.value0 === "3") {
+        return "#example-3";
       }
       ;
       return "#example-err";
