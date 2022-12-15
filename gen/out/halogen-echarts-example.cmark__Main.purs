@@ -54,12 +54,17 @@ component =
     }
   where
     initialState arg = {chartkey: fromMaybe "" arg.example, chart2Offset: 5, chart3ClickEvent: Nothing}
-    render state = case state.chartkey of
-      "0" -> render0
-      "1" -> render1
-      "2" -> render2 state.chart2Offset
-      "3" -> render3 state.chart3ClickEvent
-      _ -> render0
+    render state =
+      HH.div
+      [ HP.class_ $ HH.ClassName "component"
+      ]
+      [ case state.chartkey of
+          "0" -> render0
+          "1" -> render1
+          "2" -> render2 state.chart2Offset
+          "3" -> render3 state.chart3ClickEvent
+          _ -> render0
+      ]
 
     render0 =
       let
@@ -105,15 +110,21 @@ component =
             ]
           }
       in
-      HH.div_
-      [ HH.p_ [ HH.text "echarts simple-line example with an offset" ]
-      , HH.p_ [ HH.text "we update the offset with the value in the input below:" ]
-      , HH.input
-        [ HP.type_ HP.InputNumber
-        , HP.value $ show offset
-        , HE.onValueInput SetChart2Offset
+      HH.div
+      [ HP.class_ $ HH.ClassName "col2"
+      ]
+      [ HH.div_
+        [ HH.p_ [ HH.text "echarts simple-line example with an offset" ]
+        , HH.slot_ _echarts unit ECharts.component {options: obj, modified:true}
         ]
-      , HH.slot_ _echarts unit ECharts.component {options: obj, modified:true}
+      , HH.div_
+        [ HH.p_ [ HH.text "we update the offset with the value in the input below:" ]
+        , HH.input
+          [ HP.type_ HP.InputNumber
+          , HP.value $ show offset
+          , HE.onValueInput SetChart2Offset
+          ]
+        ]
       ]
 
     render3 item =
@@ -143,10 +154,16 @@ component =
                        ]
                      ]
       in
-      HH.div_
-      [ HH.p_ [ HH.text "echarts simple-line example with clickable callback" ]
-      , renderItem
-      , HH.slot _echarts unit ECharts.component {options: obj, modified:false} Chart3Event
+      HH.div
+      [ HP.class_ $ HH.ClassName "col2"
+      ]
+      [ HH.div_
+        [ HH.p_ [ HH.text "echarts simple-line example with clickable callback" ]
+        , HH.slot _echarts unit ECharts.component {options: obj, modified:false} Chart3Event
+        ]
+      , HH.div_
+        [ renderItem
+        ]
       ]
 
 

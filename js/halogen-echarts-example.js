@@ -80586,9 +80586,9 @@
   };
   var slot2 = /* @__PURE__ */ slot()(echartsIsSymbol)(ordUnit);
   var map24 = /* @__PURE__ */ map(functorArray);
+  var slot_2 = /* @__PURE__ */ slot_()(echartsIsSymbol)(ordUnit);
   var type_19 = /* @__PURE__ */ type_17(isPropInputType);
   var value13 = /* @__PURE__ */ value12(isPropString);
-  var slot_2 = /* @__PURE__ */ slot_()(echartsIsSymbol)(ordUnit);
   var pure9 = /* @__PURE__ */ pure(applicativeHalogenM);
   var modify_4 = /* @__PURE__ */ modify_(monadStateHalogenM);
   var bind8 = /* @__PURE__ */ bind(bindAff);
@@ -80627,7 +80627,7 @@
           return div_([h6_([text5("some click!")]), p_([text5(item.value0.name)]), p_([text5(fold2(["seriesIndex/dataIndex: ", show2(item.value0.seriesIndex), " / ", show2(item.value0.dataIndex)]))])]);
         }
         ;
-        throw new Error("Failed pattern match at Main (line 130, column 22 - line 144, column 23): " + [item.constructor.name]);
+        throw new Error("Failed pattern match at Main (line 141, column 22 - line 155, column 23): " + [item.constructor.name]);
       }();
       var obj = {
         xAxis: {
@@ -80645,10 +80645,10 @@
           data: [250, 130, 254, 318, 137, 247, 160]
         }]
       };
-      return div_([p_([text5("echarts simple-line example with clickable callback")]), renderItem, slot2(_echarts)(unit)(component22)({
+      return div2([class_("col2")])([div_([p_([text5("echarts simple-line example with clickable callback")]), slot2(_echarts)(unit)(component22)({
         options: obj,
         modified: false
-      })(Chart3Event.create)]);
+      })(Chart3Event.create)]), div_([renderItem])]);
     };
     var render2 = function(offset) {
       var ys = [150, 230, 224, 218, 135, 147, 260];
@@ -80670,10 +80670,10 @@
           })(ys)
         }]
       };
-      return div_([p_([text5("echarts simple-line example with an offset")]), p_([text5("we update the offset with the value in the input below:")]), input2([type_19(InputNumber.value), value13(show2(offset)), onValueInput(SetChart2Offset.create)]), slot_2(_echarts)(unit)(component22)({
+      return div2([class_("col2")])([div_([p_([text5("echarts simple-line example with an offset")]), slot_2(_echarts)(unit)(component22)({
         options: obj,
         modified: true
-      })]);
+      })]), div_([p_([text5("we update the offset with the value in the input below:")]), input2([type_19(InputNumber.value), value13(show2(offset)), onValueInput(SetChart2Offset.create)])])]);
     };
     var render1 = function() {
       var obj = {
@@ -80717,23 +80717,25 @@
       })]);
     }();
     var render4 = function(state3) {
-      if (state3.chartkey === "0") {
+      return div2([class_("component")])([function() {
+        if (state3.chartkey === "0") {
+          return render0;
+        }
+        ;
+        if (state3.chartkey === "1") {
+          return render1;
+        }
+        ;
+        if (state3.chartkey === "2") {
+          return render2(state3.chart2Offset);
+        }
+        ;
+        if (state3.chartkey === "3") {
+          return render3(state3.chart3ClickEvent);
+        }
+        ;
         return render0;
-      }
-      ;
-      if (state3.chartkey === "1") {
-        return render1;
-      }
-      ;
-      if (state3.chartkey === "2") {
-        return render2(state3.chart2Offset);
-      }
-      ;
-      if (state3.chartkey === "3") {
-        return render3(state3.chart3ClickEvent);
-      }
-      ;
-      return render0;
+      }()]);
     };
     var initialState = function(arg) {
       return {
@@ -80764,7 +80766,7 @@
           });
         }
         ;
-        throw new Error("Failed pattern match at Main (line 155, column 8 - line 157, column 52): " + [v12.constructor.name]);
+        throw new Error("Failed pattern match at Main (line 172, column 8 - line 174, column 52): " + [v12.constructor.name]);
       }
       ;
       if (v instanceof Chart3Event) {
@@ -80782,7 +80784,7 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 153, column 20 - line 159, column 49): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 170, column 20 - line 176, column 49): " + [v.constructor.name]);
     };
     return mkComponent({
       initialState,
