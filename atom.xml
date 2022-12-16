@@ -171,26 +171,6 @@
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/halogen-demo.html
-        </id>
-        <title type="text">
-            Static site + Halogen demo
-        </title>
-        <updated>
-            2022-04-25T01:00:00Z
-        </updated>
-        <author>
-            <name>
-                Lucas DiCioccio
-            </name>
-        </author>
-        <link href="https://lucasdicioccio.github.io/halogen-demo.html" rel="alternate"/>
-        <summary type="text">
-            Halogen is a web-application framework like React or Elm for writing applications in PureScript. This page demonstrates an interesting integration between my static-site blog-engine and Halogen.
-        </summary>
-    </entry>
-    <entry>
-        <id>
             https://lucasdicioccio.github.io/tactical-projects.html
         </id>
         <title type="text">
