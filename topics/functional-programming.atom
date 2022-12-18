@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">
+        Lucas DiCioccio&#39;s blog
+    </title>
+    <id>
+        https://lucasdicioccio.github.io/atom.xml
+    </id>
+    <updated>
+        2022-03-27T01:00:00Z
+    </updated>
+    <entry>
+        <id>
+            https://lucasdicioccio.github.io/on-dualities.html
+        </id>
+        <title type="text">
+            On Dualities
+        </title>
+        <updated>
+            2022-03-27T01:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://lucasdicioccio.github.io/on-dualities.html" rel="alternate"/>
+        <summary type="text">
+            Duality is technical jargon for &#34;complementary&#34;. Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values.
+        </summary>
+    </entry>
+</feed>

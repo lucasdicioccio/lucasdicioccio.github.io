@@ -83,11 +83,11 @@ pre {
 .social-links a {
   margin: 1rem;
 }
-.taglist {
+.topiclist {
   display: flex;
   justify-content: left;
 }
-.tag {
+.topic {
   font-size: 10pt;
   font-weight: bold;
   margin-left: 1em;
@@ -96,13 +96,13 @@ pre {
   border-radius: 4px;
   padding: 4px;
 }
-a.tag-link {
+a.topic-link {
   text-decoration: none;
 }
-.tag-name {
+.topic-name {
   padding-right: 5px;
 }
-.tag-count {
+.topic-count {
   padding-left: 5px;
   border-left: 1px solid #ccc;
 }
@@ -126,16 +126,16 @@ a.tag-link {
   pre > code {
     font-size: 10pt;
   }
-  .taglist {
+  .topiclist {
     display: block;
   }
-  .tag {
+  .topic {
     border-radius: 0;
     margin-top: 4px;
     background-color: #999999;
     text-align: right;
   }
-  .tag:hover {
+  .topic:hover {
     background-color: #777777;
   }
 }

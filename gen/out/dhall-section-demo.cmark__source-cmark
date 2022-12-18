@@ -10,7 +10,7 @@
 }
 
 =base:topic.json
-{"tags":["web", "haskell"]
+{"topics":["web", "haskell"]
 ,"keywords":["dhall", "configuration languages", "programming"]
 }
 

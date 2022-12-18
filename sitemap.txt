@@ -24,6 +24,7 @@ https://lucasdicioccio.github.io/page-intentionally-left-blank.html
 https://lucasdicioccio.github.io/babywords.html
 https://lucasdicioccio.github.io/how-to-troubleshoot.html
 https://lucasdicioccio.github.io/about-me.html
+https://lucasdicioccio.github.io/multi-criteria-decisions.html
 https://lucasdicioccio.github.io/kitchen-sink.html
 https://lucasdicioccio.github.io/how-this-blog-works.html
 https://lucasdicioccio.github.io/tips.html

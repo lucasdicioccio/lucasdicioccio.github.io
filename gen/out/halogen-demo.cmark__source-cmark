@@ -10,7 +10,7 @@
 }
 
 =base:topic.json
-{"tags":["purescript", "web", "functional programming"]
+{"topics":["purescript", "web", "functional programming"]
 ,"keywords":["purescript", "web", "functional programming", "spa", "javascript"]
 ,"imageLink":"/gen/images/blog-phases-purescript-pushed.dot.png"
 }
