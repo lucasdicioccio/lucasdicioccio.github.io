@@ -7,26 +7,26 @@
         https://lucasdicioccio.github.io/atom.xml
     </id>
     <updated>
-        1970-01-01T00:00:00Z
+        2023-01-08T01:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/alphabets.html
+            https://lucasdicioccio.github.io/2023-goals.html
         </id>
         <title type="text">
-            Alphabets
+            2023
         </title>
         <updated>
-            1970-01-01T00:00:00Z
+            2023-01-08T01:00:00Z
         </updated>
         <author>
             <name>
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/alphabets.html" rel="alternate"/>
+        <link href="https://lucasdicioccio.github.io/2023-goals.html" rel="alternate"/>
         <summary type="text">
-            The NATO phonetic alphabet if it were written by...
+            Happy new year!
         </summary>
     </entry>
 </feed>

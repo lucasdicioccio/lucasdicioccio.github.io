@@ -11,6 +11,26 @@
     </updated>
     <entry>
         <id>
+            https://lucasdicioccio.github.io/2023-goals.html
+        </id>
+        <title type="text">
+            2023
+        </title>
+        <updated>
+            2023-01-08T01:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://lucasdicioccio.github.io/2023-goals.html" rel="alternate"/>
+        <summary type="text">
+            Happy new year!
+        </summary>
+    </entry>
+    <entry>
+        <id>
             https://lucasdicioccio.github.io/decisions-are-not-outcomes.html
         </id>
         <title type="text">
@@ -187,26 +207,6 @@
         <link href="https://lucasdicioccio.github.io/tactical-projects.html" rel="alternate"/>
         <summary type="text">
             Different projects require different organization structure. So-called tactical projects tend to fall on you rather than being planned upfront. My recipe to tackle them is a few communication tools and empowered individuals free to roam within constraints.
-        </summary>
-    </entry>
-    <entry>
-        <id>
-            https://lucasdicioccio.github.io/page-intentionally-left-blank.html
-        </id>
-        <title type="text">
-            Page intentionally left blank
-        </title>
-        <updated>
-            2022-04-01T01:00:00Z
-        </updated>
-        <author>
-            <name>
-                Lucas DiCioccio
-            </name>
-        </author>
-        <link href="https://lucasdicioccio.github.io/page-intentionally-left-blank.html" rel="alternate"/>
-        <summary type="text">
-            A Page Intentionally left blank (or vacat).
         </summary>
     </entry>
     <entry>
