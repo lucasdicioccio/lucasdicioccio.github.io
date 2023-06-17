@@ -17,7 +17,7 @@ read/assemble/production steps.</p>
 <p><img src="/gen/images/blog-phases.dot.png" alt="blog phases" /></p>
 <p>In addition to HTML files, the <code>binary</code> produces a number of other <em>targets</em>,
 generally in JSON format but somewhat-arbitrary file generation is also
-supported. Among these extra files, the blog enginge generates a sibling
+supported. Among these extra files, the blog engine generates a sibling
 metadata file for each article, a listing of all targets, and a graph of how
 articles, topics, and images are linked with each other.</p>
 <p>For reasons, I want to consume and use of these extra-files <strong>on the blog files
@@ -51,7 +51,7 @@ sequences feels like a brittle <a href="https://en.wikipedia.org/wiki/Rube_Goldb
 compiler as a <em>production rule</em> in my blog-engine. This approach would be a bit
 cleaner and be more direct than the implementation I’ve picked so far. A key
 benefit, would be that a closer-embedding would result in faster reload times.
-However, this alternative option would give me less-direct access to
+However, this <a href="/hashtags/alternative.html"><span class="hashtag" data-hashtag="alternative">#alternative</span></a> option would give me less-direct access to
 compilation error messages.</p>
 <p>Later I’ll probably support both modes. The implmentation I’ve settled on
 required no changes to the blog-engine and is likely to work as long as the

@@ -1,4 +1,132 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Multi-criteria decisions</title><link rel="icon" type="image/x-icon" href="/images/favicon.png"><link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://lucasdicioccio.github.io/atom.xml"><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="decision-making, management, decision theory, prospect theory"><meta name="description" content="Real-world decisions are tradeoffs."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Multi-criteria decisions"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="@lucasdicioccio"><meta property="twitter:description" content="Real-world decisions are tradeoffs."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Multi-criteria decisions"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/multi-criteria-decisions.html"><meta property="og:description" content="Real-world decisions are tradeoffs."><meta name="article:published_time" content="2022-12-21T01:00:00Z"><meta name="ks:article_json" content="/json/multi-criteria-decisions.cmark.json"><meta name="article:tag" content="decision-making"><meta name="article:tag" content="management"><meta name="article:tag" content="decision theory"><meta name="article:tag" content="prospect theory"><style>@import "/css/main.css";.col2 {  display: grid;  grid-template-columns: 1fr 1fr;}</style></head><body><nav id="site-navigation" class="nav"><a href="/">home</a><div id="search-box"><script type="text/javascript" src="/js/search-box.js" async></script></div></nav><div class="main"><article><header class="heading"><h1>Multi-criteria decisions</h1><p>On <span>Wed, 21 Dec 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 0 words, 0 code snippets, 0 links, 0images.</p><div class="topiclist"><div class="topic"><a class="topic-link" href="/topics/decision-making.html"><span class="topic-name">decision-making</span><span class="topic-count">1/2</span></a><div class="topic-prevnext"><span class="topic-prev-link"></span><span class="topic-next-link"><a href="/decisions-are-not-outcomes.html">[next]</a></span></div></div><div class="topic"><a class="topic-link" href="/topics/management.html"><span class="topic-name">management</span><span class="topic-count">1/7</span></a><div class="topic-prevnext"><span class="topic-prev-link"></span><span class="topic-next-link"><a href="/always-refactoring.html">[next]</a></span></div></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><div id="app0">
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Multi-criteria decisions</title><link rel="icon" type="image/x-icon" href="/images/favicon.png"><link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://lucasdicioccio.github.io/atom.xml"><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="decision-making, management, decision theory, prospect theory"><meta name="description" content="Real-world decisions are tradeoffs."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Multi-criteria decisions"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="@lucasdicioccio"><meta property="twitter:description" content="Real-world decisions are tradeoffs."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Multi-criteria decisions"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/multi-criteria-decisions.html"><meta property="og:description" content="Real-world decisions are tradeoffs."><meta name="article:published_time" content="2022-12-21T01:00:00Z"><meta name="ks:article_json" content="/json/multi-criteria-decisions.cmark.json"><meta name="article:tag" content="decision-making"><meta name="article:tag" content="management"><meta name="article:tag" content="decision theory"><meta name="article:tag" content="prospect theory"><style>@import "/css/main.css";.col2 {  display: grid;  grid-template-columns: 1fr 1fr;}</style></head><body><nav id="site-navigation" class="nav"><a href="/">home</a><div id="search-box"><script type="text/javascript" src="/js/search-box.js" async></script></div></nav><div class="main"><article><header class="heading"><h1>Multi-criteria decisions</h1><p>On <span>Wed, 21 Dec 2022</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 1078 words, 0 code snippets, 5 links, 2images.</p><div class="topiclist"><div class="topic"><a class="topic-link" href="/topics/decision-making.html"><span class="topic-name">decision-making</span><span class="topic-count">1/2</span></a><div class="topic-prevnext"><span class="topic-prev-link"></span><span class="topic-next-link"><a href="/decisions-are-not-outcomes.html">[next]</a></span></div></div><div class="topic"><a class="topic-link" href="/topics/management.html"><span class="topic-name">management</span><span class="topic-count">1/6</span></a><div class="topic-prevnext"><span class="topic-prev-link"></span><span class="topic-next-link"><a href="/always-refactoring.html">[next]</a></span></div></div></div></header><div class="upcoming-notice"><p>This article is still considered unfinished and content may change significantly.</p></div><div id="histogram"></div><div class="main-article"><section class="main-section"><p>I like <em>triangular tradeoffs</em>. Triangular <a href="/hashtags/trade-off.html"><span class="hashtag" data-hashtag="trade-off">#trade-off</span></a> are easy to come-up with,
+easy to catch, and you can write and re-hash the same terrible blog article and
+people will love it.</p>
+<h1 id="triangular-tradeoffs">Triangular tradeoffs</h1>
+<p>Triangular tradeoffs are tradeoffs where you lay <em>options</em> along the sides of a
+triangle, and you can only pick one corner of the triangle, leaving the
+opposite side unavailable (it also works if each corner is an option and you
+need to pick one side). You can construct a triangular trade-off with the
+template sentence <code>A,B,C - pick two</code> (or pick <span class="emoji" data-emoji="two">2️⃣</span>).</p>
+<p>Examples of triangular tradeoffs:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/CAP_theorem">Consistent, Available, Partition-Tolerant</a> – pick <span class="emoji" data-emoji="two">2️⃣</span>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Project_management_triangle">Good, Fast, Cheap</a> – pick <span class="emoji" data-emoji="two">2️⃣</span>
+</li>
+<li><a href="https://ricardoandlorena.com/lifestyle/money-time-energy">Energy, Money, Time</a> – pick <span class="emoji" data-emoji="two">2️⃣</span>
+</li>
+<li><a href="https://longform.asmartbear.com/docs/fulfillment/">Joy, Skill, Needs</a> –  pick <span class="emoji" data-emoji="two">2️⃣</span>
+</li>
+</ul>
+<p>You probably have encountered such sentence because triangular tradeoffs arise
+in many context. The first one is the CAP-Theorem: an impossibility result in
+computer science. The second one is a form of project-management gimmick.
+Whereas the two last ones are motivational frameworks to help us go on with our
+lives (and to be honest to the article, the last one encourages to pick
+<span class="emoji" data-emoji="three">3️⃣</span>).</p>
+<p>These tradeoffs have the same structure and thus, which is why we recognize them as a triangle.</p>
+<h2 id="modeling-triangular-tradeoffs">modeling triangular tradeoffs</h2>
+<p>The most direct representation of triangular tradeoffs is, well, to have a
+triangle: pick a single corner or a single side. One thing to node is that when
+picking a side of a triangle, we actually chose an option that is explicitly
+characterized along two desireable criteria (e.g., Good and Cheap) while
+implicitly leaving out the third criteria (i.e., not Fast).  The fact that
+criteria are independant of each other is in contrast with tradeoffs which are
+enunciated as “Cheap or Expensive” because Expensive some is the opposite of
+Cheap whereas Expensive and Cheap are not related to Good or Bad.</p>
+<p>The key observation to make here is that each of the three options actually
+encode a <em>combination of independant criteria</em>: goodness (Good or not), cost
+(Cheap or not), and time-to-delivery (Fast or not). If we give a numerical
+representation to each criteria, say <code>1</code> represents Good and <code>0</code> represents
+not-Good (and same for Cheap and Fast). We can then use a three-digit number like
+<code>011</code> (not-Good, Cheap, Fast) to represent various positions on the triangle.</p>
+<p>If we step back, the “option” we pick when taking a side of the tradeoff
+triangle is slightly different from the “option” we pick when deciding to pick
+a <em>value</em> in the <em>domain</em> of a given criteria. Indeed, the first kind of option
+picks three digits, whereas the second kind of option picks a single digit.
+However, the two kinds of “options” are related as the values that either
+<em>variables</em> can take are bound together each other via the triangle constraint.</p>
+<p>With binary values to represent each of the three possible criteria, we have
+eight possible choices to assign. If we read “a,b,c – pick 2” we could encode
+the constraint as: <code>pick one of 011, 110, 101</code>. If we step back, and we said
+that we meant “pick a corner”, this. Thus, the way we chose to model variables
+will affect the way we <em>express</em> constraints. Sometimes you can get shortcuts
+like using a single variable with fewer choice than all the combinations of the
+components’ domain. However such shortcuts may lose applicability or be to
+distant from reality.</p>
+<p>It is often useful to challenge our modeling in this way, because for the four
+examples of Triangle tradeoffs I gave, we indeed have some notion of “at best
+pick two” and “worst case pick zero”.  In reality, you can totally have some
+project that are nor good, nor fast, nor cheap (i.e., <code>000</code>). Let’s call them
+industrial disasters (e.g., <a href="https://www.consultancy.uk/news/18243/lidl-cancels-sap-introduction-having-sunk-500-million-into-it">Lidl’s botched
+SAP</a>).
+Indeed, abandoning Money will not magically give you Energy and Time. The
+reality we want to capture with this triangle is more something around if you
+want more Money you will lose-out on Time or Energy.  As a result, the Triangle
+constraint could be better expressed as <code>111 is invalid</code>.</p>
+<p>Further, in reality each of the criteria are more subtle than having Money or
+not having Money. Money is literally an account that can take ranges of values
+(you could also have negative Money if you owe someone) and hence a <code>0-1</code>
+variable is not sufficient to express the subtlety of life experiences.  Where
+I want to bring you is that we need some more granularity when expressing
+tradeoffs.</p>
+<h1 id="tradeoffs-on-ranges">Tradeoffs on Ranges</h1>
+<p>We can give a weight, as a scalar value, for each of the binary choice. Rather
+than limiting ourselves to <code>true</code> and <code>false</code> we can pick more granular values,
+which allow to express more nuance between choices. For instance, let’s stay we
+can give a value in the <code>[0 ... 100]</code> interval, where <code>0</code> is the equivalent of
+<code>false</code> and <code>100</code> it the equivalent of <code>true</code>.</p>
+<p>We now are equipped with something that allows to <em>quantify</em> how much we are
+situated in the <em>design space</em>.</p>
+<p><em>the key thing is to realize that when mapping options we are actually defining a dimensional range and giving a name to one end of the range</em> thus concise is the opposite of thorough: they live in a same dimension;</p>
+<p>things like monolith vs. microservices are not tradeoffs in the sense that they are presented as options and their outcomes are in other dimensions, but they are tradeoffs because there is more granularity in the choice</p>
+<h1 id="going-further">Going further</h1>
+<p>You are free to encode mapping between physically measurable quantities as long
+as the mapping have some reasonable assumptions (in particular, some form of
+monotonicity and maybe some continuity).</p>
+<h2 id="monotonicity">monotonicity</h2>
+<p>In general, when modeling a value for a tradeoff, there are two extremes for
+<code>bad</code> and <code>good</code> along an axis (e.g., fast is zero and slow is infinite). What
+you want to avoid are forms of functions that contain regression (e.g., taking
+3 months being measured faster than taking 1 month). In such a situation your
+model loses applicability (and probably resolution) because somehow some
+phenomenon is inconsistent with our human-made understanding.</p>
+<h2 id="continuity-or-lack-of">continuity or lack-of</h2>
+<p>Functions you pick could be discontinuous (e.g., a natural number between 0 and
+100) or (e.g., a real number between 0.0 and 100.0).  When using a computer for
+picking a tradeoff, for performance and practical reason, you’ll get truncated
+values (Real numbers are … not really tangible to be fair and I’m digressing
+but I feel they are not “really” numbers, I  prefer to call them limits)</p>
+<h1 id="going-even-further">Going even further</h1>
+<p>You are free to use a constraint an outcome to some minimal value.
+Here we are blurring the lines between:</p>
+<ul>
+<li>modifying the current model to take more things into account
+</li>
+<li>using an output of the current model as a modeling basis for another model
+</li>
+</ul>
+<p>Typically, this approach can be useful in to iteratively model a system in
+increasingly high-level stages. Sometimes a first analysis will reveal some
+analytical form (i.e., you can take shortcuts when deciding to map physical
+values to decision dimensions).</p>
+<h1 id="binary-tradeoffs">binary tradeoffs</h1>
+<p>Binary tradeoff</p>
+<ul>
+<li>Time is Money
+</li>
+<li>Heisenberg uncertainty principle
+</li>
+<li>Time-Space constraints
+</li>
+<li>Long-term vs. Short-term
+</li>
+</ul>
+<h1 id="summary">summary</h1>
+<p><img src="/gen/images/multi-criteria-decisions-01.dot.png" alt="method" />
+<img src="/gen/images/design-space-01.dot.png" alt="method" /></p>
+<h1 id="a-simple-example">A simple example</h1>
+<div id="app0">
 </div>
 <script src="/js/multi-criteria-decisions.js"  data-humdrum-arg="0"></script>
 </section><section class="main-section"><div id="app-err">

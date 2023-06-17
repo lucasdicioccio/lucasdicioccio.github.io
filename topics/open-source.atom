@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title type="text">
-        Lucas DiCioccio&#39;s blog
+        Lucas DiCioccio's blog
     </title>
     <id>
         https://lucasdicioccio.github.io/atom.xml
@@ -46,7 +46,7 @@
         </author>
         <link href="https://lucasdicioccio.github.io/kitchen-sink.html" rel="alternate"/>
         <summary type="text">
-            After having written a [number of articles](/topics/web.html) about my blog-engine. And motivated by curious people wanting to see how it&#39;s built, I&#39;ve open-sourced my blog-engine and named it _Kitchen Sink_.
+            After having written a [number of articles](/topics/web.html) about my blog-engine. And motivated by curious people wanting to see how it's built, I've open-sourced my blog-engine and named it _Kitchen Sink_.
         </summary>
     </entry>
 </feed>

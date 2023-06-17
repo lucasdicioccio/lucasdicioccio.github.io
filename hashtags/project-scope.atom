@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">
+        Lucas DiCioccio's blog
+    </title>
+    <id>
+        https://lucasdicioccio.github.io/atom.xml
+    </id>
+    <updated>
+        2022-09-14T12:00:00Z
+    </updated>
+    <entry>
+        <id>
+            https://lucasdicioccio.github.io/always-refactoring.html
+        </id>
+        <title type="text">
+            My devs are always refactoring! why? [part-2]
+        </title>
+        <updated>
+            2022-09-14T12:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://lucasdicioccio.github.io/always-refactoring.html" rel="alternate"/>
+        <summary type="text">
+            I have ran into a number of product-owner puzzled by how often #developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article to demistify a bit the "always-refactoring team".
+        </summary>
+    </entry>
+</feed>

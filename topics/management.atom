@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title type="text">
-        Lucas DiCioccio&#39;s blog
+        Lucas DiCioccio's blog
     </title>
     <id>
         https://lucasdicioccio.github.io/atom.xml
@@ -26,7 +26,7 @@
         </author>
         <link href="https://lucasdicioccio.github.io/decisions-are-not-outcomes.html" rel="alternate"/>
         <summary type="text">
-            Deciding is difficult, we always want to improve our decision making. What&#39;s more or at least as difficult? gauging whether a decision is good or not.
+            Deciding is difficult, we always want to improve our decision making. What's more or at least as difficult? gauging whether a decision is good or not.
         </summary>
     </entry>
     <entry>
@@ -46,7 +46,7 @@
         </author>
         <link href="https://lucasdicioccio.github.io/always-refactoring.html" rel="alternate"/>
         <summary type="text">
-            I have ran into a number of product-owner puzzled by how often developers in their team express a need to &#34;refactor&#34;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article to demistify a bit the &#34;always-refactoring team&#34;.
+            I have ran into a number of product-owner puzzled by how often #developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article to demistify a bit the "always-refactoring team".
         </summary>
     </entry>
     <entry>
@@ -86,7 +86,7 @@
         </author>
         <link href="https://lucasdicioccio.github.io/what-is-the-project-scope.html" rel="alternate"/>
         <summary type="text">
-            In past experiences I ran into a number of product-owner and staekholders puzzled by how often developers in their team express a need to &#34;refactor&#34;. Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article. This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of projects, in particular regarding the scope of projects.
+            In past experiences I ran into a number of product-owner and staekholders puzzled by how often developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article. This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of a #project, in particular regarding the scope of projects (#project-scope).
         </summary>
     </entry>
     <entry>

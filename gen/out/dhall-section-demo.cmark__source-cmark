@@ -27,14 +27,14 @@ A demo of using Dhall as an intermediary step for my blog-engine sections.
 
 =base:main-content.cmark
 
-Since I've started building my own blog engine, I wanted some limited scripting
+Since I've started building my own blog engine, I wanted some limited #scripting
 capabilities in the text-processing engine. A specific case I had in mind was
 to generate some tables or listings for what you currently find on the
 [/readings.html](/readings.html) or on the [/tips.html](/tips.html) page.  I
 would like something like [Microformats](http://microformats.org/), but
 tactically applied to individual articles, with little ceremony.
 
-A more telling example could be a photo-gallery where we list a dozen of
+A more telling example could be a #photo gallery where we list a dozen of
 images. For each image you'd want a title, an URL, a preferred background color
 for the frame, maybe a caption etc. Hand-editing such galleries is a lot of
 work, and the extra ceremony to store less than 100 records in a DB is not
@@ -108,7 +108,7 @@ For the first question (a), I want some minimal and non-trivial language.  I do
 not want to invest much time on the particular choice because I want to try
 different things rather than do some proper analysis to answer the second (b)
 question.  Indeed, if the cost for demonstrating (a) happens to be small, then
-I get a pretty good starting point to answer or try tradeoffs in (b).
+I get a pretty good starting point to answer or try #trade-off in (b).
 
 Working on the [Halogen demo article](/halogen-demo.html) I was reminded about
 [Dhall](https://dhall-lang.org/) as an improved YAML/JavaScript for
