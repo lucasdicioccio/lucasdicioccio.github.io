@@ -4,6 +4,7 @@ https://lucasdicioccio.github.io/prometheus-monitor.html
 https://lucasdicioccio.github.io/on-dualities.html
 https://lucasdicioccio.github.io/notes.html
 https://lucasdicioccio.github.io/dhall-section-demo.html
+https://lucasdicioccio.github.io/triangular-decisions.html
 https://lucasdicioccio.github.io/tactical-projects.html
 https://lucasdicioccio.github.io/halogen-echarts-example.html
 https://lucasdicioccio.github.io/gallery-2022-08-cabourg.html
@@ -26,7 +27,6 @@ https://lucasdicioccio.github.io/babywords.html
 https://lucasdicioccio.github.io/how-to-troubleshoot.html
 https://lucasdicioccio.github.io/about-me.html
 https://lucasdicioccio.github.io/2023-goals.html
-https://lucasdicioccio.github.io/multi-criteria-decisions.html
 https://lucasdicioccio.github.io/kitchen-sink.html
 https://lucasdicioccio.github.io/how-this-blog-works.html
 https://lucasdicioccio.github.io/tips.html

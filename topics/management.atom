@@ -11,6 +11,26 @@
     </updated>
     <entry>
         <id>
+            https://lucasdicioccio.github.io/triangular-decisions.html
+        </id>
+        <title type="text">
+            Understanding decision under constraints with triangular decisions
+        </title>
+        <updated>
+            2023-06-18T01:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://lucasdicioccio.github.io/triangular-decisions.html" rel="alternate"/>
+        <summary type="text">
+            Real-world decisions are tradeoffs under constraints. We like to simplify some tradeoffs with triangular decisions like "cheap, good, fast -- pick two". Let's see what we can learn from these triangles.
+        </summary>
+    </entry>
+    <entry>
+        <id>
             https://lucasdicioccio.github.io/decisions-are-not-outcomes.html
         </id>
         <title type="text">

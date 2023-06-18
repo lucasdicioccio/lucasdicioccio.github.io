@@ -1,0 +1,194 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - Understanding decision under constraints with triangular decisions</title><link rel="icon" type="image/x-icon" href="/images/favicon.png"><link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://lucasdicioccio.github.io/atom.xml"><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="decision-making, management, decision theory, prospect theory"><meta name="description" content="Real-world decisions are tradeoffs under constraints.  We like to simplify some tradeoffs with triangular decisions like &quot;cheap, good, fast -- pick two&quot;. Let&#39;s see what we can learn from these triangles."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - Understanding decision under constraints with triangular decisions"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="@lucasdicioccio"><meta property="twitter:description" content="Real-world decisions are tradeoffs under constraints.  We like to simplify some tradeoffs with triangular decisions like &quot;cheap, good, fast -- pick two&quot;. Let&#39;s see what we can learn from these triangles."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - Understanding decision under constraints with triangular decisions"><meta name="url" property="og:url" content="https://lucasdicioccio.github.io/triangular-decisions.html"><meta property="og:image" content="https://lucasdicioccio.github.io/images/mcd-triangle-02.png"><meta property="twitter:image:src" content="https://lucasdicioccio.github.io/images/mcd-triangle-02.png"><meta property="og:description" content="Real-world decisions are tradeoffs under constraints.  We like to simplify some tradeoffs with triangular decisions like &quot;cheap, good, fast -- pick two&quot;. Let&#39;s see what we can learn from these triangles."><meta name="article:published_time" content="2023-06-18T01:00:00Z"><meta name="ks:article_json" content="/json/triangular-decisions.cmark.json"><meta name="article:tag" content="decision-making"><meta name="article:tag" content="management"><meta name="article:tag" content="decision theory"><meta name="article:tag" content="prospect theory"><style>@import "/css/main.css";.col2 {  display: grid;  grid-template-columns: 1fr 1fr;}</style></head><body><nav id="site-navigation" class="nav"><a href="/">home</a><div id="search-box"><script type="text/javascript" src="/js/search-box.js" async></script></div></nav><div class="main"><article><header class="heading"><h1>Understanding decision under constraints with triangular decisions</h1><p>On <span>Sun, 18 Jun 2023</span>, by <a href="https://twitter.com/lucasdicioccio">@lucasdicioccio</a>, 1695 words, 0 code snippets, 8 links, 7images.</p><div class="topiclist"><div class="topic"><a class="topic-link" href="/topics/decision-making.html"><span class="topic-name">decision-making</span><span class="topic-count">2/2</span></a><div class="topic-prevnext"><span class="topic-prev-link"><a href="/decisions-are-not-outcomes.html">[prev]</a></span><span class="topic-next-link"></span></div></div><div class="topic"><a class="topic-link" href="/topics/management.html"><span class="topic-name">management</span><span class="topic-count">6/6</span></a><div class="topic-prevnext"><span class="topic-prev-link"><a href="/tactical-projects.html">[prev]</a></span><span class="topic-next-link"></span></div></div></div></header><div class="main-article"><section class="main-section"><p>I want to start a series of articles on multi-criteria decisions. Since the
+topic is broad, I’d like to first write an article about decisions under
+constraints, starting with <em>triangular tradeoffs</em>.</p>
+<h1 id="triangular-tradeoffs">Triangular tradeoffs</h1>
+<p>Triangular tradeoffs are tradeoffs where you lay <em>options</em> along the sides of a
+triangle, and you can only pick one corner of the triangle, leaving the
+opposite side unavailable (it also works if each corner is an option and you
+need to pick one side). You can construct a triangular trade-off with the
+template sentence <code>A,B,C - pick two</code>.</p>
+<p>Examples of triangular tradeoffs:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Project_management_triangle">Good, Fast, Cheap</a> – pick two
+</li>
+<li><a href="https://en.wikipedia.org/wiki/CAP_theorem">Consistent, Available, Partition-Tolerant</a> – pick two
+</li>
+<li><a href="https://ricardoandlorena.com/lifestyle/money-time-energy">Energy, Money, Time</a> – pick two
+</li>
+<li><a href="https://longform.asmartbear.com/docs/fulfillment/">Joy, Skill, Needs</a> –  pick two
+</li>
+</ul>
+<p>You probably have encountered such sentence because triangular tradeoffs arise
+in many contexts.
+The first example is a form of <a href="/hashtags/project-management.html"><span class="hashtag" data-hashtag="project-management">#project-management</span></a> gimmick.
+The second example is the CAP-Theorem: an impossibility result in
+computer science.
+Whereas the two last ones are motivational frameworks to help us go on with our
+lives.</p>
+<p>These tradeoffs have the same structure about three competing goals that we can
+place on triangle sides. The next section explains how to thing about
+triangular tradeoffs.</p>
+<h1 id="modeling-triangular-tradeoffs">modeling triangular tradeoffs</h1>
+<p>The most direct representation of triangular tradeoffs is, well, to have a
+triangle: annotate the sides with the criteria and the <em>decision</em> is which
+corner to pick. When picking a corner of a triangle, we actually chose an
+option which is explicitly characterized along two desireable criteria (e.g.,
+Good and Cheap) while implicitly leaving out the third criteria (i.e., not
+Fast). Since a triangle has three corners, there are three possible choices.
+And we can illustrate the three possible choices in the following picture.</p>
+<p><img src="/images/mcd-triangle-01.png" alt="fast good cheap triangle" /></p>
+<p>When we draw such a picture, we implicitly hide some information. In the
+triangle, each <strong>side represents a favorable outcome</strong> of a decision. Thus,
+<strong>corner encodes a combination of independant criteria</strong>.  Goodness (Good or
+not), cost (Cheap or not), and time-to-delivery (Fast or not) are the three
+independant criteria.</p>
+<p>Let’s give a numerical representation to each criteria, say <code>1</code> represents the
+favorable outcome and <code>0</code> represents the unfavorable outcome. For instance, <code>1</code>
+is Good, and <code>0</code> is not-Good. With this simple formalims we can then use a
+three-digit number like <code>011</code>  to represent various positions on the triangle.
+The first digit (leftmost) encodes cost, the second digit encodes goodness, and
+the third digit (rightmost) encodes time-to-delivery.  Thus <code>101</code> encodes
+<code>(Cheap, not-Good, Fast)</code>. We can now annotate our triangle with these numbers,
+which is akin to giving a name to each corner:</p>
+<p><img src="/images/mcd-triangle-02.png" alt="fast good cheap triangle, annotated in binary format" /></p>
+<p>In addition to giving a name to each corner, I’ve also colored each digit and
+the triangle-side according to the criteria they represent. The picture carries
+a lot of information: we started saying there are three options to chose from
+(each corner) and elaborated that we also chose from three criteria (individual
+digits). Decisions on corners or decisions on digits are inter-related: if we
+pick one corner we also pick three digits, the converse is true. Thus either
+way of deciding leads to the same result, but these decisions are different.
+This story becomes confusing and we are approaching the important lesson of
+this article. Let’s focus now on what is the relationship between deciding on
+corners and deciding on digits.</p>
+<h1 id="corners-or-three-digit-numbers">corners or three-digit numbers?</h1>
+<p>In triangular decisions, there is some confusion about what we “chose”.
+Indeed, the decision we make when taking a corner of the triangle is related to
+(but different from) the decision we make when picking a single digit.
+Confusion arises due to the fact that, in the latter case, we are <em>deciding
+under constraints</em>.  Whereas, when picking a corner, the <a href="/hashtags/constraints.html"><span class="hashtag" data-hashtag="constraints">#constraints</span></a> have
+already been resolved.</p>
+<p>The <strong>“pick two”</strong> of the triangular tradeoff template sentence actually is a
+constraint: we must pick a number <strong>so that the sum of the digits is two</strong>. In
+contrast, <strong>“pick a corner”</strong> is <strong>a shortcut to name configurations</strong> which
+happens to have two connected sides: someone (the first human who draw a
+triangle) already solved the problem “the sum of digits is two” and provided us
+with a menu of three choices.</p>
+<p>Recapitulating: with binary values to represent each of the three possible
+criteria, we have eight possible configurations. Further, we are given the
+constraint “pick two”. We formalize this constraint as <code>the sum of the digits is two</code>.  Doing so reduces the triangle tradeoff to “pick a corner” among three
+configurations.  When <a href="/decisions-are-not-outcomes.html">evaluating decisions</a>
+this reduction of the decision space is welcome as we a smaller decision space
+facilitates the evaluation of a decision. What is important to internalize here
+is that <strong>the reduction in the number of configurations is not attributed to a
+“choice”, instead it is the application of constraints</strong>.</p>
+<p>We can generalize the shortcut-trick to problems having more than three binary
+criteria. For instance if you are used to playing board game you already know
+that a tetrahedron can encode “a,b,c,d – pick three” (much like a <a href="https://en.wikipedia.org/wiki/Four-sided_die">four-sided
+die</a> picks one out).  Thus
+overall, what we want to study the general framework of applying constraints to
+reduce the size of a decision space.</p>
+<h1 id="deciding-under-constraints">deciding under constraints</h1>
+<p>This section elaborates the general framework of decision under constraints.</p>
+<p>Rather than a simple triangular decision, we are given a set of <em>atomic
+decisions</em>. These are primitive decisions such as prices, delays, quality, or
+amounts of sugar cane.  We are tasked to <em>decide</em>. That is, among all the
+possible <em>configurations</em>, we need to pick one configuration.  Figuratively,
+we can represent a choice and (a subset of the possible configurations) as
+follows:</p>
+<p><img src="/images/mcd-choice-reduction-00.png" alt="choice configurations" /></p>
+<p>In the above picture, we lay down all the small atomic decisions we have to make in
+gray circles, coloring these decisions means making a choice. Once we color all
+the circles (which I have not done in the picture because it is fastidious), we
+have settled on a particular configuration.</p>
+<p>What makes a decision difficult is pairwise. On the first hand, the number of
+configurations grows exponentially with the number of atomic decisions. On the
+other hand, evaluating each single decision can cost much effort.  Some
+real-world rules such as physics boundaries, personal preferences, or
+regulations, reduce the set of decisions we can make.</p>
+<p>As the analysis of the triangular tradeoff as shown us, we have two ways to decide:</p>
+<ul>
+<li>either we make choices about one configuration in one-fell swoop
+</li>
+<li>or we apply constraints, step back and decide on a reduced set of configurations
+</li>
+</ul>
+<p>The following picture recapitulates these two paths. Top-left, we find our set
+of atomic decisions. When deciding directly (moving right) we end up with a
+particular configuration. Whereas we can also first apply some constraint,
+which means we are left to chose from a reduced set of “bundled”
+configurations.</p>
+<p><img src="/images/mcd-choice-reduction-01.png" alt="direct choice pick vs choice reduction via constraints" /></p>
+<p>The distinction between these two decision processes is tenuous: when we decide
+in one-fell swoop we shall still apply the constraints to arrive to a solution.
+When we have many constraints, nothing prevents to repeat the process. Indeed,
+decisions can also take more steps. At each decision step, applying some
+constraints bundles some configurations from the previous decision-step.</p>
+<p><img src="/images/mcd-choice-reduction-02.png" alt="multi steps reductions" /></p>
+<p>Other decision-making processes can exist as well if we change slightly the
+definition of “decision”. For instance, let’s extend the “decision” step with
+the added power to eliminate at least one-value. That is to say, we can make
+the decision to do a tiny bit of progress by reducing the set of candidates.
+Using, this decision repeatedly betweeen applications of some constraints also
+drive us towards a final decision. Potentially, the final decision happens when
+a single configuration is left over.</p>
+<p>Further, we could extend this process so that a decision step could influence
+the constraints (e.g., re-ordering them or even creating new ones). Such a
+technique could allow to capture secondary goals when some condition on the
+left over combinations happens (e.g., when two options are acceptably
+performant, consider some risk-threshold before making a by-cost tie-break).</p>
+<p>We can illustrate (two steps) of such a process as follows.
+<img src="/gen/images/mcd-process-01.dot.png" alt="method" /></p>
+<p>Summarizing, we’ve describes a pretty general decision-making process for
+decisions under constraints.  This process is “recursive” (or fractal and prone
+to self-references if you prefer): the choice we make when pruning
+configuration or when picking a constraint for the next step, in itself, is a
+deicsion.  This process is mechanical and deterministic as we can describe it
+with such graphs.  Therefore, if our decision-making process were perfect, <strong>we
+should end up chosing the same configuration in either path</strong>. On the opposite,
+we ultimately make <em>informed-guesses</em>.</p>
+<p>An <a href="/hashtags/informed-guess.html"><span class="hashtag" data-hashtag="informed-guess">#informed-guess</span></a> is a nice euphemism for instinct-based decisions. There is
+nothing wrong with such informed-guesses. Indeed, if we annotate the picture
+from my article about <a href="/decisions-are-not-outcomes.html">“judging decisions, not
+outcomes”</a>, we see that applying constraints to a
+problem will either reduce the enumeration difficulty or change the evaluation
+difficulty (e.g., because the constraint pruned some options which required
+some rare expertise before continuing).</p>
+<p><img src="/images/mcd-choice-reduction-03.png" alt="direct choice pick vs choice reduction via constraints" /></p>
+<p>Although there is nothing wrong with an informed guess, they are easy to
+conflate with a rushed decision.  In appearance, the shortcut we took in
+triangular tradeoffs is beneficial because we started from eight configurations
+and ended up with three configurations. We discarded some solutions subject to
+related constraints. For instance, admit that “pick at most two” rather than
+“pick exactly two” is a valid representation of our business case. We then
+admit more than three solutions (we now have seven solutions).  Solutions under
+the “pick at most two” constraint could be beneficial on other factors that you
+have not yet accounted for. As a result people tend to challenge solutions with
+their own interpretation of business rules. Such disagreement can be
+frustrating.  In short, keep in mind that the solution “neither fast, nor
+cheap, nor good” actually exists and someone, somewhere, may be championing
+this solution as an alternative to yours. My recommendation against
+corporate-decisions paralysis is to document decision processed (e.g., via
+<a href="/talks.html#design-doc-template">design docs</a>) so that constraints and evaluation criteria are spelled out.</p>
+<h2 id="summary-and-conclusion">Summary and conclusion</h2>
+<p>We discuss the process of deciding under constraints. Starting, from the
+example of triangular tradeoffs.  Such problems asks people to make a pick
+among three options.  These three options actually capture a <em>configuration</em>
+among  three distinct binary decisions (e.g., good or bad, fast or slow, cheap
+or expensive). Seemingly we should have to pick among eight configurations.
+The difference between the two approaches to a same problem is that we applied
+a constraint (“pick two”) and renamed to three possible configurations.</p>
+<p>We then generalize the constraint-application step and sketch a
+decision-framework of iterative changes to an initial problem. The framework is
+pretty general and typically the goal is to restrict the number of
+configurations enough that some instinct-based decision becomes possible.  In
+corporate context, this decision-process is often split among multiple people
+at various hierarchical ranks.</p>
+<p>Real-world decision-making is messy: models capture a biased and sparse vision
+of reality.  Further, our constraint-solving ability is also imperfect: we may
+misrepresent constraints and economical realities binds us.  Ultimately, we
+make informed guess.  In such situation, we need to remember that the
+final-decision often is an instinct-based decision or frustration will prevail.</p>
+</section><section class="main-section"><div id="app-err">
+</div>
+</section></div><footer class="footing"><div class="social-links"><a href="https://twitter.com/lucasdicioccio">twitter</a><a rel="me" href="https://fosstodon.org/@lucasdicioccio">mastodon</a><a href="https://cohost.org/lucasdicioccio">cohost</a><a href="https://github.com/lucasdicioccio">github</a><a href="https://linkedin.com/in/lucasdicioccio">linkedin</a></div></footer></article></div></body></html>
