@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2020-12-24T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/babywords.html
+            https://dicioccio.fr/babywords.html
         </id>
         <title type="text">
             Daughter's words
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/babywords.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/babywords.html" rel="alternate"/>
         <summary type="text">
             A word game where you need to find what my daughter says. Each day a new word.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/2023-goals-mid-year.html
+            https://dicioccio.fr/2023-goals-mid-year.html
         </id>
         <title type="text">
             mid-year update
@@ -44,14 +44,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/2023-goals-mid-year.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/2023-goals-mid-year.html" rel="alternate"/>
         <summary type="text">
             Happy summer! reflecting on my yearly goals.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/triangular-decisions.html
+            https://dicioccio.fr/triangular-decisions.html
         </id>
         <title type="text">
             Understanding decision under constraints with triangular decisions
@@ -64,14 +64,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/triangular-decisions.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/triangular-decisions.html" rel="alternate"/>
         <summary type="text">
             Real-world decisions are tradeoffs under constraints. We like to simplify some tradeoffs with triangular decisions like "cheap, good, fast -- pick two". Let's see what we can learn from these triangles.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/2023-goals.html
+            https://dicioccio.fr/2023-goals.html
         </id>
         <title type="text">
             2023
@@ -84,14 +84,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/2023-goals.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/2023-goals.html" rel="alternate"/>
         <summary type="text">
             Happy new year!
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/decisions-are-not-outcomes.html
+            https://dicioccio.fr/decisions-are-not-outcomes.html
         </id>
         <title type="text">
             Decisions are not outcomes
@@ -104,14 +104,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/decisions-are-not-outcomes.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/decisions-are-not-outcomes.html" rel="alternate"/>
         <summary type="text">
             Deciding is difficult, we always want to improve our decision making. What's more or at least as difficult? gauging whether a decision is good or not.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/halogen-echarts-example.html
+            https://dicioccio.fr/halogen-echarts-example.html
         </id>
         <title type="text">
             Halogen ECharts Simple
@@ -124,14 +124,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/halogen-echarts-example.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/halogen-echarts-example.html" rel="alternate"/>
         <summary type="text">
             A demo of a [ECharts-for-Halogen](https://github.com/lucasdicioccio/purescript-halogen-echarts-simple) library.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/kitchen-sink.html
+            https://dicioccio.fr/kitchen-sink.html
         </id>
         <title type="text">
             Introducing Kitchen Sink
@@ -144,14 +144,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/kitchen-sink.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/kitchen-sink.html" rel="alternate"/>
         <summary type="text">
             After having written a [number of articles](/topics/web.html) about my blog-engine. And motivated by curious people wanting to see how it's built, I've open-sourced my blog-engine and named it _Kitchen Sink_.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/always-refactoring.html
+            https://dicioccio.fr/always-refactoring.html
         </id>
         <title type="text">
             My devs are always refactoring! why? [part-2]
@@ -164,14 +164,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/always-refactoring.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/always-refactoring.html" rel="alternate"/>
         <summary type="text">
             I have ran into a number of product-owner puzzled by how often #developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article to demistify a bit the "always-refactoring team".
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/prometheus-monitor.html
+            https://dicioccio.fr/prometheus-monitor.html
         </id>
         <title type="text">
             Prometheus Monitor
@@ -184,14 +184,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/prometheus-monitor.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/prometheus-monitor.html" rel="alternate"/>
         <summary type="text">
             A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/scope-explorer.html
+            https://dicioccio.fr/scope-explorer.html
         </id>
         <title type="text">
             Scope explorer
@@ -204,14 +204,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/scope-explorer.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/scope-explorer.html" rel="alternate"/>
         <summary type="text">
             An application to illustrate how the changing scope of projects affects the delivery, coverage.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/what-is-the-project-scope.html
+            https://dicioccio.fr/what-is-the-project-scope.html
         </id>
         <title type="text">
             My devs are always refactoring! why? [part-1]
@@ -224,14 +224,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/what-is-the-project-scope.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/what-is-the-project-scope.html" rel="alternate"/>
         <summary type="text">
             In past experiences I ran into a number of product-owner and staekholders puzzled by how often developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article. This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of a #project, in particular regarding the scope of projects (#project-scope).
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/dhall-section-demo.html
+            https://dicioccio.fr/dhall-section-demo.html
         </id>
         <title type="text">
             Scripting subsets of page contents in Dhall.
@@ -244,14 +244,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/dhall-section-demo.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/dhall-section-demo.html" rel="alternate"/>
         <summary type="text">
             A demo of using Dhall as an intermediary step for my blog-engine sections.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/tactical-projects.html
+            https://dicioccio.fr/tactical-projects.html
         </id>
         <title type="text">
             Succeeding in tactical projects
@@ -264,14 +264,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/tactical-projects.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/tactical-projects.html" rel="alternate"/>
         <summary type="text">
             Different projects require different organization structure. So-called tactical projects tend to fall on you rather than being planned upfront. My recipe to tackle them is a few communication tools and empowered individuals free to roam within constraints.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/on-dualities.html
+            https://dicioccio.fr/on-dualities.html
         </id>
         <title type="text">
             On Dualities
@@ -284,14 +284,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/on-dualities.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/on-dualities.html" rel="alternate"/>
         <summary type="text">
             Duality is technical jargon for "complementary". Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html
+            https://dicioccio.fr/optimal-lab-samples-spreading.html
         </id>
         <title type="text">
             Optimal Lab Samples Spreading
@@ -304,14 +304,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/optimal-lab-samples-spreading.html" rel="alternate"/>
         <summary type="text">
             An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/how-this-blog-works.html
+            https://dicioccio.fr/how-this-blog-works.html
         </id>
         <title type="text">
             The technology behind this blog
@@ -324,14 +324,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/how-this-blog-works.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/how-this-blog-works.html" rel="alternate"/>
         <summary type="text">
             The overengineering behind this blog. Or is it not over-engineered?
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/snake-cube.html
+            https://dicioccio.fr/snake-cube.html
         </id>
         <title type="text">
             Solving the Snake Cube puzzle
@@ -344,14 +344,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/snake-cube.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/snake-cube.html" rel="alternate"/>
         <summary type="text">
             We solve a simple wooden puzzle with MiniZinc. The Snake-Cube puzzle is a good introductory problem and thus a number of formal modeling techniques are explained. We also touch advanced topic like symmetries and discuss a bit our modeling choices.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/santa-wrap.html
+            https://dicioccio.fr/santa-wrap.html
         </id>
         <title type="text">
             Advent of Haskell 2020: Santa Wrap
@@ -364,14 +364,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/santa-wrap.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/santa-wrap.html" rel="alternate"/>
         <summary type="text">
             We help Santa Elves optimize cutting wrapping paper to accomodate various shapes. The difficult optimization requires a dedicated solver in MiniZinc. Haskell allows to integrate with MiniZinc, reads JSON and outputs a PNG image with the footprint of the positionned shapes to cut. This article shows that a one-day-of-work project can reach pretty far.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/notes.html
+            https://dicioccio.fr/notes.html
         </id>
         <title type="text">
             Some notes
@@ -384,14 +384,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/notes.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/notes.html" rel="alternate"/>
         <summary type="text">
             Notes that could become part of articles.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/gallery-2022-08-cabourg.html
+            https://dicioccio.fr/gallery-2022-08-cabourg.html
         </id>
         <title type="text">
             Cabourg August 2022
@@ -404,14 +404,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/gallery-2022-08-cabourg.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/gallery-2022-08-cabourg.html" rel="alternate"/>
         <summary type="text">
             A photo gallery from a summer trip to Cabourg, France.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/alphabets.html
+            https://dicioccio.fr/alphabets.html
         </id>
         <title type="text">
             Alphabets
@@ -424,14 +424,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/alphabets.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/alphabets.html" rel="alternate"/>
         <summary type="text">
             The NATO phonetic alphabet if it were written by...
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/readings.html
+            https://dicioccio.fr/readings.html
         </id>
         <title type="text">
             Reading List
@@ -444,14 +444,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/readings.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/readings.html" rel="alternate"/>
         <summary type="text">
             A collection of links and readings.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/gallery-001.html
+            https://dicioccio.fr/gallery-001.html
         </id>
         <title type="text">
             Rolling gallery
@@ -464,14 +464,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/gallery-001.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/gallery-001.html" rel="alternate"/>
         <summary type="text">
             A rolling photo gallery with mostly portraits.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/talks.html
+            https://dicioccio.fr/talks.html
         </id>
         <title type="text">
             Talks and Docs
@@ -484,14 +484,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/talks.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/talks.html" rel="alternate"/>
         <summary type="text">
             A list of slides (with recording links when available) for presentations I gave. Also some template documents for architecture/devops.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/todo-list.html
+            https://dicioccio.fr/todo-list.html
         </id>
         <title type="text">
             todo list
@@ -504,14 +504,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/todo-list.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/todo-list.html" rel="alternate"/>
         <summary type="text">
             A personal public-achievements and todo list, for this blog or other things of life.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/about-me.html
+            https://dicioccio.fr/about-me.html
         </id>
         <title type="text">
             About me
@@ -524,14 +524,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/about-me.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/about-me.html" rel="alternate"/>
         <summary type="text">
             I am Lucas DiCioccio, a scientist and engineer. I apply modern techniques to engineering and lead #teams to deliver successful results.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/tips.html
+            https://dicioccio.fr/tips.html
         </id>
         <title type="text">
             Some tips
@@ -544,7 +544,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/tips.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/tips.html" rel="alternate"/>
         <summary type="text">
             A collection of tips that also serves as a personal cheat-sheet.
         </summary>

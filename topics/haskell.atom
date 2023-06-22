@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-01-30T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/dhall-section-demo.html
+            https://dicioccio.fr/dhall-section-demo.html
         </id>
         <title type="text">
             Scripting subsets of page contents in Dhall.
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/dhall-section-demo.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/dhall-section-demo.html" rel="alternate"/>
         <summary type="text">
             A demo of using Dhall as an intermediary step for my blog-engine sections.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/how-this-blog-works.html
+            https://dicioccio.fr/how-this-blog-works.html
         </id>
         <title type="text">
             The technology behind this blog
@@ -44,14 +44,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/how-this-blog-works.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/how-this-blog-works.html" rel="alternate"/>
         <summary type="text">
             The overengineering behind this blog. Or is it not over-engineered?
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/santa-wrap.html
+            https://dicioccio.fr/santa-wrap.html
         </id>
         <title type="text">
             Advent of Haskell 2020: Santa Wrap
@@ -64,14 +64,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/santa-wrap.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/santa-wrap.html" rel="alternate"/>
         <summary type="text">
             We help Santa Elves optimize cutting wrapping paper to accomodate various shapes. The difficult optimization requires a dedicated solver in MiniZinc. Haskell allows to integrate with MiniZinc, reads JSON and outputs a PNG image with the footprint of the positionned shapes to cut. This article shows that a one-day-of-work project can reach pretty far.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/talks.html
+            https://dicioccio.fr/talks.html
         </id>
         <title type="text">
             Talks and Docs
@@ -84,14 +84,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/talks.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/talks.html" rel="alternate"/>
         <summary type="text">
             A list of slides (with recording links when available) for presentations I gave. Also some template documents for architecture/devops.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/readings.html
+            https://dicioccio.fr/readings.html
         </id>
         <title type="text">
             Reading List
@@ -104,7 +104,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/readings.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/readings.html" rel="alternate"/>
         <summary type="text">
             A collection of links and readings.
         </summary>

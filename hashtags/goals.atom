@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2023-06-21T01:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/2023-goals-mid-year.html
+            https://dicioccio.fr/2023-goals-mid-year.html
         </id>
         <title type="text">
             mid-year update
@@ -24,7 +24,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/2023-goals-mid-year.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/2023-goals-mid-year.html" rel="alternate"/>
         <summary type="text">
             Happy summer! reflecting on my yearly goals.
         </summary>

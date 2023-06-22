@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-04-19T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/tactical-projects.html
+            https://dicioccio.fr/tactical-projects.html
         </id>
         <title type="text">
             Succeeding in tactical projects
@@ -24,7 +24,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/tactical-projects.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/tactical-projects.html" rel="alternate"/>
         <summary type="text">
             Different projects require different organization structure. So-called tactical projects tend to fall on you rather than being planned upfront. My recipe to tackle them is a few communication tools and empowered individuals free to roam within constraints.
         </summary>

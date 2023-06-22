@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-03-27T01:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/on-dualities.html
+            https://dicioccio.fr/on-dualities.html
         </id>
         <title type="text">
             On Dualities
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/on-dualities.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/on-dualities.html" rel="alternate"/>
         <summary type="text">
             Duality is technical jargon for "complementary". Programmers often overlook the role dualities in programming and hence fail to recognize them, even if they are hiding in plain sight. In this article we focus on two important pairs of dual concepts: producers and consumers, sum types and product types. I also spend some time ranting about default values being as bad as null values.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/snake-cube.html
+            https://dicioccio.fr/snake-cube.html
         </id>
         <title type="text">
             Solving the Snake Cube puzzle
@@ -44,7 +44,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/snake-cube.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/snake-cube.html" rel="alternate"/>
         <summary type="text">
             We solve a simple wooden puzzle with MiniZinc. The Snake-Cube puzzle is a good introductory problem and thus a number of formal modeling techniques are explained. We also touch advanced topic like symmetries and discuss a bit our modeling choices.
         </summary>

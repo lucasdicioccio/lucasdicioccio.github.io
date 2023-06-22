@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-09-14T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/triangular-decisions.html
+            https://dicioccio.fr/triangular-decisions.html
         </id>
         <title type="text">
             Understanding decision under constraints with triangular decisions
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/triangular-decisions.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/triangular-decisions.html" rel="alternate"/>
         <summary type="text">
             Real-world decisions are tradeoffs under constraints. We like to simplify some tradeoffs with triangular decisions like "cheap, good, fast -- pick two". Let's see what we can learn from these triangles.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/decisions-are-not-outcomes.html
+            https://dicioccio.fr/decisions-are-not-outcomes.html
         </id>
         <title type="text">
             Decisions are not outcomes
@@ -44,14 +44,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/decisions-are-not-outcomes.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/decisions-are-not-outcomes.html" rel="alternate"/>
         <summary type="text">
             Deciding is difficult, we always want to improve our decision making. What's more or at least as difficult? gauging whether a decision is good or not.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/always-refactoring.html
+            https://dicioccio.fr/always-refactoring.html
         </id>
         <title type="text">
             My devs are always refactoring! why? [part-2]
@@ -64,14 +64,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/always-refactoring.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/always-refactoring.html" rel="alternate"/>
         <summary type="text">
             I have ran into a number of product-owner puzzled by how often #developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article to demistify a bit the "always-refactoring team".
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/scope-explorer.html
+            https://dicioccio.fr/scope-explorer.html
         </id>
         <title type="text">
             Scope explorer
@@ -84,14 +84,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/scope-explorer.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/scope-explorer.html" rel="alternate"/>
         <summary type="text">
             An application to illustrate how the changing scope of projects affects the delivery, coverage.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/what-is-the-project-scope.html
+            https://dicioccio.fr/what-is-the-project-scope.html
         </id>
         <title type="text">
             My devs are always refactoring! why? [part-1]
@@ -104,14 +104,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/what-is-the-project-scope.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/what-is-the-project-scope.html" rel="alternate"/>
         <summary type="text">
             In past experiences I ran into a number of product-owner and staekholders puzzled by how often developers in their team express a need to "refactor". Cannot they do it once for the quarter? This prompted me to write some notes and eventually an article. This article will be followed by a second part focused on the topic of refactoring. However before jumping directly into hard topics, we must discuss some key dynamics of a #project, in particular regarding the scope of projects (#project-scope).
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/tactical-projects.html
+            https://dicioccio.fr/tactical-projects.html
         </id>
         <title type="text">
             Succeeding in tactical projects
@@ -124,7 +124,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/tactical-projects.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/tactical-projects.html" rel="alternate"/>
         <summary type="text">
             Different projects require different organization structure. So-called tactical projects tend to fall on you rather than being planned upfront. My recipe to tackle them is a few communication tools and empowered individuals free to roam within constraints.
         </summary>

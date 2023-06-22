@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         1970-01-01T00:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/about-me.html
+            https://dicioccio.fr/about-me.html
         </id>
         <title type="text">
             About me
@@ -24,7 +24,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/about-me.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/about-me.html" rel="alternate"/>
         <summary type="text">
             I am Lucas DiCioccio, a scientist and engineer. I apply modern techniques to engineering and lead #teams to deliver successful results.
         </summary>

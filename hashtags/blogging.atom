@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-01-30T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/how-this-blog-works.html
+            https://dicioccio.fr/how-this-blog-works.html
         </id>
         <title type="text">
             The technology behind this blog
@@ -24,7 +24,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/how-this-blog-works.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/how-this-blog-works.html" rel="alternate"/>
         <summary type="text">
             The overengineering behind this blog. Or is it not over-engineered?
         </summary>

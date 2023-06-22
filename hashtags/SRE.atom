@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-06-19T01:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/prometheus-monitor.html
+            https://dicioccio.fr/prometheus-monitor.html
         </id>
         <title type="text">
             Prometheus Monitor
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/prometheus-monitor.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/prometheus-monitor.html" rel="alternate"/>
         <summary type="text">
             A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/about-me.html
+            https://dicioccio.fr/about-me.html
         </id>
         <title type="text">
             About me
@@ -44,14 +44,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/about-me.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/about-me.html" rel="alternate"/>
         <summary type="text">
             I am Lucas DiCioccio, a scientist and engineer. I apply modern techniques to engineering and lead #teams to deliver successful results.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/talks.html
+            https://dicioccio.fr/talks.html
         </id>
         <title type="text">
             Talks and Docs
@@ -64,7 +64,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/talks.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/talks.html" rel="alternate"/>
         <summary type="text">
             A list of slides (with recording links when available) for presentations I gave. Also some template documents for architecture/devops.
         </summary>

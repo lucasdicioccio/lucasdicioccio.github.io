@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2023-06-22T01:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/babywords.html
+            https://dicioccio.fr/babywords.html
         </id>
         <title type="text">
             Daughter's words
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/babywords.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/babywords.html" rel="alternate"/>
         <summary type="text">
             A word game where you need to find what my daughter says. Each day a new word.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/alphabets.html
+            https://dicioccio.fr/alphabets.html
         </id>
         <title type="text">
             Alphabets
@@ -44,7 +44,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/alphabets.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/alphabets.html" rel="alternate"/>
         <summary type="text">
             The NATO phonetic alphabet if it were written by...
         </summary>

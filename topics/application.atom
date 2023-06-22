@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-06-01T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/prometheus-monitor.html
+            https://dicioccio.fr/prometheus-monitor.html
         </id>
         <title type="text">
             Prometheus Monitor
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/prometheus-monitor.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/prometheus-monitor.html" rel="alternate"/>
         <summary type="text">
             A live Prometheus-endpoints monitor visualizer. If you are a developer running software locally or if you are an SRE investigating production hiccups, you sometime want to look at how one metric evolves in a specific job.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/scope-explorer.html
+            https://dicioccio.fr/scope-explorer.html
         </id>
         <title type="text">
             Scope explorer
@@ -44,7 +44,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/scope-explorer.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/scope-explorer.html" rel="alternate"/>
         <summary type="text">
             An application to illustrate how the changing scope of projects affects the delivery, coverage.
         </summary>

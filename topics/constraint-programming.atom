@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-01-01T12:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/snake-cube.html
+            https://dicioccio.fr/snake-cube.html
         </id>
         <title type="text">
             Solving the Snake Cube puzzle
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/snake-cube.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/snake-cube.html" rel="alternate"/>
         <summary type="text">
             We solve a simple wooden puzzle with MiniZinc. The Snake-Cube puzzle is a good introductory problem and thus a number of formal modeling techniques are explained. We also touch advanced topic like symmetries and discuss a bit our modeling choices.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/santa-wrap.html
+            https://dicioccio.fr/santa-wrap.html
         </id>
         <title type="text">
             Advent of Haskell 2020: Santa Wrap
@@ -44,7 +44,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/santa-wrap.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/santa-wrap.html" rel="alternate"/>
         <summary type="text">
             We help Santa Elves optimize cutting wrapping paper to accomodate various shapes. The difficult optimization requires a dedicated solver in MiniZinc. Haskell allows to integrate with MiniZinc, reads JSON and outputs a PNG image with the footprint of the positionned shapes to cut. This article shows that a one-day-of-work project can reach pretty far.
         </summary>

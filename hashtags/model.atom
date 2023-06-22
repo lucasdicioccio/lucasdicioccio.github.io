@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         2022-02-09T21:50:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html
+            https://dicioccio.fr/optimal-lab-samples-spreading.html
         </id>
         <title type="text">
             Optimal Lab Samples Spreading
@@ -24,7 +24,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/optimal-lab-samples-spreading.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/optimal-lab-samples-spreading.html" rel="alternate"/>
         <summary type="text">
             An illustration of how to model a constraint-problem to optimally distribute testing samples to laboratories.
         </summary>

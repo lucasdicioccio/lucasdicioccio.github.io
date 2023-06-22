@@ -4,14 +4,14 @@
         Lucas DiCioccio's blog
     </title>
     <id>
-        https://lucasdicioccio.github.io/atom.xml
+        https://dicioccio.fr/atom.xml
     </id>
     <updated>
         1970-01-01T00:00:00Z
     </updated>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/gallery-001.html
+            https://dicioccio.fr/gallery-001.html
         </id>
         <title type="text">
             Rolling gallery
@@ -24,14 +24,14 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/gallery-001.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/gallery-001.html" rel="alternate"/>
         <summary type="text">
             A rolling photo gallery with mostly portraits.
         </summary>
     </entry>
     <entry>
         <id>
-            https://lucasdicioccio.github.io/gallery-2022-08-cabourg.html
+            https://dicioccio.fr/gallery-2022-08-cabourg.html
         </id>
         <title type="text">
             Cabourg August 2022
@@ -44,7 +44,7 @@
                 Lucas DiCioccio
             </name>
         </author>
-        <link href="https://lucasdicioccio.github.io/gallery-2022-08-cabourg.html" rel="alternate"/>
+        <link href="https://dicioccio.fr/gallery-2022-08-cabourg.html" rel="alternate"/>
         <summary type="text">
             A photo gallery from a summer trip to Cabourg, France.
         </summary>
