@@ -7,8 +7,48 @@
         https://dicioccio.fr/atom.xml
     </id>
     <updated>
-        1970-01-01T00:00:00Z
+        2023-01-08T01:00:00Z
     </updated>
+    <entry>
+        <id>
+            https://dicioccio.fr/2023-goals-mid-year.html
+        </id>
+        <title type="text">
+            mid-year update
+        </title>
+        <updated>
+            2023-06-21T01:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://dicioccio.fr/2023-goals-mid-year.html" rel="alternate"/>
+        <summary type="text">
+            Happy summer! reflecting on my yearly goals.
+        </summary>
+    </entry>
+    <entry>
+        <id>
+            https://dicioccio.fr/2023-goals.html
+        </id>
+        <title type="text">
+            2023
+        </title>
+        <updated>
+            2023-01-08T01:00:00Z
+        </updated>
+        <author>
+            <name>
+                Lucas DiCioccio
+            </name>
+        </author>
+        <link href="https://dicioccio.fr/2023-goals.html" rel="alternate"/>
+        <summary type="text">
+            Happy new year!
+        </summary>
+    </entry>
     <entry>
         <id>
             https://dicioccio.fr/about-me.html

@@ -21,6 +21,7 @@ https://dicioccio.fr/talks.html
 https://dicioccio.fr/scope-explorer.html
 https://dicioccio.fr/todo-list.html
 https://dicioccio.fr/always-refactoring.html
+https://dicioccio.fr/photoclub-judgment-tips.html
 https://dicioccio.fr/page-intentionally-left-blank.html
 https://dicioccio.fr/babywords.html
 https://dicioccio.fr/about-me.html
