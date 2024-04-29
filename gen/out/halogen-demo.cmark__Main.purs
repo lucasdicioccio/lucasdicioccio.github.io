@@ -4,6 +4,7 @@ import Prelude
 
 import Affjax as AX
 import Affjax.ResponseFormat as ResponseFormat
+import Affjax.Web as AXWeb
 import Data.Argonaut.Core as J
 import Data.Array as Array
 import Data.Codec.Argonaut as CA
@@ -30,7 +31,7 @@ decodeStringArray = CA.decode (CA.array CA.string)
 
 fetchRoutes :: Aff (Maybe Routes)
 fetchRoutes = do
-  res <- AX.get ResponseFormat.json "/json/paths.json" 
+  res <- AX.get AXWeb.driver ResponseFormat.json "/json/paths.json" 
   case res of
     Left err -> do
       log $ "failed: " <> AX.printError err
