@@ -9,6 +9,7 @@ https://dicioccio.fr/triangular-decisions.html
 https://dicioccio.fr/tactical-projects.html
 https://dicioccio.fr/halogen-echarts-example.html
 https://dicioccio.fr/gallery-2022-08-cabourg.html
+https://dicioccio.fr/postgrest-table.html
 https://dicioccio.fr/alphabets.html
 https://dicioccio.fr/readings.html
 https://dicioccio.fr/2023-goals-mid-year.html

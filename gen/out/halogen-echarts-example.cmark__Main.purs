@@ -77,7 +77,7 @@ component =
       in
       HH.div_
       [ HH.p_ [ HH.text "echarts simple-line example" ]
-      , HH.slot_ _echarts unit ECharts.component {options: obj, modified:false}
+      , HH.slot_ _echarts unit (ECharts.component ECharts.style640x480) {options: obj, modified:false}
       ]
 
     render1 =
@@ -94,7 +94,7 @@ component =
       in
       HH.div_
       [ HH.p_ [ HH.text "echarts simple-line example with two data-lines" ]
-      , HH.slot_ _echarts unit ECharts.component {options: obj, modified:false}
+      , HH.slot_ _echarts unit (ECharts.component ECharts.style640x480) {options: obj, modified:false}
       ]
 
     render2 offset =
@@ -115,7 +115,7 @@ component =
       ]
       [ HH.div_
         [ HH.p_ [ HH.text "echarts simple-line example with an offset" ]
-        , HH.slot_ _echarts unit ECharts.component {options: obj, modified:true}
+        , HH.slot_ _echarts unit (ECharts.component ECharts.style640x480) {options: obj, modified:true}
         ]
       , HH.div_
         [ HH.p_ [ HH.text "we update the offset with the value in the input below:" ]
@@ -159,7 +159,7 @@ component =
       ]
       [ HH.div_
         [ HH.p_ [ HH.text "echarts simple-line example with clickable callback" ]
-        , HH.slot _echarts unit ECharts.component {options: obj, modified:false} Chart3Event
+        , HH.slot _echarts unit (ECharts.component ECharts.style640x480) {options: obj, modified:false} Chart3Event
         ]
       , HH.div_
         [ renderItem

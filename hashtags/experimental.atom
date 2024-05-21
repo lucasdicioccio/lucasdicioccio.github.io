@@ -24,6 +24,9 @@
                 Lucas DiCioccio
             </name>
         </author>
+        <content type="html">
+            &lt;div class="main-article"&gt;&lt;section class="main-section"&gt;&lt;p&gt;Kitchen Sink embodies my way of imagining personal sites: messy but allows to experiment with a bit of everything. Personal and &lt;a href="/hashtags/experimental.html"&gt;&lt;span class="hashtag" data-hashtag="experimental"&gt;#experimental&lt;/span&gt;&lt;/a&gt;, but still built on solid &lt;a href="/hashtags/foundations.html"&gt;&lt;span class="hashtag" data-hashtag="foundations"&gt;#foundations&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt; &lt;p&gt;Rather than writing a long post here, this page only is an announcement. You’ll find long post on the project’s website.&lt;/p&gt; &lt;p&gt;I encourage you to read these Kitchen-Sink links here:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;&lt;a href="https://kitchensink-tech.github.io/philosophy.html"&gt;The Kitchen-Sink Philosophy&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;a href="https://kitchensink-tech.github.io/features.html"&gt;A feature list&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;a href="https://github.com/kitchensink-tech/kitchensink"&gt;The code on GitHub&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/section&gt;&lt;/div&gt;
+        </content>
         <link href="https://dicioccio.fr/kitchen-sink.html" rel="alternate"/>
         <summary type="text">
             After having written a [number of articles](/topics/web.html) about my blog-engine. And motivated by curious people wanting to see how it's built, I've open-sourced my blog-engine and named it _Kitchen Sink_.

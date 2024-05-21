@@ -1,0 +1,98 @@
+<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="with=device-width, initial-scale=1.0"><title>Lucas DiCioccio&#39;s blog - PostgREST Table</title><link rel="icon" type="image/x-icon" href="/images/favicon.png"><link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://dicioccio.fr/atom.xml"><meta name="author" content="Lucas DiCioccio"><meta name="keywords" content="api, application, web, rest, postgrest"><meta name="description" content="A no-code PostgREST table UI. You can point your browser to any PostgREST instance to inspect and explore data. I use it almost daily while doing local development.   I used to host this service on Netlify but I&#39;m considering upgrading the style, adding features, and a backend to save configurations, which goes through a pass of upgrades and hosting changes."><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lucas DiCioccio&#39;s blog - PostgREST Table"><meta name="twitter:site" content="@lucasdicioccio"><meta name="twitter:creator" content="@lucasdicioccio"><meta property="twitter:description" content="A no-code PostgREST table UI. You can point your browser to any PostgREST instance to inspect and explore data. I use it almost daily while doing local development.   I used to host this service on Netlify but I&#39;m considering upgrading the style, adding features, and a backend to save configurations, which goes through a pass of upgrades and hosting changes."><meta name="type" property="og:type" content="article"><meta name="title" property="og:title" content="Lucas DiCioccio&#39;s blog - PostgREST Table"><meta name="url" property="og:url" content="https://dicioccio.fr/postgrest-table.html"><meta property="og:image" content="https://dicioccio.fr/images/postgrest-table-screenshot01.png"><meta property="twitter:image:src" content="https://dicioccio.fr/images/postgrest-table-screenshot01.png"><meta property="og:description" content="A no-code PostgREST table UI. You can point your browser to any PostgREST instance to inspect and explore data. I use it almost daily while doing local development.   I used to host this service on Netlify but I&#39;m considering upgrading the style, adding features, and a backend to save configurations, which goes through a pass of upgrades and hosting changes."><meta name="article:published_time" content="2024-05-01T01:00:00Z"><meta name="ks:article_json" content="/json/postgrest-table.cmark.json"><meta name="article:tag" content="api"><meta name="article:tag" content="application"><meta name="article:tag" content="web"><meta name="article:tag" content="rest"><meta name="article:tag" content="postgrest"><style>@import "/css/postgrest-table.css";</style></head><body><div id="spa" class="application"></div><div class="help"><article><div class="main-article"><section class="main-section"><div class="help-box">
+<h1>Everything happens on your browser</h1>
+<p>PostgREST not only exposes data over REST entities, it also provides an OpenAPI description.</p>
+<p>Postgrest-table lets your browser load the OpenAPI description of a PostgREST service. Plus, this page let your browser understands further the selector syntax that PostgREST expects.</p>
+<p>All interactions between this page and your PosgtREST instances are done via your browser. Hence, this service does not intercept any data.</p>
+</div>
+<div class="help-box">
+<h1>Three families of columns</h1>
+<ol>
+<li> <p>PostgREST exposes <em>main</em>entities from PostgreSQL tables and views.</p> </li>
+<li> <p>PostgREST provides some support for <em>embedding</em> via auto-detected foreign-keys.</p> </li>
+<li> <p>Finally, Postgrest-Table (this page) allows you to <em>compute</em> extra columns directly on your browser with a limited expression language.</p></li>
+</ol>
+<p>Each family of column comes with its own set of limitations:</p>
+<p>Only <em>main</em> and <em>embedded</em> data are part of CSV exports as PostgREST is in charge of formatting the CSV.</p>
+<p><em>Computed</em> data can only reference <em>main</em> columns or previously-defined <em>computed</em> columns (a naive way to avoid circular definitions).</p>
+</div>
+<div class="help-box">
+<h1>Computed columns</h1>
+<p>We provide a limited language. Heavier queries should be turned into SQL views and exposed via PostgREST.</p>
+<h4>Primitives</h4>
+<pre class="code">"hello"</pre>
+<pre class="code">42.0</pre>
+<pre class="code">["a", "b", "c"]</pre>
+<pre class="code">{"name":"just", "lastname":"leblanc"}</pre>
+<h4>References</h4>
+<pre class="code">$row-number</pre>
+<pre class="code">$field:"firstname"</pre>
+<pre class="code">$computed-field:"fullname"</pre>
+<h4>Json Extraction</h4>
+<pre class="code">object-lookup($field:"some-json-object", "key", "default-value")</pre>
+<pre class="code">array-lookup($field:"some-json-array", 0, "default-value")</pre>
+<h4>Strings and html-generation</h4>
+<pre class="code">concat($field:"firstname", " ", $field:"lastname")</pre>
+<pre class="code">concat("hello ", $computed-field:"fullname")</pre>
+<pre class="code">stringify(1.42)</pre>
+<pre class="code">stringify(true)</pre>
+<pre class="code">image(concat("https://somesite/", $field:"icon", ".png")</pre>
+<pre class="code">link(concat("https://somesite/", $field:"uuid", "/", stringify(round($field:"id")))</pre>
+<pre class="code">progressbar(42.0)</pre>
+<pre class="code">colordot($computed-field:"some_css_color")</pre>
+<h4>Computation</h4>
+<pre class="code">negate(1.2)</pre>
+<pre class="code">inverse(100.0)</pre>
+<pre class="code">product(1.2, 3.0, $field:"factor")</pre>
+<pre class="code">sum(1.2, product(1.2, 3.0))</pre>
+<pre class="code">round(1.2)</pre>
+<pre class="code">ceiling(1.2)</pre>
+<h4>Logic and branching</h4>
+<pre class="code">conj(true, true)</pre>
+<pre class="code">disj(false, true)</pre>
+<pre class="code">predicate(:eq, 1.0, 1.3)</pre>
+<pre class="code">predicate(:gte, 1.0, 1.3)</pre>
+<pre class="code">predicate(:gt, 1.0, 1.3)</pre>
+<pre class="code">predicate(:lt, 1.0, 1.3)</pre>
+<pre class="code">predicate(:lte, 1.0, 1.3)</pre>
+<pre class="code">branch("some-fallback", predicate(:eq, $field:"xyz", 1.3), "xyz-is-1.3")</pre>
+</div>
+<div class="help-box">
+<h1>Charts</h1>
+<p>We leverage Vega-Lite to generate charts. Features implementation and the styling are still rough.</p>
+<p>A chart can display computed columns, however if you end-up doing that often you should consider working on your SQL views.</p>
+</div>
+<div class="help-box">
+<h1>Bookmarklets</h1>
+<p>This page will auto-load a PostgREST spec if provided a <span class="code">?postgrest=$url</span> query param in the URL.</p>
+<p>As a result, you can create a smart-booklet to load <em>Postgrest-Table</em> in your browser by bookmarking the following code:
+<pre class="code">javascript:location.href='https://postgrest-table.netlify.app?postgrest='+document.location.href;</pre>
+</p>
+</div>
+<div class="help-box">
+<h1>Troubleshooting</h1>
+<p>Netlify, which hosts this page, enables HTTPS. Hence, if you point to a plain HTTP PostgREST instance, your browser will detect an insecure connection attempt from. You can bypass this limitation by deactivating mixed-content blocking (often clicking a shield/lock icon after a failed connection attempt). Of course, it is better to secure your PostgREST endpoints.</p>
+</div>
+<div class="help-box">
+<h1>Roadmap</h1>
+<p>Albeit best effort, you can poke around and observe when we provide the following:</p>
+<ul>
+<li>more primitives for computed computations</li>
+<li>more charting-interactions</li>
+<li>more FKs-interactions</li>
+<li>more and polished filters for more types (dates, jsonb, arrays, fts)</li>
+</ul>
+</div>
+<div class="help-box">
+<h1>Credits</h1>
+<p>Made with passion thanks to:</p>
+<ul class="dependencies">
+<li><a href="https://postgrest.org/">PostgREST</a></li>
+<li><a href="https://www.purescript.org/">PureScript</a></li>
+<li><a href="kk">Halogen</a></li>
+<li><a href="https://vega.github.io/">Vega</a></li>
+</ul>
+</section><section class="main-section"><script src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.15.1"></script>
+<script src="/js/postgrest-table.js"></script>
+</section></div></article></div></body></html>
